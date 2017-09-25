@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://tempuri.org/devs-coupled" elementFormDefault="qualified" targetNamespace="http://tempuri.org/devs-coupled" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="devs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="scenario" />
+        <xs:element ref="models" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="scenario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="coupled" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="coupled">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="inputs" />
+        <xs:element ref="outputs" />
+        <xs:element ref="components" />
+        <xs:element ref="internal_connections" />
+        <xs:element ref="external_input_connections" />
+        <xs:element ref="external_output_connections" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:ID" use="required" />
+      <xs:attribute name="model" type="xs:string" use="required" />
+      <xs:attribute name="simulator" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="devsjava" />
+            <xs:enumeration value="xdevs" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="host" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="inputs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="port" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="port">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="outputs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="port" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="components">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="coupledRef" />
+        <xs:element ref="atomicRef" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="coupledRef">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" ref="components" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="model" type="xs:string" use="required" />
+      <xs:attribute name="simulator">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="devsjava" />
+            <xs:enumeration value="xdevs" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="host" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="atomicRef">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="model" type="xs:string" use="required" />
+      <xs:attribute name="simulator">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="devsjava" />
+            <xs:enumeration value="xdevs" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="host" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="internal_connections">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="connection" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="external_input_connections">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="connection" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="external_output_connections">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="connection" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="connection">
+    <xs:complexType>
+      <xs:attribute name="component_from" type="xs:string" use="required" />
+      <xs:attribute name="port_from" type="xs:string" use="required" />
+      <xs:attribute name="component_to" type="xs:string" use="required" />
+      <xs:attribute name="port_to" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="models">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:ID" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devs xmlns="http://tempuri.org/devs-coupled">
+  <scenario>
+    <coupled name="top" model="coupled" >
+      <inputs />
+      <outputs >
+        <port name="tempTeacup" />
+      <outputs />
+      <components>
+        <atomicRef name="int" model="QSS1" />
+        <atomicRef name="ft" model="Ftot" />
+        <atomicRef name="fp" model="Fplus" />
+        <atomicRef name="fm" model="Fminus" />
+      </components>
+      <internal_connections>
+        <connection component_from="fp" port_from="out" component_to="ft" port_to="inPlus" />
+        <connection component_from="fm" port_from="out" component_to="ft" port_to="inMinus" />
+        <connection component_from="ft" port_from="out" component_to="int" port_to="in" />
+        <connection component_from="int" port_from="out" component_to="fm" port_to="inVar1" />
+        <connection component_from="int" port_from="out" component_to="top" port_to="tempTeacup" />
+      </internal_connections>
+      <external_input_connections />
+      <external_output_connections />
+    </coupled>
+  </scenario>
+  <models />
+</devs>
