@@ -1,0 +1,15 @@
+[logfiles]
+ParallelRoot : log00 
+top : log13 
+int_susc : log01 
+int_inf : log02 
+int_recov : log03 
+fts : log04 
+fps : log05 
+fms : log06 
+fti : log07 
+fpi : log08 
+fmi : log09 
+ftr : log10 
+fpr : log11 
+fmr : log12 

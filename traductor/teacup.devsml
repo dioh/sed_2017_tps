@@ -1,0 +1,36 @@
+<atomic name="fminus_teacup">
+	<state-variables>
+		teacup_temperature = 180;
+		characteristic_time = 100;
+		room_temperature = 70;
+	</state-variables>
+	<ports>
+		<input>
+			<port name="teacup_temperature"/>
+		</input>
+		<output>
+			<port name="out"/>
+		</output>
+	</ports>
+	<ta></ta>
+	<external-transition-function>
+		double x = Tuple<Real>::from_value(msg.value())[0].value();
+		if(msg.port() == in_teacup_temperature) {
+			teacup_temperature = x;
+		}
+		holdIn(AtomicState::active, VTime::Zero);
+		return *this;
+	</external-transition-function>
+	<internal-transition-function> 
+		passivate();
+		return *this;
+	</internal-transition-function>
+	<output-function>
+		val = (teacup_temperature - room_temperature) / characteristic_time;
+		Tuple<Real> out_value { val };
+		sendOutput(msg.time(), out, out_value);
+		return *this ;
+	</output-function>
+</atomic>
+<atomic name="ftot_teacup"></atomic> <!-- Nota: es igual a todos los Ftot's -->
+<atomic name="teacup_temperature_integrator"></atomic> <!-- Nota: es igual a todos los integradores -->
