@@ -3,6 +3,7 @@
 """
 import unittest
 import sys
+import os
 
 sys.path.append('D:\\simu\\sed2017\\tps\\converter\\sd2devs')
 
@@ -15,7 +16,7 @@ class TestXmileConverter(unittest.TestCase):
         Prueba que pueda abrirse un xml tipo xmile
         '''
         from sd2devs import read_xml
-        doc = read_xml('./tests/teacup.xmile')
+        doc = read_xml('./sd2devs/tests/teacup.xmile')
         self.assertEqual('{http://docs.oasis-open.org/xmile/ns/XMILE/v1.0}xmile', doc.getroot().tag)
 
     def test_model_to_dag(self):
