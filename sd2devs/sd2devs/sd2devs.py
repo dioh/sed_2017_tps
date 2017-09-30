@@ -27,9 +27,13 @@ def flow_from_xml_node(node):
     """
     name= node.attrib['name']
     attrib= dict()
-    attrib['eqn']= node.find('eqn')
+    attrib['eqn']= node.find('eqn').text
+    variables= attrib['eqn'].split('"')[1::2]
+    edges= []
+    for variable in variables:
+        edges.append((variable,name))
 
-    return name, attrib
+    return name, attrib, edges
 
 def stock_from_xml_node(node):
     """
@@ -38,8 +42,20 @@ def stock_from_xml_node(node):
     name= node.attrib['name']
     attrib= dict()
     attrib['eqn']= node.find('eqn')
+    inflows= []
+    outflows= []
+    edges= []
+    for inflow in node.findall('inflow'):
+        inflow_name= inflow.text.strip('"')
+        inflows.append(inflow_name)
+        edges.append((inflow_name,name)) 
 
-    return name, attrib
+    for outflow in node.findall('outflow'):
+        outflow_name= outflow.text.strip('"')
+        outflows.append(outflow_name)
+        edges.append((outflow_name,name)) 
+
+    return name, attrib,edges
 
 def dag_from_xmile_model(doc):
     """
@@ -47,6 +63,7 @@ def dag_from_xmile_model(doc):
     """
 
     dag= nx.DiGraph()
+    edges= []
     #Procesar seccion variables 
     variables= doc.find('variables')
     for child in variables:
@@ -54,10 +71,16 @@ def dag_from_xmile_model(doc):
             node_name, node_atrribs= aux_from_xml_node(child)
             dag.add_node(node_name,**node_atrribs)
         if child.tag == 'flow':
-            node_name, node_atrribs= flow_from_xml_node(child)
-            dag.add_node(node_name,**node_atrribs)
+            node_name, node_atrribs, new_edges= flow_from_xml_node(child)
+            edges= edges + new_edges
+            dag.add_node(node_name, **node_atrribs)
         if child.tag == 'stock':
-            node_name, node_atrribs= stock_from_xml_node(child)
-            dag.add_node(node_name,**node_atrribs)
+            node_name, node_atrribs,new_edges= stock_from_xml_node(child)
+            edges= edges + new_edges
+            dag.add_node(node_name, **node_atrribs)
     
+    print(edges)
+    for u, v in edges:
+        dag.add_edge(u,v)
+
     return dag

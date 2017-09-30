@@ -29,7 +29,9 @@ class TestXmileConverter(unittest.TestCase):
         xml_model = '<model><variables><flow name="Heat Loss to Room"><doc>Heat Loss to Room</doc><eqn>("Teacup Temperature"-"Room Temperature")/"Characteristic Time"</eqn></flow><aux name="Room Temperature"><doc>Ambient Room Temperature</doc><eqn>70</eqn></aux><stock name="Teacup Temperature"><doc>The average temperature of the tea and the cup</doc><outflow>"Heat Loss to Room"</outflow><eqn>180</eqn></stock><aux name="Characteristic Time"><eqn>10</eqn></aux></variables></model>'
         model_doc = ET.fromstring(xml_model)
         model_dag = dag_from_xmile_model(model_doc)
-        self.assertCountEqual(["Heat Loss to Room","Room Temperature","Teacup Temperature","Characteristic Time"], model_dag.nodes())
+        self.assertCountEqual(["Room Temperature","Teacup Temperature","Characteristic Time","Heat Loss to Room"], model_dag.nodes())
+        
+        self.assertCountEqual([("Teacup Temperature","Heat Loss to Room"),("Room Temperature","Heat Loss to Room"),("Characteristic Time","Heat Loss to Room"),("Heat Loss to Room", "Teacup Temperature")],model_dag.edges())
 
     def test_convert_xmile_to_devsml(self):
         """
