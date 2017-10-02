@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<devs xmlns="http://tempuri.org/devs-coupled">
+<devs>
   <scenario>
-    <coupled name="top" model="coupled" >
+    <coupled name="top" model="Coupled" >
       <inputs />
-      <outputs >
-        <port name="tempTeacup" />
       <outputs />
       <components>
-        <atomicRef name="int" model="QSS1" />
-        <atomicRef name="ft" model="Ftot" />
-        <atomicRef name="fp" model="Fplus" />
-        <atomicRef name="fm" model="Fminus" />
+        <atomicRef name="Teacup Temperature Integrator" model="QSS1" />
+        <atomicRef name="Teacup Temperature Flows Adder" model="FlowsAdder" />
+        <atomicRef name="Heat Loss to Room" model="Function" />
+        <atomicRef name="Characteristic Time" model="ConstantFunction" />
+        <atomicRef name="Room Temperature" model="ConstantFunction" />
       </components>
       <internal_connections>
-        <connection component_from="fp" port_from="out" component_to="ft" port_to="inPlus" />
-        <connection component_from="fm" port_from="out" component_to="ft" port_to="inMinus" />
-        <connection component_from="ft" port_from="out" component_to="int" port_to="in" />
-        <connection component_from="int" port_from="out" component_to="fm" port_to="inVar1" />
-        <connection component_from="int" port_from="out" component_to="top" port_to="tempTeacup" />
+        <connection component_from="Characteristic Time" port_from="out" component_to="Heat Loss to Room" port_to="Characteristic Time" />
+        <connection component_from="Room Temperature" port_from="out" component_to="Heat Loss to Room" port_to="Room Temperature" />
+        <connection component_from="Heat Loss to Room" port_from="out" component_to="Teacup Temperature Flows Adder" port_to="Heat Loss to Room" />
+        <connection component_from="Teacup Temperature Flows Adder" port_from="out" component_to="Teacup Temperature Integrator" port_to="in" />
+        <connection component_from="Teacup Temperature Integrator" port_from="out" component_to="Heat Loss to Room" port_to="Teacup Temperature" />
       </internal_connections>
       <external_input_connections />
       <external_output_connections />

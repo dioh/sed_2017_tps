@@ -23,7 +23,7 @@ class TestXmileConverter(unittest.TestCase):
         '''
         from sd2devs import read_xml
         doc = read_xml('./tests/teacup.xmile')
-        self.assertEqual('{http://docs.oasis-open.org/xmile/ns/XMILE/v1.0}xmile', doc.getroot().tag)
+        self.assertEqual('xmile', doc.getroot().tag)
 
     def test_model_to_dag(self):
         """
@@ -43,19 +43,31 @@ class TestXmileConverter(unittest.TestCase):
         
         self.assertEqual(5,devsml_model_dag.number_of_nodes())
         self.assertEqual('ConstantFunction', devsml_model_dag.nodes['Room Temperature']['model'])
+        self.assertEqual('70', devsml_model_dag.nodes['Room Temperature']['default_value'])
         self.assertEqual('ConstantFunction', devsml_model_dag.nodes['Characteristic Time']['model'])
+        self.assertEqual('10', devsml_model_dag.nodes['Characteristic Time']['default_value'])
         self.assertEqual('Function', devsml_model_dag.nodes['Heat Loss to Room']['model'])
+        self.assertEqual('("Teacup Temperature"-"Room Temperature")/"Characteristic Time"', devsml_model_dag.nodes['Heat Loss to Room']['function'])
         self.assertEqual('QSS1', devsml_model_dag.nodes['Teacup Temperature Integrator']['model'])
         self.assertEqual('FlowsAdder', devsml_model_dag.nodes['Teacup Temperature Flows Adder']['model'])
+        self.assertEqual(['Heat Loss to Room'], devsml_model_dag.nodes['Teacup Temperature Flows Adder']['outflows'])
+        self.assertCountEqual([], devsml_model_dag.nodes['Teacup Temperature Flows Adder']['inflows'])
 
         self.assertCountEqual([("Teacup Temperature Integrator", "Heat Loss to Room"), ("Room Temperature","Heat Loss to Room"), ("Characteristic Time", "Heat Loss to Room"), ("Heat Loss to Room",  "Teacup Temperature Flows Adder"),("Teacup Temperature Flows Adder","Teacup Temperature Integrator")], devsml_model_dag.edges())
-
 
     def test_convert_xmile_to_devsml(self):
         """
         Prueba que la conversion de xmile a devsml
         """
-        self.fail('Not implemented')
+        from sd2devs import read_xml, devsml_from_xmile, elements_equal,show_first_elements_diff
+
+        expected_doc = read_xml('./tests/teacup-devsml.xml')
+        devsml_doc = devsml_from_xmile('./tests/teacup.xmile')
+
+        #TODO: Revisar como validar el documento esperado vs lo obtenido
+        #Este metodo falla con tails con datos vacío.
+        self.assertTrue(elements_equal(expected_doc.getroot(), devsml_doc),show_first_elements_diff(expected_doc.getroot(), devsml_doc))    
+    
     def test_convert_devsml_to_ma_file(self):
         """
         Prueba la conversion de devsml a archivo .ma de CD++

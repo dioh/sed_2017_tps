@@ -5,13 +5,29 @@ Funciones para convertir archivo xmile en devsml
 import xml.etree.ElementTree as ET
 import networkx as nx
 
+DEVS_ML_BASE_DOC = '''<?xml version="1.0" encoding="utf-8"?>
+                    <devs>
+                    <scenario>
+                      <coupled name="top" model="Coupled" >
+                        <inputs />
+                       <outputs />
+                        <components />
+                        <internal_connections />
+                        <external_input_connections />
+                        <external_output_connections />
+                      </coupled>
+                    </scenario>
+                    <models />
+                    </devs>'''
+
+
 def read_xml(filename):
     '''
     Parsea el archivo xmile pasado como parametro
     '''
     return ET.parse(filename)
 
-def aux_from_xml_node(node):
+def aux_from_xml_node(node, ns = None):
     """
     Devuelve un nodo de tipo aux para el grafo
     """
@@ -22,7 +38,7 @@ def aux_from_xml_node(node):
 
     return name, attrib
 
-def flow_from_xml_node(node):
+def flow_from_xml_node(node, ns = None):
     """
     Devuelve un nodo de tipo aux para el grafo
     """
@@ -37,49 +53,69 @@ def flow_from_xml_node(node):
 
     return name, attrib, edges
 
-def stock_from_xml_node(node):
+def stock_from_xml_node(node, ns = None):
     """
     Devuelve un nodo de tipo aux para el grafo
     """
     name = node.attrib['name']
     attrib = dict()
     attrib['type'] = 'stock'
-    attrib['eqn'] = node.find('eqn').text
+    attrib['eqn'] = node.find('eqn',ns).text
     inflows = []
     outflows = []
     edges = []
-    for inflow in node.findall('inflow'):
+    for inflow in node.findall('inflow',ns):
         inflow_name = inflow.text.strip('"')
         inflows.append(inflow_name)
         edges.append((inflow_name, name)) 
 
-    for outflow in node.findall('outflow'):
+    for outflow in node.findall('outflow', ns):
         outflow_name = outflow.text.strip('"')
         outflows.append(outflow_name)
         edges.append((outflow_name, name)) 
 
-
+    attrib['inflows'] = inflows
+    attrib['outflows'] = outflows
+    
     return name, attrib, edges
 
-def dag_from_xmile_model(doc):
+def add_namespace_to_tag(tag,ns_uri, ns):
+    if ns == None:
+        return tag
+
+    for namespace, uri in ns.items():
+        if uri == ns_uri:
+            return namespace + ':' + tag
+    
+    #TODO: Revisar. Posiblemente lo mejor sea lanzar excepcion
+    return tag    
+
+def add_xmile_namespace_to_tag(tag, ns = None):
+    return add_namespace_to_tag(tag,'http://docs.oasis-open.org/xmile/ns/XMILE/v1.0', ns)
+
+def add_devml_namespace_to_tag(tag, ns = None):
+    return add_namespace_to_tag(tag,'http://tempuri.org/devs-coupled', ns)
+
+def dag_from_xmile_model(doc, ns = None):
     """
     Devuelve el DAG asociado al modelo
     """
 
+
     dag = nx.DiGraph()
     edges = []
     #Procesar seccion variables 
-    variables = doc.find('variables')
+    variables = doc.find(add_xmile_namespace_to_tag('variables',ns), ns)
     for child in variables:
-        if child.tag == 'aux':
-            node_name, node_atrribs = aux_from_xml_node(child)
+        if child.tag == add_xmile_namespace_to_tag('aux',ns):
+            node_name, node_atrribs = aux_from_xml_node(child,ns)
             dag.add_node(node_name,**node_atrribs)
-        if child.tag == 'flow':
-            node_name, node_atrribs, new_edges = flow_from_xml_node(child)
+        if child.tag == add_xmile_namespace_to_tag('flow',ns):
+            node_name, node_atrribs, new_edges = flow_from_xml_node(child,ns)
             edges = edges + new_edges
             dag.add_node(node_name, **node_atrribs)
-        if child.tag == 'stock':
-            node_name, node_atrribs, new_edges = stock_from_xml_node(child)
+        if child.tag == add_xmile_namespace_to_tag('stock',ns):
+            node_name, node_atrribs, new_edges = stock_from_xml_node(child,ns)
             edges = edges + new_edges
             dag.add_node(node_name, **node_atrribs)
     
@@ -92,21 +128,26 @@ def conv_xmile_aux_to_devs_atomic(xmile_data):
     """
     Convierte un aux de un model xmile en un atomico devs
     """
-    data = dict(xmile_data)
+    data = dict()
     data['model'] = 'ConstantFunction'
+    data['default_value'] = xmile_data['eqn']
     return data
 
 def conv_xmile_flow_to_devs_atomic(xmile_data):
     """
     Convierte un flow de un model xmile en un atomico devs
     """
-    data = dict(xmile_data)
+    data = dict()
     data['model'] = 'Function'
+    data['function'] = xmile_data['eqn']
     return data
 
 def devs_flows_adder_from_xmile_stock(xmile_node, xmile_data):
-    data = dict(xmile_data)
+    data = dict()
     data['model'] = 'FlowsAdder'
+    data['inflows'] = xmile_data['inflows']
+    data['outflows'] = xmile_data['outflows']
+    
     return  (xmile_node + ' Flows Adder', data)    
 
 def devs_integrator_from_xmile_stock(xmile_node, xmile_data):
@@ -155,4 +196,39 @@ def xmile_model_dag_to_devsml(xmile_dag):
 
     return devs_dag
 
+def add_components(devsml_doc, devsml_dag,ns =None):
+    components_element= devsml_doc.find('.//'+add_devml_namespace_to_tag('components',ns),ns)
+    for component_name, component_attribs in devsml_dag.nodes(data=True):
+        component_element = ET.Element(add_devml_namespace_to_tag('atomicRef',ns), {'name': component_name, 'model': component_attribs['model']})
+        components_element.append(component_element)
+
+    return devsml_doc
+
+def add_internal_connections(devsml_doc,devsml_dag,ns = None):
+    internal_conns_element= devsml_doc.find('.//'+add_devml_namespace_to_tag('internal_connections',ns),ns)
+    for node_u, node_v in devsml_dag.edges:
+        attribs = { 'component_from' : node_u,
+                    'port_from': 'out',
+                    'component_to': node_v,
+                    'port_in' : node_u }
+        internal_conns_element.append(ET.Element('connection', attribs))
+    
+    return devsml_doc
+
+def devsml_from_xmile(filename):
+    #TODO: Ver tema de namespaces. Trae muchos problemas a la hora del general el xml
+    #xmile_ns={'xmile':'http://docs.oasis-open.org/xmile/ns/XMILE/v1.0'}
+    #devsml_ns={'ns0' : 'http://tempuri.org/devs-coupled'}
+    doc= read_xml(filename)
+    devsml_doc = ET.fromstring(str(DEVS_ML_BASE_DOC))
+
+    xmile_model_dag= dag_from_xmile_model(doc.find('model',None),None)
+    devsml_dag= xmile_model_dag_to_devsml(xmile_model_dag)
+    print(xmile_model_dag.nodes())
+
+    add_components(devsml_doc,devsml_dag,None)
+    print('devsml_doc: ', ET.tostring(devsml_doc, encoding='utf8', method='xml'))
+    add_internal_connections(devsml_doc,devsml_dag,None)
+    
+    return devsml_doc
 
