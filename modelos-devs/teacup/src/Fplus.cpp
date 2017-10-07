@@ -31,7 +31,6 @@ Model &Fplus::initFunction()
 
 Model &Fplus::externalFunction(const ExternalMessage &msg)
 {
-	double f = 0.5;
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
 	if(msg.port() == inVar1) {

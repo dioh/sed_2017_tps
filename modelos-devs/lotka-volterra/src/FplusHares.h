@@ -23,11 +23,15 @@ class FplusHares : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &inVar1, &inVar2;
+    const Port &inHares;
+    const Port &inHareBirthRate;
     Port &out;
 
-    double val;
-    double var1, var2;
+    double hares;
+    bool isSetHares;
+    
+    double hareBirthRate;
+    bool isSetHareBirthRate;
 };
 
 #endif

@@ -12,12 +12,11 @@ using namespace std;
 
 FminusInf::FminusInf(const string &name) :
 	Atomic(name),
-	inVar1(addInputPort("inVar1")),
-	inVar2(addInputPort("inVar2")),
+	inInfected(addInputPort("inInfected")),
+	inDuration(addInputPort("inDuration")),
 	out(addOutputPort("out")),
-	var1(1),
-	var2(1),
-	val(1)
+	isSetInfected(false),
+	isSetDuration(false)
 {
 }
 
@@ -31,14 +30,14 @@ Model &FminusInf::initFunction()
 
 Model &FminusInf::externalFunction(const ExternalMessage &msg)
 {
-	double f = 0.5;
-
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == inVar1) {
-		var1 = x;
-	} else if (msg.port() == inVar2) {
-		var2 = x;
+	if(msg.port() == inInfected) {
+		infected = x;
+		isSetInfected = true;
+	} else if (msg.port() == inDuration) {
+		duration = x;
+		isSetDuration = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -54,11 +53,11 @@ Model &FminusInf::internalFunction(const InternalMessage &)
 
 Model &FminusInf::outputFunction(const CollectMessage &msg)
 {
-	double duration = 5;
-	double val2 = var1 / duration;
-
-	Tuple<Real> out_value { val2 };
-	sendOutput(msg.time(), out, out_value);
+	if(isSetDuration && isSetInfected) {
+		double val = infected / duration;
+		Tuple<Real> out_value { val };
+		sendOutput(msg.time(), out, out_value);
+	}
 
 	return *this ;
 }
