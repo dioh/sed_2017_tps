@@ -23,11 +23,15 @@ class FminusInf : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &inVar1, &inVar2;
+    const Port &inInfected;
+    const Port &inDuration;
     Port &out;
 
-    double val;
-    double var1, var2;
+    double infected;
+    bool isSetInfected;
+
+    double duration;
+    bool isSetDuration;
 };
 
 #endif

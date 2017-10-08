@@ -12,12 +12,13 @@ using namespace std;
 
 FminusHares::FminusHares(const string &name) :
 	Atomic(name),
-	inVar1(addInputPort("inVar1")),
-	inVar2(addInputPort("inVar2")),
+	inHares(addInputPort("inHares")),
+	inLynx(addInputPort("inLynx")),
+	inHareDeathRate(addInputPort("inHareDeathRate")),
 	out(addOutputPort("out")),
-	var1(1),
-	var2(1),
-	val(1)
+	isSetHareDeathRate(false),
+	isSetHares(false),
+	isSetLynx(false)
 {
 }
 
@@ -31,14 +32,17 @@ Model &FminusHares::initFunction()
 
 Model &FminusHares::externalFunction(const ExternalMessage &msg)
 {
-	double f = 0.5;
-
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == inVar1) {
-		var1 = x;
-	} else if (msg.port() == inVar2) {
-		var2 = x;
+	if(msg.port() == inHares) {
+		hares = x;
+		isSetHares = true;
+	} else if (msg.port() == inLynx) {
+		lynx = x;
+		isSetLynx = true;
+	} else if (msg.port() == inHareDeathRate) {
+		hareDeathRate = x;
+		isSetHareDeathRate = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -54,11 +58,11 @@ Model &FminusHares::internalFunction(const InternalMessage &)
 
 Model &FminusHares::outputFunction(const CollectMessage &msg)
 {
-	double hare_death_proportionality_cnst = 0.02482;
-	double val2 = hare_death_proportionality_cnst * var1 * var2;
-
-	Tuple<Real> out_value { val2 };
-	sendOutput(msg.time(), out, out_value);
+	if(isSetHareDeathRate && isSetHares && isSetLynx) {
+		double val = hareDeathRate * hares * lynx;
+		Tuple<Real> out_value { val };
+		sendOutput(msg.time(), out, out_value);
+	}
 
 	return *this ;
 }

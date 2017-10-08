@@ -6,9 +6,7 @@
 #include "atomic.h"
 #include "VTime.h"
 
-
 #define FMINUS "Fminus"
-
 
 class Fminus : public Atomic {
   public:
@@ -23,11 +21,15 @@ class Fminus : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &inVar1, &inVar2;
+    const Port &inTeacupTemperature;
+    const Port &inRoomTemperature, &inCharacteristicTime;
     Port &out;
 
-    double val;
-    double var1, var2;
+    double teacupTemperature;
+    bool isSetTeacupTemperature;
+
+    double roomTemperature, characteristicTime;
+    bool isSetRoomTemperature, isSetCharacteristicTime;
 };
 
 #endif

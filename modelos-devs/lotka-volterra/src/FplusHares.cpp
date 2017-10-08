@@ -12,12 +12,11 @@ using namespace std;
 
 FplusHares::FplusHares(const string &name) :
 	Atomic(name),
-	inVar1(addInputPort("inVar1")),
-	inVar2(addInputPort("inVar2")),
+	inHares(addInputPort("inHares")),
+	inHareBirthRate(addInputPort("inHareBirthRate")),
 	out(addOutputPort("out")),
-	var1(1),
-	var2(1),
-	val(1)
+	isSetHares(false),
+	isSetHareBirthRate(false)
 {
 }
 
@@ -31,13 +30,13 @@ Model &FplusHares::initFunction()
 
 Model &FplusHares::externalFunction(const ExternalMessage &msg)
 {
-	double f = 0.5;
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
-
-	if(msg.port() == inVar1) {
-		var1 = x;
-	} else if (msg.port() == inVar2) {
-		var2 = x;
+	if(msg.port() == inHares) {
+		hares = x;
+		isSetHares = true;
+	} else if(msg.port() == inHareBirthRate) {
+		hareBirthRate = x;
+		isSetHareBirthRate = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -53,11 +52,11 @@ Model &FplusHares::internalFunction(const InternalMessage &)
 
 Model &FplusHares::outputFunction(const CollectMessage &msg)
 {
-	double hare_birth_rate = 0.4807;
-	double val2 = hare_birth_rate * var1;
-
-	Tuple<Real> out_value { val2 };
-	sendOutput(msg.time(), out, out_value);
+	if(isSetHareBirthRate && isSetHares) {
+		double val = hareBirthRate * hares;
+		Tuple<Real> out_value { val };
+		sendOutput(msg.time(), out, out_value);
+	}
 
 	return *this ;
 }

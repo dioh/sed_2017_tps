@@ -9,11 +9,13 @@
 #include "FtotLynx.h"
 #include "FplusLynx.h"
 #include "FminusLynx.h"
+#include "Cte.h"
 
 
 void register_atomics_on(ParallelModelAdmin &admin)
 {
 	admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
+	admin.registerAtomic(NewAtomicFunction<Cte>(), CTE);
 
 	admin.registerAtomic(NewAtomicFunction<FminusHares>(), FMINUSHARES);
 	admin.registerAtomic(NewAtomicFunction<FplusHares>(), FPLUSHARES);

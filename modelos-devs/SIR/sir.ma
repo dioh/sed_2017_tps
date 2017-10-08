@@ -1,23 +1,49 @@
 [top]
-components : int_susc@QSS1 int_inf@QSS1 int_recov@QSS1 fts@FtotSusc fps@FplusSusc fms@FminusSusc fti@FtotInf fpi@FplusInf fmi@FminusInf ftr@FtotRecov fpr@FplusRecov fmr@FminusRecov
+components : int_susc@QSS1 int_inf@QSS1 int_recov@QSS1 fts@FtotSusc fps@FplusSusc fms@FminusSusc fti@FtotInf fpi@FplusInf fmi@FminusInf ftr@FtotRecov fpr@FplusRecov fmr@FminusRecov duration@Cte contactInfectivity@Cte totalPopulation@Cte
+
+% Puertos: Input de parametros. Output de variables de interes
+in : inDuration inContactInfectivity inTotalPopulation
 out : susceptible infected recovered
-link : out@int_susc susceptible
-link : out@int_susc inVar1@fms
-link : out@int_susc inVar2@fpi
+
+% Links parametros a constantes
+link : inDuration inVal@duration
+link : inContactInfectivity inVal@contactInfectivity
+link : inTotalPopulation inVal@totalPopulation
+
+% Links constantes a modelo
+link : out@duration inDuration@fmi
+link : out@contactInfectivity inContactInfectivity@fpi
+link : out@totalPopulation inTotalPopulation@fpi
+link : out@contactInfectivity inContactInfectivity@fms
+link : out@totalPopulation inTotalPopulation@fms
+link : out@duration inDuration@fpr
+
+% Links acoplado minimal integrador susceptible
 link : out@fps inPlus@fts
 link : out@fms inMinus@fts
 link : out@fts in@int_susc
-link : out@int_inf infected
-link : out@int_inf inVar1@fpi
-link : out@int_inf inVar1@fmi
-link : out@int_inf inVar2@fms
-link : out@int_inf inVar1@fpr
+
+% Links acoplado minimal integrador infected
 link : out@fpi inPlus@fti
 link : out@fmi inMinus@fti
 link : out@fti in@int_inf
+
+% LInks acoplado minimal integrador recovered
 link : out@fpr inPlus@ftr
 link : out@fmr inMinus@ftr
 link : out@ftr in@int_recov
+
+% Links modelo
+link : out@int_susc inSusceptible@fms
+link : out@int_susc inSusceptible@fpi
+link : out@int_inf inInfected@fpi
+link : out@int_inf inInfected@fmi
+link : out@int_inf inInfected@fms
+link : out@int_inf inInfected@fpr
+
+% Liks output variables de interes
+link : out@int_susc susceptible
+link : out@int_inf infected
 link : out@int_recov recovered
 
 [int_susc]

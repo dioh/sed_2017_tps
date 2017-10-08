@@ -23,11 +23,14 @@ class FminusLynx : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &inVar1, &inVar2;
+    const Port &inLynx, &inLynxDeathRate;
     Port &out;
 
-    double val;
-    double var1, var2;
+    double lynx;
+    bool isSetLynx;
+
+    double lynxDeathRate;
+    bool isSetLynxDeathRate;
 };
 
 #endif

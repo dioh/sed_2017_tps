@@ -14,10 +14,13 @@
 #include "FplusRecov.h"
 #include "FminusRecov.h"
 
+#include "Cte.h"
+
 
 void register_atomics_on(ParallelModelAdmin &admin)
 {
 	admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
+	admin.registerAtomic(NewAtomicFunction<Cte>(), CTE);
 
 	admin.registerAtomic(NewAtomicFunction<FminusSusc>(), FMINUSSUSC);
 	admin.registerAtomic(NewAtomicFunction<FplusSusc>(), FPLUSSUSC);

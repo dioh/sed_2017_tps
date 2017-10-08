@@ -12,12 +12,13 @@ using namespace std;
 
 Fminus::Fminus(const string &name) :
 	Atomic(name),
-	inVar1(addInputPort("inVar1")),
-	inVar2(addInputPort("inVar2")),
+	inTeacupTemperature(addInputPort("inTeacupTemperature")),
+	inRoomTemperature(addInputPort("inRoomTemperature")),
+	inCharacteristicTime(addInputPort("inCharacteristicTime")),
 	out(addOutputPort("out")),
-	var1(1),
-	var2(1),
-	val(1)
+	isSetTeacupTemperature(false),
+	isSetRoomTemperature(false),
+	isSetCharacteristicTime(false)
 {
 }
 
@@ -31,14 +32,17 @@ Model &Fminus::initFunction()
 
 Model &Fminus::externalFunction(const ExternalMessage &msg)
 {
-	double f = 0.5;
-
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == inVar1) {
-		var1 = x;
-	} else if (msg.port() == inVar2) {
-		var2 = x;
+	if(msg.port() == inTeacupTemperature) {
+		teacupTemperature = x;
+		isSetTeacupTemperature = true;
+	} else if (msg.port() == inRoomTemperature) {
+		roomTemperature = x;
+		isSetRoomTemperature = true;
+	} else if (msg.port() == inCharacteristicTime) {
+		characteristicTime = x;
+		isSetCharacteristicTime = true;
 	}
 
 	holdIn(AtomicState::active, VTime::Zero);
@@ -55,12 +59,11 @@ Model &Fminus::internalFunction(const InternalMessage &)
 
 Model &Fminus::outputFunction(const CollectMessage &msg)
 {
-	double characteristic_time = 100;
-	double room_temperature = 70;
-	val = (var1 - room_temperature) / characteristic_time;
-
-	Tuple<Real> out_value { val };
-	sendOutput(msg.time(), out, out_value);
+	if(isSetCharacteristicTime && isSetRoomTemperature && isSetTeacupTemperature) {	
+		double val = (teacupTemperature - roomTemperature) / characteristicTime;
+		Tuple<Real> out_value { val };
+		sendOutput(msg.time(), out, out_value);
+	}
 
 	return *this ;
 }
