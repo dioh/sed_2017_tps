@@ -4,6 +4,7 @@ Funciones para convertir archivo xmile en devsml
 
 import xml.etree.ElementTree as ET
 import networkx as nx
+from xml_utils import read_xml
 
 DEVS_ML_BASE_DOC = '''<?xml version="1.0" encoding="utf-8"?>
                     <devs>
@@ -19,13 +20,6 @@ DEVS_ML_BASE_DOC = '''<?xml version="1.0" encoding="utf-8"?>
                     </scenario>
                     <models />
                     </devs>'''
-
-
-def read_xml(filename):
-    '''
-    Parsea el archivo xmile pasado como parametro
-    '''
-    return ET.parse(filename)
 
 
 def aux_from_xml_node(node, ns=None):
@@ -276,7 +270,7 @@ def devsml_from_xmile(filename):
     """
     Crea un doc devsml a partir de un doc xmile
     """
-    # TODO: Ver tema de namespaces. 
+    # TODO: Ver tema de namespaces.
     # Trae muchos problemas a la hora del generar el xml
     # xmile_ns={'xmile':'http://docs.oasis-open.org/xmile/ns/XMILE/v1.0'}
     # devsml_ns={'ns0' : 'http://tempuri.org/devs-coupled'}
@@ -285,7 +279,6 @@ def devsml_from_xmile(filename):
 
     xmile_model_dag = dag_from_xmile_model(doc.find('model', None), None)
     devsml_dag = xmile_model_dag_to_devsml(xmile_model_dag)
-    print(xmile_model_dag.nodes())
 
     add_components(devsml_doc, devsml_dag, None)
     add_internal_connections(devsml_doc, devsml_dag, None)
