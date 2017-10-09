@@ -2,21 +2,41 @@
 <devs>
   <scenario>
     <coupled name="top" model="Coupled" >
-      <inputs />
-      <outputs />
+      <inputs>
+        <port name="Room Temperature">
+        <port name="Characteristic Time">
+      </inputs>
+      <outputs>
+        <port name="output">
+      </outputs>
       <components>
-        <atomicRef name="Teacup Temperature Integrator" model="QSS1" />
+        <atomicRef name="Teacup Temperature Integrator" model="QSS1" >
+          <parameter name="x0" value="80">
+          <parameter name="dQRel" value="1e-2">
+          <parameter name="dQMin" value="1e-4">
+        </atomicRef>
         <atomicRef name="Teacup Temperature Flows Adder" model="FlowsAdder" />
+          <parameter name="inputs" value="teacupTemperature;roomTemperature;characteristicTime">
+        </atomicRef>
         <atomicRef name="Heat Loss to Room" model="Function" />
+          <parameter name="function" value="(teacupTemperature-roomTemperature)/characteristicTime">
+        </atomicRef>
         <atomicRef name="Characteristic Time" model="ConstantFunction" />
+          <parameter name="default_value" value="10">
+        </atomicRef>
         <atomicRef name="Room Temperature" model="ConstantFunction" />
+          <parameter name="default_value" value="70">
+        </atomicRef>
       </components>
       <internal_connections>
+        <connection component_from="top" port_from="Room Temperature" component_to="Room Temperature" port_to="value" />
+        <connection component_from="top" port_from="Characteristic Time" component_to="Characteristic Time" port_to="value" />
         <connection component_from="Characteristic Time" port_from="out" component_to="Heat Loss to Room" port_to="Characteristic Time" />
         <connection component_from="Room Temperature" port_from="out" component_to="Heat Loss to Room" port_to="Room Temperature" />
         <connection component_from="Heat Loss to Room" port_from="out" component_to="Teacup Temperature Flows Adder" port_to="Heat Loss to Room" />
         <connection component_from="Teacup Temperature Flows Adder" port_from="out" component_to="Teacup Temperature Integrator" port_to="in" />
         <connection component_from="Teacup Temperature Integrator" port_from="out" component_to="Heat Loss to Room" port_to="Teacup Temperature" />
+        <connection component_from="Teacup Temperature Integrator" port_from="out" component_to="top" port_to="output" />
       </internal_connections>
       <external_input_connections />
       <external_output_connections />
