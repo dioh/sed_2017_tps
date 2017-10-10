@@ -20,7 +20,12 @@ def elements_equal(anElementTree, otherElementTree):
         return False
     if anElementTree.text != otherElementTree.text:
         return False
-    if anElementTree.tail != otherElementTree.tail:
+    if not(not anElementTree.tail and
+           not otherElementTree.tail) or \
+       ((anElementTree.tail or
+         '').strip() !=
+        (otherElementTree.tail or
+         '').strip()):
         return False
     if anElementTree.attrib != otherElementTree.attrib:
         return False

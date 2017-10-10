@@ -15,21 +15,21 @@ class TestXmileConverter(unittest.TestCase):
     '''
 
     def setUp(self):
-        xml_model = ('<model><variables><flow name="Heat Loss to Room">',
-                     '<doc>Heat Loss to Room</doc>',
-                     '<eqn>("Teacup Temperature"-"Room Temperature")',
-                     '/"Characteristic Time"</eqn>',
-                     '</flow><aux name="Room Temperature">',
-                     '<doc>Ambient Room Temperature</doc>',
-                     '<eqn>70</eqn></aux>',
-                     '<stock name="Teacup Temperature">',
-                     '<doc>The average temperature of the tea',
-                     ' and the cup</doc>',
-                     '<outflow>"Heat Loss to Room"</outflow>',
-                     '<eqn>180</eqn></stock>',
-                     '<aux name="Characteristic Time">',
-                     '<eqn>10</eqn></aux>',
-                     '</variables></model>')
+        xml_model = '<model><variables><flow name="Heat Loss to Room">' + \
+                     '<doc>Heat Loss to Room</doc>' + \
+                     '<eqn>("Teacup Temperature"-"Room Temperature")' + \
+                     '/"Characteristic Time"</eqn>' + \
+                     '</flow><aux name="Room Temperature">' + \
+                     '<doc>Ambient Room Temperature</doc>' + \
+                     '<eqn>70</eqn></aux>' + \
+                     '<stock name="Teacup Temperature">' + \
+                     '<doc>The average temperature of the tea' + \
+                     ' and the cup</doc>' + \
+                     '<outflow>"Heat Loss to Room"</outflow>'+ \
+                     '<eqn>180</eqn></stock>' + \
+                     '<aux name="Characteristic Time">'+ \
+                     '<eqn>10</eqn></aux>' + \
+                     '</variables></model>'
         self.model_doc = ET.fromstring(xml_model)
 
     def test_read_xml_file(self):
@@ -116,3 +116,4 @@ class TestXmileConverter(unittest.TestCase):
         self.assertTrue(elements_equal(expected_doc.getroot(), devsml_doc),
                         show_first_elements_diff(expected_doc.getroot(),
                                                  devsml_doc))
+

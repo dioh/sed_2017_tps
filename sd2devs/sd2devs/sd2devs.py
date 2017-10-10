@@ -4,7 +4,7 @@ Funciones para convertir archivo xmile en devsml
 
 import xml.etree.ElementTree as ET
 import networkx as nx
-from xml_utils import read_xml
+from .xml_utils import read_xml
 
 DEVS_ML_BASE_DOC = '''<?xml version="1.0" encoding="utf-8"?>
                     <devs>
