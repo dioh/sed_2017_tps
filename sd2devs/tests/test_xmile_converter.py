@@ -6,10 +6,12 @@ import sys
 import os
 import xml.etree.ElementTree as ET
 
-sys.path.append('D:\\simu\\sed2017\\tps\\converter\\sd2devs')
+#sys.path.append('D:\\simu\\sed2017\\tps\\converter\\sd2devs')
+#sys.path.append('/Users/pedro/Desktop/SED/SDDEVS/sed_2017_tps/sd2devs')
+from . import settings
+sys.path.append(settings.PATH)
 
-
-class TestXmileConverter(unittest.TestCase):
+class TestXmileConverterTeacup(unittest.TestCase):
     '''
     Pruebas del conversor en si
     '''
@@ -37,7 +39,7 @@ class TestXmileConverter(unittest.TestCase):
         Prueba que pueda abrirse un xml tipo xmile
         '''
         from sd2devs import read_xml
-        doc = read_xml('./tests/teacup.xmile')
+        doc = read_xml('./teacup.xmile')
         self.assertEqual('xmile', doc.getroot().tag)
 
     def test_model_to_dag(self):
@@ -47,15 +49,16 @@ class TestXmileConverter(unittest.TestCase):
         from sd2devs import dag_from_xmile_model
 
         model_dag = dag_from_xmile_model(self.model_doc)
-        self.assertCountEqual(["Room Temperature",
-                               "Teacup Temperature",
-                               "Characteristic Time",
-                               "Heat Loss to Room"], model_dag.nodes())
+        self.assertCountEqual(["Room Temperature",   # Cte
+                               "Teacup Temperature", # Stock
+                               "Characteristic Time",# Cte
+                               "Heat Loss to Room"], # Flow
+                               model_dag.nodes())
         
-        self.assertCountEqual([("Teacup Temperature", "Heat Loss to Room"),
-                               ("Room Temperature", "Heat Loss to Room"),
+        self.assertCountEqual([("Teacup Temperature", "Heat Loss to Room"), # Stock => Flow
+                               ("Room Temperature", "Heat Loss to Room"),   # Cte usadas en Flows
                                ("Characteristic Time", "Heat Loss to Room"),
-                               ("Heat Loss to Room",  "Teacup Temperature")],
+                               ("Heat Loss to Room",  "Teacup Temperature")], # Flows => Stocks
                               model_dag.edges())
 
     def test_transform_xmile_model_dag_to_devsml_model_dag(self):
@@ -108,12 +111,108 @@ class TestXmileConverter(unittest.TestCase):
         from sd2devs import read_xml, devsml_from_xmile
         from sd2devs import elements_equal, show_first_elements_diff
 
-        expected_doc = read_xml('./tests/teacup-devsml.xml')
-        devsml_doc = devsml_from_xmile('./tests/teacup.xmile')
+        expected_doc = read_xml('./teacup-devsml.xml')
+        devsml_doc = devsml_from_xmile('./teacup.xmile')
 
         # TODO: Revisar como validar el documento esperado vs lo obtenido
         # Este metodo falla con tails con datos vacío.
         self.assertTrue(elements_equal(expected_doc.getroot(), devsml_doc),
                         show_first_elements_diff(expected_doc.getroot(),
                                                  devsml_doc))
+
+class TestXmileConverterSIR(unittest.TestCase):
+    '''
+    Pruebas del conversor en si : SIR
+    '''
+
+    def setUp(self):
+        xml_model = \
+        '<model><variables>' + \
+            '<stock name="susceptible">' + \
+                '<eqn>total_population</eqn>' + \
+                '<outflow>succumbing</outflow>' + \
+                '<units>people</units>'  + \
+            '</stock>' + \
+            '<stock name="infectious">'  + \
+                '<eqn>5</eqn>'  + \
+                '<inflow>succumbing</inflow>'  + \
+                '<outflow>recovering</outflow>'  + \
+                '<units>people</units>'  + \
+            '</stock>'  + \
+            '<stock name="recovered">'  + \
+                '<eqn>0</eqn>'  + \
+                '<inflow>recovering</inflow>'  + \
+                '<units>people</units>'  + \
+            '</stock>'  + \
+            '<flow name="succumbing">'  + \
+                '<eqn>susceptible*infectious/total_population*contact_infectivity</eqn>'  + \
+                '<units>person/time</units>'  + \
+            '</flow>'  + \
+            '<flow name="recovering">'  + \
+                '<eqn>infectious/duration</eqn>'  + \
+                '<units>person/time</units>'  + \
+            '</flow>'  + \
+            '<aux name="total_population">'  + \
+                '<eqn>1000</eqn>'  + \
+                '<units>people</units>'  + \
+            '</aux>'  + \
+            '<aux name="duration">'  + \
+                '<eqn>5</eqn>'  + \
+                '<units>days</units>'  + \
+            '</aux>'  + \
+            '<aux name="contact_infectivity">'  + \
+                '<eqn>0.3</eqn>'  + \
+            '</aux>'  + \
+            '</variables>'  + \
+        '</model>'
+        self.model_doc = ET.fromstring(xml_model)
+
+    def test_read_xml_file(self):
+        '''
+        Prueba que pueda abrirse un xml tipo xmile
+        '''
+        from sd2devs import read_xml
+        doc = read_xml('./SIR.xmile')
+        self.assertEqual('xmile', doc.getroot().tag)
+
+    def test_model_to_dag(self):
+        """
+        Transforma un model de xmile en un DAG
+        """
+        from sd2devs import dag_from_xmile_model
+
+        model_dag = dag_from_xmile_model(self.model_doc)
+        
+        self.assertCountEqual(["susceptible",
+                               "infectious",
+                               "recovered",  # Stocks
+                               "succumbing",
+                               "recovering", # Flows
+                               "total_population", # Aux's
+                               "duration",
+                               "contact_infectivity"], model_dag.nodes())
+        
+        self.assertCountEqual([("total_population", "succumbing"), # Constantes usadas en flows
+                               ("contact_infectivity",  "succumbing"),
+                               ("duration", "recovering"),
+                               ("susceptible", "succumbing"), # Stocks => flows
+                               ("infectious", "succumbing"),
+                               ("infectious", "recovering"),
+                               ("succumbing", "infectious"), # Flows => Stocks
+                               ("recovering", "recovered")],
+                              model_dag.edges())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

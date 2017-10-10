@@ -187,7 +187,7 @@ def conv_xmile_stock_to_devs_atomics(xmile_node, xmile_data):
 def conv_stock_edges_to_devs_edges(node, edges):
     """
     Convierte las conexiones de un stock SD
-    en conecciones entre nodos de un la traducción en DEVS
+    en conecciones entre nodos de un la traduccin en DEVS
     """
     conv_edges = []
     for node_u, node_v in edges:
