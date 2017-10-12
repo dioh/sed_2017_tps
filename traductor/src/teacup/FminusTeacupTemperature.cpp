@@ -6,11 +6,11 @@
 #include "real.h"
 #include "tuple_value.h"
 
-#include "FminusTeacup.h"
+#include "FminusTeacupTemperature.h"
 
 using namespace std;
 
-FminusTeacup::FminusTeacup(const string &name) :
+FminusTeacupTemperature::FminusTeacupTemperature(const string &name) :
 	Atomic(name),
 	inTeacupTemperature(addInputPort("inTeacupTemperature")),
 	inCharacteristicTime(addInputPort("inCharacteristicTime")),
@@ -23,14 +23,14 @@ FminusTeacup::FminusTeacup(const string &name) :
 }
 
 
-Model &FminusTeacup::initFunction()
+Model &FminusTeacupTemperature::initFunction()
 {
 	holdIn(AtomicState::passive, VTime::Inf);
 	return *this;
 }
 
 
-Model &FminusTeacup::externalFunction(const ExternalMessage &msg)
+Model &FminusTeacupTemperature::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
@@ -51,14 +51,14 @@ Model &FminusTeacup::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &FminusTeacup::internalFunction(const InternalMessage &)
+Model &FminusTeacupTemperature::internalFunction(const InternalMessage &)
 {
 	passivate();
 	return *this ;
 }
 
 
-Model &FminusTeacup::outputFunction(const CollectMessage &msg)
+Model &FminusTeacupTemperature::outputFunction(const CollectMessage &msg)
 {
 	if( isSetTeacupTemperature && isSetCharacteristicTime && isSetRoomTemperature ) {
 		double val = (teacupTemperature - roomTemperature) / characteristicTime;

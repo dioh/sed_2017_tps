@@ -195,59 +195,5 @@
                 <eqn>{Enter equation for use when not hooked up to other models}</eqn>
             </aux>
         </variables>
-        <views>
-            <view scroll_x="68" scroll_y="0" zoom="165.6" converter_size="medium">
-                <connector x="185" y="83" color="#FF007F" uid="11">
-                    <from>lynxes</from>
-                    <to>births</to>
-                </connector>
-                <connector x="217" y="83" color="#FF007F" uid="12">
-                    <from>lynxes</from>
-                    <to>deaths</to>
-                </connector>
-                <connector x="130" y="169" color="#FF007F" uid="13">
-                    <from>birth_fraction</from>
-                    <to>births</to>
-                </connector>
-                <connector x="420" y="187" color="#FF007F" uid="14">
-                    <from>hare_density</from>
-                    <to>death_fraction</to>
-                </connector>
-                <connector x="297" y="217" color="#FF007F" uid="15">
-                    <from>size_of_one_time_lynx_harvest</from>
-                    <to>harvest</to>
-                </connector>
-                <connector x="331" y="169" color="#FF007F" uid="16">
-                    <from>death_fraction</from>
-                    <to>deaths</to>
-                </connector>
-                <stock x="202" y="100" color="blue" name="lynxes"></stock>
-                <flow x="126" y="96" color="blue" name="births">
-                    <pts>
-                        <pt x="73" y="96"></pt>
-                        <pt x="180" y="96"></pt>
-                    </pts>
-                </flow>
-                <flow x="306" y="96" color="blue" name="deaths">
-                    <pts>
-                        <pt x="224" y="96"></pt>
-                        <pt x="388" y="96"></pt>
-                    </pts>
-                </flow>
-                <aux x="430" y="184" color="blue" name="hare_density"></aux>
-                <aux x="130" y="178" color="blue" name="birth_fraction"></aux>
-                <aux x="340" y="169" color="blue" name="death_fraction"></aux>
-                <flow x="198" y="174" color="blue" name="harvest" label_side="top">
-                    <pts>
-                        <pt x="198" y="117"></pt>
-                        <pt x="198" y="232"></pt>
-                    </pts>
-                </flow>
-                <aux x="304" y="223" color="blue" name="size_of_one\ntime_lynx_harvest"></aux>
-            </view>
-            <view name="interface" scroll_x="0" scroll_y="0" zoom="0" page_width="800" page_height="600">
-                <simulation_delay>0.0690335</simulation_delay>
-            </view>
-        </views>
     </model>
 </xmile>

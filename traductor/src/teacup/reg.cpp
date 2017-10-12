@@ -4,7 +4,7 @@
 #include "qss1.h"
 #include "Cte.h"
 #include "Ftot.h"
-#include "FminusTeacup.h"
+#include "FminusTeacupTemperature.h"
 // Registro modelos atomicos
 void register_atomics_on(ParallelModelAdmin &admin)
 {
@@ -14,6 +14,6 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	admin.registerAtomic(NewAtomicFunction<Ftot>(), FTOT);
 	
 	// Atomicos especificos del modelo
-	admin.registerAtomic(NewAtomicFunction<FminusTeacup>(), FMINUSTEACUP);
+	admin.registerAtomic(NewAtomicFunction<FminusTeacupTemperature>(), FMINUSTEACUPTEMPERATURE);
 	//
 }

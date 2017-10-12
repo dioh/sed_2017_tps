@@ -1,18 +1,18 @@
-#ifndef _FminusTeacup_H_
-#define _FminusTeacup_H_
+#ifndef _FminusTeacupTemperature_H_
+#define _FminusTeacupTemperature_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
-#define FMINUSTEACUP "FminusTeacup"
+#define FMINUSTEACUPTEMPERATURE "FminusTeacupTemperature"
 
-class FminusTeacup : public Atomic {
+class FminusTeacupTemperature : public Atomic {
   public:
     
-    FminusTeacup(const string &name = FMINUSTEACUP );
-    virtual string className() const {  return FMINUSTEACUP ;}
+    FminusTeacupTemperature(const string &name = FMINUSTEACUPTEMPERATURE );
+    virtual string className() const {  return FMINUSTEACUPTEMPERATURE ;}
   
   protected:
     Model &initFunction();
