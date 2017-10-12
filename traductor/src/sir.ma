@@ -10,7 +10,7 @@ link : inDuration inVal@duration
 link : inContactInfectivity inVal@contactInfectivity
 link : inTotalPopulation inVal@totalPopulation
 
-% Links constantes a modelo
+% Links constantes a modelo	
 link : out@duration inDuration@fmi
 link : out@contactInfectivity inContactInfectivity@fpi
 link : out@totalPopulation inTotalPopulation@fpi

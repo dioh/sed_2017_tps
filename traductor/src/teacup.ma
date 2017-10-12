@@ -18,7 +18,7 @@ link : out@fmTeacupTemperature inMinus@ft
 link : out@ft in@intTeacupTemperature
 
 % Links modelo
-link : out@intTeacupTemperature inTeacupTemperature@fm 
+link : out@intTeacupTemperature inTeacupTemperature@fmTeacupTemperature
 
 % Links output variables de interes
 link : out@intTeacupTemperature tempTeacup
