@@ -2,8 +2,6 @@
 #define _{{atomicClass}}_H_
 
 #include <random>
-#include <string>
-#include <vector>
 
 #include "atomic.h"
 #include "VTime.h"
@@ -24,6 +22,7 @@ class {{atomicClass}} : public Atomic {
 
   private:
     // Input ports
+    const Port &in;
     // Output ports
     Port {% for outPort in outPorts -%}
     {% if loop.index0 < outPorts|length - 1 -%}&{{outPort}}, {% else -%}&{{outPort}};{% endif -%}

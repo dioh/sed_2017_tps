@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include <math>
+#include "math.h"
 
 #include "message.h"
 #include "parsimu.h"
@@ -16,7 +16,7 @@ using namespace std;
 {{atomicClass}}::{{atomicClass}}(const string &name) :
 	Atomic(name),
 	{% for outPort in outPorts -%}
-	out(addOutputPort("{{outPort}}")),
+	{{outPort}}(addOutputPort("{{outPort}}")),
 	{% endfor -%}
 	in(addInputPort("in")),
 	numberOfOutputPorts({{numberOfOutputPorts}}),
@@ -59,8 +59,8 @@ Model &{{atomicClass}}::outputFunction(const CollectMessage &msg)
 		}
   	}
   	// Shuffle selected ports
-  	for(i = {{numberOfOutputPorts}} - 1; i > 0; i--) {
-	 	j = rand() % i;
+  	for(int i = {{numberOfOutputPorts}} - 1; i > 0; i--) {
+	 	int j = rand() % i;
 	 	swap(selected_ports[i], selected_ports[j]);
 	}
 

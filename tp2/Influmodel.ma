@@ -1,61 +1,67 @@
 #include(macros.inc)
 
 [top]
-components : opinion shock0@Shock0 shock1@Shock1 shock2@Shock2 shock3@Shock3 shock4@Shock4 
+components : opinion shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker 
 %---------------------------------------------------
 % Inputs + Links externos para shock exogeno
 %---------------------------------------------------
-in : in00 in01 in02 in03 in04 in10 in11 in12 in13 in14 in20 in21 in22 in23 in24 in30 in31 in32 in33 in34 in40 in41 in42 in43 in44 in50 in51 in52 in53 in54 in60 in61 in62 in63 in64 in70 in71 in72 in73 in74 in80 in81 in82 in83 in84 in90 in91 in92 in93 in94 
-link : out00@shock0 in00@opinion
-link : out01@shock3 in01@opinion
-link : out02@shock1 in02@opinion
-link : out03@shock0 in03@opinion
-link : out04@shock3 in04@opinion
-link : out10@shock0 in10@opinion
-link : out11@shock2 in11@opinion
-link : out12@shock4 in12@opinion
-link : out13@shock0 in13@opinion
-link : out14@shock4 in14@opinion
-link : out20@shock0 in20@opinion
-link : out21@shock2 in21@opinion
-link : out22@shock2 in22@opinion
-link : out23@shock3 in23@opinion
-link : out24@shock1 in24@opinion
-link : out30@shock2 in30@opinion
-link : out31@shock3 in31@opinion
-link : out32@shock4 in32@opinion
-link : out33@shock2 in33@opinion
-link : out34@shock2 in34@opinion
-link : out40@shock1 in40@opinion
-link : out41@shock1 in41@opinion
-link : out42@shock1 in42@opinion
-link : out43@shock1 in43@opinion
-link : out44@shock3 in44@opinion
-link : out50@shock2 in50@opinion
-link : out51@shock4 in51@opinion
-link : out52@shock0 in52@opinion
-link : out53@shock4 in53@opinion
-link : out54@shock3 in54@opinion
-link : out60@shock4 in60@opinion
-link : out61@shock0 in61@opinion
-link : out62@shock4 in62@opinion
-link : out63@shock3 in63@opinion
-link : out64@shock2 in64@opinion
-link : out70@shock1 in70@opinion
-link : out71@shock4 in71@opinion
-link : out72@shock4 in72@opinion
-link : out73@shock2 in73@opinion
-link : out74@shock1 in74@opinion
-link : out80@shock0 in80@opinion
-link : out81@shock3 in81@opinion
-link : out82@shock4 in82@opinion
-link : out83@shock3 in83@opinion
-link : out84@shock2 in84@opinion
-link : out90@shock1 in90@opinion
-link : out91@shock3 in91@opinion
-link : out92@shock0 in92@opinion
-link : out93@shock0 in93@opinion
-link : out94@shock1 in94@opinion
+in : in0 in1 in2 in3 in4 
+link : in0 in@shocker0 
+link : in1 in@shocker1 
+link : in2 in@shocker2 
+link : in3 in@shocker3 
+link : in4 in@shocker4 
+
+link : out0@shocker0 in24@opinion
+link : out0@shocker1 in01@opinion
+link : out0@shocker2 in23@opinion
+link : out0@shocker3 in74@opinion
+link : out0@shocker4 in30@opinion
+link : out1@shocker0 in80@opinion
+link : out1@shocker1 in70@opinion
+link : out1@shocker2 in03@opinion
+link : out1@shocker3 in43@opinion
+link : out1@shocker4 in82@opinion
+link : out2@shocker0 in10@opinion
+link : out2@shocker1 in13@opinion
+link : out2@shocker2 in63@opinion
+link : out2@shocker3 in71@opinion
+link : out2@shocker4 in94@opinion
+link : out3@shocker0 in04@opinion
+link : out3@shocker1 in83@opinion
+link : out3@shocker2 in41@opinion
+link : out3@shocker3 in22@opinion
+link : out3@shocker4 in20@opinion
+link : out4@shocker0 in12@opinion
+link : out4@shocker1 in34@opinion
+link : out4@shocker2 in42@opinion
+link : out4@shocker3 in40@opinion
+link : out4@shocker4 in84@opinion
+link : out5@shocker0 in90@opinion
+link : out5@shocker1 in50@opinion
+link : out5@shocker2 in32@opinion
+link : out5@shocker3 in21@opinion
+link : out5@shocker4 in31@opinion
+link : out6@shocker0 in44@opinion
+link : out6@shocker1 in73@opinion
+link : out6@shocker2 in11@opinion
+link : out6@shocker3 in14@opinion
+link : out6@shocker4 in02@opinion
+link : out7@shocker0 in64@opinion
+link : out7@shocker1 in91@opinion
+link : out7@shocker2 in33@opinion
+link : out7@shocker3 in92@opinion
+link : out7@shocker4 in93@opinion
+link : out8@shocker0 in51@opinion
+link : out8@shocker1 in52@opinion
+link : out8@shocker2 in60@opinion
+link : out8@shocker3 in72@opinion
+link : out8@shocker4 in53@opinion
+link : out9@shocker0 in61@opinion
+link : out9@shocker1 in81@opinion
+link : out9@shocker2 in62@opinion
+link : out9@shocker3 in00@opinion
+link : out9@shocker4 in54@opinion
 
 %---------------------------------------------------
 
@@ -75,7 +81,7 @@ initialCellsValue : valfile.val
 %---------------------------------------------------
 Inputs + Links internos para shock exogeno
 %---------------------------------------------------
-in : in
+in : in00 in01 in02 in03 in04 in10 in11 in12 in13 in14 in20 in21 in22 in23 in24 in30 in31 in32 in33 in34 in40 in41 in42 in43 in44 in50 in51 in52 in53 in54 in60 in61 in62 in63 in64 in70 in71 in72 in73 in74 in80 in81 in82 in83 in84 in90 in91 in92 in93 in94 
 link : in00 in@opinion(0,0,0)
 link : in01 in@opinion(0,1,0)
 link : in02 in@opinion(0,2,0)

@@ -5,7 +5,10 @@ components : opinion {% for atomico in atomicos -%}{{atomico}} {% endfor %}
 %---------------------------------------------------
 % Inputs + Links externos para shock exogeno
 %---------------------------------------------------
-in : {% for input in inputs -%}{{input}} {% endfor %}
+in : {% for input_ext in inputs_external -%}{{input_ext}} {% endfor %}
+{% for link_external_at in links_external_atomic -%}
+{{link_external_at}} 
+{% endfor %}
 {% for link_externo in links_external -%}
 {{link_externo}}
 {% endfor %}
@@ -27,7 +30,7 @@ initialCellsValue : {{valFile}}
 %---------------------------------------------------
 Inputs + Links internos para shock exogeno
 %---------------------------------------------------
-in : in
+in : {% for input in inputs_internal -%}{{input}} {% endfor %}
 {% for link_interno in links_internal -%}
 {{link_interno}}
 {% endfor %}
