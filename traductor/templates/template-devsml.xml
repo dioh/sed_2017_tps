@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devs>
+  <scenario>
+    <coupled name="top" model="Coupled" >
+      <!-- Input / Output -->
+      <!-- Inputs -->
+      {# Asumimos que todos los aux's son constantes que vienen de afuera del modelo -#}
+      <inputs>
+        {% for auxName, auxValue in aux_values.iteritems() -%}
+        <port name="{{auxName}}" />
+        {% endfor -%}
+      </inputs>
+      <!-- Outputs -->
+      <outputs>
+        {% for stockName in stockNames -%}
+        <port name="{{stockName}}" />
+        {% endfor -%}
+      </outputs>
+      <components>
+
+        {# Atomicos : integradores + Ftot's correspondientes -#}
+        {% for stockName, initial_value in stock_values.iteritems() -%}
+        <!-- Stock : {{stockName}} Integrator -->
+        <atomicRef name="ft {{stockName}}" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inMinus" type="in" />
+          <port name="inPlus" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="{{stockName}} Integrator" model="QSS1">
+          <parameter name="x0" value="{{initial_value}}" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        {% endfor -%}
+
+        {# Atomicos : Fminus's + Fplus's -#}
+        {% for flowName, flow in flows_links.iteritems() -%}
+        <!-- Flow : {{flowName}} -->
+        {% if flow['orig'] != None: -%}
+        <atomicRef name="fm {{flow['orig']}} - {{flowName}}" model="Fminus">
+          <!-- Puertos del atomico -->
+          {% for param in flow['params_function'] -%}
+          {% if param in stockNames -%}
+          <port name="{{param}} Integrator" type="in" />
+          {% else -%}
+          <port name="{{param}}" type="in" />
+          {% endif -%}
+          {% endfor -%}
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="{{flow['function']}}" />
+        </atomicRef>
+        {% endif -%}
+        {% if flow['dest'] != None: -%}
+        <atomicRef name="fp {{flow['dest']}} - {{flowName}}" model="Fplus">
+          <!-- Puertos del atomico -->
+          {% for param in flow['params_function'] -%}
+          {% if param in stockNames -%}
+          <port name="{{param}} Integrator" type="in" />
+          {% else -%}
+          <port name="{{param}}" type="in" />
+          {% endif -%}
+          {% endfor -%}
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="{{flow['function']}}" />
+        </atomicRef>
+        {% endif -%}
+        {% endfor -%}
+
+        {# Atomicos : Constantes (parametros) auxiliares utilizados en las funciones -#}
+        <!-- Parameters / Constantes -->
+        {% for auxName, auxValue in aux_values.iteritems() -%}
+        <atomicRef name="{{auxName}}" model="Cte">
+          <port name="value" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="{{auxValue}}" />
+        </atomicRef>
+        {% endfor -%}
+      </components>
+
+      <internal_connections>
+
+        <!-- Link : Cte's a f's que las usan -->
+        {% for flowName, flow in flows_links.iteritems() -%}
+        {% for param in flow['params_function'] -%}
+        {% if param not in stockNames -%}
+        <!-- Cte :  {{param}} -->
+        {% if flow['orig'] != None -%}
+        <connection component_from="{{param}}" port_from="out" component_to="fm {{flow['orig']}} - {{flowName}}" port_to="{{param}}"/>
+        {% endif -%}
+        {% if flow['dest'] != None -%}
+        <connection component_from="{{param}}" port_from="out" component_to="fp {{flow['dest']}} - {{flowName}}" port_to="{{param}}"/>
+        {% endif -%}
+        {% endif -%}
+        {% endfor -%}
+        {% endfor -%}
+
+        {# Links entre Fminus's y Fplus's con Ftot's -#}
+        {% for stockName, stock_feed in stocks_feed.iteritems() -%}
+        <!-- Links modelo acoplado minimal integrador {{stockName}} -->
+        {% if stock_feed['fp']|length > 0 -%}
+        <connection component_from="fp {{stockName}}" port_from="out" component_to="ft {{stockName}}" port_to="inPlus" />
+        {% endif -%}
+        {% if stock_feed['fm']|length > 0 -%}
+        <connection component_from="fm {{stockName}}" port_from="out" component_to="ft {{stockName}}" port_to="inMinus" />
+        {% endif -%}
+        <connection component_from="ft {{stockName}}" port_from="out" component_to="{{stockName}} Integrator" port_to="in" />
+        {% endfor -%}
+
+        {# Links entre integradores y los Fplus's y Fminus's que utilizan dichas variables -#}
+        <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
+        {% for param in stockNames -%}
+        {% for flowName, flow in flows_links.iteritems() -%}
+        {% if param in flow['params_function'] -%}
+        {% if flow['orig'] != None -%}
+        <connection component_from="{{param}} Integrator" port_from="out" component_to="fm {{flow['orig']}} - {{flowName}}" port_to="{{param}} Integrator" />
+        {% endif -%}
+        {% if flow['dest'] != None -%}
+        <connection component_from="{{param}} Integrator" port_from="out" component_to="fp {{flow['dest']}} - {{flowName}}" port_to="{{param}} Integrator" />
+        {% endif -%}
+        {% endif -%}
+        {% endfor -%}
+        {% endfor -%}
+      </internal_connections>
+
+      {# Links de Constantes (parametros) a los Atomicos Fplus's y Fminus's que utilizan dichas cte's -#}
+      <!-- Links inputs a constantes -->
+      <!-- external input -->
+      <external_input_connections>
+        {% for auxName, auxValue in aux_values.iteritems() -%}
+        <connection component_from="top" port_from="{{auxName}}" component_to="{{auxName}}" port_to="value" />
+        {% endfor %}
+      </external_input_connections>
+
+      <!-- external output -->
+      <external_output_connections />
+    </coupled>
+  </scenario>
+</devs>

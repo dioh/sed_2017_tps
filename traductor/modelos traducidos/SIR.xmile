@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<xmile xmlns="http://www.systemdynamics.org/XMILE" version="1.0" level="3">
+<xmile>
     <header>
-        <smile version="1.0"></smile>
-        <name>SIR</name>
-        <uuid>03ab2dd2-6655-4e16-98ab-cb95abef1af9</uuid>
         <vendor>El team</vendor>
+        <name>SIR</name>
         <product version="0.1">go-xmile</product>
     </header>
     <sim_specs time_units="Time">
@@ -17,39 +15,39 @@
     <equation_prefs xmlns="isee" order_by="module"></equation_prefs>
     <model>
         <variables>
-            <stock name="susceptible">
-                <eqn>total_population</eqn>
-                <outflow>succumbing</outflow>
+            <stock name="Susceptible">
+                <eqn>Total Population</eqn>
+                <outflow>Succumbing</outflow>
                 <units>people</units>
             </stock>
-            <stock name="infectious">
+            <stock name="Infectious">
                 <eqn>5</eqn>
-                <inflow>succumbing</inflow>
-                <outflow>recovering</outflow>
+                <inflow>Succumbing</inflow>
+                <outflow>Recovering</outflow>
                 <units>people</units>
             </stock>
-            <stock name="recovered">
+            <stock name="Recovered">
                 <eqn>0</eqn>
-                <inflow>recovering</inflow>
+                <inflow>Recovering</inflow>
                 <units>people</units>
             </stock>
-            <flow name="succumbing">
-                <eqn>susceptible*infectious/total_population*contact_infectivity</eqn>
+            <flow name="Succumbing">
+                <eqn>Susceptible*Infectious/Total Population*Contact Infectivity</eqn>
                 <units>person/time</units>
             </flow>
-            <flow name="recovering">
-                <eqn>infectious/duration</eqn>
+            <flow name="Recovering">
+                <eqn>Infectious/Duration</eqn>
                 <units>person/time</units>
             </flow>
-            <aux name="total_population">
+            <aux name="Total Population">
                 <eqn>1000</eqn>
                 <units>people</units>
             </aux>
-            <aux name="duration">
+            <aux name="Duration">
                 <eqn>5</eqn>
                 <units>days</units>
             </aux>
-            <aux name="contact_infectivity">
+            <aux name="Contact Infectivity">
                 <eqn>0.3</eqn>
             </aux>
         </variables>

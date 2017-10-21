@@ -5,12 +5,12 @@ components : int_susc@QSS1 int_inf@QSS1 int_recov@QSS1 fts@Ftot fms@FminusSuscep
 in : inDuration inContactInfectivity inTotalPopulation
 out : susceptible infected recovered
 
-% Links parametros a constantes
+% Links inputs a constantes
 link : inDuration inVal@duration
 link : inContactInfectivity inVal@contactInfectivity
 link : inTotalPopulation inVal@totalPopulation
 
-% Links constantes a modelo	
+% Links constantes a f's que las usan	
 link : out@duration inDuration@fmi
 link : out@contactInfectivity inContactInfectivity@fpi
 link : out@totalPopulation inTotalPopulation@fpi
@@ -44,6 +44,7 @@ link : out@int_susc susceptible
 link : out@int_inf infected
 link : out@int_recov recovered
 
+% Integradores
 [int_susc]
 x0 : 1000
 dQRel : 1e-2

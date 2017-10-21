@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0">
+<xmile>
     <header>
-        <vendor>El equipo</vendor>
+        <vendor>James Houghton</vendor>
         <name>Teacup</name>
         <options>
             <uses_outputs/>
@@ -16,6 +16,7 @@
     <model>
         <variables>
             <flow name="Heat Loss to Room">
+                <doc>Heat Loss to Room</doc>
                 <eqn>("Teacup Temperature"-"Room Temperature")/"Characteristic Time"</eqn>
             </flow>
             <aux name="Room Temperature">
@@ -23,11 +24,12 @@
                 <eqn>70</eqn>
             </aux>
             <stock name="Teacup Temperature">
+                <doc>The average temperature of the tea and the cup</doc>
                 <outflow>"Heat Loss to Room"</outflow>
                 <eqn>180</eqn>
             </stock>
             <aux name="Characteristic Time">
-                <eqn>100</eqn>
+                <eqn>10</eqn>
             </aux>
         </variables>
     </model>

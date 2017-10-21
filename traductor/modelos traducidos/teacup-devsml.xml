@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devs>
+  <scenario>
+    <coupled name="top" model="Coupled" >
+      <!-- Input / Output -->
+      <!-- Inputs -->
+      <inputs>
+        <port name="Characteristic Time" />
+        <port name="Room Temperature" />
+      </inputs>
+      <!-- Outputs -->
+      <outputs>
+      </outputs>
+      <components>
+
+        <!-- Stock : Teacup Temperature Integrator -->
+        <atomicRef name="ft Teacup Temperature" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inMinus" />
+          <port name="inPlus" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="Teacup Temperature Integrator" model="QSS1">
+          <parameter name="x0" value="80" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+
+        <!-- Flow : Heat Loss To Room -->
+        <atomicRef name="fm Teacup Temperature - Heat Loss to Room" model="Fminus">
+          <!-- Puertos del atomico -->
+          <port name="Teacup Temperature Integrator" type="in" />
+          <port name="Room Temperature" type="in" />
+          <port name="Characteristic Time" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="(Teacup Temperature-Room Temperature)/Characteristic Time" />
+        </atomicRef>
+
+        <!-- Parameters / Constantes -->
+        <atomicRef name="Characteristic Time" model="Cte">
+          <port name="value" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="10" />
+        </atomicRef>
+        <atomicRef name="Room Temperature" model="Cte">
+          <port name="value" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="70"/>
+        </atomicRef>
+
+      </components>
+      <internal_connections>
+
+        <!-- Puertos. Input: parametros. Output: variables de interes del modelo -->
+        <connection component_from="top" port_from="Room Temperature" component_to="Room Temperature" port_to="value" />
+        <connection component_from="top" port_from="Characteristic Time" component_to="Characteristic Time" port_to="value" />
+
+        <!-- Links parametros a constantes ==> (NO VAN ACA PERO SI EN EL .ma) -->
+        
+        <!-- Links modelo acoplado minimal integrador teacupTemperature -->
+        <connection component_from="fm Teacup Temperature - Heat Loss to Room" port_from="out" component_to="ft Teacup Temperature" port_to="inMinus" />
+        <connection component_from="ft Teacup Temperature" port_from="out" component_to="Teacup Temperature Integrator" port_to="in" />
+
+        <!-- Links modelo -->
+        <connection component_from="Teacup Temperature Integrator" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="Teacup Temperature Integrator" />
+      </internal_connections>
+
+      <!-- Links constantes a modelo -->
+      <!-- external input -->
+      <external_input_connections>
+        <!-- Cte : Room Temperature -->
+        <connection component_from="Room Temperature" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="Room Temperature"/>
+        <!-- Cte : Characteristic Time -->
+        <connection component_from="Characteristic Time" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="Characteristic Time"/>
+      </external_input_connections>
+
+      <!-- external output -->
+      <external_output_connections />
+    </coupled>
+  </scenario>
+  <models />
+</devs>

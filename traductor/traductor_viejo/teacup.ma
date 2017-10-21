@@ -23,6 +23,7 @@ link : out@intTeacupTemperature inTeacupTemperature@fmTeacupTemperature
 % Links output variables de interes
 link : out@intTeacupTemperature tempTeacup
 
+% Integradores
 [intTeacupTemperature]
 x0 : 80
 dQRel : 1e-2

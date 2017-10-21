@@ -28,39 +28,12 @@
                 <connect to="size_of_one_time_lynx_harvest" from=".size_of_one_time_lynx_harvest"></connect>
             </module>
             <aux name="area">
-                <eqn>1000 </eqn>
+                <eqn>1000</eqn>
             </aux>
             <aux name="size_of_one\ntime_lynx_harvest">
-                <eqn>100 </eqn>
+                <eqn>100</eqn>
             </aux>
         </variables>
-        <views>
-            <view scroll_x="0" scroll_y="0" zoom="200" converter_size="medium">
-                <connector x="106" y="105" color="#FF007F" uid="0">
-                    <from>hares</from>
-                    <to>lynxes</to>
-                </connector>
-                <connector x="98" y="159" color="#FF007F" uid="1">
-                    <from>area</from>
-                    <to>hares</to>
-                </connector>
-                <connector x="248" y="67" color="#FF007F" uid="2">
-                    <from>lynxes</from>
-                    <to>hares</to>
-                </connector>
-                <connector x="257" y="158" color="#FF007F" uid="3">
-                    <from>size_of_one_time_lynx_harvest</from>
-                    <to>lynxes</to>
-                </connector>
-                <module x="88" y="85" color="blue" name="hares"></module>
-                <module x="273" y="85" color="blue" name="lynxes"></module>
-                <aux x="100" y="168" color="blue" name="area"></aux>
-                <aux x="256" y="167" color="blue" name="size_of_one\ntime_lynx_harvest"></aux>
-            </view>
-            <view name="interface" scroll_x="0" scroll_y="0" zoom="0" page_width="800" page_height="600">
-                <simulation_delay>0.0690335</simulation_delay>
-            </view>
-        </views>
     </model>
     <model name="hares">
         <variables>
@@ -101,59 +74,6 @@
                 </gf>
             </aux>
         </variables>
-        <views>
-            <view scroll_x="54" scroll_y="35" zoom="200" converter_size="medium">
-                <connector x="73" y="160" color="#FF007F" uid="4">
-                    <from>birth_fraction</from>
-                    <to>births</to>
-                </connector>
-                <connector x="210" y="171" color="#FF007F" uid="5">
-                    <from>hare_density</from>
-                    <to>hares_killed_per_lynx</to>
-                </connector>
-                <connector x="275" y="155" color="#FF007F" uid="6">
-                    <from>hares_killed_per_lynx</from>
-                    <to>deaths</to>
-                </connector>
-                <connector x="182" y="112" color="#FF007F" uid="7">
-                    <from>hares</from>
-                    <to>hare_density</to>
-                </connector>
-                <connector x="331" y="159" color="#FF007F" uid="8">
-                    <from>lynxes</from>
-                    <to>deaths</to>
-                </connector>
-                <connector x="184" y="78" color="#FF007F" uid="9">
-                    <from>hares</from>
-                    <to>births</to>
-                </connector>
-                <connector x="155" y="212" color="#FF007F" uid="10">
-                    <from>area</from>
-                    <to>hare_density</to>
-                </connector>
-                <stock x="204" y="95" color="blue" name="hares"></stock>
-                <flow x="121" y="94" color="blue" name="births">
-                    <pts>
-                        <pt x="61" y="94"></pt>
-                        <pt x="182" y="94"></pt>
-                    </pts>
-                </flow>
-                <flow x="291" y="94" color="blue" name="deaths">
-                    <pts>
-                        <pt x="226" y="94"></pt>
-                        <pt x="357" y="94"></pt>
-                    </pts>
-                </flow>
-                <aux x="68" y="167" color="blue" name="birth_fraction"></aux>
-                <aux x="148" y="218" color="blue" name="area"></aux>
-                <aux x="202" y="167" color="blue" name="hare_density"></aux>
-                <stock x="342" y="176" color="blue" name="lynxes"></stock>
-                <aux x="273" y="164" color="blue" name="hares_killed\nper_lynx"></aux>
-            </view>
-            <view name="interface" scroll_x="0" scroll_y="0" zoom="0" page_width="800" page_height="600">
-                <simulation_delay>0.0690335</simulation_delay>
-            </view>
-        </views>
     </model>
     <model name="lynxes">
         <variables>
