@@ -47,7 +47,7 @@ link : out@int_inf infected
 link : out@int_recov recovered
 
 [int_susc]
-x0 : 1000
+x0 : 995
 dQRel : 1e-2
 dQMin : 1e-4
 

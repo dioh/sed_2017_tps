@@ -14,9 +14,9 @@ FminusLynx::FminusLynx(const string &name) :
 	Atomic(name),
 	inLynx(addInputPort("inLynx")),
 	inLynxDeathRate(addInputPort("inLynxDeathRate")),
-	out(addOutputPort("out")),
 	isSetLynx(false),
-	isSetLynxDeathRate(false)
+	isSetLynxDeathRate(false),
+	out(addOutputPort("out"))
 {
 }
 

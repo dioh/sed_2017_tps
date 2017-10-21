@@ -1,6 +1,6 @@
 [logfiles]
 ParallelRoot : log00 
-top : log13 
+top : log16 
 int_susc : log01 
 int_inf : log02 
 int_recov : log03 
@@ -13,3 +13,6 @@ fmi : log09
 ftr : log10 
 fpr : log11 
 fmr : log12 
+duration : log13 
+contactinfectivity : log14 
+totalpopulation : log15 
