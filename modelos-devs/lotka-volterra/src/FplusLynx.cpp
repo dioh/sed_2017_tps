@@ -15,10 +15,10 @@ FplusLynx::FplusLynx(const string &name) :
 	inLynx(addInputPort("inLynx")),
 	inHares(addInputPort("inHares")),
 	inLynxBirthRate(addInputPort("inLynxBirthRate")),
-	out(addOutputPort("out")),
 	isSetLynx(false),
 	isSetHares(false),
-	isSetLynxBirthRate(false)
+	isSetLynxBirthRate(false),
+	out(addOutputPort("out"))
 {
 }
 

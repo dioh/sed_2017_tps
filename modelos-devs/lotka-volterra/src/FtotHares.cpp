@@ -30,12 +30,12 @@ Model &FtotHares::initFunction()
 
 Model &FtotHares::externalFunction(const ExternalMessage &msg)
 {
-	double f = 0.5;
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
 	if(msg.port() == inPlus) {
 		plus = x;
-	} else if (msg.port() == inMinus) {
+	}
+	if (msg.port() == inMinus) {
 		minus = x;
 	}
 	holdIn(AtomicState::active, VTime::Zero);

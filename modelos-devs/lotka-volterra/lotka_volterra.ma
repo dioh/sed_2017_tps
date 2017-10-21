@@ -40,11 +40,11 @@ link : out@int_lynx lynx
 link : out@int_hares hares
 
 [int_hares]
-x0 : 34
+x0 : 250
 dQRel : 1e-2
 dQMin : 1e-4
 
 [int_lynx]
-x0 : 4
+x0 : 100
 dQRel : 1e-2
 dQMin : 1e-4

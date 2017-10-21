@@ -115,7 +115,7 @@ class TestXmileConverterTeacup(unittest.TestCase):
         devsml_doc = devsml_from_xmile('./teacup.xmile')
 
         # TODO: Revisar como validar el documento esperado vs lo obtenido
-        # Este metodo falla con tails con datos vacío.
+        # Este metodo falla con tails con datos vacio.
         self.assertTrue(elements_equal(expected_doc.getroot(), devsml_doc),
                         show_first_elements_diff(expected_doc.getroot(),
                                                  devsml_doc))
