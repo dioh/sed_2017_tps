@@ -148,45 +148,70 @@ Para poder generar los archivos .ma, .h y .cpp que mencionamos en la sección an
 
 % TODO
 \subsection{Modelo Formal}
-A continuación, exponemos formalmente los modelos atómicos utilizados en el acoplado Top, con la descripción de su comportamiento interno.
+Primero mostramos formalmente los modelos atómicos utilizados en el acoplado Top, con la descripción de su comportamiento interno.
 \begin{itemize}
-\item \textbf{Cte} : $ roomTemperature \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+
+\item \textbf{Cte} : $ roomTemperature, characteristicTime \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
 $ X = \{ inValue \} $ \newline
 $ S = \{ value \} $ \newline
 $ Y = \{ out \} $ \newline
-$ \delta_{int}(\langle value \rangle, e, x) = \{ \} $ \newline
-$ \delta_{ext} = \{ value := xxx \} $ \newline
-$ t_{a}(s) = \{ \} $ 
-\item \textbf{Cte} : $ characteristicTime \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ inValue \} $ \newline
-$ S = \{ value \} $ \newline
-$ Y = \{ out \} $ \newline
-$ \delta_{int} = \{ \} $ \newline
-$ \delta_{ext} = \{ value := xxx \} $ \newline
-$ t_{a}(s) = \{ \} $ 
+$ \delta_{int}(\langle value \rangle) = \emptyset $ \newline
+$ \delta_{ext} (\langle value \rangle, e, x)= \{ value := x.value \} $ \newline
+$ \lambda(\langle value \rangle, out) = value $ \newline
+$ t_{a}(s) = \infty $ 
+
 \item \textbf{Fminus} : $ fmTeacupTemperatureHeatLossToRoom \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ \} $ \newline
-$ S = \{ \} $ \newline
-$ Y = \{ \} $ \newline
-$ \delta_{int} = \{ \} $ \newline
-$ \delta_{ext} = \{ \} $ \newline
-$ t_{a} = \{ \} $ 
+$ X = \{ inRoomTemperature, inCharacteristicTime, inTeacupTemperatureIntegrator \} $ \newline
+$ S = \{ roomTemperature, characteristicTime, teacupTemperatureIntegrator, isSetRoomTemperature, \newline isSetCharacteristicTime, isSetTeacupTemperatureIntegrator \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(s) = \emptyset $ \newline
+$ \delta_{ext}(s, e, x) = \{
+	\\if (x.port = inRoomTemperatureroomTemperature) roomTemperature := x.value; isSetRoomTemperature := true
+	\\if (x.port = inCharacteristicTime) characteristicTime := x.value; isSetCharacteristicTime := true
+	\\if (x.port = inTeacupTemperatureIntegrator) teacupTemperatureIntegrator = x.value; \\isSetTeacupTemperatureIntegrator := true 
+	\} $ \newline
+$ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
+\\(teacupTemperatureIntegrator-roomTemperature)/characteristicTime\} \ else \ \emptyset$ \newline
+$ t_{a} = \infty $ 
+
 \item \textbf{Ftot} : $ ftTeacupTemperature \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ \} $ \newline
-$ S = \{ \} $ \newline
-$ Y = \{ \} $ \newline
-$ \delta_{int} = \{ \} $ \newline
-$ \delta_{ext} = \{ \} $ \newline
-$ t_{a} = \{ \} $ 
+$ X = \{ inMinusHeatLossToRoom \} $ \newline
+$ S = \{ plus, minus \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(\langle plus, minus \rangle) = \emptyset $ \newline
+$ \delta_{ext}(\langle plus, minus \rangle, e, x) = \{ 
+	\\if (x.port = inPlus) plus := x.value
+	\\if (x.port == inMinusHeatLossToRoom) minus := x.value
+	\} $ \newline
+$ \lambda(\langle plus, minus \rangle, out) = (plus - minus) $ \newline
+$ t_{a} = \infty $ 
+
 \item \textbf{QSS1} : $ teacupTemperatureIntegrator \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ \} $ \newline
-$ S = \{ \} $ \newline
-$ Y = \{ \} $ \newline
-$ \delta_{int} = \{ \} $ \newline
-$ \delta_{ext} = \{ \} $ \newline
-$ t_{a} = \{ \} $ 
+$ X = \{ in \} $ \newline
+$ S = \{ ? \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(s) = \{ ? \} $ \newline
+$ \delta_{ext}(s, e, x) = \{ ? \} $ \newline
+$ \lambda(s) = ? $ \newline
+$ t_{a} = \{ ? \} $ 
 \end{itemize}
 
+Ahora que ya tenemos lo atómicos, expresamos el acoplado que utiliza a los atómicos expuestos más arriba:
+\begin{itemize}
+\item $ Top \rightarrow \langle X, Y, \{ M_{1}, M_{2}, M_{3}, M_{4}, M_{5} \}, C_{xx}, C_{yx}, C_{yy}, Select \rangle$ \newline
+$ X = \{ \} $ \newline
+$ Y = \{ \} $ \newline
+$ M_{1} = roomTemperature $ \newline
+$ M_{2} = characteristicTime $ \newline
+$ M_{3} = fmTeacupTemperatureHeatLossToRoom$ \newline
+$ M_{4} = ftTeacuptTemperature $ \newline
+$ M_{5} = teacupTemperatureIntegrator $ \newline
+$ C_{xx} = $ \{ \} \newline
+$ C_{yx} = \{ (M_{1}.!out, M_{3}.?inRoomTemperture), (M_{2}.!out, M_{3}.?inCharacteristicTime), \\
+(M_{5}.!out, M_{3}.?inTecupTemperatureIntegrator), (M_{3}.!out, M_{4}.?inMinusHeatLossToRoom), \\
+(M_{4}.!out, M_{5}.?in) \} $ \newline
+$ C_{yy} = \{ \} $ \newline
+\end{itemize}
 % TODO
 \subsection{Propuesta de algoritmo traductor}
 A continuación, y basándonos en lo aprendido durante la construcción del traductor para el modelo Teacup, detallaremos un algoritmo inicial y muy básico que pensamos debería servir para traducir archivos .xmile a archivos .devsml, a partir de la captura de toda la información relevante contenida en el archivo .xmile.
