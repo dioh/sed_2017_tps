@@ -1,12 +1,24 @@
-Para comenzar el proceso del desarrollo del traductor del que se habló en las secciones anteriores, decidimos basarnos en 3 (tres) modelos clásicos implementados en System Dynamics. Estos son: el modelo \textbf{Teacup} (modela una taza de café en una habitación, que se enfría progresivamente hasta alcanzar la temperatura ambiente), el modelo \textbf{SIR} (modela una población que sucumbe ante una infección que se propaga en la misma, y posteriormente se va recuperando, hasta que no queda ningún infectado), y el modelo \textbf{Lotka-Volterra} (modela el proceso de nacimientos y decesos de un población de linces y liebres, que interactúan entre sí con una dinámica de presa-depredador).
+Para desarrollar el traductor de xmile a devsml, del cual se habló en las secciones anteriores, decidimos basarnos en 3 (tres) modelos clásicos implementados en System Dynamics. 
 
-Mediante el estudio de estos tres problemas, analizamos cómo los diferentes elementos de cada archivo xmile pueden ser traducidos a elementos de un modelo acoplado DEVS (expresado en formato DEVSML), de forma tal que esta traducción, al ser ejecutada (en este caso en el simulador CD++), replique los resulados que se obtienen simulando el modelo original en simuladores se SD.
+Estos modelos son: 
+\begin{description}
+	\item[Teacup] que modela una taza de café en una habitación, que se enfría progresivamente hasta alcanzar la temperatura ambiente
+	\item[SIR] 	que modela una población que sucumbe ante una infección que se propaga en la misma, y posteriormente se va recuperando, hasta que no queda ningún infectado
+	\item[Lotka-Volterra] que modela el proceso de nacimientos y decesos de un población de linces y liebres, que interactúan entre sí con una dinámica de presa-depredador
+\end{description}
 
-A continuación, exponemos cada uno de los modelos mencionados, mencionando cómo nos ayudaron en el desarrollo del traductor. Aprovecharemos que el modelo Teacup traducido contiene pocos archivos para mostrar el código generado, por el traductor, mientras que para la exposición del comportamiento de los otros modelos cuya traducción genera una mayor cantidad de archivos, utilizaremos el lenguage formal típico con que se expresan modelos DEVS.
+Mediante el estudio de estos tres modelos, analizamos cómo los diferentes elementos de cada archivo xmile pueden ser traducidos a un modelo acoplado en DEVS (expresado como un archivo xml con formato DEVSML), de forma tal que esta traducción pueda ser ejecutada (en este caso utilizando el simulador CD++) y pueda verse que replica los resultados que se obtienen con simuladores de System Dynamics.
+
+A continuación, exponemos cada uno de los modelos mencionados, mencionando cómo nos ayudaron en el desarrollo del traductor. 
+
+Aprovecharemos que el modelo Teacup traducido contiene pocos archivos para mostrar el código generado, por el traductor, mientras que para la exposición del comportamiento de los otros modelos cuya traducción genera una mayor cantidad de archivos, utilizaremos el lenguage formal típico con que se expresan modelos DEVS.
 
 \subsection{Modelo Teacup}
 \subsubsection{Modelo gráfico}
-Como se puede observar en la figura \ref{fig:Teacup_sd} se cuenta con 1 (un) stock, que llamamos \textit{Teacup Temperature}, 2 (dos) constantes auxiliares (\textit{Room Temperature} y \textit{Characteristic Time}) y un flujo de salida (outflow) denominado \textit{Heat Loss to Room} con origen el stock \textit{Teacup Temperature} y destino vacío. Las flechas negras indican que el flujo de salida proveniente de \textit{Teacup Temperature} utiliza dicha constantes auxiliares en su función interna para determinar el valor de dicho flujo de salida en cada instante en el tiempo. La flecha azul, indica que dicha función también utiliza el valor del stock \textit{Teacup Temperature} para hacer este cálculo. 
+Como se puede observar en la figura \ref{fig:Teacup_sd} este cuenta con 1 (un) stock para modelar la temperatura de la taza, que llamamos \textit{Teacup Temperature}, 2 (dos) auxiliares, que en este caso son constantes, pero podrían ser funciones, una para la temperatura del cuarto, (\textit{Room Temperature}, y otra para el tiempo característico, \textit{Characteristic Time}), y un flujo de salida (outflow) para la perdida de calor de la taza hacia el cuarto,\textit{Heat Loss to Room}, con origen el stock \textit{Teacup Temperature} y destino vacío. 
+
+Las flechas negras indican que el flujo de salida proveniente de \textit{Teacup Temperature} utiliza dicha constantes auxiliares en su función interna para determinar el valor de dicho flujo de salida en cada instante en el tiempo. La flecha azul, indica que dicha función también utiliza el valor del stock \textit{Teacup Temperature} para hacer este cálculo. 
+
 \begin{figure}[!h]
 \centering
 \includegraphics[scale=0.5]{imagenes/Teacup_sd.jpg}
@@ -21,7 +33,11 @@ Como se puede observar en la figura \ref{fig:Teacup_sd} se cuenta con 1 (un) sto
 \label{fig:Teacup_xmile}
 \end{figure}
 
-Como se puede observar en la figura \ref{fig:Teacup_xmile}, se utilizan tres tags distintos para los flujos de output e inflow (el tag \textbf{flow}), para las constantes auxiliares (el tag \textbf{aux}) y para los stocks (el tag \textbf{stock}). Asimismo, en cada flujo, se utiliza un tag \textbf{eqn} para mostrar la función utilizada por dicho \textit{flow} (que puede ser tanto de input ó output) para agregarle o quitarle respectivamente unidades al stock sobre el cuál operan. Por otro lado, observamos que en los stocks y variables auxiliares se utiliza el tag \textbf{eqn} para mostrar el valor inicial de dicho stock ó variable auxiliar. Vale la pena aclarar aquí que en el caso de la variable auxiliar, esta podría ser tanto constante como variable. En este caso en particular, las variables auxiliares son todas constantes, con lo cuál en el tag \textbf{eqn} el valor inicial que figura en dicho tag también es el mismo valor que tendrá dicha variable durante toda la simulación. 
+Como se puede observar en la figura \ref{fig:Teacup_xmile}, se utilizan distintos tags para los elementos de System Dynamics, uno para los flujos de output e inflow (el tag \textbf{flow}), otro para las constantes auxiliares (el tag \textbf{aux}) y otro para los stocks (el tag \textbf{stock}). 
+
+Asimismo, en cada flujo, se utiliza un tag \textbf{eqn} para mostrar la función utilizada por dicho \textit{flow} (que puede ser tanto de input ó output) para agregarle o quitarle respectivamente unidades al stock sobre el cuál operan. 
+
+Observamos que en los stocks y variables auxiliares se utiliza el tag \textbf{eqn} para mostrar el valor inicial de dicho stock ó variable auxiliar. En este caso, las variables auxiliares son todas constantes, con lo cuál en el tag \textbf{eqn} contiene el valor que se mantendrá igual durante toda la simulación.
 
 A partir de estas observaciones, decidimos representar este mismo modelo en el formalismo DEVS, de la forma en que se muestra en el diagrama de la figura \ref{fig:Teacup_devs_flattened}
 
@@ -32,7 +48,12 @@ A partir de estas observaciones, decidimos representar este mismo modelo en el f
 \label{fig:Teacup_devs_flattened}
 \end{figure}
 
-En el diagrama de la figura \ref{fig:Teacup_devs_flattened} se debe observar lo siguiente: a cada tag \textbf{stock} corresponden: 1 (un) atómico de nombre \textit{nombreStock + Integrator} y 1 (un) atómico Ftot, que acumula todos los inflows y outflows que operan sobre dicho stock para luego efectuar el cálculo final (que es una resta) entre los inflows y los outflows, para determinar la variación de unidades que tendrá dicho stock. 
+En el diagrama de la figura \ref{fig:Teacup_devs_flattened} se puede observar lo siguiente: el \textbf{stock} se corresponde en el modelo DEVS con dos atómicos.
+
+\begin{itemize}
+	\item Un integrador QSS1 de nombre \textit{"Teacup Temperature Integrator"} (\texttt{nombreStock + Integrator})
+	\item Un atómico Ftot que determina la variación de unidades que tendrá dicho stock, utilizando todos los inflows y outflows que operan sobre dicho stock ($\sum inflows - \sum outflows $). 
+\end{itemize}
 
 Por otro lado, a cada flujo (en este caso \textit{Heat Loss to Room} corresponden: 1 (un) atómico de nombre \textit{Fminus + nombre del stock sobre el que opera restándole unidades + nombreFlujo}, cuyo output llega a la Ftot correspondiente al integrador sobre el que este opera restándole unidades; y 1 (un) atómico de nombre \textit{Fplus + nombre del stock sobre el que opera sumándole unidades + nombreFlujo}. En el ejemplo de la figura \ref{fig:Teacup_devs_flattened}, el flujo Fplus no tiene sentido ser, porque no hay ningún inflow que actúe sobre el stock \textit{Teacup Temperature}. Es por esto que lo marcamos en rojo para evidenciar que este stock no debería estar ahí porque no tiene ningún rol en el modelo. 
 
