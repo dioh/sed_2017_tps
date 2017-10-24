@@ -141,6 +141,9 @@ ENV/
 # CD++
 cd++
 
+# PDF Informe
+tp1/informe/**/*.pdf
+
 # LATEX
 ## Core latex/pdflatex auxiliary files:
 *.aux
