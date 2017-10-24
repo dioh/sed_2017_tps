@@ -1,0 +1,13 @@
+% TODO Extender el algoritmo
+\subsection{Propuesta de algoritmo traductor}
+A continuación, y basándonos en lo aprendido durante la construcción del traductor para el modelo Teacup, detallaremos un algoritmo inicial y muy básico que pensamos debería servir para traducir archivos .xmile a archivos .devsml, a partir de la captura de toda la información relevante contenida en el archivo .xmile.
+
+En esta versión inicial, nos restringimos a traducir a modelos DEVS aplanados solamente. De esta manera, se simplifican algunos detalles de la implementación del traductor. Además de estos, nos restringimos a archivos .xmile que también estén aplanados. Es decir, no lidiamos con la presencia de diferentes módulos con modelos internos, y la interacción de los modelos internos a través de los módulos en lugar de directamente. De este problema nos encargaremos más adelante, cuando estudiemos el modelo Lotka-Volterra.
+
+Para este fin, dividiremos la explicación del algoritmo en partes, para explicar las figuras \ref{fig:Teacup_devsml_components}, \ref{fig:Teacup_devsml_stocks}, \ref{fig:Teacup_devsml_internal_connections}, \ref{fig:Teacup_devsml_external_connections} y \ref{fig:Teacup_devsml_ports}, explicando como cada una de estas se corresponde con las líneas del archivo .ma expuesto en la figura \ref{fig:Teacup_ma}.
+
+\subsubsection{Traducción de \textbf{Stocks}}
+\subsubsection{Traducción de \textbf{Flows}}
+\subsubsection{Generación de puertos es E/S del modelo DEVS}
+\subsubsection{Generación de conexiones internas del modelo DEVS}
+\subsubsection{Generación de conexiones externas del modelo DEVS}

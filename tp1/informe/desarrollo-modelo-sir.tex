@@ -1,0 +1,43 @@
+% TODO
+\subsubsection{Modelo gráfico}
+En la figura \ref{fig:SIR_devs_flattened} se observa en color azul los atómicos Fplus y Fminus asociados al flujo \textit{Succumbing}, mientras que en naranja se observan los atómicos Fplus y Fminus asociados al flujo \textit{Recovering}. En violeta se pueden ver las conexiones que representan de qué manera los diferentes atómicos correspondientes a cada uno de los flujos utilizan para realizar sus cálculos internos el output de \textit{InfectedIntegrator}, correspondiéndose cada una de estas flechas con una de las flechas del modelo gráfico mostrado en la figura \ref{fig:SIR_sd}. Como ya explicamos anteriormente, en este ejemplo sólo trabajaremos con la versión aplanada del modelo DEVS, para simplificar levemente el problema de traducción. 
+
+Nuevamente, dejamos en rojo los atómicos que no tienen cabida en el modelo, pero que igualmente exponemos, para dejar explícito que esos atómicos podrían estar si hubiera un inflow/outflow que se les corresponda, pero que en este ejemplo no lo están.
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{imagenes/SIR_sd.jpg}
+\caption{Modelo SIR expresado en System Dynamics en formato gráfico}
+\label{fig:SIR_sd}
+\end{figure}
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{imagenes/SIR_devs_flattened.jpg}
+\caption{Modelo SIR expresado en DEVS en formato gráfico}
+\label{fig:SIR_devs_flattened}
+\end{figure}
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{imagenes/SIR_devs.jpg}
+\caption{Modelo SIR expresado en DEVS en formato gráfico con varios niveles de acoplamiento}
+\label{fig:SIR_devs}
+\end{figure}
+% TODO
+\subsubsection{Modelo formal}
+A continuación, exponemos formalmente los modelos atómicos utilizados en el acoplado Top, con la descripción de su comportamiento interno.
+\begin{itemize}
+\item \textbf{Cte} : $ totalPopulation \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Cte} : $ contactInfectivity \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Cte} : $ duration \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Fminus} : $ fmSusceptiblesSuccumbing \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Ftot} : $ ftSusceptibles \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{QSS1} : $ susceptiblesIntegrator \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Fplus} : $ fpInfectedSuccumbing \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Fminus} : $ fmInfectedRecovering \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Ftot} : $ ftInfected \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{QSS1} : $ infectedIntegrator \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Fplus} : $ fpRecoveredRecovering \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{Ftot} : $ ftRecovered \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\item \textbf{QSS1} : $ recoveredIntegrator \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
+\end{itemize}
+
+\subsubsection{Generación de modelo ejecutable en CD++}
