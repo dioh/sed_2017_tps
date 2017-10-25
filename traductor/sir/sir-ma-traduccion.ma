@@ -1,5 +1,5 @@
 [top]
-components : infectiousIntegrator@QSS1 susceptibleIntegrator@QSS1 recoveredIntegrator@QSS1 ftSusceptible@Ftot ftInfectious@Ftot ftRecovered@Ftot fpInfectious@FplusInfectious fpRecovered@FplusRecovered fmSusceptible@FminusSusceptible fmInfectious@FminusInfectious duration@Cte totalPopulation@Cte contactInfectivity@Cte 
+components : infectiousIntegrator@QSS1 susceptibleIntegrator@QSS1 recoveredIntegrator@QSS1 ftSusceptible@Ftot ftInfectious@Ftot ftRecovered@Ftot fpRecoveredRecovering@FplusRecoveredRecovering fpInfectiousSuccumbing@FplusInfectiousSuccumbing fmInfectiousRecovering@FminusInfectiousRecovering fmSusceptibleSuccumbing@FminusSusceptibleSuccumbing duration@Cte totalPopulation@Cte contactInfectivity@Cte 
 
 % Puertos: Input de parametros. Output de variables de interes
 in : inDuration inTotalPopulation inContactInfectivity 
@@ -12,12 +12,12 @@ link : inTotalPopulation inValue@totalPopulation
 link : inContactInfectivity inValue@contactInfectivity
 
 % Links constantes a f's que las usan
-link : out@duration inDuration@fmInfectious
-link : out@duration inDuration@fpRecovered
-link : out@totalPopulation inTotalPopulation@fmSusceptible
-link : out@totalPopulation inTotalPopulation@fpInfectious
-link : out@contactInfectivity inContactInfectivity@fmSusceptible
-link : out@contactInfectivity inContactInfectivity@fpInfectious
+link : out@duration inDuration@fmInfectiousRecovering
+link : out@duration inDuration@fpRecoveredRecovering
+link : out@totalPopulation inTotalPopulation@fmSusceptibleSuccumbing
+link : out@totalPopulation inTotalPopulation@fpInfectiousSuccumbing
+link : out@contactInfectivity inContactInfectivity@fmSusceptibleSuccumbing
+link : out@contactInfectivity inContactInfectivity@fpInfectiousSuccumbing
 
 % Links acoplado minimal integrador Susceptible
 link : out@fmSusceptible inMinus@ftSusceptible
@@ -31,12 +31,12 @@ link : out@fpRecovered inPlus@ftRecovered
 link : out@ftRecovered in@recoveredIntegrator
 
 % Links modelo
-link : out@susceptibleIntegrator inSusceptibleIntegrator@fmSusceptible
-link : out@susceptibleIntegrator inSusceptibleIntegrator@fpInfectious
-link : out@infectiousIntegrator inInfectiousIntegrator@fmSusceptible
-link : out@infectiousIntegrator inInfectiousIntegrator@fpInfectious
-link : out@infectiousIntegrator inInfectiousIntegrator@fmInfectious
-link : out@infectiousIntegrator inInfectiousIntegrator@fpRecovered
+link : out@susceptibleIntegrator inSusceptibleIntegrator@fmSusceptibleSuccumbing
+link : out@susceptibleIntegrator inSusceptibleIntegrator@fpInfectiousSuccumbing
+link : out@infectiousIntegrator inInfectiousIntegrator@fmSusceptibleSuccumbing
+link : out@infectiousIntegrator inInfectiousIntegrator@fpInfectiousSuccumbing
+link : out@infectiousIntegrator inInfectiousIntegrator@fmInfectiousRecovering
+link : out@infectiousIntegrator inInfectiousIntegrator@fpRecoveredRecovering
 
 % Liks output variables de interes
 link : out@susceptibleIntegrator outSusceptible 

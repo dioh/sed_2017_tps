@@ -1,18 +1,18 @@
-#ifndef _{{stockName}}_H_
-#define _{{stockName}}_H_
+#ifndef _{{model}}_H_
+#define _{{model}}_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
-#define {{stockNameConstant}} "{{stockName}}"
+#define {{modelUpper}} "{{model}}"
 
-class {{stockName}} : public Atomic {
+class {{model}} : public Atomic {
   public:
     
-    {{stockName}}(const string &name = {{stockNameConstant}} );
-    virtual string className() const {  return {{stockNameConstant}} ;}
+    {{model}}(const string &name = {{modelUpper}} );
+    virtual string className() const {  return {{modelUpper}} ;}
   
   protected:
     Model &initFunction();
@@ -22,20 +22,20 @@ class {{stockName}} : public Atomic {
 
   private:
     // Input ports
-    {% for inPort in inPorts -%}
+    {% for inPort in ports -%}
     const Port &{{inPort}};
     {% endfor -%}
     // Output ports
     Port &out;
 
     // State variables
-    {% for var in variables -%}
+    {% for var, port in params_ports.iteritems() -%}
     double {{var}};
     {% endfor -%}
     //
     // Check set of state variables
-    {% for setVar in setVariables -%}
-    bool {{setVar}};
+    {% for var, port in params_ports.iteritems() -%}
+    bool isSet_{{var}};
     {% endfor -%}
     //
 };

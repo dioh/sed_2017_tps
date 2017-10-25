@@ -1,18 +1,18 @@
-#ifndef _FplusRecovered_H_
-#define _FplusRecovered_H_
+#ifndef _FminusInfectiousRecovering_H_
+#define _FminusInfectiousRecovering_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
-#define FPLUSRECOVERED "FplusRecovered"
+#define FMINUSINFECTIOUSRECOVERING "FminusInfectiousRecovering"
 
-class FplusRecovered : public Atomic {
+class FminusInfectiousRecovering : public Atomic {
   public:
     
-    FplusRecovered(const string &name = FPLUSRECOVERED );
-    virtual string className() const {  return FPLUSRECOVERED ;}
+    FminusInfectiousRecovering(const string &name = FMINUSINFECTIOUSRECOVERING );
+    virtual string className() const {  return FMINUSINFECTIOUSRECOVERING ;}
   
   protected:
     Model &initFunction();
@@ -22,8 +22,8 @@ class FplusRecovered : public Atomic {
 
   private:
     // Input ports
-    const Port &inInfectiousIntegrator;
-    const Port &inDuration;
+    const Port &in_infectiousIntegrator;
+    const Port &in_duration;
     // Output ports
     Port &out;
 
@@ -32,8 +32,8 @@ class FplusRecovered : public Atomic {
     double duration;
     //
     // Check set of state variables
-    bool isSetInfectiousIntegrator;
-    bool isSetDuration;
+    bool isSet_infectiousIntegrator;
+    bool isSet_duration;
     //
 };
 

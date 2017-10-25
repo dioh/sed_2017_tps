@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version=1.0 encoding=UTF-8 standalone=yes?>
 <xmile>
     <header>
         <vendor>James Houghton</vendor>
@@ -6,7 +6,7 @@
         <options>
             <uses_outputs/>
         </options>
-        <product version="1.0">Hand Coded XMILE</product>
+        <product version=1.0>Hand Coded XMILE</product>
     </header>
     <sim_specs>
         <stop>30.0</stop>
@@ -15,20 +15,20 @@
     </sim_specs>
     <model>
         <variables>
-            <flow name="Heat Loss to Room">
+            <flow name=Heat Loss to Room>
                 <doc>Heat Loss to Room</doc>
                 <eqn>(Teacup Temperature-Room Temperature)/Characteristic Time</eqn>
             </flow>
-            <aux name="Room Temperature">
+            <aux name=Room Temperature>
                 <doc>Ambient Room Temperature</doc>
                 <eqn>70</eqn>
             </aux>
-            <stock name="Teacup Temperature">
+            <stock name=Teacup Temperature>
                 <doc>The average temperature of the tea and the cup</doc>
                 <outflow>Heat Loss to Room</outflow>
                 <eqn>180</eqn>
             </stock>
-            <aux name="Characteristic Time">
+            <aux name=Characteristic Time>
                 <eqn>10</eqn>
             </aux>
         </variables>

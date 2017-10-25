@@ -1,5 +1,5 @@
-#ifndef _Ftot_H_
-#define _Ftot_H_
+#ifndef _Cte_H_
+#define _Cte_H_
 
 #include <random>
 
@@ -7,14 +7,14 @@
 #include "VTime.h"
 
 
-#define FTOT "Ftot"
+#define CTE "Cte"
 
 
-class Ftot : public Atomic {
+class Cte : public Atomic {
   public:
     
-    Ftot(const string &name = FTOT );
-    virtual string className() const {  return FTOT ;}
+    Cte(const string &name = CTE );
+    virtual string className() const {  return CTE ;}
   
   protected:
     Model &initFunction();
@@ -23,10 +23,10 @@ class Ftot : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &inPlus, &inMinus;
+    const Port &inVal;
     Port &out;
 
-    double plus, minus;
+    double val;
 };
 
 #endif

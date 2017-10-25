@@ -12,8 +12,9 @@ using namespace std;
 
 Cte::Cte(const string &name) :
 	Atomic(name),
-	inValue(addInputPort("inValue")),
-	out(addOutputPort("out"))
+	inVal(addInputPort("inVal")),
+	out(addOutputPort("out")),
+	val(-1)
 {
 }
 
@@ -27,9 +28,9 @@ Model &Cte::initFunction()
 
 Model &Cte::externalFunction(const ExternalMessage &msg)
 {
-	double x = Tuple<Real>::from_value(msg.value())[0].value();
-	if(msg.port() == inValue) {
-		value = x;
+	double x = Tuple<Real>::from_value(msg.value())[0].	value();
+	if(msg.port() == inVal) {
+		val = x;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -45,7 +46,7 @@ Model &Cte::internalFunction(const InternalMessage &)
 
 Model &Cte::outputFunction(const CollectMessage &msg)
 {
-	Tuple<Real> out_value { value };
+	Tuple<Real> out_value { val };
 	sendOutput(msg.time(), out, out_value);
 	return *this ;
 }

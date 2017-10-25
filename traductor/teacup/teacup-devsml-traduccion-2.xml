@@ -11,20 +11,19 @@
       <!-- Outputs -->
       <outputs>
         <port name="Teacup Temperature" />
-      </outputs>
+        </outputs>
       <components>
 
-        <!-- Stock : Teacup Temperature Integrator -->
+        <!-- Stock : Teacup Temperature -->
         <atomicRef name="ft Teacup Temperature" model="Ftot">
           <!-- Puertos del atomico -->
-          <port name="inMinus" type="in" />
-          <port name="inPlus" type="in" />
+          <port name="inMinus - Heat Loss to Room" type="in" />
           <port name="out" type="out" />
           <!-- State variables del atomico -->
           <parameter name="plus" value="0" />
           <parameter name="minus" value="0" /> 
         </atomicRef>
-        <atomicRef name="Teacup Temperature Integrator" model="QSS1">
+        <atomicRef name="Teacup Temperature" model="QSS1">
           <parameter name="x0" value="180" />
           <parameter name="dQRel" value="1e-2" />
           <parameter name="dQMin" value="1e-4" />
@@ -32,21 +31,21 @@
         <!-- Flow : Heat Loss to Room -->
         <atomicRef name="fm Teacup Temperature - Heat Loss to Room" model="Fminus">
           <!-- Puertos del atomico -->
-          <port name="Teacup Temperature Integrator" type="in" />
-          <port name="Room Temperature" type="in" />
-          <port name="Characteristic Time" type="in" />
+          <port name="in Teacup Temperature" type="in" />
+          <port name="in Room Temperature" type="in" />
+          <port name="in Characteristic Time" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="(Teacup Temperature Integrator-Room Temperature)/Characteristic Time" />
+          <parameter name="function" value="(Teacup Temperature-Room Temperature)/Characteristic Time" />
         </atomicRef>
         <!-- Parameters / Constantes -->
         <atomicRef name="Characteristic Time" model="Cte">
-          <port name="value" type="in" />
+          <port name="inValue" type="in" />
           <port name="out" type="out" />
           <parameter name="value" value="10" />
         </atomicRef>
         <atomicRef name="Room Temperature" model="Cte">
-          <port name="value" type="in" />
+          <port name="inValue" type="in" />
           <port name="out" type="out" />
           <parameter name="value" value="70" />
         </atomicRef>
@@ -55,22 +54,24 @@
       <internal_connections>
 
         <!-- Link : Cte's a f's que las usan -->
-        <!-- Cte :  Room Temperature -->
-        <connection component_from="Room Temperature" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="Room Temperature"/>
-        <!-- Cte :  Characteristic Time -->
-        <connection component_from="Characteristic Time" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="Characteristic Time"/>
+        <!-- Aux/Cte :  Characteristic Time -->
+        <connection component_from="Characteristic Time" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="in - Characteristic Time"/>
+        <!-- Aux/Cte :  Room Temperature -->
+        <connection component_from="Room Temperature" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="in - Room Temperature"/>
+        
         <!-- Links modelo acoplado minimal integrador Teacup Temperature -->
-        <connection component_from="fm Teacup Temperature" port_from="out" component_to="ft Teacup Temperature" port_to="inMinus" />
-        <connection component_from="ft Teacup Temperature" port_from="out" component_to="Teacup Temperature Integrator" port_to="in" />
+        <connection component_from="fm Teacup Temperature - Heat Loss to Room" port_from="out" component_to="ft Teacup Temperature" port_to="inMinus - Heat Loss to Room" />
+        <connection component_from="ft Teacup Temperature" port_from="out" component_to="Teacup Temperature" port_to="in" />
+        
         <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
-        <connection component_from="Teacup Temperature Integrator" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="Teacup Temperature Integrator" />
+        <connection component_from="Teacup Temperature" port_from="out" component_to="fm Teacup Temperature - Heat Loss to Room" port_to="in - Teacup Temperature" />
         </internal_connections>
-
+      
       <!-- Links inputs a constantes -->
       <!-- external input -->
       <external_input_connections>
-        <connection component_from="top" port_from="Characteristic Time" component_to="Characteristic Time" port_to="value" />
-        <connection component_from="top" port_from="Room Temperature" component_to="Room Temperature" port_to="value" />
+        <connection component_from="top" port_from="in - Characteristic Time" component_to="Characteristic Time" port_to="inValue" />
+        <connection component_from="top" port_from="in - Room Temperature" component_to="Room Temperature" port_to="inValue" />
         
       </external_input_connections>
 

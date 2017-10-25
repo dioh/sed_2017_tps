@@ -1,5 +1,5 @@
 [top]
-components : teacupTemperatureIntegrator@QSS1 ftTeacupTemperature@Ftot fmTeacupTemperature@FminusTeacupTemperature roomTemperature@Cte characteristicTime@Cte 
+components : teacupTemperatureIntegrator@QSS1 ftTeacupTemperature@Ftot fmTeacupTemperatureHeatLosstoRoom@FminusTeacupTemperatureHeatLosstoRoom roomTemperature@Cte characteristicTime@Cte 
 
 % Puertos: Input de parametros. Output de variables de interes
 in : inRoomTemperature inCharacteristicTime 
@@ -11,15 +11,15 @@ link : inRoomTemperature inValue@roomTemperature
 link : inCharacteristicTime inValue@characteristicTime
 
 % Links constantes a f's que las usan
-link : out@characteristicTime inCharacteristicTime@fmTeacupTemperature
-link : out@roomTemperature inRoomTemperature@fmTeacupTemperature
+link : out@characteristicTime inCharacteristicTime@fmTeacupTemperatureHeatLosstoRoom
+link : out@roomTemperature inRoomTemperature@fmTeacupTemperatureHeatLosstoRoom
 
 % Links acoplado minimal integrador Teacup Temperature
 link : out@fmTeacupTemperature inMinus@ftTeacupTemperature
 link : out@ftTeacupTemperature in@teacupTemperatureIntegrator
 
 % Links modelo
-link : out@teacupTemperatureIntegrator inTeacupTemperatureIntegrator@fmTeacupTemperature
+link : out@teacupTemperatureIntegrator inTeacupTemperatureIntegrator@fmTeacupTemperatureHeatLosstoRoom
 
 % Liks output variables de interes
 link : out@teacupTemperatureIntegrator outTeacupTemperature 
