@@ -1,0 +1,14 @@
+Para desarrollar el traductor de xmile a devsml, del cual se habló en las secciones anteriores, decidimos basarnos en 3 (tres) modelos clásicos implementados en System Dynamics. 
+
+Estos modelos son: 
+\begin{description}
+	\item[Teacup] que modela una taza de café en una habitación, que se enfría progresivamente hasta alcanzar la temperatura ambiente
+	\item[SIR] 	que modela una población que sucumbe ante una infección que se propaga en la misma, y posteriormente se va recuperando, hasta que no queda ningún infectado
+	\item[Lotka-Volterra] que modela el proceso de nacimientos y decesos de un población de linces y liebres, que interactúan entre sí con una dinámica de presa-depredador
+\end{description}
+
+Mediante el estudio de estos tres modelos, analizamos cómo los diferentes elementos de cada archivo xmile pueden ser traducidos a un modelo acoplado en DEVS (expresado como un archivo xml con formato DEVSML), de forma tal que esta traducción pueda ser ejecutada (en este caso utilizando el simulador CD++) y pueda verse que replica los resultados que se obtienen con simuladores de System Dynamics.
+
+A continuación, exponemos cada uno de los modelos mencionados, mencionando cómo nos ayudaron en el desarrollo del traductor. 
+
+Aprovecharemos que el modelo Teacup traducido contiene pocos archivos para mostrar el código generado, por el traductor, mientras que para la exposición del comportamiento de los otros modelos cuya traducción genera una mayor cantidad de archivos, utilizaremos el lenguage formal típico con que se expresan modelos DEVS.
