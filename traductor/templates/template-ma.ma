@@ -30,11 +30,11 @@ link : out@{{intAttr['ftName']}} in@{{intName}}
 {% endfor %}
 % Links internos de los acoplados minimales (Fms => Fts)
 {% for fmName, fmAttr in fms_.iteritems() -%}
-link : out@{{fmName}} inMinus_{{fmAttr['flowName']}}@{{fmAttr['coupledTot']}}
+link : out@{{fmName}} inMinus_{{fmAttr['flowName']}}@{{fmAttr['coupledTot']}}Integrator
 {% endfor %}
 % Links internos de los acoplados minimales (Fps => Fts)
 {% for fpName, fpAttr in fps_.iteritems() -%}
-link : out@{{fpName}} inPlus_{{fpAttr['flowName']}}@{{fpAttr['coupledTot']}}
+link : out@{{fpName}} inPlus_{{fpAttr['flowName']}}@{{fpAttr['coupledTot']}}Integrator
 {% endfor %}
 % Links importantes del modelo
 {% for intName, intAttr in integradores_.iteritems() -%}

@@ -1,18 +1,18 @@
-#ifndef _FminusSusceptibleSuccumbing_H_
-#define _FminusSusceptibleSuccumbing_H_
+#ifndef _FplusInfectiousSuccumbing_H_
+#define _FplusInfectiousSuccumbing_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
-#define FMINUSSUSCEPTIBLESUCCUMBING "FminusSusceptibleSuccumbing"
+#define FPLUSINFECTIOUSSUCCUMBING "FplusInfectiousSuccumbing"
 
-class FminusSusceptibleSuccumbing : public Atomic {
+class FplusInfectiousSuccumbing : public Atomic {
   public:
     
-    FminusSusceptibleSuccumbing(const string &name = FMINUSSUSCEPTIBLESUCCUMBING );
-    virtual string className() const {  return FMINUSSUSCEPTIBLESUCCUMBING ;}
+    FplusInfectiousSuccumbing(const string &name = FPLUSINFECTIOUSSUCCUMBING );
+    virtual string className() const {  return FPLUSINFECTIOUSSUCCUMBING ;}
   
   protected:
     Model &initFunction();

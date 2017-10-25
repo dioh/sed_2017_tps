@@ -1,18 +1,18 @@
-#ifndef _FminusSusceptibleSuccumbing_H_
-#define _FminusSusceptibleSuccumbing_H_
+#ifndef _FplusRecoveredRecovering_H_
+#define _FplusRecoveredRecovering_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
-#define FMINUSSUSCEPTIBLESUCCUMBING "FminusSusceptibleSuccumbing"
+#define FPLUSRECOVEREDRECOVERING "FplusRecoveredRecovering"
 
-class FminusSusceptibleSuccumbing : public Atomic {
+class FplusRecoveredRecovering : public Atomic {
   public:
     
-    FminusSusceptibleSuccumbing(const string &name = FMINUSSUSCEPTIBLESUCCUMBING );
-    virtual string className() const {  return FMINUSSUSCEPTIBLESUCCUMBING ;}
+    FplusRecoveredRecovering(const string &name = FPLUSRECOVEREDRECOVERING );
+    virtual string className() const {  return FPLUSRECOVEREDRECOVERING ;}
   
   protected:
     Model &initFunction();
@@ -22,24 +22,18 @@ class FminusSusceptibleSuccumbing : public Atomic {
 
   private:
     // Input ports
-    const Port &in_susceptibleIntegrator;
     const Port &in_infectiousIntegrator;
-    const Port &in_totalPopulation;
-    const Port &in_contactInfectivity;
+    const Port &in_duration;
     // Output ports
     Port &out;
 
     // State variables
     double infectiousIntegrator;
-    double totalPopulation;
-    double contactInfectivity;
-    double susceptibleIntegrator;
+    double duration;
     //
     // Check set of state variables
     bool isSet_infectiousIntegrator;
-    bool isSet_totalPopulation;
-    bool isSet_contactInfectivity;
-    bool isSet_susceptibleIntegrator;
+    bool isSet_duration;
     //
 };
 

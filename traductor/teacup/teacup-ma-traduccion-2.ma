@@ -17,7 +17,7 @@ link : out@characteristicTime in_characteristicTime@fmTeacupTemperatureHeatLosst
 link : out@ftTeacupTemperatureIntegrator in@teacupTemperatureIntegrator
 
 % Links internos de los acoplados minimales (Fms => Fts)
-link : out@fmTeacupTemperatureHeatLosstoRoom inMinus_HeatLosstoRoom@ftTeacupTemperature
+link : out@fmTeacupTemperatureHeatLosstoRoom inMinus_HeatLosstoRoom@ftTeacupTemperatureIntegrator
 
 % Links internos de los acoplados minimales (Fps => Fts)
 

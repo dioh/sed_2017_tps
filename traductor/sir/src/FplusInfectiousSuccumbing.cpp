@@ -6,11 +6,11 @@
 #include "real.h"
 #include "tuple_value.h"
 
-#include "FminusSusceptibleSuccumbing.h"
+#include "FplusInfectiousSuccumbing.h"
 
 using namespace std;
 
-FminusSusceptibleSuccumbing::FminusSusceptibleSuccumbing(const string &name) :
+FplusInfectiousSuccumbing::FplusInfectiousSuccumbing(const string &name) :
 	Atomic(name),
 	in_infectiousIntegrator(addInputPort("in_infectiousIntegrator")),
 	in_totalPopulation(addInputPort("in_totalPopulation")),
@@ -25,14 +25,14 @@ FminusSusceptibleSuccumbing::FminusSusceptibleSuccumbing(const string &name) :
 }
 
 
-Model &FminusSusceptibleSuccumbing::initFunction()
+Model &FplusInfectiousSuccumbing::initFunction()
 {
 	holdIn(AtomicState::passive, VTime::Inf);
 	return *this;
 }
 
 
-Model &FminusSusceptibleSuccumbing::externalFunction(const ExternalMessage &msg)
+Model &FplusInfectiousSuccumbing::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
@@ -57,14 +57,14 @@ Model &FminusSusceptibleSuccumbing::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &FminusSusceptibleSuccumbing::internalFunction(const InternalMessage &)
+Model &FplusInfectiousSuccumbing::internalFunction(const InternalMessage &)
 {
 	passivate();
 	return *this ;
 }
 
 
-Model &FminusSusceptibleSuccumbing::outputFunction(const CollectMessage &msg)
+Model &FplusInfectiousSuccumbing::outputFunction(const CollectMessage &msg)
 {
 	if( isSet_infectiousIntegrator & isSet_totalPopulation & isSet_contactInfectivity & isSet_susceptibleIntegrator ) {
 		double val = susceptibleIntegrator*infectiousIntegrator/totalPopulation*contactInfectivity;

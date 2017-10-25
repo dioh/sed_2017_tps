@@ -24,12 +24,12 @@ link : out@ftSusceptibleIntegrator in@susceptibleIntegrator
 link : out@ftRecoveredIntegrator in@recoveredIntegrator
 
 % Links internos de los acoplados minimales (Fms => Fts)
-link : out@fmInfectiousRecovering inMinus_Recovering@ftInfectious
-link : out@fmSusceptibleSuccumbing inMinus_Succumbing@ftSusceptible
+link : out@fmInfectiousRecovering inMinus_Recovering@ftInfectiousIntegrator
+link : out@fmSusceptibleSuccumbing inMinus_Succumbing@ftSusceptibleIntegrator
 
 % Links internos de los acoplados minimales (Fps => Fts)
-link : out@fpRecoveredRecovering inPlus_Recovering@ftRecovered
-link : out@fpInfectiousSuccumbing inPlus_Succumbing@ftInfectious
+link : out@fpRecoveredRecovering inPlus_Recovering@ftRecoveredIntegrator
+link : out@fpInfectiousSuccumbing inPlus_Succumbing@ftInfectiousIntegrator
 
 % Links importantes del modelo
 link : out@infectiousIntegrator in_infectiousIntegrator@fmInfectiousRecovering
