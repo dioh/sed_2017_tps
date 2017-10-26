@@ -116,6 +116,10 @@ Ahora bien, los atómicos utilizados en este modelo, deberán tener un comportam
 \subsubsection{Generación de modelo ejecutable en CD++}
 Para poder generar los archivos .ma, .h y .cpp que mencionamos en la sección anterior, previamente debemos generar un archivo .devsml que contenga toda la información necesaria para este fin.
 
+Una vez generado dicho archivo, resta generar una descripción del modelo en un lenguaje que nuestro simulador (en este caso $CD++$), pueda entender para así ejecutar. 
+
+Como ya vimos, se puede hacer un mapeo $1-1$ entre cada línea del archivo $DEVSML$ y del archivo $MA$. De esta forma, se completa el pipeline de transformaciones necesarias para pasar de un modelo ejecutable especificado en un formalismo de tiempo discreto hacia otro formalismo, de tiempo continuo y eventos discretos.
+
 \begin{figure}[!h]
 \centering     %%% not \center
 \subfigure[Atómicos 1-1 para cada Flow]{\label{fig:Teacup_devsml_components}\includegraphics[scale=0.4]{imagenes/teacup_mapeo/Teacup_devsml_components}}
