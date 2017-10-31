@@ -68,5 +68,7 @@ ${OBJ_DIR}/reg.o reg.dep : reg.cpp \
  /media/pedro/MyFiles/cdpp_kernel/cdpp_kernel/cd++/proc/process.h \
  /media/pedro/MyFiles/cdpp_kernel/cdpp_kernel/cd++/proc/pprocess.h \
  /media/pedro/MyFiles/cdpp_kernel/cdpp_kernel/cd++/val/tuple_value.h \
- Cte.h Ftot.h FminusSusceptible.h FminusInfectious.h FplusInfectious.h \
- FplusRecovered.h
+ Cte.h FminusSusceptibleSuccumbing.h FtotInfectiousIntegrator.h \
+ FminusInfectiousRecovering.h FplusRecoveredRecovering.h \
+ FtotSusceptibleIntegrator.h FplusInfectiousSuccumbing.h \
+ FtotRecoveredIntegrator.h

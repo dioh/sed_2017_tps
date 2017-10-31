@@ -101,20 +101,24 @@ Ahora bien, los atómicos utilizados en este modelo, deberán tener un comportam
 
 \begin{figure}[!h]
 \centering     %%% not \center
-\subfigure[Archvo .h]{\label{fig:Teacup_h}\includegraphics[scale=0.3]{imagenes/teacup_mapeo/Teacup_h}}
-\subfigure[Archivo .cpp]{\label{fig:Teacup_hpp}\includegraphics[scale=0.3]{imagenes/teacup_mapeo/Teacup_cpp}}
+\subfigure[Archvo .h]{\label{fig:Teacup_h}\includegraphics[scale=0.26]{imagenes/teacup_mapeo/Teacup_h}}
+\subfigure[Archivo .cpp]{\label{fig:Teacup_hpp}\includegraphics[scale=0.26]{imagenes/teacup_mapeo/Teacup_cpp}}
 \caption{Código relevante de los archivos .h y .cpp generados para el atómico FminusTeacupTemperature}
 \end{figure}
 
 \begin{figure}[!h]
 \centering     %%% not \center
-\subfigure[Archvo Ftot.cpp]{\label{fig:Teacup_h}\includegraphics[scale=0.4]{imagenes/gral_mapeo/ftot_cpp}}
-\subfigure[Archivo Cte.cpp]{\label{fig:Teacup_hpp}\includegraphics[scale=0.4]{imagenes/gral_mapeo/cte_cpp}}
+\subfigure[Archvo Ftot.cpp]{\label{fig:Teacup_h}\includegraphics[scale=0.3]{imagenes/gral_mapeo/ftot_cpp}}
+\subfigure[Archivo Cte.cpp]{\label{fig:Teacup_hpp}\includegraphics[scale=0.3]{imagenes/gral_mapeo/cte_cpp}}
 \caption{Código relevante de los archivos .cpp generados para los atómicos Cte y Ftot}
 \end{figure}
 
 \subsubsection{Generación de modelo ejecutable en CD++}
 Para poder generar los archivos .ma, .h y .cpp que mencionamos en la sección anterior, previamente debemos generar un archivo .devsml que contenga toda la información necesaria para este fin.
+
+Una vez generado dicho archivo, resta generar una descripción del modelo en un lenguaje que nuestro simulador (en este caso $CD++$), pueda entender para así ejecutar. 
+
+Como ya vimos, se puede hacer un mapeo $1-1$ entre cada línea del archivo $DEVSML$ y del archivo $MA$. De esta forma, se completa el pipeline de transformaciones necesarias para pasar de un modelo ejecutable especificado en un formalismo de tiempo discreto hacia otro formalismo, de tiempo continuo y eventos discretos.
 
 \begin{figure}[!h]
 \centering     %%% not \center
@@ -137,63 +141,72 @@ Primero mostramos formalmente los modelos atómicos utilizados en el acoplado To
 \begin{itemize}
 
 \item \textbf{Cte} : $ roomTemperature, characteristicTime \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ inValue \} $ \newline
-$ S = \{ value \} $ \newline
-$ Y = \{ out \} $ \newline
-$ \delta_{int}(\langle value \rangle) = \emptyset $ \newline
-$ \delta_{ext} (\langle value \rangle, e, x)= \{ value := x.value \} $ \newline
-$ \lambda(\langle value \rangle, out) = value $ \newline
-$ t_{a}(s) = \infty $ 
+\begin{itemize}
+	\item $ X = \{ inValue \} $ \newline
+	\item $ S = \{ value \} $ \newline
+	\item $ Y = \{ out \} $ \newline
+	\item $ \delta_{int}(\langle value \rangle) = \emptyset $ \newline
+	\item $ \delta_{ext} (\langle value \rangle, e, x)= \{ value := x.value \} $ \newline
+	\item $ \lambda(\langle value \rangle, out) = value $ \newline
+	\item $ t_{a}(s) = \infty $ 
+\end{itemize}
 
 \item \textbf{Fminus} : $ fmTeacupTemperatureHeatLossToRoom \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ inRoomTemperature, inCharacteristicTime, inTeacupTemperatureIntegrator \} $ \newline
-$ S = \{ roomTemperature, characteristicTime, teacupTemperatureIntegrator, isSetRoomTemperature, \newline isSetCharacteristicTime, isSetTeacupTemperatureIntegrator \} $ \newline
-$ Y = \{ out \} $ \newline
-$ \delta_{int}(s) = \emptyset $ \newline
-$ \delta_{ext}(s, e, x) = \{
+\begin{itemize}
+	\item $ X = \{ inRoomTemperature, inCharacteristicTime, inTeacupTemperatureIntegrator \} $ \newline
+	\item $ S = \{ roomTemperature, characteristicTime, teacupTemperatureIntegrator, isSetRoomTemperature, \newline isSetCharacteristicTime, isSetTeacupTemperatureIntegrator \} $ \newline
+	\item $ Y = \{ out \} $ \newline
+	\item $ \delta_{int}(s) = \emptyset $ \newline
+	\item $ \delta_{ext}(s, e, x) = \{
 	\\if (x.port = inRoomTemperatureroomTemperature) roomTemperature := x.value; isSetRoomTemperature := true
 	\\if (x.port = inCharacteristicTime) characteristicTime := x.value; isSetCharacteristicTime := true
 	\\if (x.port = inTeacupTemperatureIntegrator) teacupTemperatureIntegrator = x.value; \\isSetTeacupTemperatureIntegrator := true 
 	\} $ \newline
-$ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
+	\item $ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
 \\(teacupTemperatureIntegrator-roomTemperature)/characteristicTime\} \ else \ \emptyset$ \newline
-$ t_{a} = \infty $ 
+	\item $ t_{a} = \infty $ 
+\end{itemize}
 
 \item \textbf{Ftot} : $ ftTeacupTemperature \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ inMinusHeatLossToRoom \} $ \newline
-$ S = \{ plus, minus \} $ \newline
-$ Y = \{ out \} $ \newline
-$ \delta_{int}(\langle plus, minus \rangle) = \emptyset $ \newline
-$ \delta_{ext}(\langle plus, minus \rangle, e, x) = \{ 
+\begin{itemize}
+	\item $ X = \{ inMinusHeatLossToRoom \} $ \newline
+	\item $ S = \{ plus, minus \} $ \newline
+	\item $ Y = \{ out \} $ \newline
+	\item $ \delta_{int}(\langle plus, minus \rangle) = \emptyset $ \newline
+	\item $ \delta_{ext}(\langle plus, minus \rangle, e, x) = \{ 
 	\\if (x.port = inPlus) plus := x.value
 	\\if (x.port == inMinusHeatLossToRoom) minus := x.value
 	\} $ \newline
-$ \lambda(\langle plus, minus \rangle, out) = (plus - minus) $ \newline
-$ t_{a} = \infty $ 
-
+	\item $ \lambda(\langle plus, minus \rangle, out) = (plus - minus) $ \newline
+	\item $ t_{a} = \infty $ 
+\end{itemize}
 \item \textbf{QSS1} : $ teacupTemperatureIntegrator \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
-$ X = \{ in \} $ \newline
-$ S = \{ ? \} $ \newline
-$ Y = \{ out \} $ \newline
-$ \delta_{int}(s) = \{ ? \} $ \newline
-$ \delta_{ext}(s, e, x) = \{ ? \} $ \newline
-$ \lambda(s) = ? $ \newline
-$ t_{a} = \{ ? \} $ 
+\begin{itemize}
+	\item $ X = \{ in \} $ \newline
+	\item $ S = \{ ? \} $ \newline
+	\item $ Y = \{ out \} $ \newline
+	\item $ \delta_{int}(s) = \{ ? \} $ \newline
+	\item $ \delta_{ext}(s, e, x) = \{ ? \} $ \newline
+	\item $ \lambda(s) = ? $ \newline
+	\item $ t_{a} = \{ ? \} $ 
+\end{itemize}
 \end{itemize}
 
 Ahora que ya tenemos lo atómicos, expresamos el acoplado que utiliza a los atómicos expuestos más arriba:
 \begin{itemize}
 \item $ Top \rightarrow \langle X, Y, \{ M_{1}, M_{2}, M_{3}, M_{4}, M_{5} \}, C_{xx}, C_{yx}, C_{yy}, Select \rangle$ \newline
-$ X = \{ \} $ \newline
-$ Y = \{ \} $ \newline
-$ M_{1} = roomTemperature $ \newline
-$ M_{2} = characteristicTime $ \newline
-$ M_{3} = fmTeacupTemperatureHeatLossToRoom$ \newline
-$ M_{4} = ftTeacuptTemperature $ \newline
-$ M_{5} = teacupTemperatureIntegrator $ \newline
-$ C_{xx} = $ \{ \} \newline
-$ C_{yx} = \{ (M_{1}.!out, M_{3}.?inRoomTemperture), (M_{2}.!out, M_{3}.?inCharacteristicTime), \\
+\begin{itemize}
+	\item $ X = \{ \} $ \newline
+	\item $ Y = \{ \} $ \newline
+	\item $ M_{1} = roomTemperature $ \newline
+	\item $ M_{2} = characteristicTime $ \newline
+	\item $ M_{3} = fmTeacupTemperatureHeatLossToRoom$ \newline
+	\item $ M_{4} = ftTeacuptTemperature $ \newline
+	\item $ M_{5} = teacupTemperatureIntegrator $ \newline
+	\item $ C_{xx} = $ \{ \} \newline
+	\item $ C_{yx} = \{ (M_{1}.!out, M_{3}.?inRoomTemperture), (M_{2}.!out, M_{3}.?inCharacteristicTime), \\
 (M_{5}.!out, M_{3}.?inTecupTemperatureIntegrator), (M_{3}.!out, M_{4}.?inMinusHeatLossToRoom), \\
 (M_{4}.!out, M_{5}.?in) \} $ \newline
-$ C_{yy} = \{ \} $ \newline
+	\item $ C_{yy} = \{ \} $ \newline
+\end{itemize}
 \end{itemize}

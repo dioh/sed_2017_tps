@@ -4,10 +4,18 @@ A continuación, y basándonos en lo aprendido durante la construcción del trad
 
 En esta versión inicial, nos restringimos a traducir a modelos DEVS aplanados solamente. De esta manera, se simplifican algunos detalles de la implementación del traductor. Además de estos, nos restringimos a archivos .xmile que también estén aplanados. Es decir, no lidiamos con la presencia de diferentes módulos con modelos internos, y la interacción de los modelos internos a través de los módulos en lugar de directamente. De este problema nos encargaremos más adelante, cuando estudiemos el modelo Lotka-Volterra.
 
-Para este fin, dividiremos la explicación del algoritmo en partes, para explicar las figuras \ref{fig:Teacup_devsml_components}, \ref{fig:Teacup_devsml_stocks}, \ref{fig:Teacup_devsml_internal_connections}, \ref{fig:Teacup_devsml_external_connections} y \ref{fig:Teacup_devsml_ports}, explicando como cada una de estas se corresponde con las líneas del archivo .ma expuesto en la figura \ref{fig:Teacup_ma}.
+Dividiremos la explicación del algoritmo en partes, para entender las figuras \ref{fig:Teacup_devsml_components}, \ref{fig:Teacup_devsml_stocks}, \ref{fig:Teacup_devsml_internal_connections}, \ref{fig:Teacup_devsml_external_connections} y \ref{fig:Teacup_devsml_ports}, explicando como cada una de estas se corresponde con las líneas del archivo .ma expuesto en la figura \ref{fig:Teacup_ma}.
 
-\subsubsection{Traducción de \textbf{Stocks}}
-\subsubsection{Traducción de \textbf{Flows}}
-\subsubsection{Generación de puertos es E/S del modelo DEVS}
-\subsubsection{Generación de conexiones internas del modelo DEVS}
-\subsubsection{Generación de conexiones externas del modelo DEVS}
+El algoritmo consta de los siguientes pasos:
+\begin{itemize}
+	\item Por cada \textbf{flujo} $F_{i}(A,B)$ (\textbf{flujo} $i$ del \textbf{stock} $A$ hacia el \textbf{stock} $B$) se generan los \textbf{atómicos DEVS} $F_{minus_{(i)}}(A)$ y $F_{plus_{(i)}}(B)$. Si $A$ es vacío, sólo se genera el $F_{plus}$ y si $B$ es vacío, sólo se genera el $F_{minus}$ (siempre alguno de los dos va a ser no vacío)
+
+	\item por cada \textbf{aux} $A_i$ se genera un \textbf{atómico DEVS} $A_{i}Cte$
+
+	\item Por cada \textbf{stock} $S_i$ se genera un par de \textbf{atómicos DEVS}: $F_{tot_{(S_i)}}$ y $S_{i}Integrador$. Luego, se conecta el output del primero con el input del segundo. También, se establecen las siguientes conexiones: para cada flujo $j$ tal que existe $F_{plus_{(j)}}(S_i)$, se conecta a este $F_{plus}$ a un puerto de entrada de suma del $F_{tot}$, mientras que si existe $F_{minus_{(j)}}(S_i)$, se conecta el $F_{minus}$ a un puerto de entrada de resta del $F_{tot}$.
+	
+	\item Por cada flujo $F_{i}(A,B)$ que recibe flechas de los \textbf{stocks} $\{ C_1 \dots C_n \}$ (es decir, usa estas variables como parámetros internamente), se establece una conexión entre cada uno de los atómicos $C_{i}Integrador \dots C_{n}Integardor$ y (en caso de existir) $F_{minus_{(i)}}(A)$ y $F_{plus_{(i)}}(B)$.
+
+	\item Por cada flujo $F_{i}(A,B)$ que recibe flechas de los \textbf{aux} $\{ D_1 \dots D_m \}$, se establece una conexión entre cada uno de los atómicos $D_{i}Cte \dots D_{n}Cte$ y (en caso de existir) $F_{minus_{(i)}}(A)$ y $F_{plus_{(i)}}(B)$.
+
+\end{itemize}

@@ -17,7 +17,7 @@
         <variables>
             <flow name="Heat Loss to Room">
                 <doc>Heat Loss to Room</doc>
-                <eqn>("Teacup Temperature"-"Room Temperature")/"Characteristic Time"</eqn>
+                <eqn>(Teacup Temperature-Room Temperature)/Characteristic Time</eqn>
             </flow>
             <aux name="Room Temperature">
                 <doc>Ambient Room Temperature</doc>
@@ -25,7 +25,7 @@
             </aux>
             <stock name="Teacup Temperature">
                 <doc>The average temperature of the tea and the cup</doc>
-                <outflow>"Heat Loss to Room"</outflow>
+                <outflow>Heat Loss to Room</outflow>
                 <eqn>180</eqn>
             </stock>
             <aux name="Characteristic Time">

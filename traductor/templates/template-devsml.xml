@@ -6,79 +6,75 @@
       <!-- Inputs -->
       {# Asumimos que todos los aux's son constantes que vienen de afuera del modelo -#}
       <inputs>
-        {% for auxName, auxValue in aux_values.iteritems() -%}
+        {% for auxName, _ in ctes_.iteritems() -%}
         <port name="{{auxName}}" />
         {% endfor -%}
       </inputs>
       <!-- Outputs -->
       <outputs>
-        {% for stockName in stockNames -%}
+        {% for stockName, _ in stocks_.iteritems() -%}
         <port name="{{stockName}}" />
         {% endfor -%}
       </outputs>
       <components>
 
         {# Atomicos : integradores + Ftot's correspondientes -#}
-        {% for stockName, initial_value in stock_values.iteritems() -%}
-        <!-- Stock : {{stockName}} Integrator -->
+        {% for stockName, attr in stocks_.iteritems() -%}
+        <!-- Stock : {{stockName}} -->
         <atomicRef name="ft {{stockName}}" model="Ftot">
           <!-- Puertos del atomico -->
-          <port name="inMinus" type="in" />
-          <port name="inPlus" type="in" />
+          {% for outflow in attr['outflows'] -%}
+          <port name="inMinus - {{outflow[0]}}" type="in" />
+          {% endfor -%}
+          {% for inflow in attr['inflows'] -%}
+          <port name="inPlus - {{inflow[0]}}" type="in" />
+          {% endfor -%}
           <port name="out" type="out" />
           <!-- State variables del atomico -->
           <parameter name="plus" value="0" />
           <parameter name="minus" value="0" /> 
         </atomicRef>
-        <atomicRef name="{{stockName}} Integrator" model="QSS1">
-          <parameter name="x0" value="{{initial_value}}" />
+        <atomicRef name="{{stockName}}" model="QSS1">
+          <parameter name="x0" value="{{attr['initialValue']}}" />
           <parameter name="dQRel" value="1e-2" />
           <parameter name="dQMin" value="1e-4" />
         </atomicRef>
         {% endfor -%}
 
         {# Atomicos : Fminus's + Fplus's -#}
-        {% for flowName, flow in flows_links.iteritems() -%}
+        {% for flowName, attr in flows_.iteritems() -%}
         <!-- Flow : {{flowName}} -->
-        {% if flow['orig'] != None: -%}
-        <atomicRef name="fm {{flow['orig']}} - {{flowName}}" model="Fminus">
+        {% if attr['orig'] != None: -%}
+        <atomicRef name="fm {{attr['orig']}} - {{flowName}}" model="Fminus">
           <!-- Puertos del atomico -->
-          {% for param in flow['params_function'] -%}
-          {% if param in stockNames -%}
-          <port name="{{param}} Integrator" type="in" />
-          {% else -%}
-          <port name="{{param}}" type="in" />
-          {% endif -%}
+          {% for param in attr['params_eqn'] -%}
+          <port name="in {{param}}" type="in" />
           {% endfor -%}
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="{{flow['function']}}" />
+          <parameter name="function" value="{{attr['eqn']}}" />
         </atomicRef>
         {% endif -%}
-        {% if flow['dest'] != None: -%}
-        <atomicRef name="fp {{flow['dest']}} - {{flowName}}" model="Fplus">
+        {% if attr['dest'] != None: -%}
+        <atomicRef name="fp {{attr['dest']}} - {{flowName}}" model="Fplus">
           <!-- Puertos del atomico -->
-          {% for param in flow['params_function'] -%}
-          {% if param in stockNames -%}
-          <port name="{{param}} Integrator" type="in" />
-          {% else -%}
-          <port name="{{param}}" type="in" />
-          {% endif -%}
+          {% for param in attr['params_eqn'] -%}
+          <port name="in {{param}}" type="in" />
           {% endfor -%}
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="{{flow['function']}}" />
+          <parameter name="function" value="{{attr['eqn']}}" />
         </atomicRef>
         {% endif -%}
         {% endfor -%}
 
         {# Atomicos : Constantes (parametros) auxiliares utilizados en las funciones -#}
         <!-- Parameters / Constantes -->
-        {% for auxName, auxValue in aux_values.iteritems() -%}
+        {% for auxName, auxValue in ctes_.iteritems() -%}
         <atomicRef name="{{auxName}}" model="Cte">
-          <port name="value" type="in" />
+          <port name="inValue" type="in" />
           <port name="out" type="out" />
-          <parameter name="value" value="{{auxValue}}" />
+          <parameter name="value" value="{{auxValue['eqn']}}" {% if auxValue['units'] != None -%} unit="{{auxValue['units']}}" {%- endif -%} />
         </atomicRef>
         {% endfor -%}
       </components>
@@ -86,54 +82,53 @@
       <internal_connections>
 
         <!-- Link : Cte's a f's que las usan -->
-        {% for flowName, flow in flows_links.iteritems() -%}
-        {% for param in flow['params_function'] -%}
-        {% if param not in stockNames -%}
-        <!-- Cte :  {{param}} -->
-        {% if flow['orig'] != None -%}
-        <connection component_from="{{param}}" port_from="out" component_to="fm {{flow['orig']}} - {{flowName}}" port_to="{{param}}"/>
+        {% for auxName, _ in ctes_.iteritems() -%}
+        {% for flowName, flowAttr in flows_.iteritems() -%}
+        {% if auxName in flowAttr['params_eqn'] -%}
+        <!-- Aux/Cte :  {{auxName}} -->
+        {% if flowAttr['orig'] != None -%}
+        <connection component_from="{{auxName}}" port_from="out" component_to="fm {{flowAttr['orig']}} - {{flowName}}" port_to="in - {{auxName}}"/>
         {% endif -%}
-        {% if flow['dest'] != None -%}
-        <connection component_from="{{param}}" port_from="out" component_to="fp {{flow['dest']}} - {{flowName}}" port_to="{{param}}"/>
+        {% if flowAttr['dest'] != None -%}
+        <connection component_from="{{auxName}}" port_from="out" component_to="fp {{flowAttr['dest']}} - {{flowName}}" port_to="in - {{auxName}}"/>
         {% endif -%}
         {% endif -%}
         {% endfor -%}
         {% endfor -%}
 
-        {# Links entre Fminus's y Fplus's con Ftot's -#}
-        {% for stockName, stock_feed in stocks_feed.iteritems() -%}
+        {# Links entre Fminus's y Fplus's con Ftot's #}
+        {% for stockName, attr in stocks_.iteritems() -%}
         <!-- Links modelo acoplado minimal integrador {{stockName}} -->
-        {% if stock_feed['fp']|length > 0 -%}
-        <connection component_from="fp {{stockName}}" port_from="out" component_to="ft {{stockName}}" port_to="inPlus" />
-        {% endif -%}
-        {% if stock_feed['fm']|length > 0 -%}
-        <connection component_from="fm {{stockName}}" port_from="out" component_to="ft {{stockName}}" port_to="inMinus" />
-        {% endif -%}
-        <connection component_from="ft {{stockName}}" port_from="out" component_to="{{stockName}} Integrator" port_to="in" />
+        {% for inflow in attr['inflows'] -%}
+        <connection component_from="fp {{stockName}} - {{inflow[0]}}" port_from="out" component_to="ft {{stockName}}" port_to="inPlus - {{inflow[0]}}" />
+        {% endfor -%}
+        {% for outflow in attr['outflows'] -%}
+        <connection component_from="fm {{stockName}} - {{outflow[0]}}" port_from="out" component_to="ft {{stockName}}" port_to="inMinus - {{outflow[0]}}" />
+        {% endfor -%}
+        <connection component_from="ft {{stockName}}" port_from="out" component_to="{{stockName}}" port_to="in" />
         {% endfor -%}
 
-        {# Links entre integradores y los Fplus's y Fminus's que utilizan dichas variables -#}
+        {# Links entre integradores y los Fplus's y Fminus's que utilizan dichas variables #}
         <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
-        {% for param in stockNames -%}
-        {% for flowName, flow in flows_links.iteritems() -%}
-        {% if param in flow['params_function'] -%}
-        {% if flow['orig'] != None -%}
-        <connection component_from="{{param}} Integrator" port_from="out" component_to="fm {{flow['orig']}} - {{flowName}}" port_to="{{param}} Integrator" />
+        {% for stockName, stockAttr in stocks_.iteritems() -%}
+        {% for flowName, flowAttr in flows_.iteritems() -%}
+        {% if stockName in flowAttr['params_eqn'] -%}
+        {% if flowAttr['orig'] != None -%}
+        <connection component_from="{{stockName}}" port_from="out" component_to="fm {{flowAttr['orig']}} - {{flowName}}" port_to="in - {{flowAttr['orig']}}" />
         {% endif -%}
-        {% if flow['dest'] != None -%}
-        <connection component_from="{{param}} Integrator" port_from="out" component_to="fp {{flow['dest']}} - {{flowName}}" port_to="{{param}} Integrator" />
+        {% if flowAttr['dest'] != None -%}
+        <connection component_from="{{stockName}}" port_from="out" component_to="fp {{flowAttr['dest']}} - {{flowName}}" port_to="in - {{flowAttr['dest']}}" />
         {% endif -%}
         {% endif -%}
         {% endfor -%}
         {% endfor -%}
       </internal_connections>
-
-      {# Links de Constantes (parametros) a los Atomicos Fplus's y Fminus's que utilizan dichas cte's -#}
+      {# Links de Constantes (parametros) a los Atomicos Fplus's y Fminus's que utilizan dichas cte's #}
       <!-- Links inputs a constantes -->
       <!-- external input -->
       <external_input_connections>
-        {% for auxName, auxValue in aux_values.iteritems() -%}
-        <connection component_from="top" port_from="{{auxName}}" component_to="{{auxName}}" port_to="value" />
+        {% for auxName, _ in ctes_.iteritems() -%}
+        <connection component_from="top" port_from="in - {{auxName}}" component_to="{{auxName}}" port_to="inValue" />
         {% endfor %}
       </external_input_connections>
 
