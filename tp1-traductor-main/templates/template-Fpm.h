@@ -29,12 +29,12 @@ class {{model}} : public Atomic {
     Port &out;
 
     // State variables
-    {% for var, port in params_ports.iteritems() -%}
+    {% for var, port in params_ports.items() -%}
     double {{var}};
     {% endfor -%}
     //
     // Check set of state variables
-    {% for var, port in params_ports.iteritems() -%}
+    {% for var, port in params_ports.items() -%}
     bool isSet_{{var}};
     {% endfor -%}
     //

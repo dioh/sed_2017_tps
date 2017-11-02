@@ -6,22 +6,22 @@
       <!-- Inputs -->
       {# Asumimos que todos los aux's son constantes que vienen de afuera del modelo -#}
       <inputs>
-        {% for auxName, _ in ctes_.iteritems() -%}
+        {% for auxName, _ in ctes_.items() -%}
         <port name="{{auxName}}" />
         {% endfor -%}
       </inputs>
       <!-- Outputs -->
       <outputs>
-        {% for stockName, _ in stocks_.iteritems() -%}
+        {% for stockName, _ in stocks_.items() -%}
         <port name="{{stockName}}" />
         {% endfor -%}
       </outputs>
       <components>
 
         {# Atomicos : integradores + Ftot's correspondientes -#}
-        {% for stockName, attr in stocks_.iteritems() -%}
+        {% for stockName, attr in stocks_.items() -%}
         <!-- Stock : {{stockName}} -->
-        <atomicRef name="ft {{stockName}}" model="Ftot">
+        <atomicRef name="ft{{stockName}}" model="Ftot">
           <!-- Puertos del atomico -->
           {% for outflow in attr['outflows'] -%}
           <port name="inMinus - {{outflow[0]}}" type="in" />
@@ -42,17 +42,17 @@
         {% endfor -%}
 
         {# Atomicos : Fminus's + Fplus's -#}
-        {% for flowName, attr in flows_.iteritems() -%}
+        {% for flowName, attr in flows_.items() -%}
         <!-- Flow : {{flowName}} -->
         {% if attr['orig'] != None: -%}
         <atomicRef name="fm {{attr['orig']}} - {{flowName}}" model="Fminus">
           <!-- Puertos del atomico -->
           {% for param in attr['params_eqn'] -%}
-          <port name="in {{param}}" type="in" />
+          <port name="in {{param.replace('"','')}}" type="in" />
           {% endfor -%}
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="{{attr['eqn']}}" />
+          <parameter name="function" value="{{attr['eqn'].replace('"','')}}" />
         </atomicRef>
         {% endif -%}
         {% if attr['dest'] != None: -%}
@@ -70,7 +70,7 @@
 
         {# Atomicos : Constantes (parametros) auxiliares utilizados en las funciones -#}
         <!-- Parameters / Constantes -->
-        {% for auxName, auxValue in ctes_.iteritems() -%}
+        {% for auxName, auxValue in ctes_.items() -%}
         <atomicRef name="{{auxName}}" model="Cte">
           <port name="inValue" type="in" />
           <port name="out" type="out" />
@@ -82,8 +82,8 @@
       <internal_connections>
 
         <!-- Link : Cte's a f's que las usan -->
-        {% for auxName, _ in ctes_.iteritems() -%}
-        {% for flowName, flowAttr in flows_.iteritems() -%}
+        {% for auxName, _ in ctes_.items() -%}
+        {% for flowName, flowAttr in flows_.items() -%}
         {% if auxName in flowAttr['params_eqn'] -%}
         <!-- Aux/Cte :  {{auxName}} -->
         {% if flowAttr['orig'] != None -%}
@@ -97,7 +97,7 @@
         {% endfor -%}
 
         {# Links entre Fminus's y Fplus's con Ftot's #}
-        {% for stockName, attr in stocks_.iteritems() -%}
+        {% for stockName, attr in stocks_.items() -%}
         <!-- Links modelo acoplado minimal integrador {{stockName}} -->
         {% for inflow in attr['inflows'] -%}
         <connection component_from="fp {{stockName}} - {{inflow[0]}}" port_from="out" component_to="ft {{stockName}}" port_to="inPlus - {{inflow[0]}}" />
@@ -110,8 +110,8 @@
 
         {# Links entre integradores y los Fplus's y Fminus's que utilizan dichas variables #}
         <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
-        {% for stockName, stockAttr in stocks_.iteritems() -%}
-        {% for flowName, flowAttr in flows_.iteritems() -%}
+        {% for stockName, stockAttr in stocks_.items() -%}
+        {% for flowName, flowAttr in flows_.items() -%}
         {% if stockName in flowAttr['params_eqn'] -%}
         {% if flowAttr['orig'] != None -%}
         <connection component_from="{{stockName}}" port_from="out" component_to="fm {{flowAttr['orig']}} - {{flowName}}" port_to="in - {{flowAttr['orig']}}" />
@@ -127,7 +127,7 @@
       <!-- Links inputs a constantes -->
       <!-- external input -->
       <external_input_connections>
-        {% for auxName, _ in ctes_.iteritems() -%}
+        {% for auxName, _ in ctes_.items() -%}
         <connection component_from="top" port_from="in - {{auxName}}" component_to="{{auxName}}" port_to="inValue" />
         {% endfor %}
       </external_input_connections>

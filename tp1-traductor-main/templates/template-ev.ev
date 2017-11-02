@@ -1,3 +1,3 @@
-{% for name, val in inputs.iteritems() -%}
+{% for name, val in inputs.items() -%}
 00:00:00:000 {{name}} [{{val}}]
 {% endfor %}

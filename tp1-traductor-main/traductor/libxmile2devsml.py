@@ -12,14 +12,16 @@ TEMPLATE_ENVIRONMENT = Environment(
     trim_blocks=False)
 TEMPLATE_DEVSML = 'template-devsml.xml'
 
-def render_template(template_filename, context):
-    return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
-
 # archivoXmile  = 'modelos traducidos/sir.xmile'
 # archivoDevsml = 'sir/sir-devsml-traduccion-2.xml'
 
 # archivoXmile  = 'modelos traducidos/teacup.xmile'
 # archivoDevsml = 'teacup/teacup-devsml-traduccion-2.xml'
+
+
+def render_template(template_filename, context):
+    return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
+
 
 def convert_xmile_to_devsml(archivoDevsml, archivoXmile):
     tree = ET.parse(archivoXmile)
@@ -102,5 +104,5 @@ def convert_xmile_to_devsml(archivoDevsml, archivoXmile):
     # Guardar el .devsml en output
     with open(archivoDevsml, 'w') as f:
         f.write(render_template(TEMPLATE_DEVSML, context))
-    
+
     return True

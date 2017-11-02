@@ -3,7 +3,11 @@ Script de punto de entrada para la traducción xmile a devsml
 """
 
 import argparse
+import logging
 from pathlib import Path
+from traductor.libxmile2devsml import convert_xmile_to_devsml
+
+logger = logging.getLogger(__name__)
 
 
 def process_xmile_file(xmilefile, devsml_filename):
@@ -11,8 +15,7 @@ def process_xmile_file(xmilefile, devsml_filename):
     Procesa el archivo xmilefile y
     crea el archivo devsml equivalente de nombre devsml_filename
     """
-    print("Procesando {0}".format(xmilefile))
-    print("Creando devsml {1}".format(devsml_filename))
+    convert_xmile_to_devsml(devsml_filename, xmilefile)
 
 
 def main():
