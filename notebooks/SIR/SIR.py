@@ -1,117 +1,33 @@
 """
 Python model SIR.py
-Translated using PySD version 0.7.8
+Translated using PySD version 0.8.2
 """
 from __future__ import division
 import numpy as np
 from pysd import utils
 import xarray as xr
 
-from pysd.functions import cache
-from pysd import functions
+from pysd.py_backend.functions import cache
+from pysd.py_backend import functions
 
 _subscript_dict = {}
 
 _namespace = {
-    'TIME': 'time',
-    'Time': 'time',
-    'Contact Infectivity': 'contact_infectivity',
-    'Duration': 'duration',
-    'Infectious': 'infectious',
-    'Recovered': 'recovered',
-    'Recovering': 'recovering',
-    'Succumbing': 'succumbing',
-    'Susceptible': 'susceptible',
     'Total Population': 'total_population',
+    'Recovering': 'recovering',
+    'Susceptible': 'susceptible',
+    'TIME STEP': 'time_step',
+    'TIME': 'time',
+    'SAVEPER': 'saveper',
+    'Infectious': 'infectious',
+    'Contact Infectivity': 'contact_infectivity',
     'FINAL TIME': 'final_time',
     'INITIAL TIME': 'initial_time',
-    'SAVEPER': 'saveper',
-    'TIME STEP': 'time_step'
+    'Time': 'time',
+    'Duration': 'duration',
+    'Succumbing': 'succumbing',
+    'Recovered': 'recovered'
 }
-
-
-@cache('run')
-def contact_infectivity():
-    """
-    Contact Infectivity
-
-    Persons/Persons/Day
-
-
-    """
-    return 0.3
-
-
-@cache('run')
-def duration():
-    """
-    Duration
-
-    Days
-
-
-    """
-    return 5
-
-
-@cache('step')
-def infectious():
-    """
-    Infectious
-
-    Persons
-
-
-    """
-    return integ_infectious()
-
-
-@cache('step')
-def recovered():
-    """
-    Recovered
-
-    Persons
-
-
-    """
-    return integ_recovered()
-
-
-@cache('step')
-def recovering():
-    """
-    Recovering
-
-    Persons/Day
-
-
-    """
-    return infectious() / duration()
-
-
-@cache('step')
-def succumbing():
-    """
-    Succumbing
-
-    Persons/Day
-
-
-    """
-    return susceptible() * infectious() / total_population() * contact_infectivity()
-
-
-@cache('step')
-def susceptible():
-    """
-    Susceptible
-
-    Persons
-
-
-    """
-    return integ_susceptible()
 
 
 @cache('run')
@@ -120,6 +36,8 @@ def total_population():
     Total Population
 
     Persons
+
+    constant
 
 
     """
@@ -133,21 +51,73 @@ def final_time():
 
     Day
 
+    constant
+
     The final time for the simulation.
     """
     return 100
 
 
+@cache('step')
+def recovering():
+    """
+    Recovering
+
+    Persons/Day
+
+    component
+
+
+    """
+    return infectious() / duration()
+
+
+@cache('step')
+def susceptible():
+    """
+    Susceptible
+
+    Persons
+
+    component
+
+
+    """
+    return integ_susceptible()
+
+
+integ_susceptible = functions.Integ(lambda: -succumbing(), lambda: total_population())
+
+
 @cache('run')
-def initial_time():
+def contact_infectivity():
     """
-    INITIAL TIME
+    Contact Infectivity
 
-    Day
+    Persons/Persons/Day
 
-    The initial time for the simulation.
+    constant
+
+
     """
-    return 0
+    return 0.3
+
+
+@cache('step')
+def infectious():
+    """
+    Infectious
+
+    Persons
+
+    component
+
+
+    """
+    return integ_infectious()
+
+
+integ_infectious = functions.Integ(lambda: succumbing() - recovering(), lambda: 5)
 
 
 @cache('step')
@@ -157,9 +127,39 @@ def saveper():
 
     Day [0,?]
 
+    component
+
     The frequency with which output is stored.
     """
     return time_step()
+
+
+@cache('run')
+def initial_time():
+    """
+    INITIAL TIME
+
+    Day
+
+    constant
+
+    The initial time for the simulation.
+    """
+    return 0
+
+
+@cache('run')
+def duration():
+    """
+    Duration
+
+    Days
+
+    constant
+
+
+    """
+    return 5
 
 
 @cache('run')
@@ -169,13 +169,39 @@ def time_step():
 
     Day [0,?]
 
+    constant
+
     The time step for the simulation.
     """
     return 0.03125
 
 
-integ_infectious = functions.Integ(lambda: succumbing() - recovering(), lambda: 5)
-
 integ_recovered = functions.Integ(lambda: recovering(), lambda: 0)
 
-integ_susceptible = functions.Integ(lambda: -succumbing(), lambda: total_population())
+
+@cache('step')
+def succumbing():
+    """
+    Succumbing
+
+    Persons/Day
+
+    component
+
+
+    """
+    return susceptible() * infectious() / total_population() * contact_infectivity()
+
+
+@cache('step')
+def recovered():
+    """
+    Recovered
+
+    Persons
+
+    component
+
+
+    """
+    return integ_recovered()

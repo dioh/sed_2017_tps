@@ -1,5 +1,5 @@
 """
-Script de punto de entrada para la traducción xmile a devsml
+Script de punto de entrada para la traduccion xmile a devsml
 """
 
 import argparse

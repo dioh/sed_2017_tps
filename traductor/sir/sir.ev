@@ -1,3 +1,3 @@
-00:00:00:000 in_Duration [50]
-00:00:00:000 in_ContactInfectivity [0.3]
-00:00:00:000 in_TotalPopulation [1000]
+00:00:00:000 in_contactInfectivity [0.3]
+00:00:00:000 in_duration [5]
+00:00:00:000 in_totalPopulation [1000]
