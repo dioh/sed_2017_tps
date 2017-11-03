@@ -126,7 +126,7 @@ neighbors : opinion(0,-1,0)  opinion(0,0,0)  opinion(0,1,0)
 neighbors : opinion(1,0,0)
 neighbors : opinion(0,0,1)
 initialvalue : -70
-initialCellsValue : cc/start_10.10_01.val
+initialCellsValue : cc/start_10.10_02.val
 
 %---------------------------------------------------
 Inputs + Links internos para shock exogeno
