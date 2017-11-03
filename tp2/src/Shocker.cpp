@@ -38,7 +38,7 @@ Shocker::Shocker(const string &name) :
 	in(addInputPort("in")),
 	numberOfOutputPorts(20),
 	numberOfChosenOutputPorts(10),
-	outValue(3)
+	outValue()
 {
 }
 
@@ -82,25 +82,25 @@ Model &Shocker::outputFunction(const CollectMessage &msg)
 	}
 
 	// Send output through rondomized group of output ports
-	if(selected_ports[0] == 1) { sendOutput(msg.time(), out0, 3); } 
-	if(selected_ports[1] == 1) { sendOutput(msg.time(), out1, 3); } 
-	if(selected_ports[2] == 1) { sendOutput(msg.time(), out2, 3); } 
-	if(selected_ports[3] == 1) { sendOutput(msg.time(), out3, 3); } 
-	if(selected_ports[4] == 1) { sendOutput(msg.time(), out4, 3); } 
-	if(selected_ports[5] == 1) { sendOutput(msg.time(), out5, 3); } 
-	if(selected_ports[6] == 1) { sendOutput(msg.time(), out6, 3); } 
-	if(selected_ports[7] == 1) { sendOutput(msg.time(), out7, 3); } 
-	if(selected_ports[8] == 1) { sendOutput(msg.time(), out8, 3); } 
-	if(selected_ports[9] == 1) { sendOutput(msg.time(), out9, 3); } 
-	if(selected_ports[10] == 1) { sendOutput(msg.time(), out10, 3); } 
-	if(selected_ports[11] == 1) { sendOutput(msg.time(), out11, 3); } 
-	if(selected_ports[12] == 1) { sendOutput(msg.time(), out12, 3); } 
-	if(selected_ports[13] == 1) { sendOutput(msg.time(), out13, 3); } 
-	if(selected_ports[14] == 1) { sendOutput(msg.time(), out14, 3); } 
-	if(selected_ports[15] == 1) { sendOutput(msg.time(), out15, 3); } 
-	if(selected_ports[16] == 1) { sendOutput(msg.time(), out16, 3); } 
-	if(selected_ports[17] == 1) { sendOutput(msg.time(), out17, 3); } 
-	if(selected_ports[18] == 1) { sendOutput(msg.time(), out18, 3); } 
-	if(selected_ports[19] == 1) { sendOutput(msg.time(), out19, 3); } 
+	if(selected_ports[0] == 1) { sendOutput(msg.time(), out0, ); } 
+	if(selected_ports[1] == 1) { sendOutput(msg.time(), out1, ); } 
+	if(selected_ports[2] == 1) { sendOutput(msg.time(), out2, ); } 
+	if(selected_ports[3] == 1) { sendOutput(msg.time(), out3, ); } 
+	if(selected_ports[4] == 1) { sendOutput(msg.time(), out4, ); } 
+	if(selected_ports[5] == 1) { sendOutput(msg.time(), out5, ); } 
+	if(selected_ports[6] == 1) { sendOutput(msg.time(), out6, ); } 
+	if(selected_ports[7] == 1) { sendOutput(msg.time(), out7, ); } 
+	if(selected_ports[8] == 1) { sendOutput(msg.time(), out8, ); } 
+	if(selected_ports[9] == 1) { sendOutput(msg.time(), out9, ); } 
+	if(selected_ports[10] == 1) { sendOutput(msg.time(), out10, ); } 
+	if(selected_ports[11] == 1) { sendOutput(msg.time(), out11, ); } 
+	if(selected_ports[12] == 1) { sendOutput(msg.time(), out12, ); } 
+	if(selected_ports[13] == 1) { sendOutput(msg.time(), out13, ); } 
+	if(selected_ports[14] == 1) { sendOutput(msg.time(), out14, ); } 
+	if(selected_ports[15] == 1) { sendOutput(msg.time(), out15, ); } 
+	if(selected_ports[16] == 1) { sendOutput(msg.time(), out16, ); } 
+	if(selected_ports[17] == 1) { sendOutput(msg.time(), out17, ); } 
+	if(selected_ports[18] == 1) { sendOutput(msg.time(), out18, ); } 
+	if(selected_ports[19] == 1) { sendOutput(msg.time(), out19, ); } 
 	return *this ;
 }

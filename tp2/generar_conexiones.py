@@ -21,7 +21,7 @@ def generateRegFile(template, atomicClass):
     regFile = render_template(templateReg, context)
     return regFile
 
-def generateMAFile(template, valFile, N, M, atomicos, inputs, links_internal, links_external, inputs_external, links_external_atomic):
+def generateMAFile(template, valFile, N, M, atomicos, inputs, links_internal, links_external, inputs_external, links_external_atomic, rules):
     templateMA = template
     context = {
         'N' : N,
@@ -32,19 +32,19 @@ def generateMAFile(template, valFile, N, M, atomicos, inputs, links_internal, li
         'inputs_external'   : inputs_external,
         'links_external_atomic' : links_external_atomic,
         'links_internal'    : links_internal,
-        'links_external'    : links_external
+        'links_external'    : links_external,
+        'rules' : rules
     }
     maFile = render_template(templateMA, context)
     return maFile
 
-def generateAtomicFile(templateH, templateCPP, atomicClass, outPorts, numberOfChosenOutputPorts, outValue):
+def generateAtomicFile(templateH, templateCPP, atomicClass, outPorts, numberOfChosenOutputPorts):
     context = {
         'atomicClass': atomicClass,
         'atomicClassConstant' : atomicClass.upper(),
         'outPorts'   : outPorts,
         'numberOfOutputPorts' : len(outPorts),
-        'numberOfChosenOutputPorts' : numberOfChosenOutputPorts,
-        'outValue' : outValue
+        'numberOfChosenOutputPorts' : numberOfChosenOutputPorts
     }
     hFile   = render_template(templateH, context)
     cppFile = render_template(templateCPP, context)
@@ -130,15 +130,26 @@ outputsAtomicos = inputsLinks['outputsAtomicos']
 inputs_external = inputsLinks['inputs_external']
 links_external_atomic = inputsLinks['links_external_atomic']
 
+# Reglas de reaccion ante los 'shockers'
+rules = [
+    # polarizador
+    '{ if ( (0,0,0) < 0 , uniform(-3, (0,0,0)), uniform((0,0,0), 3) ) } 0 { (0,0,0) = 5 }',
+    # despolarizador
+    '{ if ( (0,0,0) < 0 , uniform((0,0,0), 0), uniform(0, (0,0,0)) ) } 0 { (0,0,0) = 6 }'
+]
+
+# Parametros (defino a cuantas celdas el 'shocker' redirije el valor que le pasamos)
+# Por default, lo redirije a (1/2)*(cantidad de celdas con las que esta conectado)
 outPorts = outputsAtomicos
 nChosenOutports = int(len(outPorts) / 2)
-outValue = 3
-
 
 maFilename = 'Influmodel.ma'
 mafile = generateMAFile('model_template.ma', 'valfile.val', N, M,
                         atomicos, inputsModelo,
-                        links_internos, links_externos, inputs_external, links_external_atomic)
+                        links_internos, links_externos, inputs_external, links_external_atomic,
+                        rules)
+
+# Genero archivo .ma
 folder = './'
 with open(folder + maFilename, 'w') as f:
         f.write(mafile)
@@ -146,7 +157,7 @@ with open(folder + maFilename, 'w') as f:
 # Genero archivos .h y .cpp
 folder = 'src/'
 atomic = generateAtomicFile('atomic_template.h', 'atomic_template.cpp',
-                                atomicClass, outPorts, nChosenOutports, outValue)
+                                atomicClass, outPorts, nChosenOutports)
 
 with open(folder + atomicClass + '.h', 'w') as f:
     hFile   = atomic['h']
@@ -158,5 +169,13 @@ with open(folder + atomicClass + '.cpp', 'w') as f:
 
 # Genero reg.cpp file
 ## TODO
+
+# Genero 'event file'
+# Por default, genero 
+
+
+
+
+
 
 
