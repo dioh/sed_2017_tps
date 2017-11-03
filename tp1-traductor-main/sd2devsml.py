@@ -4,7 +4,11 @@ Script de punto de entrada para la traduccion xmile a devsml
 
 import argparse
 import logging
-from pathlib import Path
+try:
+    from pathlib import Path
+    Path().expanduser()
+except (ImportError, AttributeError):
+    from pathlib2 import Path
 from traductor.libxmile2devsml import convert_xmile_to_devsml
 
 logger = logging.getLogger(__name__)

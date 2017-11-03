@@ -4,7 +4,11 @@ Script de punto de entrada para la traducción devsml a devsml
 
 import argparse
 import logging
-from pathlib import Path
+try:
+    from pathlib import Path
+    Path().expanduser()
+except (ImportError, AttributeError):
+    from pathlib2 import Path
 from traductor.libdevsmlcdpp import devsml2cdpp
 
 
@@ -29,7 +33,8 @@ def main():
 
     devsml_file = Path(args.devsmlfile)
     if devsml_file.is_file():
-        process_devsml_file(args.devsmlfile, args.maout, args.evout, args.src_dir)
+        process_devsml_file(args.devsmlfile, args.maout,
+                            args.evout, args.src_dir)
     else:
         print("Error!")
         print("Archivo {0} no encontrado".format(args.devsmlfile))
