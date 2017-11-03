@@ -133,9 +133,9 @@ links_external_atomic = inputsLinks['links_external_atomic']
 # Reglas de reaccion ante los 'shockers'
 rules = [
     # polarizador
-    '{ if ( (0,0,0) < 0 , uniform(-3, (0,0,0)), uniform((0,0,0), 3) ) } 0 { (0,0,0) = 5 }',
+    '{ if ( (0,0,0) < 0 , uniform(-3, -2), uniform(2, 3) ) } 0 { (0,0,0) = 5 }',
     # despolarizador
-    '{ if ( (0,0,0) < 0 , uniform((0,0,0), 0), uniform(0, (0,0,0)) ) } 0 { (0,0,0) = 6 }'
+    '{ if ( (0,0,0) < 0 , uniform(-1, 0), uniform(0, 1) ) } 0 { (0,0,0) = 6 }'
 ]
 
 # Parametros (defino a cuantas celdas el 'shocker' redirije el valor que le pasamos)

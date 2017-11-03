@@ -66,7 +66,7 @@ Model &{{atomicClass}}::outputFunction(const CollectMessage &msg)
 
 	// Send output through rondomized group of output ports
 	{% for outPort in outPorts -%} 
-		if(selected_ports[{{loop.index - 1}}] == 1) { sendOutput(msg.time(), {{outPort}}, {{outValue}}); } 
+		if(selected_ports[{{loop.index - 1}}] == 1) { sendOutput(msg.time(), {{outPort}}, outValue); } 
 	{% endfor -%}
 	return *this ;
 }
