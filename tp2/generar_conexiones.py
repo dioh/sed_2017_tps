@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from jinja2 import DictLoader, Environment, FileSystemLoader
 import os
 import numpy as np
