@@ -1,5 +1,5 @@
 [top]
-components : {% for intName, attr in integradores_.iteritems() %}{{intName}}@{{attr['model']}} {% endfor -%} {% for ftName, attr in fts_.iteritems() %}{{ftName}}@{{attr['model']}} {% endfor -%}{% for fmName, attr in fms_.iteritems() %}{{fmName}}@{{attr['model']}} {% endfor %}{% for fpName, attr in fps_.iteritems() -%}{{fpName}}@{{attr['model']}} {% endfor -%}{% for cteName, attr in ctes_.iteritems() %}{{cteName}}@{{attr['model']}} {% endfor %}
+components : {% for intName, attr in integradores_.iteritems() %}{{intName}}@{{attr['model']}} {% endfor -%} {% for ftName, attr in fts_.iteritems() %}{{ftName}}@{{attr['model']}} {% endfor -%}{% for fmName, attr in fms_.iteritems() %}{{fmName}}@{{attr['model']}} {% endfor %}{% for fpName, attr in fps_.iteritems() -%}{{fpName}}@{{attr['model']}} {% endfor -%}{% for cteName, attr in ctes_.iteritems() %}{{cteName}}@{{attr['model']}} {% endfor %}{% for auxName, attr in auxs_.iteritems() %} {{auxName}}@{{attr['model']}} {% endfor %}
 
 % Puertos: Input de parametros. Output de variables de interes
 in : {% for cteName, attr in ctes_.iteritems() -%}in_{{cteName}} {% endfor %}
@@ -20,6 +20,37 @@ link : out@{{param}} in_{{param}}@{{fmName}}
 {% for fpName, fpAttr in fps_.iteritems() -%} 
 {% for param in fpAttr['function_params'] -%}
 {% if param in ctes_.keys() -%}
+link : out@{{param}} in_{{param}}@{{fpName}}
+{% endif -%}
+{% endfor -%}
+{% endfor %}
+% Link constantes a Aux's que las usan
+{% for auxName, auxAttr in auxs_.iteritems() -%} 
+{% for param in auxAttr['function_params'] -%}
+{% if param in ctes_.keys() -%}
+link : out@{{param}} in_{{param}}@{{auxName}}
+{% endif -%}
+{% endfor -%}
+{% endfor %}
+% Link Aux's a Aux's que las usan
+{% for auxName, auxAttr in auxs_.iteritems() -%} 
+{% for param in auxAttr['function_params'] -%}
+{% if param in auxs_.keys() -%}
+link : out@{{param}} in_{{param}}@{{auxName}}
+{% endif -%}
+{% endfor -%}
+{% endfor %}
+% Link Aux's a funciones que las usan 
+{% for fmName, fmAttr in fms_.iteritems() -%} 
+{% for param in fmAttr['function_params'] -%}
+{% if param in auxs_.keys() -%}
+link : out@{{param}} in_{{param}}@{{fmName}}
+{% endif -%}
+{% endfor -%}
+{% endfor -%}
+{% for fpName, fpAttr in fps_.iteritems() -%} 
+{% for param in fpAttr['function_params'] -%}
+{% if param in auxs_.keys() -%}
 link : out@{{param}} in_{{param}}@{{fpName}}
 {% endif -%}
 {% endfor -%}
@@ -46,6 +77,11 @@ link : out@{{intName}} in_{{intName}}@{{fmName}}
 {% for fpName, fpAttr in fps_.iteritems() -%}
 {% if intName in fpAttr['function_params'] -%}
 link : out@{{intName}} in_{{intName}}@{{fpName}}
+{% endif -%}
+{% endfor -%}
+{% for auxName, auxAttr in auxs_.iteritems() -%}
+{% if intName in auxAttr['function_params'] -%}
+link : out@{{intName}} in_{{intName}}@{{auxName}}
 {% endif -%}
 {% endfor -%}
 {% endfor %}

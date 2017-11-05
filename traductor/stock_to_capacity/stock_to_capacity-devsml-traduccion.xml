@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devs>
+  <scenario>
+    <coupled name="top" model="Coupled" >
+      <!-- Input / Output -->
+      <!-- Inputs -->
+      <inputs>
+        <port name="Maximum Capacity of Stock" />
+        </inputs>
+      <!-- Outputs -->
+      <outputs>
+        <port name="Stock 1" />
+        </outputs>
+      <components>
+
+        <!-- Stock : Stock 1 -->
+        <atomicRef name="ft Stock 1" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inPlus - Flow 1" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="Stock 1" model="QSS1">
+          <parameter name="x0" value="100" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Flow : Flow 1 -->
+        <atomicRef name="fp Stock 1 - Flow 1" model="Fplus">
+          <!-- Puertos del atomico -->
+          <port name="in Growth Coefficient " type="in" />
+          <port name="in  Stock 1" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="Growth Coefficient * Stock 1" />
+        </atomicRef>
+        <!-- Parameters / Constantes -->
+        <atomicRef name="Maximum Capacity of Stock" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="1000" />
+        </atomicRef>
+        <!-- Parameters / Auxiliares -->
+        <atomicRef name="Effect of Ratio of Stock to Capacity on Growth Coefficient" model="Aux">
+          <parameter name="function" value="1 - Ratio of Stock to Capacity" />
+        </atomicRef>
+        <atomicRef name="Growth Coefficient" model="Aux">
+          <parameter name="function" value="0.5 * Effect of Ratio of Stock to Capacity on Growth Coefficient" />
+        </atomicRef>
+        <atomicRef name="Ratio of Stock to Capacity" model="Aux">
+          <parameter name="function" value="Stock 1 / Maximum Capacity of Stock" />
+        </atomicRef>
+        </components>
+
+      <internal_connections>
+
+        <!-- Link : Cte's a f's que las usan -->
+        <!-- Link : Cte's a Aux's que las usan -->
+        <!-- Aux : Ratio of Stock to Capacity -->
+        <connection component_from="Maximum Capacity of Stock" port_from="out" comonent_to="Ratio of Stock to Capacity" port_to="in Maximum Capacity of Stock"/>
+        <!-- Link : Aux a Aux's que las usan -->
+        <!-- Aux : Effect of Ratio of Stock to Capacity on Growth Coefficient => Growth Coefficient-->
+        <connection component_from="Effect of Ratio of Stock to Capacity on Growth Coefficient" port_from="out" component_to="Growth Coefficient" port_to="in Effect of Ratio of Stock to Capacity on Growth Coefficient"/>
+        <!-- Aux : Growth Coefficient => Growth Coefficient-->
+        <connection component_from="Growth Coefficient" port_from="out" component_to="Growth Coefficient" port_to="in Growth Coefficient"/>
+        <!-- Aux : Ratio of Stock to Capacity => Effect of Ratio of Stock to Capacity on Growth Coefficient-->
+        <connection component_from="Ratio of Stock to Capacity" port_from="out" component_to="Effect of Ratio of Stock to Capacity on Growth Coefficient" port_to="in Ratio of Stock to Capacity"/>
+        <!-- Aux : Ratio of Stock to Capacity => Growth Coefficient-->
+        <connection component_from="Ratio of Stock to Capacity" port_from="out" component_to="Growth Coefficient" port_to="in Ratio of Stock to Capacity"/>
+        <!-- Link : Aux a funciones que las usan --> 
+        <!-- Aux : Growth Coefficient => Flow 1 -->
+        <connection component_from="Growth Coefficient" port_from="out" component_to="fp Stock 1 - Flow 1" port_to="in - Stock 1" />
+        
+        <!-- Links modelo acoplado minimal integrador Stock 1 -->
+        <connection component_from="fp Stock 1 - Flow 1" port_from="out" component_to="ft Stock 1" port_to="inPlus - Flow 1" />
+        <connection component_from="ft Stock 1" port_from="out" component_to="Stock 1" port_to="in" />
+        
+        <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
+        </internal_connections>
+      
+      <!-- Links inputs a constantes -->
+      <!-- external input -->
+      <external_input_connections>
+        <connection component_from="top" port_from="in - Maximum Capacity of Stock" component_to="Maximum Capacity of Stock" port_to="inValue" />
+        
+      </external_input_connections>
+
+      <!-- external output -->
+      <external_output_connections />
+    </coupled>
+  </scenario>
+</devs>

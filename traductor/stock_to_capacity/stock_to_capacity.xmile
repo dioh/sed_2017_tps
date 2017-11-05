@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+<xmile>
 	<header>
 		<smile version="1.0" namespace="std, isee"/>
 		<name>stock_to_capacity</name>
