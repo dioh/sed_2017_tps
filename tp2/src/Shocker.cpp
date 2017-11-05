@@ -52,6 +52,7 @@ Model &Shocker::initFunction()
 
 Model &Shocker::externalFunction(const ExternalMessage &msg)
 {
+	outValue = Tuple<Real>::from_value(msg.value())[0].value();
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
