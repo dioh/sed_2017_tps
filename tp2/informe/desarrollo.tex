@@ -1,0 +1,54 @@
+Para poder simular el comportamiento de los shockers fue necesario extender el trabajo en distintos puntos.
+
+\subsection{Modelo atómico Shocker}
+
+El comportamiento exógeno fue modelado con n modelos atómicos. Cada uno de éstos modelos afecta a una porción de las celdas totales de la grilla.
+En particular, si asumimos una grilla cuadrada de $N\ times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
+
+Las celdas afectadas por cada Shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
+
+Los shockers emitirán en momentos específicos y valores específicos. Cuando sus funciones de salida ejecuten, algunas celdas recibirán estos valores y actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
+
+
+\subsection{Nuevas reglas para la grilla}
+
+Para poder estudiar la influencia de los shockers determinamos las siguientes reglas para la grilla.
+
+\begin{itemize}
+    \item rule: {  uniform(-3, -2) } 0 { (0,0,0) = 5 }
+    \item rule: {  uniform(-1, 1)  } 0 { (0,0,0) = 6 }
+    \item rule: {  uniform(2, 3) } 0 { (0,0,0) = 7 } 
+\end{itemize}
+
+Para sintetizar el comportamiento agregado podemos decir que existirán tres tipos de shockers. Los que emitan el valor 5 polarizarán a las celdas hacia el intervalo [-3, -2]. Los que emitan el valor 6, neutralizarán la opinión de estas celdas volviendolas indecisas. Por otra parte al emitirse el valor 7, las celdas afectadas polarizarán hacia el intervalo opuesto [2, 3].
+
+
+\subsection{Experimentos}
+
+Para analizar el comportamiento del modelo diseñamos pruebas para poder analizar el efecto de los shocks variando el porcentaje de indecisos en la población.
+
+Definimos:
+
+\begin{description}
+    \item[Tamaño de la grilla]  $10 \times 10$
+    \item[Cantidad de shockers] 5
+    \item[Tiempo entre shocks] 10 segundos
+    \item[Tiempo virtual de simulación] 4 minutos
+    \item[Distribución poblacional inicial] 80\% de indecisos, 10\% de votantes de A, 10\% votantes de B.
+\end{description}
+
+Las variaciones entre los experimentos están dadas por los efectos por cada shocker.
+
+Supongamos el vector de influencias [X, X, X, X, X]. En cada posición tenemos la influencia que puede generar el shocker de la posición i-ésima. Los valores pueden ser \textit{A, B o I}. Es decir, partido A, partido B o indeciso. Generamos los siguientes vectores de influencias que se mantienen a lo largo de toda la simulación.
+
+Detrás del diseño de estos experimentos se esconde la idea de competencia por territorios. En donde el que mayor influencia tiene en él, puede dominar la partida o generar una votación a su favor.
+
+\begin{description}
+    \item[55555] Todos los shockers obran a favor del partido A.
+    \item[55667] Hay mayor dominación del partido A, sin embargo existen 2 shockers que generan indecisos.
+    \item[55677] Terreno neutral, ninguno de los dos partidos domina.
+    \item[55777] Hay dominación por parte del partido B, pero ligeramente.
+    \item[56667] Terreno neutral con mayor cantidad de shockers que generan indecisos.
+    \item[57777] La mayor cantidad de shockers dominan a favor del partido B pero el partido A tiene un socker que genera opinión a su favor.
+\end{description}
+
