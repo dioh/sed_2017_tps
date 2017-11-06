@@ -1,0 +1,27 @@
+Los procesos de intercambio de opinión, donde por las interacciones interpersonales influyen en la toma de decisiones, tienen amplia aplicación en estudios de comportamiento de las personas como por ejemplo en las ciencias sociales, políticas y económicas. Dichos procesos, son de gran interés para el estudio de procesos electorales en los cuales la opinión pública tiene directa injerencia en la decisión del electorado.
+
+En este trabajo, continuaremos el estudio del impacto de los indecisos y su interacción con otros actores de opinión más fuerte y su consecuente impacto en el resultado de una elección bi-partidista. Extenderemos este trabajo introduciendo nuevos eventos, los shocks de opinión. Estos pueden pensarse como eventos que afectan un conjunto de agentes e influyen su opinión de manera exógena. Estos cambios podrán repercutir fuertemente en su opinión.
+
+Buscamos entonces, analizar el impacto de la influencia de los medios de información y las redes sociales en los indecisos del electorado promedio.
+
+
+En el trabajo elaborado por Dima et.al encontramos dos premisas (entre otras)  sobre las cuales podemos generar un diferencial en el comportamiento de los agentes.
+
+\begin{itemize}
+    \item Las interacciones de las celdas es de a pares y unidireccional, y
+    \item el vecindario está definido utilizando el vecindario von Neumann
+\end{itemize}
+
+Estas dos premisas limitan el intercambio de opiniones entre celdas alejadas entre sí. Dicho proceso, no refleja cambios de opinión cuando o bien los agentes interactúan en ámbitos nuevos o reciben información de por fuera de su núcleo de interacción.
+
+
+
+El objeto de estudio definido por Pina et.al es de una elección entre dos
+partidos (por ejemplo, en el ámbito de un ballotage presidencial), sometida a un libre
+intercambio de opiniones.
+Los estados posibles de un agente, se encuentran en un intervalo de valores definido en el [-3, 3]. Donde los valores de [-3, -1) pertenecen a afinidad por el partido A, los valores entre [-1, 1] denotan que el agente se encuentra en estado de indefinición mientras que los valores en el intervalo (1, 3] son del partido B.
+El motivo de esto es que el grado de convicción de los sujetos se encuentra en un espectro que varía a través del tiempo.
+
+La grilla bidimensional de los agentes será de dimensión NxN. Para definir la interacción de cada individuo, se presenta una segunda capa en la grilla la cual contiene información sobre la conectividad de cada persona (Fig. 1a). Cada sujeto modificará su estado en base a la información de la convicción de uno de sus primeros vecinos en las direcciones izquierda, derecha, arriba o abajo. Esto se define en una segunda capa de conectividad que cada determinado intervalo de tiempo genera un valor aleatorio en el rango [1, 4] que define de quien toma la influencia. A intervalos de tiempo de longitud Tau, toda la población recomputa su convicción.
+
+
