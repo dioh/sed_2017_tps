@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
 """
 Script de punto de entrada para la traducción devsml a devsml
 """
