@@ -3,7 +3,7 @@ Para poder simular el comportamiento de los shockers fue necesario extender el t
 \subsection{Modelo atómico Shocker}
 
 El comportamiento exógeno fue modelado con n modelos atómicos. Cada uno de éstos modelos afecta a una porción de las celdas totales de la grilla.
-En particular, si asumimos una grilla cuadrada de $N\ times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
+En particular, si asumimos una grilla cuadrada de $N \times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
 
 Las celdas afectadas por cada Shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
 
@@ -25,7 +25,14 @@ Para sintetizar el comportamiento agregado podemos decir que existirán tres tip
 
 \subsection{Experimentos}
 
-Para analizar el comportamiento del modelo diseñamos pruebas para poder analizar el efecto de los shocks variando el porcentaje de indecisos en la población.
+Diseñamos experimentos para responder algunas preguntas, como por ejemplo:
+\begin{itemize}
+\item La presencia de shockers influye en el estado final del proceso de intercambio de opinión$?$ 
+\item Cómo afecta la presencia o no de shockers al estado final del sistema (partidismo vs. bipartidismo)$?$ 
+\item Qué diferencias se pueden observar en el efecto que producen los diferentes shockers en el estado final de la población$?$ 
+\item Con qué frecuencia se deberían generar shocks en la población para que estos tengan un efecto sobre la dinámica de intercambio de opinión de la misma?
+\item Cuál es el factor más determinante del estado final de la simulación: el estado inicial de las celdas o la cantidad / características / frecuencia de shockeo de los shockers$?$ 
+\end{itemize}
 
 Definimos:
 
