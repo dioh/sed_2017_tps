@@ -25,7 +25,6 @@ Nuevamente, dejamos en rojo los atómicos que no tienen cabida en el modelo, per
 \subsubsection{Modelo formal}
 A continuación, exponemos formalmente los modelos atómicos utilizados en el acoplado Top, con la descripción de su comportamiento interno.
 \begin{itemize}
-\item \textbf{Cte} : $ totalPopulation \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$
 \item \textbf{Cte} : $ totalPopulation, contactInfectivity, duration \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
 $ X = \{ inValue \} $ \newline
 $ S = \{ value \} $ \newline
@@ -121,15 +120,30 @@ El acoplado que utiliza los atómicos expuestos más arriba es:
 	\item $ Top \rightarrow \langle X, Y, \{ M_{1}, M_{2}, M_{3}, M_{4}, M_{5} \}, C_{xx}, C_{yx}, C_{yy}, Select \rangle$ \newline
 	$ X = \{ \} $ \newline
 	$ Y = \{ \} $ \newline
-	$ M_{1} = roomTemperature $ \newline
-	$ M_{2} = characteristicTime $ \newline
-	$ M_{3} = fmTeacupTemperatureHeatLossToRoom$ \newline
-	$ M_{4} = ftTeacuptTemperature $ \newline
-	$ M_{5} = teacupTemperatureIntegrator $ \newline
+	$ M_{1} = totalPopulation $ \newline
+	$ M_{2} = contactInfectivity $ \newline
+	$ M_{3} = duration $ \newline
+	$ M_{4} = fmSusceptiblesSuccumbing $ \newline
+	$ M_{5} = ftSuceptibles  $ \newline
+	$ M_{6} = susceptiblesIntegrator  $ \newline
+	$ M_{7} = fpInfectedSuccumbing $ \newline
+	$ M_{8} = fmInfectedRecovering  $ \newline
+	$ M_{9} = ftInfected  $ \newline
+	$ M_{10} = infectedIntegrator  $ \newline
+	$ M_{11} = fpRecoveredRecovering  $ \newline
+	$ M_{12} = ftRecovered  $ \newline
+	$ M_{13} = recoveredIntegrator  $ \newline
 	$ C_{xx} = $ \{ \} \newline
-	$ C_{yx} = \{ (M_{1}.!out, M_{3}.?inRoomTemperture), (M_{2}.!out, M_{3}.?inCharacteristicTime), \\
-	(M_{5}.!out, M_{3}.?inTecupTemperatureIntegrator), (M_{3}.!out, M_{4}.?inMinusHeatLossToRoom), \\
-	(M_{4}.!out, M_{5}.?in) \} $ \newline
+	$ C_{yx} = \{ (M_{1}.!out, M_{4}.?inTotalPopulation), (M_{1}.!out, M_{5}.?inTotalPopulation), \\
+	(M_{2}.!out, M_{4}.?inContactInfectivity), (M_{2}.!out, M_{5}.?inContactInfectivity), \\
+	(M_{3}.!out, M_{6}.?inDuration), (M_{3}.!out, M_{7}.?inDuration), \\
+	(M_{4}.!out, M_{5}.?inMinus), (M_{5}.!out, M_{6}.?in), \\
+	(M_{6}.!out, M_{4}.?inSusceptiblesIntegrator), (M_{6}.!out, M_{7}.?inSuceptiblesIntegrator), \\
+	(M_{7}.!out, M_{9}.?inPlus), (M_{8}.!out, M_{9}.?inMinus), \\
+	(M_{9}.!out, M_{10}.?in), (M_{10}.!out, M_{4}.?inInfectedIntegrator), \\
+	(M_{10}.!out, M_{7}.?inInfectedIntegrator), (M_{10}.!out, M_{8}.?inInfectedIntegrator), \\
+	(M_{10}.!out, M_{11}.?inInfectedIntegrator), (M_{11}.!out, M_{12}.?inPlus), \\
+	(M_{12}.!out, M_{13}.?in)  \} $ \newline
 	$ C_{yy} = \{ \} $ \newline
 \end{itemize}
 
