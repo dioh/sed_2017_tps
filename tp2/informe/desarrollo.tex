@@ -1,0 +1,67 @@
+Para poder simular el comportamiento de los shockers fue necesario extender el trabajo en distintos puntos.
+
+\subsection{Modelo atómico Shocker}
+
+El comportamiento exógeno fue modelado con n modelos atómicos. Cada uno de éstos modelos afecta a una porción de las celdas totales de la grilla.
+En particular, si asumimos una grilla cuadrada de $N \times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
+
+Las celdas afectadas por cada Shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
+
+Los shockers emitirán en momentos específicos y valores específicos. Cuando sus funciones de salida ejecuten, algunas celdas recibirán estos valores y actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
+
+
+\subsection{Nuevas reglas para la grilla}
+
+Para poder estudiar la influencia de los shockers determinamos las siguientes reglas para la grilla.
+
+\begin{itemize}
+    \item rule: {  uniform(-3, -2) } 0 { (0,0,0) = 5 }
+    \item rule: {  uniform(-1, 1)  } 0 { (0,0,0) = 6 }
+    \item rule: {  uniform(2, 3) } 0 { (0,0,0) = 7 } 
+\end{itemize}
+
+Para sintetizar el comportamiento agregado podemos decir que existirán tres tipos de shockers. Los que emitan el valor 5 polarizarán a las celdas hacia el intervalo [-3, -2]. Los que emitan el valor 6, neutralizarán la opinión de estas celdas volviéndolas indecisas. Por otra parte al emitirse el valor 7, las celdas afectadas polarizarán hacia el intervalo opuesto [2, 3].
+
+
+\subsection{Experimentos}
+
+Diseñamos experimentos para responder algunas preguntas, como por ejemplo:
+\begin{itemize}
+\item La presencia de shockers influye en el estado final del proceso de intercambio de opinión$?$ 
+\item Cómo afecta la presencia o no de shockers al estado final del sistema (partidismo vs. bipartidismo)$?$ 
+\item Qué diferencias se pueden observar en el efecto que producen los diferentes shockers en el estado final de la población$?$ 
+\item Con qué frecuencia se deberían generar shocks en la población para que estos tengan un efecto sobre la dinámica de intercambio de opinión de la misma?
+\item Cuál es el factor más determinante del estado final de la simulación: el estado inicial de las celdas o la cantidad / características / frecuencia de shockeo de los shockers$?$ 
+\end{itemize}
+
+Definimos:
+
+\begin{description}
+    \item \textbf{Tamaño de la grilla}  $10 \times 10$
+    \item \textbf{Cantidad de shockers} 5
+    \item \textbf{Tiempo entre shocks} 10 segundos
+    \item \textbf{Tiempo virtual de simulación} 4 minutos
+    \item \textbf{Distribución poblacional inicial} 10\% de indecisos, 45\% de votantes de A, 45\% votantes de B.
+\end{description}
+
+Las variaciones entre los experimentos están dadas por los efectos por cada shocker.
+
+Supongamos el vector de influencias tal que se pueden tener shocks de tres
+tipos. Los shocks de tipo A, llevan a una celda a un valor con distribución
+uniforme extremo, un valor entre [-3, -2]. Los shocks de tipo I, neutralizan
+llevando las celdas al intervalo  [-1, 1]. Por último los shocks de tipo B
+polarizan hacia los valores [2, 3].
+
+Detrás del diseño de estos experimentos se esconde la idea de competencia por
+territorios. En donde el que mayor influencia tiene en él, puede dominar la
+partida o generar una votación a su favor.
+
+\begin{itemize}
+    \item \textbf{Shockers: 5A} Todos los shockers obran a favor del partido A.
+    \item \textbf{Shockers: 2A 2I 1B} Hay mayor dominación del partido A, sin embargo existen 2 shockers que generan indecisos.
+    \item \textbf{Shockers: 2A 1I 2B} Terreno neutral, ninguno de los dos partidos domina.
+    \item \textbf{Shockers: 2A 3B} Hay dominación por parte del partido B, pero ligeramente.
+    \item \textbf{Shockers: 1A 3I 1B} Terreno neutral con mayor cantidad de shockers que generan indecisos.
+    \item \textbf{Shockers: 1A 4B} La mayor cantidad de shockers dominan a favor del partido B pero el partido A tiene un socker que genera opinión a su favor.  
+\end{itemize}
+

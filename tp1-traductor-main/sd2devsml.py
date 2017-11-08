@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Script de punto de entrada para la traduccion xmile a devsml
 """
