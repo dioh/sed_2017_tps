@@ -22,12 +22,14 @@ TEMPLATE_AUX_CPP = 'template-Aux.cpp'
 TEMPLATE_REG_CPP = 'template-reg.cpp'
 TEMPLATE_EV = 'template-ev.ev'
 
+
 def render_template(template_filename, context):
     return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
 
 def stock2integrator(stockName):
-    return (stockName[0].lower() + stockName[1:] + 'Integrator').replace(' ', '')
+    newname = (stockName[0].lower() + stockName[1:] + 'Integrator').replace(' ', '')
+    return newname
 
 
 def flow2coupledTot(flowName):
@@ -79,11 +81,20 @@ def processFunction(function, integradores_, auxs_, ctes_):
     for cteName in cteNames:
         if cteName in result:
             result = result.replace(cteName, cte2cte(cteName))
+    
     # matches contiene los parametros que se utilizan en la funcion y que son aux's
-    matches = [auxName for auxName in auxsNames if auxName in result]
-    matches = sorted(matches, key=lambda match : len(match), reverse=True)
-    if len(matches) > 0:
-        result = result.replace(matches[0], aux2aux(matches[0]))
+    # (cuidado con las variables en 'result' que no son aux's, pero tiene nombre parecido)
+    func_params_names = re.split('[-+*/()]+',function)
+    func_params_names = map(lambda x : x.lstrip().rstrip(), func_params_names)
+    
+    # #print 'PREVFUNCTION: ', result
+    #print 'STOCKNAMES: ', stockNames
+    #print 'AUXSNAMES: ', auxsNames
+    #print 'FUNC_PARAMS: ', func_params_names
+    for auxName in auxsNames:
+        for param in func_params_names:
+            if auxName == param:
+                result = result.replace(param, aux2aux(param))
     return result
 
 
@@ -142,7 +153,8 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
         ctes_[cteName]['params']['value'] = param.get('value')
         ctes_[cteName]['params']['unit'] = param.get('unit')
         for port in cte.find('port'):
-            ctes_[cteName]['ports'].append({ 'type' : port.get('type'), 'name' : port.get('name') })
+            ctes_[cteName]['ports'].append({'type': port.get('type'),
+                                            'name': port.get('name')})
 
     #####
     # fts
@@ -157,7 +169,9 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
 
         for port in ft.findall('port'):
             if '-' in port.get('name'):
-                portName = (port.get('name').split(' - ')[0] + '_' + port.get('name').split(' - ')[1]).replace(' ', '')
+                portName = (port.get('name').split(' - ')[0] +
+                            '_' +
+                            port.get('name').split(' - ')[1]).replace(' ', '')
             else:
                 portName = port.get('name')
             fts_[ftName]['ports'].append({'type': port.get('type'),
