@@ -12,11 +12,11 @@ using namespace std;
 
 Auxoutput::Auxoutput(const string &name) :
 	Atomic(name),
-	in_Investment(addInputPort("in_Investment")),
-	in_Consumption(addInputPort("in_Consumption")),
+	in_investment(addInputPort("in_investment")),
+	in_consumption(addInputPort("in_consumption")),
 	in_governmentSpending(addInputPort("in_governmentSpending")),
-	isSet_Investment(false),
-	isSet_Consumption(false),
+	isSet_investment(false),
+	isSet_consumption(false),
 	isSet_governmentSpending(false),
 	out(addOutputPort("out"))
 {
@@ -34,13 +34,13 @@ Model &Auxoutput::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_Investment) {
-		Investment = x;
-		isSet_Investment = true;
+	if(msg.port() == in_investment) {
+		investment = x;
+		isSet_investment = true;
 	}
-	if(msg.port() == in_Consumption) {
-		Consumption = x;
-		isSet_Consumption = true;
+	if(msg.port() == in_consumption) {
+		consumption = x;
+		isSet_consumption = true;
 	}
 	if(msg.port() == in_governmentSpending) {
 		governmentSpending = x;
@@ -60,8 +60,8 @@ Model &Auxoutput::internalFunction(const InternalMessage &)
 
 Model &Auxoutput::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_Investment & isSet_Consumption & isSet_governmentSpending ) {
-		double val = Investment + Consumption + governmentSpending;
+	if( isSet_investment & isSet_consumption & isSet_governmentSpending ) {
+		double val = investment + consumption + governmentSpending;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

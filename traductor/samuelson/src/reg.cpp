@@ -3,13 +3,13 @@
 
 #include "qss1.h"
 #include "Cte.h"
-#include "FplusPreviousOutputChgPreviousOutput.h"
+#include "FplusPrevOutptChgPrevOutpt.h"
+#include "FtotPrevOutptIntegrator.h"
 #include "AuxgovernmentSpending.h"
-#include "FplusPreviousConsumptionChgPreviousConsumption.h"
-#include "Auxinvestment.h"
+#include "FtotPrevConsIntegrator.h"
 #include "Auxoutput.h"
-#include "FtotPreviousConsumptionIntegrator.h"
-#include "FtotPreviousOutputIntegrator.h"
+#include "Auxinvestment.h"
+#include "FplusPrevConsChgPrevCons.h"
 #include "Auxconsumption.h"
 // Registro modelos atomicos
 void register_atomics_on(ParallelModelAdmin &admin)
@@ -19,13 +19,13 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	admin.registerAtomic(NewAtomicFunction<Cte>(), CTE);
 	
 	// Atomicos especificos del modelo
-	admin.registerAtomic(NewAtomicFunction<FplusPreviousOutputChgPreviousOutput>(), FPLUSPREVIOUSOUTPUTCHGPREVIOUSOUTPUT);
+	admin.registerAtomic(NewAtomicFunction<FplusPrevOutptChgPrevOutpt>(), FPLUSPREVOUTPTCHGPREVOUTPT);
+	admin.registerAtomic(NewAtomicFunction<FtotPrevOutptIntegrator>(), FTOTPREVOUTPTINTEGRATOR);
 	admin.registerAtomic(NewAtomicFunction<AuxgovernmentSpending>(), AUXGOVERNMENTSPENDING);
-	admin.registerAtomic(NewAtomicFunction<FplusPreviousConsumptionChgPreviousConsumption>(), FPLUSPREVIOUSCONSUMPTIONCHGPREVIOUSCONSUMPTION);
-	admin.registerAtomic(NewAtomicFunction<Auxinvestment>(), AUXINVESTMENT);
+	admin.registerAtomic(NewAtomicFunction<FtotPrevConsIntegrator>(), FTOTPREVCONSINTEGRATOR);
 	admin.registerAtomic(NewAtomicFunction<Auxoutput>(), AUXOUTPUT);
-	admin.registerAtomic(NewAtomicFunction<FtotPreviousConsumptionIntegrator>(), FTOTPREVIOUSCONSUMPTIONINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<FtotPreviousOutputIntegrator>(), FTOTPREVIOUSOUTPUTINTEGRATOR);
+	admin.registerAtomic(NewAtomicFunction<Auxinvestment>(), AUXINVESTMENT);
+	admin.registerAtomic(NewAtomicFunction<FplusPrevConsChgPrevCons>(), FPLUSPREVCONSCHGPREVCONS);
 	admin.registerAtomic(NewAtomicFunction<Auxconsumption>(), AUXCONSUMPTION);
 	//
 }
