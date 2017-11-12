@@ -23,7 +23,7 @@
 			<aux name="Consumption">
 				<eqn>Marginal Propensity to Consume alpha * Previous Output</eqn>
 			</aux>
-			<aux name="Marginal Propensity\nto Consume alpha">
+			<aux name="Marginal Propensity to Consume alpha">
 				<eqn>0.5</eqn>
 			</aux>
 			<aux name="Output">
@@ -32,11 +32,11 @@
 			<aux name="Investment">
 				<eqn>Investment proportionality relation beta * (Consumption - Previous Consumption)</eqn>
 			</aux>
-			<aux name="Investment proportionality\nrelation beta">
+			<aux name="Investment proportionality relation beta">
 				<eqn>1</eqn>
 			</aux>
 			<aux name="Government Spending">
-				<eqn>Base spending + Spending step * PULSE( Step time, TIME STEP 1)</eqn>
+				<eqn>Base spending + Spending step * ( Step time + One unit Timestep )</eqn>
 			</aux>
 			<aux name="Step time">
 				<eqn>4</eqn>
@@ -47,15 +47,15 @@
 			<aux name="Base spending">
 				<eqn>1</eqn>
 			</aux>
-			<aux name="TIME STEP">
+			<aux name="Time step">
 				<eqn>1</eqn>
 				<units>Years</units>
 			</aux>
-			<aux name="TIME STEP 1">
+			<aux name="One unit Timestep">
 				<eqn>1</eqn>
 				<units>Years</units>
 			</aux>
-			<aux name="TIME STEP 2">
+			<aux name="Two unit Timestep">
 				<eqn>1</eqn>
 				<units>Years</units>
 			</aux>
@@ -70,11 +70,11 @@
 				<non_negative/>
 			</stock>
 			<flow name="Chg Previous Consumption">
-				<eqn>(Consumption - Previous Consumption) / TIME STEP</eqn>
+				<eqn>(Consumption - Previous Consumption) / Time step</eqn>
 				<non_negative/>
 			</flow>
 			<flow name="Chg Previous Output">
-				<eqn>(Output - Previous Output) / TIME STEP 2</eqn>
+				<eqn>(Output - Previous Output) / Two unit Timestep</eqn>
 				<non_negative/>
 			</flow>
 			<iseedependencies>
@@ -96,15 +96,15 @@
 					<in>Step time</in>
 					<in>Spending step</in>
 					<in>Base spending</in>
-					<in>TIME STEP 1</in>
+					<in>One unit Timestep</in>
 				</var>
 				<var name="Chg Previous Consumption">
-					<in>TIME STEP</in>
+					<in>Time step</in>
 					<in>Consumption</in>
 					<in>Previous Consumption</in>
 				</var>
 				<var name="Chg Previous Output">
-					<in>TIME STEP 2</in>
+					<in>Two unit Timestep</in>
 					<in>Output</in>
 					<in>Previous Output</in>
 				</var>

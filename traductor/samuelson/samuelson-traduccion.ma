@@ -1,29 +1,31 @@
 [top]
-components : previousConsumptionIntegrator@QSS1 previousOutputIntegrator@QSS1 ftPreviousConsumptionIntegrator@FtotPreviousConsumptionIntegrator ftPreviousOutputIntegrator@FtotPreviousOutputIntegrator fpPreviousConsumptionChgPreviousConsumption@FplusPreviousConsumptionChgPreviousConsumption fpPreviousOutputChgPreviousOutput@FplusPreviousOutputChgPreviousOutput basespending@Cte marginalPropensity\ntoConsumealpha@Cte tIMESTEP@Cte investmentproportionality\nrelationbeta@Cte steptime@Cte tIMESTEP2@Cte spendingstep@Cte tIMESTEP1@Cte  output@Auxoutput  investment@Auxinvestment  consumption@Auxconsumption  governmentSpending@AuxgovernmentSpending 
+components : previousConsumptionIntegrator@QSS1 previousOutputIntegrator@QSS1 ftPreviousConsumptionIntegrator@FtotPreviousConsumptionIntegrator ftPreviousOutputIntegrator@FtotPreviousOutputIntegrator fpPreviousConsumptionChgPreviousConsumption@FplusPreviousConsumptionChgPreviousConsumption fpPreviousOutputChgPreviousOutput@FplusPreviousOutputChgPreviousOutput timestep@Cte marginalPropensitytoConsumealpha@Cte oneunitTimestep@Cte investmentproportionalityrelationbeta@Cte twounitTimestep@Cte steptime@Cte spendingstep@Cte basespending@Cte  output@Auxoutput  investment@Auxinvestment  consumption@Auxconsumption  governmentSpending@AuxgovernmentSpending 
 
 % Puertos: Input de parametros. Output de variables de interes
-in : in_basespending in_marginalPropensity\ntoConsumealpha in_tIMESTEP in_investmentproportionality\nrelationbeta in_steptime in_tIMESTEP2 in_spendingstep in_tIMESTEP1 
+in : in_timestep in_marginalPropensitytoConsumealpha in_oneunitTimestep in_investmentproportionalityrelationbeta in_twounitTimestep in_steptime in_spendingstep in_basespending 
 out : out_previousConsumptionIntegrator out_previousOutputIntegrator 
 
 % Links inputs a constantes (conexiones con el top model)
-link : in_basespending inValue@basespending
-link : in_marginalPropensity\ntoConsumealpha inValue@marginalPropensity\ntoConsumealpha
-link : in_tIMESTEP inValue@tIMESTEP
-link : in_investmentproportionality\nrelationbeta inValue@investmentproportionality\nrelationbeta
+link : in_timestep inValue@timestep
+link : in_marginalPropensitytoConsumealpha inValue@marginalPropensitytoConsumealpha
+link : in_oneunitTimestep inValue@oneunitTimestep
+link : in_investmentproportionalityrelationbeta inValue@investmentproportionalityrelationbeta
+link : in_twounitTimestep inValue@twounitTimestep
 link : in_steptime inValue@steptime
-link : in_tIMESTEP2 inValue@tIMESTEP2
 link : in_spendingstep inValue@spendingstep
-link : in_tIMESTEP1 inValue@tIMESTEP1
+link : in_basespending inValue@basespending
 
 % Links constantes a f's que las usan
-link : out@tIMESTEP in_tIMESTEP@fpPreviousConsumptionChgPreviousConsumption
-link : out@tIMESTEP2 in_tIMESTEP2@fpPreviousOutputChgPreviousOutput
+link : out@timestep in_timestep@fpPreviousConsumptionChgPreviousConsumption
+link : out@twounitTimestep in_twounitTimestep@fpPreviousOutputChgPreviousOutput
 
 % Link constantes a Aux's que las usan
+link : out@investmentproportionalityrelationbeta in_investmentproportionalityrelationbeta@investment
+link : out@marginalPropensitytoConsumealpha in_marginalPropensitytoConsumealpha@consumption
 link : out@basespending in_basespending@governmentSpending
 link : out@spendingstep in_spendingstep@governmentSpending
 link : out@steptime in_steptime@governmentSpending
-link : out@tIMESTEP1 in_tIMESTEP1@governmentSpending
+link : out@oneunitTimestep in_oneunitTimestep@governmentSpending
 
 % Link Aux's a Aux's que las usan
 link : out@governmentSpending in_governmentSpending@output

@@ -12,11 +12,11 @@ using namespace std;
 
 FplusPreviousOutputChgPreviousOutput::FplusPreviousOutputChgPreviousOutput(const string &name) :
 	Atomic(name),
-	in_tIMESTEP2(addInputPort("in_tIMESTEP2")),
 	in_output(addInputPort("in_output")),
+	in_twounitTimestep(addInputPort("in_twounitTimestep")),
 	in_previousoutputIntegrator(addInputPort("in_previousoutputIntegrator")),
-	isSet_tIMESTEP2(false),
 	isSet_output(false),
+	isSet_twounitTimestep(false),
 	isSet_previousoutputIntegrator(false),
 	out(addOutputPort("out"))
 {
@@ -34,13 +34,13 @@ Model &FplusPreviousOutputChgPreviousOutput::externalFunction(const ExternalMess
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_tIMESTEP2) {
-		tIMESTEP2 = x;
-		isSet_tIMESTEP2 = true;
-	}
 	if(msg.port() == in_output) {
 		output = x;
 		isSet_output = true;
+	}
+	if(msg.port() == in_twounitTimestep) {
+		twounitTimestep = x;
+		isSet_twounitTimestep = true;
 	}
 	if(msg.port() == in_previousoutputIntegrator) {
 		previousoutputIntegrator = x;
@@ -60,8 +60,8 @@ Model &FplusPreviousOutputChgPreviousOutput::internalFunction(const InternalMess
 
 Model &FplusPreviousOutputChgPreviousOutput::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_tIMESTEP2 & isSet_output & isSet_previousoutputIntegrator ) {
-		double val = (output - previousoutputIntegrator) / tIMESTEP 2;
+	if( isSet_output & isSet_twounitTimestep & isSet_previousoutputIntegrator ) {
+		double val = (output - previousoutputIntegrator) / twounitTimestep;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

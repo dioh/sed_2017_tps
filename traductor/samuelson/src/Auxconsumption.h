@@ -24,17 +24,17 @@ class Auxconsumption : public Atomic {
 
   private:
     // Input ports
-    const Port &in_MarginalPropensitytoConsumealpha;
+    const Port &in_marginalPropensitytoConsumealpha;
     const Port &in_previousoutputIntegrator;
     // Output ports
     Port &out;
 
     // State variables
-    double MarginalPropensitytoConsumealpha;
+    double marginalPropensitytoConsumealpha;
     double previousoutputIntegrator;
     //
     // Check set of state variables
-    bool isSet_MarginalPropensitytoConsumealpha;
+    bool isSet_marginalPropensitytoConsumealpha;
     bool isSet_previousoutputIntegrator;
     //
 };

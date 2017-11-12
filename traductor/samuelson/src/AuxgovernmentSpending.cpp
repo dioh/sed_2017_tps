@@ -15,11 +15,11 @@ AuxgovernmentSpending::AuxgovernmentSpending(const string &name) :
 	in_steptime(addInputPort("in_steptime")),
 	in_spendingstep(addInputPort("in_spendingstep")),
 	in_basespending(addInputPort("in_basespending")),
-	in_tIMESTEP1(addInputPort("in_tIMESTEP1")),
+	in_oneunitTimestep(addInputPort("in_oneunitTimestep")),
 	isSet_steptime(false),
 	isSet_spendingstep(false),
 	isSet_basespending(false),
-	isSet_tIMESTEP1(false),
+	isSet_oneunitTimestep(false),
 	out(addOutputPort("out"))
 {
 }
@@ -48,9 +48,9 @@ Model &AuxgovernmentSpending::externalFunction(const ExternalMessage &msg)
 		basespending = x;
 		isSet_basespending = true;
 	}
-	if(msg.port() == in_tIMESTEP1) {
-		tIMESTEP1 = x;
-		isSet_tIMESTEP1 = true;
+	if(msg.port() == in_oneunitTimestep) {
+		oneunitTimestep = x;
+		isSet_oneunitTimestep = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -66,8 +66,8 @@ Model &AuxgovernmentSpending::internalFunction(const InternalMessage &)
 
 Model &AuxgovernmentSpending::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_steptime & isSet_spendingstep & isSet_basespending & isSet_tIMESTEP1 ) {
-		double val = basespending + spendingstep * ( steptime + tIMESTEP 1 );
+	if( isSet_steptime & isSet_spendingstep & isSet_basespending & isSet_oneunitTimestep ) {
+		double val = basespending + spendingstep * ( steptime + oneunitTimestep );
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

@@ -24,17 +24,17 @@ class FplusPreviousConsumptionChgPreviousConsumption : public Atomic {
     // Input ports
     const Port &in_consumption;
     const Port &in_previousconsumptionIntegrator;
-    const Port &in_tIMESTEP;
+    const Port &in_timestep;
     // Output ports
     Port &out;
 
     // State variables
-    double tIMESTEP;
+    double timestep;
     double previousconsumptionIntegrator;
     double consumption;
     //
     // Check set of state variables
-    bool isSet_tIMESTEP;
+    bool isSet_timestep;
     bool isSet_previousconsumptionIntegrator;
     bool isSet_consumption;
     //

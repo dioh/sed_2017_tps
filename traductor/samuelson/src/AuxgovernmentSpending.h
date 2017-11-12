@@ -27,7 +27,7 @@ class AuxgovernmentSpending : public Atomic {
     const Port &in_basespending;
     const Port &in_spendingstep;
     const Port &in_steptime;
-    const Port &in_tIMESTEP1;
+    const Port &in_oneunitTimestep;
     // Output ports
     Port &out;
 
@@ -35,13 +35,13 @@ class AuxgovernmentSpending : public Atomic {
     double steptime;
     double spendingstep;
     double basespending;
-    double tIMESTEP1;
+    double oneunitTimestep;
     //
     // Check set of state variables
     bool isSet_steptime;
     bool isSet_spendingstep;
     bool isSet_basespending;
-    bool isSet_tIMESTEP1;
+    bool isSet_oneunitTimestep;
     //
 };
 

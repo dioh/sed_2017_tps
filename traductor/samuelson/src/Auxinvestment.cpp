@@ -13,10 +13,10 @@ using namespace std;
 Auxinvestment::Auxinvestment(const string &name) :
 	Atomic(name),
 	in_previousconsumptionIntegrator(addInputPort("in_previousconsumptionIntegrator")),
-	in_Investmentproportionalityrelationbeta(addInputPort("in_Investmentproportionalityrelationbeta")),
+	in_investmentproportionalityrelationbeta(addInputPort("in_investmentproportionalityrelationbeta")),
 	in_consumption(addInputPort("in_consumption")),
 	isSet_previousconsumptionIntegrator(false),
-	isSet_Investmentproportionalityrelationbeta(false),
+	isSet_investmentproportionalityrelationbeta(false),
 	isSet_consumption(false),
 	out(addOutputPort("out"))
 {
@@ -38,9 +38,9 @@ Model &Auxinvestment::externalFunction(const ExternalMessage &msg)
 		previousconsumptionIntegrator = x;
 		isSet_previousconsumptionIntegrator = true;
 	}
-	if(msg.port() == in_Investmentproportionalityrelationbeta) {
-		Investmentproportionalityrelationbeta = x;
-		isSet_Investmentproportionalityrelationbeta = true;
+	if(msg.port() == in_investmentproportionalityrelationbeta) {
+		investmentproportionalityrelationbeta = x;
+		isSet_investmentproportionalityrelationbeta = true;
 	}
 	if(msg.port() == in_consumption) {
 		consumption = x;
@@ -60,8 +60,8 @@ Model &Auxinvestment::internalFunction(const InternalMessage &)
 
 Model &Auxinvestment::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_previousconsumptionIntegrator & isSet_Investmentproportionalityrelationbeta & isSet_consumption ) {
-		double val = Investment proportionality relation beta * (consumption - previousconsumptionIntegrator);
+	if( isSet_previousconsumptionIntegrator & isSet_investmentproportionalityrelationbeta & isSet_consumption ) {
+		double val = investmentproportionalityrelationbeta * (consumption - previousconsumptionIntegrator);
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

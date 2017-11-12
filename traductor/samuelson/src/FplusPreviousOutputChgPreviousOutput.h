@@ -24,18 +24,18 @@ class FplusPreviousOutputChgPreviousOutput : public Atomic {
     // Input ports
     const Port &in_output;
     const Port &in_previousoutputIntegrator;
-    const Port &in_tIMESTEP2;
+    const Port &in_twounitTimestep;
     // Output ports
     Port &out;
 
     // State variables
-    double tIMESTEP2;
     double output;
+    double twounitTimestep;
     double previousoutputIntegrator;
     //
     // Check set of state variables
-    bool isSet_tIMESTEP2;
     bool isSet_output;
+    bool isSet_twounitTimestep;
     bool isSet_previousoutputIntegrator;
     //
 };

@@ -24,7 +24,7 @@ class Auxinvestment : public Atomic {
 
   private:
     // Input ports
-    const Port &in_Investmentproportionalityrelationbeta;
+    const Port &in_investmentproportionalityrelationbeta;
     const Port &in_consumption;
     const Port &in_previousconsumptionIntegrator;
     // Output ports
@@ -32,12 +32,12 @@ class Auxinvestment : public Atomic {
 
     // State variables
     double previousconsumptionIntegrator;
-    double Investmentproportionalityrelationbeta;
+    double investmentproportionalityrelationbeta;
     double consumption;
     //
     // Check set of state variables
     bool isSet_previousconsumptionIntegrator;
-    bool isSet_Investmentproportionalityrelationbeta;
+    bool isSet_investmentproportionalityrelationbeta;
     bool isSet_consumption;
     //
 };
