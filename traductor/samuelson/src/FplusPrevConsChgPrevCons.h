@@ -1,20 +1,18 @@
-#ifndef _Auxoutput_H_
-#define _Auxoutput_H_
+#ifndef _FplusPrevConsChgPrevCons_H_
+#define _FplusPrevConsChgPrevCons_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
+#define FPLUSPREVCONSCHGPREVCONS "FplusPrevConsChgPrevCons"
 
-#define AUXOUTPUT "Auxoutput"
-
-
-class Auxoutput : public Atomic {
+class FplusPrevConsChgPrevCons : public Atomic {
   public:
     
-    Auxoutput(const string &name = AUXOUTPUT );
-    virtual string className() const {  return AUXOUTPUT ;}
+    FplusPrevConsChgPrevCons(const string &name = FPLUSPREVCONSCHGPREVCONS );
+    virtual string className() const {  return FPLUSPREVCONSCHGPREVCONS ;}
   
   protected:
     Model &initFunction();
@@ -24,21 +22,21 @@ class Auxoutput : public Atomic {
 
   private:
     // Input ports
-    const Port &in_investment;
     const Port &in_consumption;
-    const Port &in_governmentSpending;
+    const Port &in_prevConsIntegrator;
+    const Port &in_timestep;
     // Output ports
     Port &out;
 
     // State variables
-    double investment;
+    double prevConsIntegrator;
     double consumption;
-    double governmentSpending;
+    double timestep;
     //
     // Check set of state variables
-    bool isSet_investment;
+    bool isSet_prevConsIntegrator;
     bool isSet_consumption;
-    bool isSet_governmentSpending;
+    bool isSet_timestep;
     //
 };
 

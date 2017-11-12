@@ -1,20 +1,18 @@
-#ifndef _Auxconsumption_H_
-#define _Auxconsumption_H_
+#ifndef _FplusPrevOutptChgPrevOutpt_H_
+#define _FplusPrevOutptChgPrevOutpt_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
+#define FPLUSPREVOUTPTCHGPREVOUTPT "FplusPrevOutptChgPrevOutpt"
 
-#define AUXCONSUMPTION "Auxconsumption"
-
-
-class Auxconsumption : public Atomic {
+class FplusPrevOutptChgPrevOutpt : public Atomic {
   public:
     
-    Auxconsumption(const string &name = AUXCONSUMPTION );
-    virtual string className() const {  return AUXCONSUMPTION ;}
+    FplusPrevOutptChgPrevOutpt(const string &name = FPLUSPREVOUTPTCHGPREVOUTPT );
+    virtual string className() const {  return FPLUSPREVOUTPTCHGPREVOUTPT ;}
   
   protected:
     Model &initFunction();
@@ -24,18 +22,21 @@ class Auxconsumption : public Atomic {
 
   private:
     // Input ports
-    const Port &in_marginalPropensitytoConsumealpha;
+    const Port &in_output;
     const Port &in_prevOutptIntegrator;
+    const Port &in_twounitTimestep;
     // Output ports
     Port &out;
 
     // State variables
+    double output;
+    double twounitTimestep;
     double prevOutptIntegrator;
-    double marginalPropensitytoConsumealpha;
     //
     // Check set of state variables
+    bool isSet_output;
+    bool isSet_twounitTimestep;
     bool isSet_prevOutptIntegrator;
-    bool isSet_marginalPropensitytoConsumealpha;
     //
 };
 

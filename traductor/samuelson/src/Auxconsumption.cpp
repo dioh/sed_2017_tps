@@ -12,10 +12,10 @@ using namespace std;
 
 Auxconsumption::Auxconsumption(const string &name) :
 	Atomic(name),
+	in_prevOutptIntegrator(addInputPort("in_prevOutptIntegrator")),
 	in_marginalPropensitytoConsumealpha(addInputPort("in_marginalPropensitytoConsumealpha")),
-	in_previousoutputIntegrator(addInputPort("in_previousoutputIntegrator")),
+	isSet_prevOutptIntegrator(false),
 	isSet_marginalPropensitytoConsumealpha(false),
-	isSet_previousoutputIntegrator(false),
 	out(addOutputPort("out"))
 {
 }
@@ -32,13 +32,13 @@ Model &Auxconsumption::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
+	if(msg.port() == in_prevOutptIntegrator) {
+		prevOutptIntegrator = x;
+		isSet_prevOutptIntegrator = true;
+	}
 	if(msg.port() == in_marginalPropensitytoConsumealpha) {
 		marginalPropensitytoConsumealpha = x;
 		isSet_marginalPropensitytoConsumealpha = true;
-	}
-	if(msg.port() == in_previousoutputIntegrator) {
-		previousoutputIntegrator = x;
-		isSet_previousoutputIntegrator = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -54,8 +54,8 @@ Model &Auxconsumption::internalFunction(const InternalMessage &)
 
 Model &Auxconsumption::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_marginalPropensitytoConsumealpha & isSet_previousoutputIntegrator ) {
-		double val = marginalPropensitytoConsumealpha * previousoutputIntegrator;
+	if( isSet_prevOutptIntegrator & isSet_marginalPropensitytoConsumealpha ) {
+		double val = marginalPropensitytoConsumealpha * prevOutptIntegrator;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

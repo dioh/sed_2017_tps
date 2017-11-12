@@ -21,7 +21,7 @@
 	<model>
 		<variables>
 			<aux name="Consumption">
-				<eqn>Marginal Propensity to Consume alpha * Previous Output</eqn>
+				<eqn>Marginal Propensity to Consume alpha * PrevOutpt</eqn>
 			</aux>
 			<aux name="Marginal Propensity to Consume alpha">
 				<eqn>0.5</eqn>
@@ -30,7 +30,7 @@
 				<eqn>Investment + Consumption + Government Spending</eqn>
 			</aux>
 			<aux name="Investment">
-				<eqn>Investment proportionality relation beta * (Consumption - Previous Consumption)</eqn>
+				<eqn>Investment proportionality relation beta * (Consumption - PrevCons)</eqn>
 			</aux>
 			<aux name="Investment proportionality relation beta">
 				<eqn>1</eqn>
@@ -59,28 +59,28 @@
 				<eqn>1</eqn>
 				<units>Years</units>
 			</aux>
-			<stock name="Previous Output">
+			<stock name="PrevOutpt">
 				<eqn>0</eqn>
-				<inflow>Chg Previous Output</inflow>
+				<inflow>Chg PrevOutpt</inflow>
 				<non_negative/>
 			</stock>
-			<stock name="Previous Consumption">
+			<stock name="PrevCons">
 				<eqn>0</eqn>
-				<inflow>Chg Previous Consumption</inflow>
+				<inflow>Chg PrevCons</inflow>
 				<non_negative/>
 			</stock>
-			<flow name="Chg Previous Consumption">
-				<eqn>(Consumption - Previous Consumption) / Time step</eqn>
+			<flow name="Chg PrevCons">
+				<eqn>(Consumption - PrevCons) / Time step</eqn>
 				<non_negative/>
 			</flow>
-			<flow name="Chg Previous Output">
-				<eqn>(Output - Previous Output) / Two unit Timestep</eqn>
+			<flow name="Chg PrevOutpt">
+				<eqn>(Output - PrevOutpt) / Two unit Timestep</eqn>
 				<non_negative/>
 			</flow>
 			<iseedependencies>
 				<var name="Consumption">
 					<in>Marginal Propensity to Consume alpha</in>
-					<in>Previous Output</in>
+					<in>PrevOutpt</in>
 				</var>
 				<var name="Output">
 					<in>Investment</in>
@@ -90,7 +90,7 @@
 				<var name="Investment">
 					<in>Consumption</in>
 					<in>Investment proportionality relation beta</in>
-					<in>Previous Consumption</in>
+					<in>PrevCons</in>
 				</var>
 				<var name="Government Spending">
 					<in>Step time</in>
@@ -98,15 +98,15 @@
 					<in>Base spending</in>
 					<in>One unit Timestep</in>
 				</var>
-				<var name="Chg Previous Consumption">
+				<var name="Chg PrevCons">
 					<in>Time step</in>
 					<in>Consumption</in>
-					<in>Previous Consumption</in>
+					<in>PrevCons</in>
 				</var>
-				<var name="Chg Previous Output">
+				<var name="Chg PrevOutpt">
 					<in>Two unit Timestep</in>
 					<in>Output</in>
-					<in>Previous Output</in>
+					<in>PrevOutpt</in>
 				</var>
 			</iseedependencies>
 		</variables>

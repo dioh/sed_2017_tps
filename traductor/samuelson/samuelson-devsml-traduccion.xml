@@ -16,60 +16,60 @@
         </inputs>
       <!-- Outputs -->
       <outputs>
-        <port name="Previous Output" />
-        <port name="Previous Consumption" />
+        <port name="PrevOutpt" />
+        <port name="PrevCons" />
         </outputs>
       <components>
 
-        <!-- Stock : Previous Output -->
-        <atomicRef name="ft Previous Output" model="Ftot">
+        <!-- Stock : PrevOutpt -->
+        <atomicRef name="ft PrevOutpt" model="Ftot">
           <!-- Puertos del atomico -->
-          <port name="inPlus - Chg Previous Output" type="in" />
+          <port name="inPlus - Chg PrevOutpt" type="in" />
           <port name="out" type="out" />
           <!-- State variables del atomico -->
           <parameter name="plus" value="0" />
           <parameter name="minus" value="0" /> 
         </atomicRef>
-        <atomicRef name="Previous Output" model="QSS1">
+        <atomicRef name="PrevOutpt" model="QSS1">
           <parameter name="x0" value="0" />
           <parameter name="dQRel" value="1e-2" />
           <parameter name="dQMin" value="1e-4" />
         </atomicRef>
-        <!-- Stock : Previous Consumption -->
-        <atomicRef name="ft Previous Consumption" model="Ftot">
+        <!-- Stock : PrevCons -->
+        <atomicRef name="ft PrevCons" model="Ftot">
           <!-- Puertos del atomico -->
-          <port name="inPlus - Chg Previous Consumption" type="in" />
+          <port name="inPlus - Chg PrevCons" type="in" />
           <port name="out" type="out" />
           <!-- State variables del atomico -->
           <parameter name="plus" value="0" />
           <parameter name="minus" value="0" /> 
         </atomicRef>
-        <atomicRef name="Previous Consumption" model="QSS1">
+        <atomicRef name="PrevCons" model="QSS1">
           <parameter name="x0" value="0" />
           <parameter name="dQRel" value="1e-2" />
           <parameter name="dQMin" value="1e-4" />
         </atomicRef>
-        <!-- Flow : Chg Previous Output -->
-        <atomicRef name="fp Previous Output - Chg Previous Output" model="Fplus">
+        <!-- Flow : Chg PrevOutpt -->
+        <atomicRef name="fp PrevOutpt - Chg PrevOutpt" model="Fplus">
           <!-- Puertos del atomico -->
           <port name="in Output " type="in" />
-          <port name="in  Previous Output" type="in" />
+          <port name="in  PrevOutpt" type="in" />
           <port name="in  " type="in" />
           <port name="in  Two unit Timestep" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="(Output - Previous Output) / Two unit Timestep" />
+          <parameter name="function" value="(Output - PrevOutpt) / Two unit Timestep" />
         </atomicRef>
-        <!-- Flow : Chg Previous Consumption -->
-        <atomicRef name="fp Previous Consumption - Chg Previous Consumption" model="Fplus">
+        <!-- Flow : Chg PrevCons -->
+        <atomicRef name="fp PrevCons - Chg PrevCons" model="Fplus">
           <!-- Puertos del atomico -->
           <port name="in Consumption " type="in" />
-          <port name="in  Previous Consumption" type="in" />
+          <port name="in  PrevCons" type="in" />
           <port name="in  " type="in" />
           <port name="in  Time step" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="(Consumption - Previous Consumption) / Time step" />
+          <parameter name="function" value="(Consumption - PrevCons) / Time step" />
         </atomicRef>
         <!-- Parameters / Constantes -->
         <atomicRef name="Marginal Propensity to Consume alpha" model="Cte">
@@ -120,10 +120,10 @@
           <parameter name="function" value="Base spending + Spending step * ( Step time + One unit Timestep )" />
         </atomicRef>
         <atomicRef name="Investment" model="Aux">
-          <parameter name="function" value="Investment proportionality relation beta * (Consumption - Previous Consumption)" />
+          <parameter name="function" value="Investment proportionality relation beta * (Consumption - PrevCons)" />
         </atomicRef>
         <atomicRef name="Consumption" model="Aux">
-          <parameter name="function" value="Marginal Propensity to Consume alpha * Previous Output" />
+          <parameter name="function" value="Marginal Propensity to Consume alpha * PrevOutpt" />
         </atomicRef>
         </components>
 
@@ -144,8 +144,6 @@
         <!-- Aux : Government Spending -->
         <connection component_from="Step time" port_from="out" comonent_to="Government Spending" port_to="in Step time"/>
         <!-- Link : Aux a Aux's que las usan -->
-        <!-- Aux : Output => Consumption-->
-        <connection component_from="Output" port_from="out" component_to="Consumption" port_to="in Output"/>
         <!-- Aux : Government Spending => Output-->
         <connection component_from="Government Spending" port_from="out" component_to="Output" port_to="in Government Spending"/>
         <!-- Aux : Investment => Output-->
@@ -157,17 +155,17 @@
         <!-- Aux : Consumption => Investment-->
         <connection component_from="Consumption" port_from="out" component_to="Investment" port_to="in Consumption"/>
         <!-- Link : Aux a funciones que las usan --> 
-        <!-- Aux : Output => Chg Previous Output -->
-        <connection component_from="Output" port_from="out" component_to="fp Previous Output - Chg Previous Output" port_to="in - Previous Output" />
-        <!-- Aux : Consumption => Chg Previous Consumption -->
-        <connection component_from="Consumption" port_from="out" component_to="fp Previous Consumption - Chg Previous Consumption" port_to="in - Previous Consumption" />
+        <!-- Aux : Output => Chg PrevOutpt -->
+        <connection component_from="Output" port_from="out" component_to="fp PrevOutpt - Chg PrevOutpt" port_to="in - PrevOutpt" />
+        <!-- Aux : Consumption => Chg PrevCons -->
+        <connection component_from="Consumption" port_from="out" component_to="fp PrevCons - Chg PrevCons" port_to="in - PrevCons" />
         
-        <!-- Links modelo acoplado minimal integrador Previous Output -->
-        <connection component_from="fp Previous Output - Chg Previous Output" port_from="out" component_to="ft Previous Output" port_to="inPlus - Chg Previous Output" />
-        <connection component_from="ft Previous Output" port_from="out" component_to="Previous Output" port_to="in" />
-        <!-- Links modelo acoplado minimal integrador Previous Consumption -->
-        <connection component_from="fp Previous Consumption - Chg Previous Consumption" port_from="out" component_to="ft Previous Consumption" port_to="inPlus - Chg Previous Consumption" />
-        <connection component_from="ft Previous Consumption" port_from="out" component_to="Previous Consumption" port_to="in" />
+        <!-- Links modelo acoplado minimal integrador PrevOutpt -->
+        <connection component_from="fp PrevOutpt - Chg PrevOutpt" port_from="out" component_to="ft PrevOutpt" port_to="inPlus - Chg PrevOutpt" />
+        <connection component_from="ft PrevOutpt" port_from="out" component_to="PrevOutpt" port_to="in" />
+        <!-- Links modelo acoplado minimal integrador PrevCons -->
+        <connection component_from="fp PrevCons - Chg PrevCons" port_from="out" component_to="ft PrevCons" port_to="inPlus - Chg PrevCons" />
+        <connection component_from="ft PrevCons" port_from="out" component_to="PrevCons" port_to="in" />
         
         <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
         </internal_connections>
