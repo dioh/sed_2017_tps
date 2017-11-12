@@ -1,4 +1,5 @@
 # coding: utf-8
+from future.utils import iteritems
 import xml.etree.ElementTree as ET
 from jinja2 import DictLoader, Environment, FileSystemLoader
 import os
@@ -49,22 +50,26 @@ def cte2cte(cteName):
 
 
 def aux2aux(auxName):
-    return auxName
+    return (auxName[0].lower() + auxName[1:]).replace(' ', '')
 
 
 def getFunctionParams(function):
-    return filter(lambda x: x != '', re.split('[-+*/()]+',function))
+    elems = re.split('[-+*/()]+', function)
+    elems = map(lambda x: x.replace(' ', ''), elems)
+    elems = filter(lambda x: x != '', elems)
+    elems = filter(lambda x: re.search('[a-zA-Z]', x) is not None, elems)
+    return elems
 
 def processFunction(function, integradores_, auxs_, ctes_):
     result = function
     stockNames = [integradores_[intName]['stockName'] 
-                  for intName, attr in integradores_.iteritems()]
+                  for intName, attr in iteritems(integradores_)]
 
     cteNames = [ctes_[cteName]['cteName']
-                for cteName, attr in ctes_.iteritems()]
+                for cteName, attr in iteritems(ctes_)]
 
     auxsNames = [auxs_[auxName]['auxName'] 
-                 for auxName, attr in auxs_.iteritems()]
+                 for auxName, attr in iteritems(auxs_)]
 
     for stockName in stockNames:
         if stockName in result:
@@ -73,10 +78,11 @@ def processFunction(function, integradores_, auxs_, ctes_):
     for cteName in cteNames:
         if cteName in result:
             result = result.replace(cteName, cte2cte(cteName))
-
-    for auxName in auxsNames:
-        if auxName in result:
-            result = result.replace(auxName, aux2aux(auxName))
+    # matches contiene los parametros que se utilizan en la funcion y que son aux's
+    matches = [auxName for auxName in auxsNames if auxName in result]
+    matches = sorted(matches, key=lambda match : len(match), reverse=True)
+    if len(matches) > 0:
+        result = result.replace(matches[0], aux2aux(matches[0]))
     return result
 
 
@@ -104,7 +110,7 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
             fps.append(atomico)
         if atomico.get('model') == 'Cte':
             ctes.append(atomico)
-        if atomico.get('mode') == 'Aux':
+        if atomico.get('model') == 'Aux':
             auxs.append(atomico)
 
     # Integradores
@@ -123,7 +129,7 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
     ctes_ = {}
     for cte in ctes:
         cteName = cte2cte(cte.get('name'))
-        ctes_[cteName] = {'params': {}, 
+        ctes_[cteName] = {'params': {},
                           'ports': [],
                           'cteName': cte.get('name')}
 
@@ -136,9 +142,6 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
         ctes_[cteName]['params']['unit'] = param.get('unit')
         for port in cte.find('port'):
             ctes_[cteName]['ports'].append({ 'type' : port.get('type'), 'name' : port.get('name') })
-
-    # auxs (TODO)
-    auxs_ = {}
 
     #####
     # fts
@@ -158,7 +161,34 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
                 portName = port.get('name')
             fts_[ftName]['ports'].append({'type': port.get('type'),
                                           'name': portName})
-    
+    #####
+    # auxs (TODO)
+    auxs_ = {}
+    for aux in auxs:
+        auxName = aux2aux(aux.get('name'))
+        auxs_[auxName] = { 'auxName' : aux.get('name'), 
+                           'ports' : [], 
+                           'params_ports' : {},
+                           'function' : '',
+                           'function_params' : [],
+                           'model' : ''
+        }
+    for aux in auxs:
+        auxName = aux2aux(aux.get('name'))
+        param = aux.find('parameter')
+        assert(param.get('name') == 'function')
+        assert(param.get('value') != None)
+        function = processFunction(param.get('value'), integradores_, auxs_, ctes_)    
+        function_params = getFunctionParams(function)
+        auxs_[auxName]['function'] = function
+        
+        auxs_[auxName]['function_params'] = function_params
+        for param in auxs_[auxName]['function_params']:
+            auxs_[auxName]['ports'].append('in_' + param)
+            auxs_[auxName]['params_ports'][param] = 'in_' + param
+        auxs_[auxName]['model'] = aux.get('model') + auxName.replace(' ', '')
+
+    #####
     # fms
     fms_ = {}
     for fm in fms:
@@ -222,14 +252,14 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
 
     #####
     # Normalizacion de los datos en cada objeto (ej. : la inicializacion de los integradores)
-    for intName, intAttr in integradores_.iteritems():
+    for intName, intAttr in iteritems(integradores_):
         integradores_[intName]['x0'] = cte2cte(intAttr['x0'])
 
         x0 = intAttr['x0']
         # AUX (TODO)
 
         # CTE 
-        for cteName, cteAttr in ctes_.iteritems():
+        for cteName, cteAttr in iteritems(ctes_):
             x0 = x0.replace(cteName, cteAttr['params']['value'])
         integradores_[intName]['x0'] = x0
 
@@ -255,7 +285,7 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
     # ############## GENERATE .H's AND .CPP's ############## #
 
     # Ftot's
-    for ftName, ftAttr in fts_.iteritems():
+    for ftName, ftAttr in iteritems(fts_):
         ft_inPorts = []
         ft_outPorts = []
         for port in ftAttr['ports']:
@@ -273,8 +303,24 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
         with open(srcFolder + ftAttr['model'] + '.cpp', 'w') as f:
             f.write(render_template(TEMPLATE_FTOT_CPP, ft_context))
 
+    # Aux's
+    #print auxs_
+    for auxName, auxAttr in iteritems(auxs_):
+        aux_context = {
+            'model' : auxAttr['model'], 'modelUpper' : auxAttr['model'].upper(),
+            'ports' : auxAttr['ports'], 'params_ports' : auxAttr['params_ports'],
+            'function' : auxAttr['function']
+        }
+        ##################
+        # GUARDAR AUX'S
+        with open(srcFolder + auxAttr['model'] + '.h', 'w') as f:
+            f.write(render_template(TEMPLATE_AUX_H, aux_context))
+        with open(srcFolder + auxAttr['model'] + '.cpp', 'w') as f:
+            f.write(render_template(TEMPLATE_AUX_CPP, aux_context))
+
+
     # Fm's + Fp's
-    for fmName, fmAttr in fms_.iteritems():
+    for fmName, fmAttr in iteritems(fms_):
         fm_context = { 
             'model': fmAttr['model'], 'modelUpper': fmAttr['model'].upper(),
             'ports': fmAttr['ports'], 'params_ports': fmAttr['params_ports'],
@@ -287,7 +333,7 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
         with open(srcFolder + fmAttr['model'] + '.cpp', 'w') as f:
             f.write(render_template(TEMPLATE_FPM_CPP, fm_context))
             
-    for fpName, fpAttr in fps_.iteritems():
+    for fpName, fpAttr in iteritems(fps_):
         fp_context = {
             'model': fpAttr['model'], 'modelUpper': fpAttr['model'].upper(),
             'ports': fpAttr['ports'], 'params_ports': fpAttr['params_ports'],
@@ -302,25 +348,23 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
     #######
     # Cte's
     # OK
-    # Aux's
-    # (TODO)
 
     #######
     # Generate 'Register File'
     reg_context = {'models': {}}
-    for ftName, ftAttr in fts_.iteritems():
+    for ftName, ftAttr in iteritems(fts_):
         reg_context['models'][ftAttr['model']] = {'modelUpper': ftAttr['model'].upper()}
-    for fpName, fpAttr in fps_.iteritems():
+    for fpName, fpAttr in iteritems(fps_):
         reg_context['models'][fpAttr['model']] = {'modelUpper': fpAttr['model'].upper()}
-    for fmName, fmAttr in fms_.iteritems():
+    for fmName, fmAttr in iteritems(fms_):
         reg_context['models'][fmAttr['model']] = {'modelUpper': fmAttr['model'].upper()}
     with open(srcFolder + 'reg.cpp', 'w') as f:
         f.write(render_template(TEMPLATE_REG_CPP, reg_context))
-  
+
     #######
     # Generate 'Events (.ev) File'
     ev_context = {'inputs': {}}
-    for cteName, cteAttr in ctes_.iteritems():
+    for cteName, cteAttr in iteritems(ctes_):
         ev_context['inputs']['in_' + cteName] = cteAttr['params']['value']
     # print(ev_context)
     with open(archivoEv, 'w') as f:

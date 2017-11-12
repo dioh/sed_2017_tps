@@ -1,8 +1,11 @@
 # coding: utf-8
 import xml.etree.ElementTree as ET
+from future.utils import iteritems
 from jinja2 import DictLoader, Environment, FileSystemLoader
 import os
 import re
+import numpy as np
+
 
 # Parametros para funciones generadoras
 PATH = './'
@@ -86,7 +89,7 @@ def convert_xmile_to_devsml(archivoDevsml, archivoXmile):
                                                 re.split("[()-/*]+",
                                                          flow.find('eqn').text))
 
-    for stockName, attr in stocks_.iteritems():
+    for stockName, attr in iteritems(stocks_):
         for i, flow in enumerate(attr['outflows']):
             val = stocks_[stockName]['outflows'][i].replace('"', '')
             stocks_[stockName]['outflows'][i] = (val, flows_[val]['dest'])

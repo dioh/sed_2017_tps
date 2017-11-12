@@ -21,7 +21,7 @@
         {# Atomicos : integradores + Ftot's correspondientes -#}
         {% for stockName, attr in stocks_.items() -%}
         <!-- Stock : {{stockName}} -->
-        <atomicRef name="ft{{stockName}}" model="Ftot">
+        <atomicRef name="ft {{stockName}}" model="Ftot">
           <!-- Puertos del atomico -->
           {% for outflow in attr['outflows'] -%}
           <port name="inMinus - {{outflow[0]}}" type="in" />
@@ -70,11 +70,18 @@
 
         {# Atomicos : Constantes (parametros) auxiliares utilizados en las funciones -#}
         <!-- Parameters / Constantes -->
-        {% for auxName, auxValue in ctes_.items() -%}
-        <atomicRef name="{{auxName}}" model="Cte">
+        {% for cteName, attr in ctes_.items() -%}
+        <atomicRef name="{{cteName}}" model="Cte">
           <port name="inValue" type="in" />
           <port name="out" type="out" />
-          <parameter name="value" value="{{auxValue['eqn']}}" {% if auxValue['units'] != None -%} unit="{{auxValue['units']}}" {%- endif -%} />
+          <parameter name="value" value="{{attr['eqn']}}" {% if attr['units'] != None -%} unit="{{attr['units']}}" {%- endif -%} />
+        </atomicRef>
+        {% endfor -%}
+
+        <!-- Parameters / Auxiliares -->
+        {% for auxName, attr in auxs_.items() -%}
+        <atomicRef name="{{auxName}}" model="Aux">
+          <parameter name="function" value="{{attr['eqn']}}" />
         </atomicRef>
         {% endfor -%}
       </components>
@@ -85,12 +92,47 @@
         {% for auxName, _ in ctes_.items() -%}
         {% for flowName, flowAttr in flows_.items() -%}
         {% if auxName in flowAttr['params_eqn'] -%}
-        <!-- Aux/Cte :  {{auxName}} -->
+        <!-- Cte :  {{auxName}} -->
         {% if flowAttr['orig'] != None -%}
         <connection component_from="{{auxName}}" port_from="out" component_to="fm {{flowAttr['orig']}} - {{flowName}}" port_to="in - {{auxName}}"/>
         {% endif -%}
         {% if flowAttr['dest'] != None -%}
         <connection component_from="{{auxName}}" port_from="out" component_to="fp {{flowAttr['dest']}} - {{flowName}}" port_to="in - {{auxName}}"/>
+        {% endif -%}
+        {% endif -%}
+        {% endfor -%}
+        {% endfor -%}
+
+        <!-- Link : Cte's a Aux's que las usan -->
+        {% for cteName, _ in ctes_.items() -%}
+        {% for auxName, attr in auxs_.items() -%}
+        {% if cteName in attr['eqn'] -%}
+        <!-- Aux : {{auxName}} -->
+        <connection component_from="{{cteName}}" port_from="out" comonent_to="{{auxName}}" port_to="in {{cteName}}"/>
+        {% endif -%}
+        {% endfor -%}
+        {% endfor -%}
+
+        <!-- Link : Aux a Aux's que las usan -->
+        {% for auxName1, attr1 in auxs_.items() -%}
+        {% for auxName2, attr2 in auxs_.items() -%}
+        {% if  auxName1 in attr2['eqn'] -%}
+        <!-- Aux : {{auxName1}} => {{auxName2}}-->
+        <connection component_from="{{auxName1}}" port_from="out" component_to="{{auxName2}}" port_to="in {{auxName1}}"/>
+        {% endif -%}
+        {% endfor -%}
+        {% endfor -%}
+
+        <!-- Link : Aux a funciones que las usan --> 
+        {% for auxName, auxAttr in auxs_.items() -%}
+        {% for flowName, flowAttr in flows_.items() -%}
+        {% if auxName in flowAttr['eqn'] -%}
+        <!-- Aux : {{auxName}} => {{flowName}} -->
+        {% if flowAttr['orig'] != None -%}
+        <connection component_from="{{auxName}}" port_from="out" component_to="fm {{flowAttr['orig']}} - {{flowName}}" port_to="in - {{flowAttr['orig']}}" />
+        {% endif -%}
+        {% if flowAttr['dest'] != None -%}
+        <connection component_from="{{auxName}}" port_from="out" component_to="fp {{flowAttr['dest']}} - {{flowName}}" port_to="in - {{flowAttr['dest']}}" />
         {% endif -%}
         {% endif -%}
         {% endfor -%}
