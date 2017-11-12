@@ -17,9 +17,10 @@ TEMPLATE_FTOT_H = 'template-Ftot.h'
 TEMPLATE_FTOT_CPP = 'template-Ftot.cpp'
 TEMPLATE_FPM_H = 'template-Fpm.h'
 TEMPLATE_FPM_CPP = 'template-Fpm.cpp'
+TEMPLATE_AUX_H = 'template-Aux.h'
+TEMPLATE_AUX_CPP = 'template-Aux.cpp'
 TEMPLATE_REG_CPP = 'template-reg.cpp'
 TEMPLATE_EV = 'template-ev.ev'
-
 
 def render_template(template_filename, context):
     return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)

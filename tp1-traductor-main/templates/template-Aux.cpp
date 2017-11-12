@@ -12,10 +12,10 @@ using namespace std;
 
 {{model}}::{{model}}(const string &name) :
 	Atomic(name),
-	{% for var, port in params_ports.iteritems() -%}
+	{% for var, port in params_ports.items() -%}
 	{{port}}(addInputPort("{{port}}")),
 	{% endfor -%}
-	{% for var, port in params_ports.iteritems() -%}
+	{% for var, port in params_ports.items() -%}
 	isSet_{{var}}(false),
 	{% endfor -%}
 	out(addOutputPort("out"))
@@ -34,7 +34,7 @@ Model &{{model}}::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	{% for var, port in params_ports.iteritems() -%}
+	{% for var, port in params_ports.items() -%}
 	if(msg.port() == {{port}}) {
 		{{var}} = x;
 		isSet_{{var}} = true;
@@ -54,7 +54,7 @@ Model &{{model}}::internalFunction(const InternalMessage &)
 
 Model &{{model}}::outputFunction(const CollectMessage &msg)
 {
-	if({% for var, port in params_ports.iteritems() -%} 
+	if({% for var, port in params_ports.items() -%} 
 		{% if loop.index0 == 0 %} isSet_{{var}} {% endif -%}
 		{% if loop.index0 > 0 %}& isSet_{{var}} {% endif -%}
 	{% endfor -%}) {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+<xmile version="1.0">
 	<header>
-		<smile version="1.0" namespace="std, isee"/>
+		<smile version="1.0"/>
 		<name>samuelson-1</name>
 		<uuid>85a996c3-78db-4e59-9d1f-bf7a1d2ffbd4</uuid>
 		<vendor>isee systems, inc.</vendor>
-		<product version="1.4.3" isee:build_number="1229" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+		<product version="1.4.3" build_number="1229" saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
 	<sim_specs>
 		<start>1</start>
