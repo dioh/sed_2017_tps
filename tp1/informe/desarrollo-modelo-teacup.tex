@@ -50,10 +50,12 @@ Finalmente, a los auxiliares (tag \textbf{aux}) del modelo SD se corresponde con
 
 También podemos observar en el diagrama del modelo DEVS una línea azul la cual se corresponde con la línea azul del diagrama \ref{fig:Teacup_sd} (en el modelo SD esto es la utilización de \textit{Teacup Temperature} en el calculo de \textit{Heat Loss to Room}). De esta forma, mostramos que el atómico \textit{FminusTeacupTemperature - Heat Loss to Room} utiliza también el output del atómico \textit{Teacup Temperature Integrator} para realizar sus cálculos. 
 
-%TODO Falta revisar para abajo
-Llegados a esta instancia, nos preguntamos qué pasaría con nuestro mapeo a DEVS si más de un outflow operara sobre \textit{Teacup Temperature}. Así, decidimos pensar cómo sería la traducción gráfica del siguiente modelo (figura \ref{fig:Teacup_sd_2}), que modela un segundo outflow que opera sobre el stock \textit{Teacup Temperature} (en el ejemplo, decimos que la taza no sólo se enfría de acuerdo al rate de pérdida de calor de la taza contra la habitación, sino también contra una máquina enfriadora \textit{Cooling Machine} que agregamos - como podría ser por ejemplo un ventilador -). Llegamos a la conclusión que el modelo DEVS correspondiente a este nuevo modelo debería ser el de la figura \ref{fig:Teacup_devs_flattened_2}. 
 
-Como se puede ver, agregamos el atómico \textit{FminusTeacupTemperature - Heat Loss to Cooling Machine}, con los mismos inputs que \textit{FminsuTeacupTemperature - Heat Loss to Room}, pero con la novedad de que los outputs de estos atómicos llegan a distintos puertos de entrada del atómico Ftot que teníamos antes. Estos puertos de entrada están nombrados de acuerdo al nombre del flujo que opera sobre el stock correspondiente al Ftot en cuestión (en este caso, \textit{Heat Loss to Room} y \textit{Heat Loss to Cooling Machine} ambos operan sobre \textit{Teacup Temperature} en carácter de quitadores de unidades), para que el modelo gráfico que más claro.
+Una pregunta que nos inicimos fue, ¿qué pasaría en el caso de que más de un outflow operara sobre \textit{Teacup Temperature}?
+Decidimos pensar cómo sería la traducción gráfica del siguiente modelo (figura \ref{fig:Teacup_sd_2}). El mismo tiene un segundo outflow que opera sobre el stock \textit{Teacup Temperature}, es decir bajando la temperatura de la taza de té, que representa una máquina de enfriamiento (\textit{Cooling Machine} en la literatura), como puede ser por ejemplo un ventilador. El modelo DEVS correspondiente resolvimos debería ser el de la figura \ref{fig:Teacup_devs_flattened_2}. 
+
+Es decir, que se agregan dos atómicos, uno correspondiente al flow como inflow y otro como outflow, como en el caso de la temperatura perdido en el ambiente (flow \textit{Heat Loss to Room}) sólo el outflow tiene conexiones. El atómico Ftot ahora tiene un puerto adicional en uso, para la recepción de los valores \textit{FminsuTeacupTemperature - Heat Loss to Room} como parte de los outflows que operan sobre el stock, recordemos que este atómicos calcula $\sum inflows - \sum outflows $.
+
 
 \begin{figure}[!h]
 \centering
@@ -69,6 +71,7 @@ Como se puede ver, agregamos el atómico \textit{FminusTeacupTemperature - Heat 
 \label{fig:Teacup_devs_flattened_2}
 \end{figure}
 
+%TODO Falta revisar para abajo
 Finalmente, pensamos en una forma de modularizar el modelo acoplado tan complejo que quedó tras las conversiones, tanto en la versión original como en la versión 2 del modelo Teacup. Lo que obtuvimos, fue lo que se muestra en las figuras \ref{fig:Teacup_devs} y \ref{fig:Teacup_devs_2}.
 
 Aquí se puede observar que definimos un modelo acoplado por cada \textbf{stock}, que engloba al integrador correspondiente, a la Ftot correspondiente, a los Fminus's correspondientes (outflows que tienen como origen al \textbf{stock} en cuestión), y a los Fplus's correspondientes (inflows que contienen como origen al \textbf{stock} en cuestión). Vale la pena aclarar aquí que dichos, inflows y outflows que operan sobre cada \textbf{stock} corresponden cada uno de ellos a un \textbf{flow} en el modelo expresado en System Dynamics, y es interesante notar que visualmente es muy simple e intuitivo ver cómo se relacionan cada uno de los modelos expresados en SD con su contraparte en DEVS. 
