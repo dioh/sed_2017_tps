@@ -40,21 +40,20 @@ En el diagrama de la figura \ref{fig:Teacup_devs_flattened} se puede observar lo
 	\item Un atómico Ftot que determina la variación de unidades que tendrá dicho stock, utilizando todos los inflows y outflows que operan sobre dicho stock ($\sum inflows - \sum outflows $). Los inflows se conectarán al puerto \texttt{inPlus} y los outflows al \texttt{inMinus}. 
 \end{itemize}
 
-Por otro lado, a cada flujo (en este caso \textit{Heat Loss to Room} se corresponde con dos atómicos, uno representando el flujo de entrada (inflow) y otro la flujo de salida (outflow). Esto es para darle mejor legibilidad al modelo.
+Por otro lado, a cada flujo (en este caso \textit{Heat Loss to Room} se corresponde con dos atómicos, uno representando el flujo de entrada (\textbf{inflow}) y otro la flujo de salida (\textbf{outflow}). Esto es para darle mejor legibilidad al modelo.
 
-Decidimos nombrarlo de esta manera, en el caso de un \textit{outflow} concatenando \textit{Fminus} el nombre del \textit{stock} sobre el cual opera y el nombre del flujo, en el caso del demolo teacup \textit{Fminus Teacup Temperature Heat Loss to Room}.
+Decidimos nombrarlo de esta manera, en el caso de un \textbf{outflow} concatenando \textit{Fminus} el nombre del \textbf{stock} sobre el cual opera y el nombre del flujo, en el caso del demolo teacup \textit{Fminus Teacup Temperature Heat Loss to Room}.
 
-En el caso de un inflow, el nombre es igual salvo que reemplazamos \textit{Fminus} por \textit{Fplus}. En el ejemplo de la figura \ref{fig:Teacup_devs_flattened}, el atómico que representa el inflow \textit{Heat Loss to Room} de no cumple ninguna función en el modelo DEVS y es por ello que lo marcamos en rojo. 
+En el caso de un inflow, el nombre es igual salvo que reemplazamos \textit{Fminus} por \textit{Fplus}. En el ejemplo de la figura \ref{fig:Teacup_devs_flattened}, el atómico que representa el \textbf{inflow} \textit{Heat Loss to Room} de no cumple ninguna función en el modelo DEVS y es por ello que lo marcamos en rojo. 
 
-Finalmente, a los auxiliares (tag \textbf{aux}) del modelo SD se corresponde con atómicos en el modelo DEVS. En este caso, los atómicos emitirán un valor constante a través de su puerto out. Dado que los valores de los auxiliares \textit{Room Temperature} y \textit{Characteristic Time} es utilizado por el flujo \textit{Heat Loss to Room} para el calculo del valor de la función en el modelo SD, en el modelo DEVS estos atómicos se conectarán con los correspondientes a los atómicos del flujo (no realizamos las conexiones al atómico correspondiente al inflow ya que no es utilizado en el modelo).
+Finalmente, a los auxiliares (tag \textbf{aux}) del modelo SD se corresponde con atómicos en el modelo DEVS. En este caso, los atómicos emitirán un valor constante a través de su puerto out. Dado que los valores de los auxiliares \textit{Room Temperature} y \textit{Characteristic Time} es utilizado por el flujo \textit{Heat Loss to Room} para el calculo del valor de la función en el modelo SD. En el modelo DEVS estos atómicos se conectarán con los correspondientes a los atómicos del flujo (no realizamos las conexiones al atómico correspondiente al \textbf{inflow} ya que no es utilizado en el modelo).
 
 También podemos observar en el diagrama del modelo DEVS una línea azul la cual se corresponde con la línea azul del diagrama \ref{fig:Teacup_sd} (en el modelo SD esto es la utilización de \textit{Teacup Temperature} en el calculo de \textit{Heat Loss to Room}). De esta forma, mostramos que el atómico \textit{FminusTeacupTemperature - Heat Loss to Room} utiliza también el output del atómico \textit{Teacup Temperature Integrator} para realizar sus cálculos. 
 
+Una pregunta que nos inicimos fue, ¿qué pasaría en el caso de que más de un \textbf{outflow} operara sobre \textit{Teacup Temperature}?
+Decidimos pensar cómo sería la traducción gráfica del siguiente modelo (figura \ref{fig:Teacup_sd_2}). El mismo tiene un segundo o\textbf{outflow} que opera sobre el \textbf{stock} \textit{Teacup Temperature}, es decir bajando la temperatura de la taza de té, que representa una máquina de enfriamiento (\textit{Cooling Machine} en la literatura), como puede ser por ejemplo un ventilador. El modelo DEVS correspondiente resolvimos debería ser el de la figura \ref{fig:Teacup_devs_flattened_2}. 
 
-Una pregunta que nos inicimos fue, ¿qué pasaría en el caso de que más de un outflow operara sobre \textit{Teacup Temperature}?
-Decidimos pensar cómo sería la traducción gráfica del siguiente modelo (figura \ref{fig:Teacup_sd_2}). El mismo tiene un segundo outflow que opera sobre el stock \textit{Teacup Temperature}, es decir bajando la temperatura de la taza de té, que representa una máquina de enfriamiento (\textit{Cooling Machine} en la literatura), como puede ser por ejemplo un ventilador. El modelo DEVS correspondiente resolvimos debería ser el de la figura \ref{fig:Teacup_devs_flattened_2}. 
-
-Es decir, que se agregan dos atómicos, uno correspondiente al flow como inflow y otro como outflow, como en el caso de la temperatura perdido en el ambiente (flow \textit{Heat Loss to Room}) sólo el outflow tiene conexiones. El atómico Ftot ahora tiene un puerto adicional en uso, para la recepción de los valores \textit{FminsuTeacupTemperature - Heat Loss to Room} como parte de los outflows que operan sobre el stock, recordemos que este atómicos calcula $\sum inflows - \sum outflows $.
+Es decir, que se agregan dos atómicos, uno correspondiente al flujo como \textbf{inflow} y otro como \textbf{outflow}, como en el caso de la temperatura perdido en el ambiente (flow \textit{Heat Loss to Room}) sólo el \textbf{outflow} tiene conexiones. El atómico \textit{Ftot} ahora tiene un puerto adicional en uso, para la recepción de los valores \textit{FminsuTeacupTemperature - Heat Loss to Room} como parte de los \textbf{outflows} que operan sobre el \textbf{stock}, recordemos que este atómicos calcula $\sum inflows - \sum outflows $.
 
 
 \begin{figure}[!h]
@@ -72,11 +71,15 @@ Es decir, que se agregan dos atómicos, uno correspondiente al flow como inflow 
 \end{figure}
 
 %TODO Falta revisar para abajo
-Finalmente, pensamos en una forma de modularizar el modelo acoplado tan complejo que quedó tras las conversiones, tanto en la versión original como en la versión 2 del modelo Teacup. Lo que obtuvimos, fue lo que se muestra en las figuras \ref{fig:Teacup_devs} y \ref{fig:Teacup_devs_2}.
+\subsubsection{Composibilidad del modelo}
 
-Aquí se puede observar que definimos un modelo acoplado por cada \textbf{stock}, que engloba al integrador correspondiente, a la Ftot correspondiente, a los Fminus's correspondientes (outflows que tienen como origen al \textbf{stock} en cuestión), y a los Fplus's correspondientes (inflows que contienen como origen al \textbf{stock} en cuestión). Vale la pena aclarar aquí que dichos, inflows y outflows que operan sobre cada \textbf{stock} corresponden cada uno de ellos a un \textbf{flow} en el modelo expresado en System Dynamics, y es interesante notar que visualmente es muy simple e intuitivo ver cómo se relacionan cada uno de los modelos expresados en SD con su contraparte en DEVS. 
+¿Es este modelo DEVS obtenido es fácilmente componible con otros? Decidimos ver de que manera era posible modularizar el modelo obtenido, generando un o más acoplados que permitieran componerse con otros.
 
-Todos estos serán factores muy importantes a tener en cuenta a la hora de desarrollar la primera versión del traductor, ya que querremos que esta sea lo más general posible, y que sea fácilmente modificable para ser capaz de representar nuevos modelos cada vez más complejos a medida que el proyecto avance.
+Si observamos, tanto la temperatura del cuarto como la función características son variables que podrían ser compartidas por otro acoplados de un sistema más complejo, es decir, si una quisiera aislar la dinámica del \textbf{stock} podría pensarlos como variables de entrada. Por lo que dicha dinámica, la del \textbf{stock}, está encapsulada en el atómico integrador y en el \textit{Ftot} y los flujos que lo modifican, en este caso el atómico \textit{Fminus} que representa el flujo de salida (\textbf{outflow}).
+
+Desarrollamos entonces los modelos que se muestra en las figuras \ref{fig:Teacup_devs} y \ref{fig:Teacup_devs_2}, para el modelo original y para la versión con máquina de enfriamiento respectivamente, donde pueden verse los acoplados. 
+
+Todo este análisis nos pareció importante, al momento de desarrollar una primera versión del traductor. Ya que queremos entender de que manera es posible generalizar la forma en que se transformar los modelos SD a modelos DEVS y que además pueda escalar y ser utilizado en modelos más complejos. 
 
 \begin{figure}[!h]
 \centering
