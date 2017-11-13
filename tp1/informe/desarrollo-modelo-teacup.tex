@@ -50,11 +50,11 @@ Finalmente, a los auxiliares (tag \textbf{aux}) del modelo SD se corresponde con
 
 También podemos observar en el diagrama del modelo DEVS una línea azul la cual se corresponde con la línea azul del diagrama \ref{fig:Teacup_sd} (en el modelo SD esto es la utilización de \textit{Teacup Temperature} en el calculo de \textit{Heat Loss to Room}). De esta forma, mostramos que el atómico \textit{FminusTeacupTemperature - Heat Loss to Room} utiliza también el output del atómico \textit{Teacup Temperature Integrator} para realizar sus cálculos. 
 
-Una pregunta que nos inicimos fue, ¿qué pasaría en el caso de que más de un \textbf{outflow} operara sobre \textit{Teacup Temperature}?
+\subsubsection{Múltiples flujos afectando un stock}
+Una pregunta que nos hicimos fue, ¿qué pasaría en el caso de que más de un \textbf{outflow} operara sobre \textit{Teacup Temperature}?
 Decidimos pensar cómo sería la traducción gráfica del siguiente modelo (figura \ref{fig:Teacup_sd_2}). El mismo tiene un segundo o\textbf{outflow} que opera sobre el \textbf{stock} \textit{Teacup Temperature}, es decir bajando la temperatura de la taza de té, que representa una máquina de enfriamiento (\textit{Cooling Machine} en la literatura), como puede ser por ejemplo un ventilador. El modelo DEVS correspondiente resolvimos debería ser el de la figura \ref{fig:Teacup_devs_flattened_2}. 
 
 Es decir, que se agregan dos atómicos, uno correspondiente al flujo como \textbf{inflow} y otro como \textbf{outflow}, como en el caso de la temperatura perdido en el ambiente (flow \textit{Heat Loss to Room}) sólo el \textbf{outflow} tiene conexiones. El atómico \textit{Ftot} ahora tiene un puerto adicional en uso, para la recepción de los valores \textit{FminsuTeacupTemperature - Heat Loss to Room} como parte de los \textbf{outflows} que operan sobre el \textbf{stock}, recordemos que este atómicos calcula $\sum inflows - \sum outflows $.
-
 
 \begin{figure}[!h]
 \centering
@@ -70,32 +70,12 @@ Es decir, que se agregan dos atómicos, uno correspondiente al flujo como \textb
 \label{fig:Teacup_devs_flattened_2}
 \end{figure}
 
-%TODO Falta revisar para abajo
-\subsubsection{Composibilidad del modelo}
+\pagebreak
 
-¿Es este modelo DEVS obtenido es fácilmente componible con otros? Decidimos ver de que manera era posible modularizar el modelo obtenido, generando un o más acoplados que permitieran componerse con otros.
+\subsubsection{El modelo en CD++}
+Habiendo generado nuestro modelo DEVS para \textit{Teacup} quisimos ver como sería el mismo en \texttt{CD++}, es decir el archivo .ma, así como también las clases  \texttt{C++} que representan a los atómicos. Ya que estos son los archivos que queremos generar una vez traducido el archivo \textbf{xmile} a \textbf{devsml}.
 
-Si observamos, tanto la temperatura del cuarto como la función características son variables que podrían ser compartidas por otro acoplados de un sistema más complejo, es decir, si una quisiera aislar la dinámica del \textbf{stock} podría pensarlos como variables de entrada. Por lo que dicha dinámica, la del \textbf{stock}, está encapsulada en el atómico integrador y en el \textit{Ftot} y los flujos que lo modifican, en este caso el atómico \textit{Fminus} que representa el flujo de salida (\textbf{outflow}).
-
-Desarrollamos entonces los modelos que se muestra en las figuras \ref{fig:Teacup_devs} y \ref{fig:Teacup_devs_2}, para el modelo original y para la versión con máquina de enfriamiento respectivamente, donde pueden verse los acoplados. 
-
-Todo este análisis nos pareció importante, al momento de desarrollar una primera versión del traductor. Ya que queremos entender de que manera es posible generalizar la forma en que se transformar los modelos SD a modelos DEVS y que además pueda escalar y ser utilizado en modelos más complejos. 
-
-\begin{figure}[!h]
-\centering
-\includegraphics[scale=0.35]{imagenes/Teacup_devs}
-\caption{Modelo Teacup expresado en DEVS en formato gráfico utilizando varios niveles de acoplamiento}
-\label{fig:Teacup_devs}
-\end{figure}
-\begin{figure}[!h]
-\centering
-\includegraphics[scale=0.35]{imagenes/Teacup_devs_2}
-\caption{Modelo Teacup (versión 2) expresado en DEVS en formato gráfico utilizando varios niveles de acoplamiento}
-\label{fig:Teacup_devs_2}
-\end{figure}
-
-\subsubsection{Modelo en código}
-En esta sección, primeramente mostraremos el modelo .ma que deseamos ser capaces de generar a partir del archivo .devsml generado por nuestro traductor a partir del archivo .xmile del modelo Teacup que ya mencionamos previamente. Por razones de tiempo y para simplificar las cosas en esta primera aproximación al problema, sólo trabajaremos con la versión aplanada del modelo. Es decir, no intentaremos generar varias capas de acoplados, sino un sólo acoplado Top, que contendrá a todos los atómicos que hagan falta.
+Por cuestiones de tiempo y para simplificar la implementación, sólo trabajamos con la versión aplanada del modelo. Es decir, no buscaremos generar acoplados alrededor de la dinámica de los \textbf{stocks}. Para ver más detalles de como pensamos dichos acoplados ver sección \ref{sssec:cdm}.
 
 \begin{figure}[!h]
 \centering
@@ -104,11 +84,13 @@ En esta sección, primeramente mostraremos el modelo .ma que deseamos ser capace
 \label{fig:Teacup_ma}
 \end{figure}
 
-Como se puede observar en la figura \ref{fig:Teacup_ma}, el archivo .ma consta de la definición del componente acoplado Top mediante [top], la definición de todos los componentes (modelos atómicos o acoplados, aunque en este ejemplo, como dijimos van a ser todos atómicos) que forman parte del acoplado Top, los puertos de entrada y salida del acoplado (en este caso, la entrada son las variables constantes auxiliares, y la salida es la úncia variable de interés del modelo - la temperatura de la taza -) y los links entre cada uno de los componentes del acoplado.
+Como se puede observar en la figura \ref{fig:Teacup_ma}, el archivo \texttt{.ma} consta de la definición del componente acoplado que engloba todo el modelo (\texttt{[top]}), la definición de todos los componentes que forman parte de este modelo acoplado (en este caso sólo modelos atómicos), los puertos de entrada y salida, así como los links de cada uno de los componentes. En este caso, las entradas son las variables constantes auxiliares y la salida es la única variable de interés del modelo, la temperatura de la taza. 
 
-Compárese la figura \ref{fig:Teacup_devs_flattened} con la figura \ref{fig:Teacup_ma}, y observése el mapeo 1-1 que hay entre cada línea del archivo .ma con el diagrama correspondiente.
+Si se compara el modelo de la figura \ref{fig:Teacup_devs_flattened} con el archivo \texttt{.ma} de la figura \ref{fig:Teacup_ma}, puede verse una correspondencia entre los descripto en el archivo con el diagrama DEVS.
 
-Ahora bien, los atómicos utilizados en este modelo, deberán tener un comportamiento. Obviamente, queremos también automatizar la generación de archivos que le den comportamiento a estos atómicos, para que el modelo .ma mostrado más arriba pueda ser ejecutado. Exponemos a continuación las partes más relevantes del código C++ que nuestro traductor genera junto con el .ma para darle el comportamiento deseado a cada atómico.
+Ahora bien, los atómicos utilizados en este modelo tienen cierto comportamiento, por tratarse de \texttt{CD++} la implementación será mediante las clases \texttt{C++} que sean necesarias. Por lo que vimos, los atómicos que se necesitan implementar, como \textit{Ftot}, \textit{Fmin} o \textit{Fplus}, tienen un comportamiento similar aunque guardan ciertas diferencias (ej: puertos de entrada, función que computan a la salida,etc.) que podríamos tratar de generalizar para poder generar estas clases de manera automática, generando clases específicas para cada atómico que hiciese falta, o crear clases genéricas que permitan generar las diferencias al momentos de instanciar o inicializar los atómicos. 
+
+Nuevamente por cuestiones simplicidad y tiempo, al momento de realizar la implementación, decidimos ir por la primera estrategia, es decir generamos para cada una de las clases necesarias de los atómicos automáticamente sus correspondientes archivos \texttt{.h} y \texttt{.cpp}.
 
 \begin{figure}[!h]
 \centering     %%% not \center
@@ -125,11 +107,19 @@ Ahora bien, los atómicos utilizados en este modelo, deberán tener un comportam
 \end{figure}
 
 \subsubsection{Generación de modelo ejecutable en CD++}
-Para poder generar los archivos .ma, .h y .cpp que mencionamos en la sección anterior, previamente debemos generar un archivo .devsml que contenga toda la información necesaria para este fin.
+Hemos visto en las secciones anteriores que es posible pasar un modelo en System Dynamics a un modelo DEVS, por lo que sería posible generar a partir de un archivo \texttt{xmile} un archivo \texttt{DEVSML} y a partir de este último generar un archivo \texttt{.ma} y los archivos de necesarios para los atómicos (estos vistos en la sección anterior).
 
-Una vez generado dicho archivo, resta generar una descripción del modelo en un lenguaje que nuestro simulador (en este caso $CD++$), pueda entender para así ejecutar. 
+Nos faltaría unicamente revisar el archivo \texttt{DEVSML} del modelo teacup frente al archivo \texttt{.ma} a fin de entender como sería dicha traducción. Como se pueden ver comparando la figura \ref{fig:Teacup_devsml_ports} y \ref{fig:Teacup_devsml_stocks} con la figura \ref{fig:Teacup_ma}, puede verse facilmente la correspondencia de atómicos, puertos y links.
 
-Como ya vimos, se puede hacer un mapeo $1-1$ entre cada línea del archivo $DEVSML$ y del archivo $MA$. De esta forma, se completa el pipeline de transformaciones necesarias para pasar de un modelo ejecutable especificado en un formalismo de tiempo discreto hacia otro formalismo, de tiempo continuo y eventos discretos.
+De esta forma, podemos ver que es posible generar las transformaciones necesarias para pasar de un modelo ejecutable especificado en un formalismo de tiempo continuo hacia otro formalismo, de tiempo continuo y eventos discretos.
+
+\begin{figure}[!h]
+	\centering     %%% not \center
+	\subfigure[Conexiones internas]{\label{fig:Teacup_devsml_internal_connections}\includegraphics[scale=0.4]{imagenes/teacup_mapeo/Teacup_devsml_internal_connections}}
+	\subfigure[Conexiones externas]{\label{fig:Teacup_devsml_external_connections}\includegraphics[scale=0.4]{imagenes/teacup_mapeo/Teacup_devsml_external_connections}}
+	\subfigure[Puertos de entrada/salida del modelo Top]{\label{fig:Teacup_devsml_ports}\includegraphics[scale=0.4]{imagenes/teacup_mapeo/Teacup_devsml_ports}}
+	\caption{Parte relevante del código .devsml generado por cada conexión y para los puertos del modelo Top}
+\end{figure}
 
 \begin{figure}[!h]
 \centering     %%% not \center
@@ -138,17 +128,33 @@ Como ya vimos, se puede hacer un mapeo $1-1$ entre cada línea del archivo $DEVS
 \caption{Parte relevante del código .devsml generado por cada Constante, Stock y Flow}
 \end{figure}
 
-\begin{figure}[!h]
-\centering     %%% not \center
-\subfigure[Conexiones internas]{\label{fig:Teacup_devsml_internal_connections}\includegraphics[scale=0.4]{imagenes/teacup_mapeo/Teacup_devsml_internal_connections}}
-\subfigure[Conexiones externas]{\label{fig:Teacup_devsml_external_connections}\includegraphics[scale=0.4]{imagenes/teacup_mapeo/Teacup_devsml_external_connections}}
-\subfigure[Puertos de entrada/salida del modelo Top]{\label{fig:Teacup_devsml_ports}\includegraphics[scale=0.4]{imagenes/teacup_mapeo/Teacup_devsml_ports}}
-\caption{Parte relevante del código .devsml generado por cada conexión y para los puertos del modelo Top}
-\end{figure}
+\pagebreak
 
+\subsubsection{Composibilidad del modelo} \label{sssec:cdm}
+¿Es este modelo DEVS obtenido es fácilmente componible con otros? Decidimos ver de que manera era posible modularizar el modelo obtenido, generando un o más acoplados que permitieran componerse con otros.
+
+Si observamos, tanto la temperatura del cuarto como la función características son variables que podrían ser compartidas por otro acoplados de un sistema más complejo, es decir, si una quisiera aislar la dinámica del \textbf{stock} podría pensarlos como variables de entrada. Por lo que dicha dinámica, la del \textbf{stock}, está encapsulada en el atómico integrador y en el \textit{Ftot} y los flujos que lo modifican, en este caso el atómico \textit{Fminus} que representa el flujo de salida (\textbf{outflow}).
+
+Desarrollamos entonces los modelos que se muestra en las figuras \ref{fig:Teacup_devs} y \ref{fig:Teacup_devs_2}, para el modelo original y para la versión con máquina de enfriamiento respectivamente, donde pueden verse los acoplados. 
+
+Todo este análisis nos pareció importante, al momento de desarrollar una primera versión del traductor. Ya que queremos entender de que manera es posible generalizar la forma en que se transformar los modelos SD a modelos DEVS y que además pueda escalar y ser utilizado en modelos más complejos. 
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.35]{imagenes/Teacup_devs}
+	\caption{Modelo Teacup expresado en DEVS en formato gráfico utilizando varios niveles de acoplamiento}
+	\label{fig:Teacup_devs}
+\end{figure}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.35]{imagenes/Teacup_devs_2}
+	\caption{Modelo Teacup (versión 2) expresado en DEVS en formato gráfico utilizando varios niveles de acoplamiento}
+	\label{fig:Teacup_devs_2}
+\end{figure}
 % TODO
 \subsection{Modelo Formal}
-Primero mostramos formalmente los modelos atómicos utilizados en el acoplado Top, con la descripción de su comportamiento interno.
+A modo de completitud mostramos la definición formal de los modelos atómicos 
+utilizados en el acoplado Top, con la descripción de su comportamiento interno.
 \begin{itemize}
 
 \item \textbf{Cte} : $ roomTemperature, characteristicTime \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
