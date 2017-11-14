@@ -1,0 +1,201 @@
+\subsection{Teacup}
+A modo de completitud mostramos la definición formal de los modelos atómicos 
+utilizados en el acoplado Top, con la descripción de su comportamiento interno.
+\begin{itemize}
+	
+	\item \textbf{Cte} : $ roomTemperature, characteristicTime \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+	\begin{itemize}
+		\item $ X = \{ inValue \} $ \newline
+		\item $ S = \{ value \} $ \newline
+		\item $ Y = \{ out \} $ \newline
+		\item $ \delta_{int}(\langle value \rangle) = \emptyset $ \newline
+		\item $ \delta_{ext} (\langle value \rangle, e, x)= \{ value := x.value \} $ \newline
+		\item $ \lambda(\langle value \rangle, out) = value $ \newline
+		\item $ t_{a}(s) = \infty $ 
+	\end{itemize}
+	
+	\item \textbf{Fminus} : $ fmTeacupTemperatureHeatLossToRoom \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+	\begin{itemize}
+		\item $ X = \{ inRoomTemperature, inCharacteristicTime, inTeacupTemperatureIntegrator \} $ \newline
+		\item $ S = \{ roomTemperature, characteristicTime, teacupTemperatureIntegrator, isSetRoomTemperature, \newline isSetCharacteristicTime, isSetTeacupTemperatureIntegrator \} $ \newline
+		\item $ Y = \{ out \} $ \newline
+		\item $ \delta_{int}(s) = \emptyset $ \newline
+		\item $ \delta_{ext}(s, e, x) = \{
+		\\if (x.port = inRoomTemperatureroomTemperature) roomTemperature := x.value; isSetRoomTemperature := true
+		\\if (x.port = inCharacteristicTime) characteristicTime := x.value; isSetCharacteristicTime := true
+		\\if (x.port = inTeacupTemperatureIntegrator) teacupTemperatureIntegrator = x.value; \\isSetTeacupTemperatureIntegrator := true 
+		\} $ \newline
+		\item $ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
+		\\(teacupTemperatureIntegrator-roomTemperature)/characteristicTime\} \ else \ \emptyset$ \newline
+		\item $ t_{a} = \infty $ 
+	\end{itemize}
+	
+	\item \textbf{Ftot} : $ ftTeacupTemperature \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+	\begin{itemize}
+		\item $ X = \{ inMinusHeatLossToRoom \} $ \newline
+		\item $ S = \{ plus, minus \} $ \newline
+		\item $ Y = \{ out \} $ \newline
+		\item $ \delta_{int}(\langle plus, minus \rangle) = \emptyset $ \newline
+		\item $ \delta_{ext}(\langle plus, minus \rangle, e, x) = \{ 
+		\\if (x.port = inPlus) plus := x.value
+		\\if (x.port == inMinusHeatLossToRoom) minus := x.value
+		\} $ \newline
+		\item $ \lambda(\langle plus, minus \rangle, out) = (plus - minus) $ \newline
+		\item $ t_{a} = \infty $ 
+	\end{itemize}
+	\item \textbf{QSS1} : $ teacupTemperatureIntegrator \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+	\begin{itemize}
+		\item $ X = \{ in \} $ \newline
+		\item $ S = \{ ? \} $ \newline
+		\item $ Y = \{ out \} $ \newline
+		\item $ \delta_{int}(s) = \{ ? \} $ \newline
+		\item $ \delta_{ext}(s, e, x) = \{ ? \} $ \newline
+		\item $ \lambda(s) = ? $ \newline
+		\item $ t_{a} = \{ ? \} $ 
+	\end{itemize}
+\end{itemize}
+
+Ahora que ya tenemos lo atómicos, expresamos el acoplado que utiliza a los atómicos expuestos más arriba:
+\begin{itemize}
+	\item $ Top \rightarrow \langle X, Y, \{ M_{1}, M_{2}, M_{3}, M_{4}, M_{5} \}, C_{xx}, C_{yx}, C_{yy}, Select \rangle$ \newline
+	\begin{itemize}
+		\item $ X = \{ \} $ \newline
+		\item $ Y = \{ \} $ \newline
+		\item $ M_{1} = roomTemperature $ \newline
+		\item $ M_{2} = characteristicTime $ \newline
+		\item $ M_{3} = fmTeacupTemperatureHeatLossToRoom$ \newline
+		\item $ M_{4} = ftTeacuptTemperature $ \newline
+		\item $ M_{5} = teacupTemperatureIntegrator $ \newline
+		\item $ C_{xx} = $ \{ \} \newline
+		\item $ C_{yx} = \{ (M_{1}.!out, M_{3}.?inRoomTemperture), (M_{2}.!out, M_{3}.?inCharacteristicTime), \\
+		(M_{5}.!out, M_{3}.?inTecupTemperatureIntegrator), (M_{3}.!out, M_{4}.?inMinusHeatLossToRoom), \\
+		(M_{4}.!out, M_{5}.?in) \} $ \newline
+		\item $ C_{yy} = \{ \} $ \newline
+	\end{itemize}
+\end{itemize}
+
+
+\subsection{SIR}
+A continuación, exponemos formalmente los modelos atómicos utilizados en el acoplado Top, con la descripción de su comportamiento interno.
+\begin{itemize}
+\item \textbf{Cte} : $ totalPopulation, contactInfectivity, duration \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+$ X = \{ inValue \} $ \newline
+$ S = \{ value \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(\langle value \rangle) = \emptyset $ \newline
+$ \delta_{ext} (\langle value \rangle, e, x)= \{ value := x.value \} $ \newline
+$ \lambda(\langle value \rangle, out) = value $ \newline
+$ t_{a}(s) = \infty $
+
+\item \textbf{Fminus} : $ fmSusceptiblesSuccumbing \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+$ X = \{ inTotalPopulation, inContactInfectivity, inInfectedIntegrator, inSuceptiblesIntegrator \} $ \newline
+$ S = \{ totalPopulation, contactInfectivity, infectedIntegrator, suceptiblesIntegrator, isSetTotalPopulation, \newline isSetContactInfectivity, isSetInfectedIntegrator, isSetSuceptiblesIntegrator \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(s) = \emptyset $ \newline
+$ \delta_{ext}(s, e, x) = \{
+\\if (x.port = inTotalPopulation) totalPopulation := x.value; isSetTotalPopulation := true
+\\if (x.port = inContactInfectivity) contactInfectivity := x.value; isSetContactInfectivity := true
+\\if (x.port = inInfectedIntegrator) infectedIntegrator = x.value; \\isSetInfectedIntegrator := true 
+\\if (x.port = inSuceptiblesIntegrator) suceptiblesIntegrator = x.value; \\isSetSuceptiblesIntegrator := true
+\} $ \newline
+$ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
+\\susceptiblesIntegrator*infectedIntegrator/totalPopulation*contactInfectivity\} \ else \ \emptyset$ \newline
+$ t_{a} = \infty $ 
+
+\item \textbf{Fplus} : $ fpInfectedSuccumbing \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+$ X = \{ inTotalPopulation, inContactInfectivity, inInfectedIntegrator, inSuceptiblesIntegrator \} $ \newline
+$ S = \{ totalPopulation, contactInfectivity, infectedIntegrator, suceptiblesIntegrator, isSetTotalPopulation, \newline isSetContactInfectivity, isSetInfectedIntegrator, isSetSuceptiblesIntegrator \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(s) = \emptyset $ \newline
+$ \delta_{ext}(s, e, x) = \{
+\\if (x.port = inTotalPopulation) totalPopulation := x.value; isSetTotalPopulation := true
+\\if (x.port = inContactInfectivity) contactInfectivity := x.value; isSetContactInfectivity := true
+\\if (x.port = inInfectedIntegrator) infectedIntegrator = x.value; \\isSetInfectedIntegrator := true 
+\\if (x.port = inSuceptiblesIntegrator) suceptiblesIntegrator = x.value; \\isSetSuceptiblesIntegrator := true
+\} $ \newline
+$ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
+\\susceptiblesIntegrator*infectedIntegrator/totalPopulation*contactInfectivity\} \ else \ \emptyset$ \newline
+$ t_{a} = \infty $ 
+
+\item \textbf{Fminus} : $ fmInfectedRecovering \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+$ X = \{ inDuration, inInfectedIntegrator \} $ \newline
+$ S = \{ duration, infectedIntegrator, isSetDuration, isSetInfectedIntegrator \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(s) = \emptyset $ \newline
+$ \delta_{ext}(s, e, x) = \{
+\\if (x.port = inDuration) duration := x.value; isSetDuration := true
+\\if (x.port = inInfectedIntegrator) infectedIntegrator = x.value; \\isSetInfectedIntegrator := true 
+\} $ \newline
+$ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
+\\infectedIntegrator/duration\} \ else \ \emptyset$ \newline
+$ t_{a} = \infty $ 
+
+\item \textbf{Fplus} : $ fpRecoveredRecovering \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+$ X = \{ inDuration, inInfectedIntegrator \} $ \newline
+$ S = \{ duration, infectedIntegrator, isSetDuration, isSetInfectedIntegrator \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(s) = \emptyset $ \newline
+$ \delta_{ext}(s, e, x) = \{
+\\if (x.port = inDuration) duration := x.value; isSetDuration := true
+\\if (x.port = inInfectedIntegrator) infectedIntegrator = x.value; \\isSetInfectedIntegrator := true 
+\} $ \newline
+$ \lambda(s, out) = if(todas \ las \ variables \ seteadas) \{ 
+\\infectedIntegrator/duration\} \ else \ \emptyset$ \newline
+$ t_{a} = \infty $
+
+\item \textbf{Ftot} : $ ftSuceptibles, ftInfected, ftRecovered \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+$ X = \{ inMinus, inPlus \} $ \newline
+$ S = \{ plus, minus \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(\langle plus, minus \rangle) = \emptyset $ \newline
+$ \delta_{ext}(\langle plus, minus \rangle, e, x) = \{ 
+\\if (x.port = inPlus) plus := x.value
+\\if (x.port == inMinus) minus := x.value
+\} $ \newline
+$ \lambda(\langle plus, minus \rangle, out) = (plus - minus) $ \newline
+$ t_{a} = \infty $ 
+
+
+\item \textbf{QSS1} : $ susceptiblesIntegrator, infectedIntegrator, recoveredIntegrator  \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+$ X = \{ in \} $ \newline
+$ S = \{ ? \} $ \newline
+$ Y = \{ out \} $ \newline
+$ \delta_{int}(s) = \{ ? \} $ \newline
+$ \delta_{ext}(s, e, x) = \{ ? \} $ \newline
+$ \lambda(s) = ? $ \newline
+$ t_{a} = \{ ? \} $ 
+\end{itemize}
+
+El acoplado que utiliza los atómicos expuestos más arriba es:
+
+% TODO modificar el acoplado para darle forma al acoplado de SIR
+\begin{itemize}
+	\item $ Top \rightarrow \langle X, Y, \{ M_{1}, M_{2}, M_{3}, M_{4}, M_{5} \}, C_{xx}, C_{yx}, C_{yy}, Select \rangle$ \newline
+	$ X = \{ \} $ \newline
+	$ Y = \{ \} $ \newline
+	$ M_{1} = totalPopulation $ \newline
+	$ M_{2} = contactInfectivity $ \newline
+	$ M_{3} = duration $ \newline
+	$ M_{4} = fmSusceptiblesSuccumbing $ \newline
+	$ M_{5} = ftSuceptibles  $ \newline
+	$ M_{6} = susceptiblesIntegrator  $ \newline
+	$ M_{7} = fpInfectedSuccumbing $ \newline
+	$ M_{8} = fmInfectedRecovering  $ \newline
+	$ M_{9} = ftInfected  $ \newline
+	$ M_{10} = infectedIntegrator  $ \newline
+	$ M_{11} = fpRecoveredRecovering  $ \newline
+	$ M_{12} = ftRecovered  $ \newline
+	$ M_{13} = recoveredIntegrator  $ \newline
+	$ C_{xx} = $ \{ \} \newline
+	$ C_{yx} = \{ (M_{1}.!out, M_{4}.?inTotalPopulation), (M_{1}.!out, M_{5}.?inTotalPopulation), \\
+	(M_{2}.!out, M_{4}.?inContactInfectivity), (M_{2}.!out, M_{5}.?inContactInfectivity), \\
+	(M_{3}.!out, M_{6}.?inDuration), (M_{3}.!out, M_{7}.?inDuration), \\
+	(M_{4}.!out, M_{5}.?inMinus), (M_{5}.!out, M_{6}.?in), \\
+	(M_{6}.!out, M_{4}.?inSusceptiblesIntegrator), (M_{6}.!out, M_{7}.?inSuceptiblesIntegrator), \\
+	(M_{7}.!out, M_{9}.?inPlus), (M_{8}.!out, M_{9}.?inMinus), \\
+	(M_{9}.!out, M_{10}.?in), (M_{10}.!out, M_{4}.?inInfectedIntegrator), \\
+	(M_{10}.!out, M_{7}.?inInfectedIntegrator), (M_{10}.!out, M_{8}.?inInfectedIntegrator), \\
+	(M_{10}.!out, M_{11}.?inInfectedIntegrator), (M_{11}.!out, M_{12}.?inPlus), \\
+	(M_{12}.!out, M_{13}.?in)  \} $ \newline
+	$ C_{yy} = \{ \} $ \newline
+\end{itemize}
