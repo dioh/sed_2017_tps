@@ -1,0 +1,12 @@
+Durante el desarrollo de este Trabajo Práctico, tuvimos que aprender a utilizar varias herramientas necesarias para la realización del mismo. Entre las más importantes podemos destacar las siguientes:
+\begin{itemize}
+\item entender el formalismo DEVS y aplicarlo a problemas concretos mediante la utilización del \textbf{Simulador Avanzado CD++} desarrollado parcialmente por ex-alumnos de la materia
+\item entender el formalismo System Dynamics (SD), su capacidad para modelar sistemas de ecuaciones diferenciales continuos, y su relación y punto de contacto con el formalismo DEVS, para poder así reescribir uno modelo de un formalismo al otro
+\item tuvimos la necesidad de entender el funcionamiento de los módulos \textbf{QSS}(Quantized State System), que utilizamos como \textbf{integradores} en nuestro sistema
+\item aplicamos \textbf{técnicas de parsing y transformación de documentos} así como también \textbf{templates} para simplificar el proceso de traducción de modelos en formato XMILE y formato DEVSML y también para interpretar los \texttt{logs} generados por el simulador CD++
+\item técnicas de visualización para poder comparar eficientemente el \texttt{output} generado por el modelo original y por su traducción para los mismos inputs
+\end{itemize}
+
+A partir de la aplicación de todo lo expuesto más arriba, pudimos ver cómo es posible traducir de forma automática modelos simples (en nuestro caso el modelo \texttt{Teacup} y el modelo \texttt{SIR}) \textbf{System Dynamics} en model \textbf{DEVS}, de forma tal que los resultados de su ejecución para los mismos inputs sean cualitativamente iguales, y cuantitativamente casi idénticos.
+
+Con los resultados finales obtenidos, podemos decir que hemos desarrollado exitosamente un traductor simple y básico, que permite traducir de forma automática modelos básico de System Dynamics en DEVS, que es un formalismo que al ser basado en \texttt{eventos discretos}, permite incluir en estos modelos variaciones no continuas (que podríamos llamar \texttt{shocks}) en el valor de las variables de un modelo en el medio de una simulación de forma natural. De esta forma, la representación de dichos modelos en el formalismo DEVS, permite enriquecer la expresividad del modelo original.
