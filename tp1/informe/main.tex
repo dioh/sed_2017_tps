@@ -6,10 +6,20 @@
 \usepackage{float}
 
 
+% Evita las figuras en otras secciones
+\usepackage[section]{placeins}
+
+% Para el uso de hipervínculos
+\usepackage{hyperref}
+
+%Para el uso de apéndices (nombres de la seccion)
+\usepackage{appendix}
+\renewcommand{\appendixtocname}{Apéndices}
+\renewcommand{\appendixpagename}{Apéndices}
+
 % YO
 \usepackage{nameref}% Only if hyperref isn't loaded
 \usepackage{subfigure}
-
 \usepackage{caratula/caratula}
 
 \begin{document}
@@ -41,13 +51,16 @@
 \section{Resultados}
 \input{resultados.tex}
 
-\section{Trabajo futuro}
-\input{trabajo-futuro.tex}
-
 \section{Conclusiones}
 \input{conclusiones.tex}
 
+\section{Trabajo futuro}
+\input{trabajo-futuro.tex}
+
+\clearpage
+\addappheadtotoc
 \appendix
+\appendixpage
 
 \section{Modelos formales}
 \input{modelos_formales.tex}
