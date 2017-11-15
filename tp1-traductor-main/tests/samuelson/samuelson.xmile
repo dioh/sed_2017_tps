@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xmile version="1.0">
+<xmile>
 	<header>
-		<smile version="1.0"/>
+		<smile version="1.0" namespace="std, isee"/>
 		<name>samuelson-1</name>
 		<uuid>85a996c3-78db-4e59-9d1f-bf7a1d2ffbd4</uuid>
 		<vendor>isee systems, inc.</vendor>
-		<product version="1.4.3" build_number="1229" saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
 	<sim_specs>
 		<start>1</start>
@@ -22,22 +21,22 @@
 	<model>
 		<variables>
 			<aux name="Consumption">
-				<eqn>Marginal Propensity to Consume alpha * Previous Output</eqn>
+				<eqn>Marginal Propensity to Consume alpha * PrevOutpt</eqn>
 			</aux>
-			<aux name="Marginal Propensity\nto Consume alpha">
+			<aux name="Marginal Propensity to Consume alpha">
 				<eqn>0.5</eqn>
 			</aux>
 			<aux name="Output">
 				<eqn>Investment + Consumption + Government Spending</eqn>
 			</aux>
 			<aux name="Investment">
-				<eqn>Investment proportionality relation beta * (Consumption - Previous Consumption)</eqn>
+				<eqn>Investment proportionality relation beta * (Consumption - PrevCons)</eqn>
 			</aux>
-			<aux name="Investment proportionality\nrelation beta">
+			<aux name="Investment proportionality relation beta">
 				<eqn>1</eqn>
 			</aux>
 			<aux name="Government Spending">
-				<eqn>Base spending + Spending step * PULSE( Step time, TIME STEP 1)</eqn>
+				<eqn>Base spending + Spending step * ( Step time + One unit Timestep )</eqn>
 			</aux>
 			<aux name="Step time">
 				<eqn>4</eqn>
@@ -48,40 +47,40 @@
 			<aux name="Base spending">
 				<eqn>1</eqn>
 			</aux>
-			<aux name="TIME STEP">
+			<aux name="Time step">
 				<eqn>1</eqn>
 				<units>Years</units>
 			</aux>
-			<aux name="TIME STEP 1">
+			<aux name="One unit Timestep">
 				<eqn>1</eqn>
 				<units>Years</units>
 			</aux>
-			<aux name="TIME STEP 2">
+			<aux name="Two unit Timestep">
 				<eqn>1</eqn>
 				<units>Years</units>
 			</aux>
-			<stock name="Previous Output">
+			<stock name="PrevOutpt">
 				<eqn>0</eqn>
-				<inflow>Chg Previous Output</inflow>
+				<inflow>Chg PrevOutpt</inflow>
 				<non_negative/>
 			</stock>
-			<stock name="Previous Consumption">
+			<stock name="PrevCons">
 				<eqn>0</eqn>
-				<inflow>Chg Previous Consumption</inflow>
+				<inflow>Chg PrevCons</inflow>
 				<non_negative/>
 			</stock>
-			<flow name="Chg Previous Consumption">
-				<eqn>(Consumption - Previous Consumption) / TIME STEP</eqn>
+			<flow name="Chg PrevCons">
+				<eqn>(Consumption - PrevCons) / Time step</eqn>
 				<non_negative/>
 			</flow>
-			<flow name="Chg Previous Output">
-				<eqn>(Output - Previous Output) / TIME STEP 2</eqn>
+			<flow name="Chg PrevOutpt">
+				<eqn>(Output - PrevOutpt) / Two unit Timestep</eqn>
 				<non_negative/>
 			</flow>
 			<iseedependencies>
 				<var name="Consumption">
 					<in>Marginal Propensity to Consume alpha</in>
-					<in>Previous Output</in>
+					<in>PrevOutpt</in>
 				</var>
 				<var name="Output">
 					<in>Investment</in>
@@ -91,23 +90,23 @@
 				<var name="Investment">
 					<in>Consumption</in>
 					<in>Investment proportionality relation beta</in>
-					<in>Previous Consumption</in>
+					<in>PrevCons</in>
 				</var>
 				<var name="Government Spending">
 					<in>Step time</in>
 					<in>Spending step</in>
 					<in>Base spending</in>
-					<in>TIME STEP 1</in>
+					<in>One unit Timestep</in>
 				</var>
-				<var name="Chg Previous Consumption">
-					<in>TIME STEP</in>
+				<var name="Chg PrevCons">
+					<in>Time step</in>
 					<in>Consumption</in>
-					<in>Previous Consumption</in>
+					<in>PrevCons</in>
 				</var>
-				<var name="Chg Previous Output">
-					<in>TIME STEP 2</in>
+				<var name="Chg PrevOutpt">
+					<in>Two unit Timestep</in>
 					<in>Output</in>
-					<in>Previous Output</in>
+					<in>PrevOutpt</in>
 				</var>
 			</iseedependencies>
 		</variables>

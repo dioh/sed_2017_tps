@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile>
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>stock_to_capacity</name>
+		<uuid>c026a89f-3aa6-4e6a-9d48-d0d3a4799e44</uuid>
+		<vendor>isee systems, inc.</vendor>
+	</header>
+	<sim_specs>
+		<start>1</start>
+		<stop>13</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<model_units/>
+	<model>
+		<variables>
+			<flow name="Flow 1">
+				<eqn>Growth Coefficient * Stock 1</eqn>
+				<non_negative/>
+			</flow>
+			<aux name="Ratio of Stock to Capacity">
+				<eqn>Stock 1 / Maximum Capacity of Stock</eqn>
+			</aux>
+			<aux name="Maximum Capacity of Stock">
+				<eqn>1000</eqn>
+			</aux>
+			<aux name="Effect of Ratio of Stock to Capacity on Growth Coefficient">
+				<eqn>1 - Ratio of Stock to Capacity</eqn>
+			</aux>
+			<stock name="Stock 1">
+				<eqn>100</eqn>
+				<inflow>Flow 1</inflow>
+				<non_negative/>
+			</stock>
+			<aux name="Growth Coefficient">
+				<eqn>0.5 * Effect of Ratio of Stock to Capacity on Growth Coefficient</eqn>
+			</aux>
+			<iseedependencies>
+				<var name="Flow 1">
+					<in>Growth Coefficient</in>
+					<in>Stock 1</in>
+				</var>
+				<var name="Ratio of Stock to Capacity">
+					<in>Stock 1</in>
+					<in>Maximum Capacity of Stock</in>
+				</var>
+				<var name="Effect of Ratio of Stock to Capacity on Growth Coefficient">
+					<in>Ratio of Stock to Capacity</in>
+				</var>
+				<var name="Growth Coefficient">
+					<in>Effect of Ratio of Stock to Capacity on Growth Coefficient</in>
+				</var>
+			</iseedependencies>
+		</variables>		
+	</model>
+</xmile>
+
