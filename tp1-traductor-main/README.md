@@ -7,6 +7,11 @@
 *** python traducir_teacup.py
 *** python traducir_sir.py
 *** python traducir_samuelson.py
+*** Ir a las carpetas correspondientes a cada uno de los modelos. Ir a src. Compilar con 'make'.
+*** Una vez que compilo todo, correr de la siguiente forma (ejemplo para teacup):
+**** src/bin/cd++ -mteacup.ma -eteacup.ev
+**** src/bin/cd++ -msir.ma -esir.ev
+
 ** En templates/ se pueden encontrar los templates utilizados para generar los archivos .cpp, .h, .ma y .ev 
 ** El codigo de los traductores esta en:
 *** sd2devsml.py, para pasar de XMILE a DEVSML
