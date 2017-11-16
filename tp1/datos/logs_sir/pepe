@@ -1,0 +1,16 @@
+[logfiles]
+ParallelRoot : pepe00 
+top : pepe14 
+infectiousintegrator : pepe01 
+susceptibleintegrator : pepe02 
+recoveredintegrator : pepe03 
+ftsusceptible : pepe04 
+ftinfectious : pepe05 
+ftrecovered : pepe06 
+fpinfectious : pepe07 
+fprecovered : pepe08 
+fmsusceptible : pepe09 
+fminfectious : pepe10 
+duration : pepe11 
+totalpopulation : pepe12 
+contactinfectivity : pepe13 

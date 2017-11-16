@@ -1,0 +1,8 @@
+[logfiles]
+ParallelRoot : pepe00 
+top : pepe06 
+teacuptemperatureintegrator : pepe01 
+ftteacuptemperature : pepe02 
+fmteacuptemperature : pepe03 
+roomtemperature : pepe04 
+characteristictime : pepe05 
