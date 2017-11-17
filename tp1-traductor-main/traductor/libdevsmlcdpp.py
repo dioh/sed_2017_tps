@@ -58,43 +58,39 @@ def aux2aux(auxName):
 
 def getFunctionParams(function):
     elems = re.split('[-+*/()]+', function)
-    elems = map(lambda x: x.replace(' ', ''), elems)
+    elems = list(map(lambda x: x.replace(' ', ''), elems))
     elems = filter(lambda x: x != '', elems)
     elems = filter(lambda x: re.search('[a-zA-Z]', x) is not None, elems)
     return elems
 
+
 def processFunction(function, integradores_, auxs_, ctes_):
     result = function
-    stockNames = [integradores_[intName]['stockName'] 
-                  for intName, attr in iteritems(integradores_)]
-
-    cteNames = [ctes_[cteName]['cteName']
-                for cteName, attr in iteritems(ctes_)]
-
-    auxsNames = [auxs_[auxName]['auxName'] 
-                 for auxName, attr in iteritems(auxs_)]
+    stockNames = [integradores_[intName]['stockName'] for intName, attr in iteritems(integradores_)]
+    cteNames = [ctes_[cteName]['cteName'] for cteName, attr in iteritems(ctes_)]
+    auxsNames = [auxs_[auxName]['auxName'] for auxName, attr in iteritems(auxs_)]
 
     for stockName in stockNames:
         if stockName in result:
             result = result.replace(stockName, stock2integrator(stockName))
-
     for cteName in cteNames:
         if cteName in result:
             result = result.replace(cteName, cte2cte(cteName))
-    
-    # matches contiene los parametros que se utilizan en la funcion y que son aux's
+
+    # matches contiene los parametros que se utilizan en la funcion y que son aux's 
     # (cuidado con las variables en 'result' que no son aux's, pero tiene nombre parecido)
-    func_params_names = re.split('[-+*/()]+',function)
+    func_params_names = re.split('[-+*/()]+', function)
     func_params_names = map(lambda x : x.lstrip().rstrip(), func_params_names)
-    
+
     # #print 'PREVFUNCTION: ', result
     #print 'STOCKNAMES: ', stockNames
     #print 'AUXSNAMES: ', auxsNames
     #print 'FUNC_PARAMS: ', func_params_names
-    for auxName in auxsNames:
-        for param in func_params_names:
+    for param in func_params_names:
+        for auxName in auxsNames:
             if auxName == param:
                 result = result.replace(param, aux2aux(param))
+    
     return result
 
 
