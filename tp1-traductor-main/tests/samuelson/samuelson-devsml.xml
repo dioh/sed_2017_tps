@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devs>
+  <scenario>
+    <coupled name="top" model="Coupled" >
+      <!-- Input / Output -->
+      <!-- Inputs -->
+      <inputs>
+        <port name="Marginal Propensity to Consume alpha" />
+        <port name="Investment proportionality relation beta" />
+        <port name="Step time" />
+        <port name="Spending step" />
+        <port name="Base spending" />
+        <port name="Time step" />
+        <port name="One unit Timestep" />
+        <port name="Two unit Timestep" />
+        </inputs>
+      <!-- Outputs -->
+      <outputs>
+        <port name="PrevOutpt" />
+        <port name="PrevCons" />
+        </outputs>
+      <components>
+
+        <!-- Stock : PrevOutpt -->
+        <atomicRef name="ft PrevOutpt" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inPlus - Chg PrevOutpt" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="PrevOutpt" model="QSS1">
+          <parameter name="x0" value="0" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Stock : PrevCons -->
+        <atomicRef name="ft PrevCons" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inPlus - Chg PrevCons" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="PrevCons" model="QSS1">
+          <parameter name="x0" value="0" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Flow : Chg PrevOutpt -->
+        <atomicRef name="fp PrevOutpt - Chg PrevOutpt" model="Fplus">
+          <!-- Puertos del atomico -->
+          <port name="in Output " type="in" />
+          <port name="in  PrevOutpt" type="in" />
+          <port name="in  " type="in" />
+          <port name="in  Two unit Timestep" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="(Output - PrevOutpt) / Two unit Timestep" />
+        </atomicRef>
+        <!-- Flow : Chg PrevCons -->
+        <atomicRef name="fp PrevCons - Chg PrevCons" model="Fplus">
+          <!-- Puertos del atomico -->
+          <port name="in Consumption " type="in" />
+          <port name="in  PrevCons" type="in" />
+          <port name="in  " type="in" />
+          <port name="in  Time step" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="(Consumption - PrevCons) / Time step" />
+        </atomicRef>
+        <!-- Parameters / Constantes -->
+        <atomicRef name="Marginal Propensity to Consume alpha" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="0.5" />
+        </atomicRef>
+        <atomicRef name="Investment proportionality relation beta" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="1" />
+        </atomicRef>
+        <atomicRef name="Step time" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="4" />
+        </atomicRef>
+        <atomicRef name="Spending step" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="0" />
+        </atomicRef>
+        <atomicRef name="Base spending" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="1" />
+        </atomicRef>
+        <atomicRef name="Time step" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="1" unit="Years"/>
+        </atomicRef>
+        <atomicRef name="One unit Timestep" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="1" unit="Years"/>
+        </atomicRef>
+        <atomicRef name="Two unit Timestep" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="1" unit="Years"/>
+        </atomicRef>
+        <!-- Parameters / Auxiliares -->
+        <atomicRef name="Consumption" model="Aux">
+          <parameter name="function" value="Marginal Propensity to Consume alpha * PrevOutpt" />
+        </atomicRef>
+        <atomicRef name="Output" model="Aux">
+          <parameter name="function" value="Investment + Consumption + Government Spending" />
+        </atomicRef>
+        <atomicRef name="Investment" model="Aux">
+          <parameter name="function" value="Investment proportionality relation beta * (Consumption - PrevCons)" />
+        </atomicRef>
+        <atomicRef name="Government Spending" model="Aux">
+          <parameter name="function" value="Base spending + Spending step * ( Step time + One unit Timestep )" />
+        </atomicRef>
+        </components>
+
+      <internal_connections>
+
+        <!-- Link : Cte's a f's que las usan -->
+        <!-- Link : Cte's a Aux's que las usan -->
+        <!-- Aux : Consumption -->
+        <connection component_from="Marginal Propensity to Consume alpha" port_from="out" comonent_to="Consumption" port_to="in Marginal Propensity to Consume alpha"/>
+        <!-- Aux : Investment -->
+        <connection component_from="Investment proportionality relation beta" port_from="out" comonent_to="Investment" port_to="in Investment proportionality relation beta"/>
+        <!-- Aux : Government Spending -->
+        <connection component_from="Step time" port_from="out" comonent_to="Government Spending" port_to="in Step time"/>
+        <!-- Aux : Government Spending -->
+        <connection component_from="Spending step" port_from="out" comonent_to="Government Spending" port_to="in Spending step"/>
+        <!-- Aux : Government Spending -->
+        <connection component_from="Base spending" port_from="out" comonent_to="Government Spending" port_to="in Base spending"/>
+        <!-- Aux : Government Spending -->
+        <connection component_from="One unit Timestep" port_from="out" comonent_to="Government Spending" port_to="in One unit Timestep"/>
+        <!-- Link : Aux a Aux's que las usan -->
+        <!-- Aux : Consumption => Output-->
+        <connection component_from="Consumption" port_from="out" component_to="Output" port_to="in Consumption"/>
+        <!-- Aux : Consumption => Investment-->
+        <connection component_from="Consumption" port_from="out" component_to="Investment" port_to="in Consumption"/>
+        <!-- Aux : Investment => Output-->
+        <connection component_from="Investment" port_from="out" component_to="Output" port_to="in Investment"/>
+        <!-- Aux : Investment => Investment-->
+        <connection component_from="Investment" port_from="out" component_to="Investment" port_to="in Investment"/>
+        <!-- Aux : Government Spending => Output-->
+        <connection component_from="Government Spending" port_from="out" component_to="Output" port_to="in Government Spending"/>
+        <!-- Link : Aux a funciones que las usan --> 
+        <!-- Aux : Consumption => Chg PrevCons -->
+        <connection component_from="Consumption" port_from="out" component_to="fp PrevCons - Chg PrevCons" port_to="in - PrevCons" />
+        <!-- Aux : Output => Chg PrevOutpt -->
+        <connection component_from="Output" port_from="out" component_to="fp PrevOutpt - Chg PrevOutpt" port_to="in - PrevOutpt" />
+        
+        <!-- Links modelo acoplado minimal integrador PrevOutpt -->
+        <connection component_from="fp PrevOutpt - Chg PrevOutpt" port_from="out" component_to="ft PrevOutpt" port_to="inPlus - Chg PrevOutpt" />
+        <connection component_from="ft PrevOutpt" port_from="out" component_to="PrevOutpt" port_to="in" />
+        <!-- Links modelo acoplado minimal integrador PrevCons -->
+        <connection component_from="fp PrevCons - Chg PrevCons" port_from="out" component_to="ft PrevCons" port_to="inPlus - Chg PrevCons" />
+        <connection component_from="ft PrevCons" port_from="out" component_to="PrevCons" port_to="in" />
+        
+        <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
+        </internal_connections>
+      
+      <!-- Links inputs a constantes -->
+      <!-- external input -->
+      <external_input_connections>
+        <connection component_from="top" port_from="in - Marginal Propensity to Consume alpha" component_to="Marginal Propensity to Consume alpha" port_to="inValue" />
+        <connection component_from="top" port_from="in - Investment proportionality relation beta" component_to="Investment proportionality relation beta" port_to="inValue" />
+        <connection component_from="top" port_from="in - Step time" component_to="Step time" port_to="inValue" />
+        <connection component_from="top" port_from="in - Spending step" component_to="Spending step" port_to="inValue" />
+        <connection component_from="top" port_from="in - Base spending" component_to="Base spending" port_to="inValue" />
+        <connection component_from="top" port_from="in - Time step" component_to="Time step" port_to="inValue" />
+        <connection component_from="top" port_from="in - One unit Timestep" component_to="One unit Timestep" port_to="inValue" />
+        <connection component_from="top" port_from="in - Two unit Timestep" component_to="Two unit Timestep" port_to="inValue" />
+        
+      </external_input_connections>
+
+      <!-- external output -->
+      <external_output_connections />
+    </coupled>
+  </scenario>
+</devs>

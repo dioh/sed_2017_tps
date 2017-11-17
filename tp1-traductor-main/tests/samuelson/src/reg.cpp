@@ -3,10 +3,10 @@
 
 #include "qss1.h"
 #include "Cte.h"
-#include "FplusPreviousConsumptionChgPreviousConsumption.h"
-#include "FtotPreviousConsumptionIntegrator.h"
-#include "FtotPreviousOutputIntegrator.h"
-#include "FplusPreviousOutputChgPreviousOutput.h"
+#include "FtotPrevOutptIntegrator.h"
+#include "FtotPrevConsIntegrator.h"
+#include "FplusPrevOutptChgPrevOutpt.h"
+#include "FplusPrevConsChgPrevCons.h"
 // Registro modelos atomicos
 void register_atomics_on(ParallelModelAdmin &admin)
 {
@@ -15,9 +15,9 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	admin.registerAtomic(NewAtomicFunction<Cte>(), CTE);
 	
 	// Atomicos especificos del modelo
-	admin.registerAtomic(NewAtomicFunction<FplusPreviousConsumptionChgPreviousConsumption>(), FPLUSPREVIOUSCONSUMPTIONCHGPREVIOUSCONSUMPTION);
-	admin.registerAtomic(NewAtomicFunction<FtotPreviousConsumptionIntegrator>(), FTOTPREVIOUSCONSUMPTIONINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<FtotPreviousOutputIntegrator>(), FTOTPREVIOUSOUTPUTINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<FplusPreviousOutputChgPreviousOutput>(), FPLUSPREVIOUSOUTPUTCHGPREVIOUSOUTPUT);
+	admin.registerAtomic(NewAtomicFunction<FtotPrevOutptIntegrator>(), FTOTPREVOUTPTINTEGRATOR);
+	admin.registerAtomic(NewAtomicFunction<FtotPrevConsIntegrator>(), FTOTPREVCONSINTEGRATOR);
+	admin.registerAtomic(NewAtomicFunction<FplusPrevOutptChgPrevOutpt>(), FPLUSPREVOUTPTCHGPREVOUTPT);
+	admin.registerAtomic(NewAtomicFunction<FplusPrevConsChgPrevCons>(), FPLUSPREVCONSCHGPREVCONS);
 	//
 }
