@@ -27,11 +27,11 @@ las salidas que arrojan los modelos.
 \subsection{Análisis de los valores del modelo}
 
 Para comparar los valores de las salidas entre el modelo traducido y el modelo
-en \textit{SD} fue necesaria alinear la información para poder trabajar en las
+en \texttt{SD} fue necesaria alinear la información para poder trabajar en las
 mismas unidades de tiempo. Se puede ver un ejemplo en \ref{tab:times}. Por un lado los modelos de \textit{System Dynamics} reportan
 los valores de los \textit{stocks} en formato de punto flotante mientras que \textit{CD++}
 reporta la salida en formato fecha. Para llevar los a las mismas unidades,
-decidimos llevar todo a segundos. Mantuvimos el formato en \textit{SD} mientras que para las salidas de los modelos \textit{CD++} multiplicamos cada unidad de tiempo (las horas y minutos) por la constante multiplicativa adecuada consiguiendo tener toda la información muestreada en segundos.
+decidimos llevar todo a segundos. Mantuvimos el formato en \texttt{SD} mientras que para las salidas de los modelos \textit{CD++} multiplicamos cada unidad de tiempo (las horas y minutos) por la constante multiplicativa adecuada consiguiendo tener toda la información muestreada en segundos.
 
 Reportamos los datos de la figura en un gráfico de tipo \textit{scatter} donde en el eje de las X se tienen los $t_i$ por cada medición para cada uno de los modelos.
 
@@ -47,7 +47,7 @@ Reportamos los datos de la figura en un gráfico de tipo \textit{scatter} donde 
 \end{table}
 
 
-Observando la figura \ref{fig:teacup_salida_comparada} entendemos que hay diferencias en los comportamientos de los modelos. Por ejemplo, la tasa de decaimiento de la temperatura en el modelo traducido (en la figura valores en azul) nos muestra que la temperatura final se alcanza tres veces más rápido en \textit{CD++} que en \textit{SD}.
+Observando la figura \ref{fig:teacup_salida_comparada} entendemos que hay diferencias en los comportamientos de los modelos. Por ejemplo, la tasa de decaimiento de la temperatura en el modelo traducido (en la figura valores en azul) nos muestra que la temperatura final se alcanza tres veces más rápido en \textit{CD++} que en \texttt{SD}.
 También observamos que se alcanza el mismo valor final, motivo para pensar que la traducción funciona correctamente.
 
 \begin{figure}[H]
@@ -65,4 +65,4 @@ Si observamos en cambio la salida del modelo \textit{SIR} observamos en las figu
         \caption{Modelo SIR - comparación de resultados}
 \end{figure}
 
-La granularidad de los dos modelos se explica ya que \textit{CD++} opera de manera discreta mientras que \textit{SD} resuelve el sistema de manera continua.
+La granularidad de los dos modelos se explica ya que \textit{CD++} opera de manera discreta mientras que \texttt{SD} resuelve el sistema de manera continua.
