@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from jinja2 import DictLoader, Environment, FileSystemLoader
 import os
 import re
-import numpy as np
+
 # Parametros para funciones generadoras
 PATH = './'
 TEMPLATE_ENVIRONMENT = Environment(

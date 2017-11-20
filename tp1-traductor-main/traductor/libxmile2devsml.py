@@ -4,8 +4,6 @@ from future.utils import iteritems
 from jinja2 import DictLoader, Environment, FileSystemLoader
 import os
 import re
-import numpy as np
-
 
 # Parametros para funciones generadoras
 PATH = './'
