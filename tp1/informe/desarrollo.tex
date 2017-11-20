@@ -1,4 +1,4 @@
-Para desarrollar el traductor de \texttt{XMILE} a \texttt{DEVSML}, del cual se habló en las secciones anteriores, decidimos basarnos en 2 (dos) modelos clásicos implementados en \textit{System Dynamics}. 
+Para desarrollar el traductor de \texttt{XMILE} a \texttt{DEVSML}, del cual se habló en la sección anterior, decidimos basarnos en 2 (dos) modelos clásicos implementados en \textit{System Dynamics}. 
 
 Estos modelos son: 
 \begin{description}
@@ -6,8 +6,10 @@ Estos modelos son:
 	\item[SIR] 	que modela una población que sucumbe ante una infección que se propaga en la misma, y posteriormente se va recuperando, hasta que no queda ningún infectado
 \end{description}
 
-Mediante el estudio de estos dos modelos, analizamos como los diferentes elementos de cada archivo \texttt{XMILE} pueden ser traducidos a un modelo acoplado en DEVS (expresado como un archivo \texttt{XML} con formato \texttt{DEVSML}), de forma tal que esta traducción pueda ser ejecutada (en este caso utilizando el simulador CD++) y pueda verse que replica los resultados que se obtienen con simuladores de \textit{System Dynamics}.
+Mediante el estudio de estos dos modelos, analizamos como los diferentes elementos de cada archivo \texttt{XMILE} pueden ser traducidos a un modelo acoplado en DEVS  de forma tal que esta traducción pueda ser ejecutada. 
+Partiendo de un modelo escrito en XMILE, transformandolo en un modelo DEVS con formato \texttt{DEVSML} para luego ejecutarlo utilizando el simulador CD++. Finalmente replicando los resultados que se obtienen con simuladores de \textit{System Dynamics}.
+
 
 A continuación, exponemos cada uno de los modelos mencionados, mencionando cómo nos ayudaron en el desarrollo del traductor. 
 
-Aprovecharemos que el modelo \textit{Teacup} traducido contiene pocos archivos para mostrar el código generado, por el traductor, mientras que para la exposición del comportamiento de los otros modelos cuya traducción genera una mayor cantidad de archivos, utilizaremos el lenguage formal típico con que se expresan modelos DEVS.
+Aprovecharemos que el modelo \textit{Teacup} traducido contiene pocos archivos para mostrar el código generado por el traductor. Para la exposición del comportamiento de los otros modelos cuya traducción genera una mayor cantidad de archivos, utilizaremos el lenguage formal típico con que se expresan modelos DEVS.
