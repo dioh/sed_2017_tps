@@ -4,18 +4,18 @@ cantidad de mensajes enviados por cada uno de sus componentes (modelos atómicos
 Esto nos permite ver los valores de salida emitidos por los modelo, de transiciones internas o eventos
 externos.
 
-Este tipo análisis, junto con uno de tiempos de ejecución, puede servir para comparar modelos equivalentes, a fin de determinar que implementación conviene utilizar a medida que se complejizan los experimentos y/o modelos compuestos. En este caso, podríamos comparar el modelo donde los stocks son acoplados del modelo aplanado.
+Este tipo análisis, junto con uno de tiempos de ejecución, puede servir para comparar modelos equivalentes, a fin de determinar que implementación conviene utilizar a medida que se complejizan los experimentos y/o modelos compuestos. En este caso, podríamos comparar el modelo donde los \textit{stocks} son acoplados del modelo aplanado.
 
 Para un modelo sencillo como el de la taza de té generamos gráficos que nos
 permiten analizar el comportamiento de la simulación en dos ejes, los eventos
 realizados por cada atómico o el acoplado \texttt{top}.
 
-Para poder generar este, categorizamos cada línea de log para cada modelo y
+Para poder generar este, categorizamos cada línea de \textit{log} para cada modelo y
 contamos su frecuencia. Luego, agrupamos estos datos y generamos un Heatmap.
 Este gráfico nos permite visualizar las dimensiones \textit{modelo}, \textit{tipo de mensaje} y
 \textit{cantidad de ocurrencias} para poder compararlos entre sí.
 
-Dado que el \texttt{TopLevelCoupled} (TLC)  es el orquestador de la simulación,
+Dado que el \texttt{TopLevelCoupled} (\texttt{TLC})  es el orquestador de la simulación,
 observamos mayor cantidad de eventos de tipo \textit{@, Done e Y}. La alta
 frecuencia de eventos \textit{Y} se explica sabiendo que éste  transporta la
 información de salida. Dada la diferencia de magnitudes entre los distintos
@@ -31,7 +31,7 @@ de transiciones internas, externas y de salida son iguales. Esto es razonable
 debido a que estos 3 modelos generan un ciclo entre sí, es decir que se retroalimentan.
 
 Para poder analizar el comportamiento de las salidas de cada modelo, utilizamos
-un gráfico de tipo LetterValue que puede observarse en \ref{fig:teacup_output_letter_plot}.
+un gráfico de tipo \textit{Letter Value} que puede observarse en \ref{fig:teacup_output_letter_plot}.
 Éste nos indica además de los estadísticos principales (media, percentiles y outliers), 
 la densidad de los valores que se encuentran en un rango de la muestra. 
 Por ejemplo podemos ver que la muestra está no solo centrada en los 115 grados sino que 
@@ -39,7 +39,7 @@ más del 50\% de dichos valores se encuentran allí.
 
 En esta figura se observa claramente como los modelos de \textit{FTot} y \textit{FMinus} 
 arrojan valores de out con un rango de valores acotado centrados alrededor del cero. 
-En el caso del Integrador que es el que calcula los valores de temperatura de la taza, 
+En el caso del integrador que es el que calcula los valores de temperatura de la taza, 
 es razonable ver que los valores van desde los 180 grados a los 70. Se observa también 
 la alta densidad de valores entre los 90 y los 135 grados. Los valores por debajo de los 
 70 pueden tener que ver con el método de integración. 
@@ -55,7 +55,7 @@ ya que este era constante y no aportaba al análisis.
 \end{figure}
 
 
-Aplicamos la misma técnica para el análisis estructural del modelo SIR traducido.
+Aplicamos la misma técnica para el análisis estructural del modelo \textit{SIR} traducido.
 En la figura \ref{fig:sir_cant_mensajes} podemos observar los distintos modelos
 que interactúan en el modelo así como la cantidad de mensajes que envían por
 cada tipo.
