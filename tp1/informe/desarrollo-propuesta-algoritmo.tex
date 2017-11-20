@@ -1,20 +1,20 @@
 % TODO Extender el algoritmo
-A continuación, y basándonos en lo aprendido durante la construcción del traductor para el modelo Teacup, detallaremos un algoritmo inicial y muy básico que pensamos debería servir para traducir archivos .xmile a archivos .devsml, a partir de la captura de toda la información relevante contenida en el archivo .xmile.
+A continuación, y basándonos en lo aprendido durante la construcción del traductor para el modelo Teacup, detallaremos un algoritmo inicial y muy básico que pensamos debería servir para traducir archivos \texttt{XMILE} a \texttt{DEVSML}, a partir de la captura de toda la información relevante contenida en el archivo \texttt{XMILE}.
 
-Como mencionamos anteriormente, en esta versión inicial, nos restringimos a traducir a modelos DEVS aplanados solamente (contenidos dentro de un único acoplado). De esta manera, se simplifica la implementación del traductor. Además de esto, restringimos a archivos .xmile que también estén aplanados, es decir, sin submodulos.
+Como mencionamos anteriormente, en esta versión inicial, nos restringimos a traducir a modelos DEVS aplanados solamente (contenidos dentro de un único acoplado). De esta manera, se simplifica la implementación del traductor. Además de esto, restringimos a archivos \texttt{XMILE} que también estén aplanados, es decir, sin submodulos.
 
-Dividiremos la explicación del algoritmo en partes, para entender las figuras \ref{fig:Teacup_devsml_components}, \ref{fig:Teacup_devsml_stocks}, \ref{fig:Teacup_devsml_internal_connections}, \ref{fig:Teacup_devsml_external_connections} y \ref{fig:Teacup_devsml_ports}, explicando como cada una de estas se corresponde con las líneas del archivo .ma expuesto en la figura \ref{fig:Teacup_ma}.
+Dividiremos la explicación del algoritmo en partes, para entender las figuras \ref{fig:Teacup_devsml_components}, \ref{fig:Teacup_devsml_stocks}, \ref{fig:Teacup_devsml_internal_connections}, \ref{fig:Teacup_devsml_external_connections} y \ref{fig:Teacup_devsml_ports}, explicando como cada una de estas se corresponde con las líneas del archivo \texttt{.ma} expuesto en la figura \ref{fig:Teacup_ma}.
 
 El algoritmo consta de los siguientes pasos:
 \begin{itemize}
-	\item Por cada \textbf{flujo} $F_{i}(S_n,S_m)$ (\textbf{flujo} $i$ del \textbf{stock} $S_n$ hacia el \textbf{stock} $S_m$) se generan los \textbf{atómicos DEVS} $F_{minus_{(i)}}(S_n)$ y $F_{plus_{(i)}}(S_m)$. Si $S_n$ es vacío, es decir sólo hay un \textbf{inflow} a $S_m$, sólo se genera el $F_{plus}$ y si $S_m$ es vacío, en el caso de sólo un \textbf{outflow} con origen en $S_n$, sólo se genera el $F_{minus}$ (siempre alguno de los dos va a ser no vacío)
+	\item Por cada \textit{flujo} $F_{i}(S_n,S_m)$ (\textit{flujo} $i$ del \textit{stock} $S_n$ hacia el \textit{stock} $S_m$) se generan los \textit{atómicos DEVS} $F_{minus_{(i)}}(S_n)$ y $F_{plus_{(i)}}(S_m)$. Si $S_n$ es vacío, es decir sólo hay un \textit{inflow} a $S_m$, sólo se genera el $F_{plus}$ y si $S_m$ es vacío, en el caso de sólo un \textit{outflow} con origen en $S_n$, sólo se genera el $F_{minus}$ (siempre alguno de los dos va a ser no vacío)
 
-	\item por cada \textbf{aux} $A_i$ se genera un \textbf{atómico DEVS} $Cte$ de nombre $A_{i}Cte$, que es un atómico que genera un valor constante.
+	\item por cada \textit{aux} $A_i$ se genera un \textit{atómico DEVS} $Cte$ de nombre $A_{i}Cte$, que es un atómico que genera un valor constante.
 
-	\item Por cada \textbf{stock} $S_n$ se genera un par de \textbf{atómicos DEVS}: $F_{tot_{(S_n)}}$ y $S_{i}Integrador$. Luego, se conecta el output del primero con el input del segundo. También, se establecen las siguientes conexiones: para cada flujo $j$ tal que existe $F_{plus_{(j)}}(S_n)$, se conecta a este $F_{plus}$ a un puerto de entrada de suma del $F_{tot}$, mientras que si existe $F_{minus_{(j)}}(S_n)$, se conecta el $F_{minus}$ a un puerto de entrada de resta del $F_{tot}$.
+	\item Por cada \textit{stock} $S_n$ se genera un par de \textit{atómicos DEVS}: $F_{tot_{(S_n)}}$ y $S_{i}Integrador$. Luego, se conecta el \textit{output} del primero con el \textit{input} del segundo. También, se establecen las siguientes conexiones: para cada flujo $j$ tal que existe $F_{plus_{(j)}}(S_n)$, se conecta a este $F_{plus}$ a un puerto de entrada de suma del $F_{tot}$, mientras que si existe $F_{minus_{(j)}}(S_n)$, se conecta el $F_{minus}$ a un puerto de entrada de resta del $F_{tot}$.
 	
-	\item Por cada flujo $F_{i}(S_n,S_m)$ que recibe flechas de los \textbf{stocks} $\{ S_1 \dots S_n \}$ (es decir, usa estas variables como parámetros internamente), se establece una conexión entre cada uno de los atómicos $S_{i}Integrador \dots S_{n}Integardor$ y (en caso de existir) $F_{minus_{(i)}}(S_n)$ y $F_{plus_{(i)}}(S_m)$.
+	\item Por cada flujo $F_{i}(S_n,S_m)$ que recibe flechas de los \textit{stocks} $\{ S_1 \dots S_n \}$ (es decir, usa estas variables como parámetros internamente), se establece una conexión entre cada uno de los atómicos $S_{i}Integrador \dots S_{n}Integardor$ y (en caso de existir) $F_{minus_{(i)}}(S_n)$ y $F_{plus_{(i)}}(S_m)$.
 
-	\item Por cada flujo $F_{i}(S_n,S_m)$ que recibe flechas de los \textbf{aux} $\{ A_1 \dots A_m \}$, se establece una conexión entre cada uno de los atómicos $A_{i}Cte \dots A_{n}Cte$ y (en caso de existir) $F_{minus_{(i)}}(S_n)$ y $F_{plus_{(i)}}(S_m)$.
+	\item Por cada flujo $F_{i}(S_n,S_m)$ que recibe flechas de los \textit{aux} $\{ A_1 \dots A_m \}$, se establece una conexión entre cada uno de los atómicos $A_{i}Cte \dots A_{n}Cte$ y (en caso de existir) $F_{minus_{(i)}}(S_n)$ y $F_{plus_{(i)}}(S_m)$.
 
 \end{itemize}
