@@ -15,7 +15,7 @@ Con esta información se generó un diccionario con la información de log desgl
     \item Los \textit{Y} transmiten los eventos de salida.
     \item Los mensajes \textit{done} llevan información de sincronización para futuros eventos, indicando que un modelo ha finalizado su tarea actual.
     \item Los mensajes  \textit{@} o también llamado mensaje de recolección,
-        lleva señales para el simulador, indicandole que genere una salida.
+        lleva señales para el simulador, indicándole que genere una salida.
     \item Los mensajes \textit{I} marcan la inicialización del modelo.
 \end{itemize}
 
@@ -28,10 +28,10 @@ las salidas que arrojan los modelos.
 
 Para comparar los valores de las salidas entre el modelo traducido y el modelo
 en \textit{SD} fue necesaria alinear la información para poder trabajar en las
-mismas unidades de tiempo. Se puede ver un ejemplo en \ref{tab:times}. Por un lado los modelos de System Dynamics reportan
-los valores de los Stocks en formato de punto flotante mientras que CD++
+mismas unidades de tiempo. Se puede ver un ejemplo en \ref{tab:times}. Por un lado los modelos de \textit{System Dynamics} reportan
+los valores de los \textit{stocks} en formato de punto flotante mientras que \textit{CD++}
 reporta la salida en formato fecha. Para llevar los a las mismas unidades,
-decidimos llevar todo a segundos. Mantuvimos el formato en SD mientras que para las salidas de los modelos CD++ multiplicamos cada unidad de tiempo ( las horas y minutos) por la constante multiplicativa adecuada consiguiendo tener toda la información muestreada en segundos.
+decidimos llevar todo a segundos. Mantuvimos el formato en \textit{SD} mientras que para las salidas de los modelos \textit{CD++} multiplicamos cada unidad de tiempo (las horas y minutos) por la constante multiplicativa adecuada consiguiendo tener toda la información muestreada en segundos.
 
 Reportamos los datos de la figura en un gráfico de tipo \textit{scatter} donde en el eje de las X se tienen los $t_i$ por cada medición para cada uno de los modelos.
 
@@ -47,7 +47,7 @@ Reportamos los datos de la figura en un gráfico de tipo \textit{scatter} donde 
 \end{table}
 
 
-Observando la figura \ref{fig:teacup_salida_comparada} entendemos que hay diferencias en los comportamientos de los modelos. Por ejemplo, la tasa de decaimiento de la temperatura en el modelo traducido (en la figura valores en azul) nos muestra que la temperatura final se alcanza tres veces más rápido en CD++ que en SD.
+Observando la figura \ref{fig:teacup_salida_comparada} entendemos que hay diferencias en los comportamientos de los modelos. Por ejemplo, la tasa de decaimiento de la temperatura en el modelo traducido (en la figura valores en azul) nos muestra que la temperatura final se alcanza tres veces más rápido en \textit{CD++} que en \textit{SD}.
 También observamos que se alcanza el mismo valor final, motivo para pensar que la traducción funciona correctamente.
 
 \begin{figure}[H]
@@ -55,7 +55,7 @@ También observamos que se alcanza el mismo valor final, motivo para pensar que 
 	\subfigure[Comparación salida modelo teacup]{\label{fig:teacup_salida_comparada}\includegraphics[scale=0.4]{imagenes/tea_comparada_salidas}}
 \end{figure}
 
-Si observamos en cambio la salida del modelo SIR observamos en las figuras \ref{fig:sir_infect}, \ref{fig:sir_recup} y \ref{fig:sir_sucep} que los valores coinciden en toda la evolución del sistema.
+Si observamos en cambio la salida del modelo \textit{SIR} observamos en las figuras \ref{fig:sir_infect}, \ref{fig:sir_recup} y \ref{fig:sir_sucep} que los valores coinciden en toda la evolución del sistema.
 
 \begin{figure}[H]
     \centering     %%% not \center
@@ -65,4 +65,4 @@ Si observamos en cambio la salida del modelo SIR observamos en las figuras \ref{
         \caption{Modelo SIR - comparación de resultados}
 \end{figure}
 
-La granularidad de los dos modelos se explica ya que CD++ opera de manera discreta mientras que SD resuelve el sistema de manera continua.
+La granularidad de los dos modelos se explica ya que \textit{CD++} opera de manera discreta mientras que \textit{SD} resuelve el sistema de manera continua.
