@@ -5,7 +5,7 @@
 ** El software fue testeado en Python 2.7.13
 
 1. Instalar dependencias en requirements.txt con 'pip install -r requirements.txt'
-1. Configurar CD++ utilizando el [siguiente instructivo](http://)
+1. Descargar y configurar CD++ desde el [siguiente link](https://www.dc.uba.ar/materias/sievdi/2017/cuat2/simulador-standalone-avanzado-2017)
 
 
 ## Ejecución
