@@ -87,6 +87,12 @@ def convert_xmile_to_devsml(archivoDevsml, archivoXmile):
                                                  re.split("[-+*/()]+",
                                                           flow.find('eqn').text))
 
+        for auxName, _ in ctes_.items():
+            for flowName, flowAttr in flows_.items():
+                if auxName in flowAttr['params_eqn']:
+                    if flowAttr['orig'] is not None:
+                    if flowAttr['dest'] is not None:
+
     for stockName, attr in iteritems(stocks_):
         for i, flow in enumerate(attr['outflows']):
             val = stocks_[stockName]['outflows'][i].replace('"', '')
