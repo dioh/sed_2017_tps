@@ -369,6 +369,8 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
         reg_context['models'][fpAttr['model']] = {'modelUpper': fpAttr['model'].upper()}
     for fmName, fmAttr in iteritems(fms_):
         reg_context['models'][fmAttr['model']] = {'modelUpper': fmAttr['model'].upper()}
+    for auxName, auxAttr in iteritems(auxs_):
+        reg_context['models'][auxAttr['model']] = {'modelUpper': auxAttr['model'].upper()} 
     with open(srcFolder + 'reg.cpp', 'w') as f:
         f.write(render_template(TEMPLATE_REG_CPP, reg_context))
 
