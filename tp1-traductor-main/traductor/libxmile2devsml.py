@@ -1,6 +1,6 @@
 # coding: utf-8
 import xml.etree.ElementTree as ET
-from future.utils import iteritems
+from future.utils import iteritems, lfilter
 from jinja2 import DictLoader, Environment, FileSystemLoader
 import os
 import re
@@ -83,9 +83,15 @@ def convert_xmile_to_devsml(archivoDevsml, archivoXmile):
         flows_[flowName]['units'] = None
         if flow.find('units') is not None:
             flows_[flowName]['units'] = flow.find('units').text
-        flows_[flowName]['params_eqn'] = filter(lambda x: x != '',
-                                                re.split("[()-/*]+",
+        flows_[flowName]['params_eqn'] = lfilter(lambda x: x != '',
+                                                 re.split("[-+*/()]+",
                                                          flow.find('eqn').text))
+
+        for auxName, _ in ctes_.items():
+            for flowName, flowAttr in flows_.items():
+                if auxName in flowAttr['params_eqn']:
+                    if flowAttr['orig'] is not None:
+                    if flowAttr['dest'] is not None:
 
     for stockName, attr in iteritems(stocks_):
         for i, flow in enumerate(attr['outflows']):
