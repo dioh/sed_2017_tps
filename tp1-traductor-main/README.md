@@ -25,8 +25,9 @@ Para ejecutar las traducciones utilice los siguientes comandos:
 * Teacup: python traducir_teacup.py
 * Sir: python traducir_sir.py
 * Samuelson: python traducir_samuelson.py
+* Stock to capacity: python traducir_stock_to_capacity.py
 
-** Al correr los tests para cada modelo, se leen los archivos xmile en /tests, y a partir de esto se generan los archivos DEVSML, .h, .cpp, .ma y .ev
+** Al correr los tests para cada modelo, se leen los archivos xmile en /tests, y a partir de esto se generan los archivos DEVSML, .h, .cpp, .ma y .ev. Antes de correr cada simulación, se puede modificar el archivo .ev para setear el valor de los parámetros del modelo
 ** Para correr los tests de traduccion para cada unos de los modelos, ejectuar:
 
 Los resultados de las traducciones se encuentran en las carpetas correspondientes de cada uno de los modelos.
@@ -38,14 +39,15 @@ Una vez finalizada la compilación, ejecutar los modelos de la siguiente manera:
 * src/bin/cd++ -mteacup.ma -eteacup.ev
 * src/bin/cd++ -msir.ma -esir.ev
 * src/bin/cd++ -msamuelson.ma -esamuelson.ev
+* src/bin/cd++ -mstock_to_capacity.ma -estock_to_capacity.ev
 
 
 ## Directorios de archivos:
 
-* En templates/ se pueden encontrar los templates utilizados para generar los archivos .cpp, .h, .ma y .ev 
+* En templates/ se pueden encontrar los templates utilizados para generar los archivos .cpp, .h, .ma y .ev correspondientes a cada binario 'cd++' ejecutable.
 
 * El codigo de los traductores esta en:
 * sd2devsml.py, para pasar de XMILE a DEVSML
-* devsml2ma.py, para pasar de DEVSML a un programe CD++ ejecutable 
+* devsml2ma.py, para pasar de DEVSML a un programa CD++ ejecutable 
 * traducir...py, son archivos wrapper para traducir modelos de prueba
-* tests tiene los archivos de entrada y de salida de la generacion de los modelos sir, teacup y samuelson.
+* tests tiene los archivos de entrada y de salida de la generacion de los modelos sir, teacup, samuelson y stock_to_capacity
