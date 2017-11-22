@@ -1,8 +1,0 @@
-00:00:00:000 in_marginalPropensitytoConsumealpha [0.5]
-00:00:00:000 in_investmentproportionalityrelationbeta [1]
-00:00:00:000 in_steptime [4]
-00:00:00:000 in_spendingstep [0]
-00:00:00:000 in_basespending [1]
-00:00:00:000 in_timestep [1]
-00:00:00:000 in_oneunitTimestep [1]
-00:00:00:000 in_twounitTimestep [1]
