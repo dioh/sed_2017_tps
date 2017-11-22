@@ -1,5 +1,5 @@
 # coding: utf-8
-from future.utils import iteritems
+from future.utils import iteritems, lfilter, lmap
 import xml.etree.ElementTree as ET
 from jinja2 import DictLoader, Environment, FileSystemLoader
 import os
@@ -58,9 +58,9 @@ def aux2aux(auxName):
 
 def getFunctionParams(function):
     elems = re.split('[-+*/()]+', function)
-    elems = list(map(lambda x: x.replace(' ', ''), elems))
-    elems = filter(lambda x: x != '', elems)
-    elems = filter(lambda x: re.search('[a-zA-Z]', x) is not None, elems)
+    elems = lmap(lambda x: x.replace(' ', ''), elems)
+    elems = lfilter(lambda x: x != '', elems)
+    elems = lfilter(lambda x: re.search('[a-zA-Z]', x) is not None, elems)
     return elems
 
 
@@ -80,7 +80,7 @@ def processFunction(function, integradores_, auxs_, ctes_):
     # matches contiene los parametros que se utilizan en la funcion y que son aux's 
     # (cuidado con las variables en 'result' que no son aux's, pero tiene nombre parecido)
     func_params_names = re.split('[-+*/()]+', function)
-    func_params_names = map(lambda x : x.lstrip().rstrip(), func_params_names)
+    func_params_names = lmap(lambda x : x.lstrip().rstrip(), func_params_names)
 
     # #print 'PREVFUNCTION: ', result
     #print 'STOCKNAMES: ', stockNames
@@ -369,6 +369,8 @@ def devsml2cdpp(archivoDevsml, archivoMa, archivoEv, srcFolder):
         reg_context['models'][fpAttr['model']] = {'modelUpper': fpAttr['model'].upper()}
     for fmName, fmAttr in iteritems(fms_):
         reg_context['models'][fmAttr['model']] = {'modelUpper': fmAttr['model'].upper()}
+    for auxName, auxAttr in iteritems(auxs_):
+        reg_context['models'][auxAttr['model']] = {'modelUpper': auxAttr['model'].upper()} 
     with open(srcFolder + 'reg.cpp', 'w') as f:
         f.write(render_template(TEMPLATE_REG_CPP, reg_context))
 

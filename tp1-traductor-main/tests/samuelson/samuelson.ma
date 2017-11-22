@@ -16,12 +16,26 @@ link : in_oneunitTimestep inValue@oneunitTimestep
 link : in_twounitTimestep inValue@twounitTimestep
 
 % Links constantes a f's que las usan
+link : out@twounitTimestep in_twounitTimestep@fpPrevOutptChgPrevOutpt
+link : out@timestep in_timestep@fpPrevConsChgPrevCons
 
 % Link constantes a Aux's que las usan
+link : out@marginalPropensitytoConsumealpha in_marginalPropensitytoConsumealpha@consumption
+link : out@investmentproportionalityrelationbeta in_investmentproportionalityrelationbeta@investment
+link : out@basespending in_basespending@governmentSpending
+link : out@spendingstep in_spendingstep@governmentSpending
+link : out@steptime in_steptime@governmentSpending
+link : out@oneunitTimestep in_oneunitTimestep@governmentSpending
 
 % Link Aux's a Aux's que las usan
+link : out@investment in_investment@output
+link : out@consumption in_consumption@output
+link : out@governmentSpending in_governmentSpending@output
+link : out@consumption in_consumption@investment
 
 % Link Aux's a funciones que las usan 
+link : out@output in_output@fpPrevOutptChgPrevOutpt
+link : out@consumption in_consumption@fpPrevConsChgPrevCons
 
 % Links internos de los acoplados minimales (Ftot => Integrador)
 link : out@ftPrevOutptIntegrator in@prevOutptIntegrator
@@ -34,6 +48,10 @@ link : out@fpPrevOutptChgPrevOutpt inPlus_ChgPrevOutpt@ftPrevOutptIntegrator
 link : out@fpPrevConsChgPrevCons inPlus_ChgPrevCons@ftPrevConsIntegrator
 
 % Links importantes del modelo
+link : out@prevOutptIntegrator in_prevOutptIntegrator@fpPrevOutptChgPrevOutpt
+link : out@prevOutptIntegrator in_prevOutptIntegrator@consumption
+link : out@prevConsIntegrator in_prevConsIntegrator@fpPrevConsChgPrevCons
+link : out@prevConsIntegrator in_prevConsIntegrator@investment
 
 % Liks output variables de interes
 link : out@prevOutptIntegrator out_prevOutptIntegrator
