@@ -36,11 +36,10 @@ Para compilar los modelos a cd++  Ir a src. Compilar con 'make'.
 
 Una vez finalizada la compilación, ejecutar los modelos de la siguiente manera:
 
-* src/bin/cd++ -mteacup.ma -eteacup.ev
-* src/bin/cd++ -msir.ma -esir.ev
-* src/bin/cd++ -msamuelson.ma -esamuelson.ev
-* src/bin/cd++ -mstock_to_capacity.ma -estock_to_capacity.ev
-
+* ./src/bin/cd++ -mteacup.ma -eteacup.ev -oteacup.out
+* ./src/bin/cd++ -msir.ma -esir.ev -osir.out
+* ./src/bin/cd++ -msamuelson.ma -esamuelson.ev -osamuelson.out
+* ./src/bin/cd++ -mstock_to_capacity.ma -estock_to_capacity.ev -ostock_to_capacity.out
 
 ## Directorios de archivos:
 
