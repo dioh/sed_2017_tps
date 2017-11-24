@@ -30,11 +30,11 @@ def subprocess_call(cmd):
     print_results(out)
     print_results(err)
 
-print("Traduciendo ./tests/sir/sir.xmile a ./tests/sir/sir-devsml.xml")
-subprocess_call("./sd2devsml.py ./tests/sir/sir.xmile ./tests/sir/sir-devsml.xml")
+print("Traduciendo ./examples/sir/sir.xmile a ./examples/sir/sir-devsml.xml")
+subprocess_call("./sd2devsml.py ./examples/sir/sir.xmile ./examples/sir/sir-devsml.xml")
 
-print("Traduciendo ./tests/sir/sir-devsml.xml a CD++ (ma, ev y src)")
-subprocess_call("./devsml2ma.py ./tests/sir/sir-devsml.xml ./tests/sir/sir.ma ./tests/sir/sir.ev ./tests/sir/src/ ")
+print("Traduciendo ./examples/sir/sir-devsml.xml a CD++ (ma, ev y src)")
+subprocess_call("./devsml2ma.py ./examples/sir/sir-devsml.xml ./examples/sir/sir.ma ./examples/sir/sir.ev ./examples/sir/src/ ")
 print("Fin.")
 
-print("Archivos resultantes en ./tests/sir")
+print("Archivos resultantes en ./examples/sir")

@@ -29,11 +29,11 @@ def subprocess_call(cmd):
     print_results(out)
     print_results(err)
 
-print("Traduciendo ./tests/stock_to_capacity/stock_to_capacity.xmile a ./tests/stock_to_capacity/stock_to_capacity-devsml.xml")
-subprocess_call("./sd2devsml.py ./tests/stock_to_capacity/stock_to_capacity.xmile ./tests/stock_to_capacity/stock_to_capacity-devsml.xml")
+print("Traduciendo ./examples/stock_to_capacity/stock_to_capacity.xmile a ./examples/stock_to_capacity/stock_to_capacity-devsml.xml")
+subprocess_call("./sd2devsml.py ./examples/stock_to_capacity/stock_to_capacity.xmile ./examples/stock_to_capacity/stock_to_capacity-devsml.xml")
 
-print("Traduciendo ./tests/stock_to_capacity/stock_to_capacity-devsml.xml a CD++ (ma, ev y src)")
-subprocess_call("./devsml2ma.py ./tests/stock_to_capacity/stock_to_capacity-devsml.xml ./tests/stock_to_capacity/stock_to_capacity.ma ./tests/stock_to_capacity/stock_to_capacity.ev ./tests/stock_to_capacity/src/ ")
+print("Traduciendo ./examples/stock_to_capacity/stock_to_capacity-devsml.xml a CD++ (ma, ev y src)")
+subprocess_call("./devsml2ma.py ./examples/stock_to_capacity/stock_to_capacity-devsml.xml ./examples/stock_to_capacity/stock_to_capacity.ma ./examples/stock_to_capacity/stock_to_capacity.ev ./examples/stock_to_capacity/src/ ")
 print("Fin.")
 
-print("Archivos resultantes en ./tests/stock_to_capacity")
+print("Archivos resultantes en ./examples/stock_to_capacity")

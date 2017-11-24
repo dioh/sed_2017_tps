@@ -29,11 +29,11 @@ def subprocess_call(cmd):
     print_results(out)
     print_results(err)
 
-print("Traduciendo ./tests/samuelson/samuelson.xmile a ./tests/samuelson/samuelson-devsml.xml")
-subprocess_call("./sd2devsml.py ./tests/samuelson/samuelson.xmile ./tests/samuelson/samuelson-devsml.xml")
+print("Traduciendo ./examples/samuelson/samuelson.xmile a ./examples/samuelson/samuelson-devsml.xml")
+subprocess_call("./sd2devsml.py ./examples/samuelson/samuelson.xmile ./examples/samuelson/samuelson-devsml.xml")
 
-print("Traduciendo ./tests/samuelson/samuelson-devsml.xml a CD++ (ma, ev y src)")
-subprocess_call("./devsml2ma.py ./tests/samuelson/samuelson-devsml.xml ./tests/samuelson/samuelson.ma ./tests/samuelson/samuelson.ev ./tests/samuelson/src/ ")
+print("Traduciendo ./examples/samuelson/samuelson-devsml.xml a CD++ (ma, ev y src)")
+subprocess_call("./devsml2ma.py ./examples/samuelson/samuelson-devsml.xml ./examples/samuelson/samuelson.ma ./examples/samuelson/samuelson.ev ./examples/samuelson/src/ ")
 print("Fin.")
 
-print("Archivos resultantes en ./tests/samuelson")
+print("Archivos resultantes en ./examples/samuelson")
