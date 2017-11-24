@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmile>
+    <header>
+        <vendor>El team</vendor>
+        <name>SIR</name>
+        <product version="0.1">go-xmile</product>
+    </header>
+    <sim_specs time_units="Time">
+        <start>0</start>
+        <stop>100</stop>
+        <dt>0.03125</dt>
+    </sim_specs>
+    <dimensions></dimensions>
+    <model_units></model_units>
+    <equation_prefs xmlns="isee" order_by="module"></equation_prefs>
+    <model>
+        <variables>
+            <stock name="Susceptible">
+                <eqn>Total Population</eqn>
+                <outflow>Succumbing</outflow>
+                <units>people</units>
+            </stock>
+            <stock name="Infectious">
+                <eqn>5</eqn>
+                <inflow>Succumbing</inflow>
+                <outflow>Recovering</outflow>
+                <units>people</units>
+            </stock>
+            <stock name="Recovered">
+                <eqn>0</eqn>
+                <inflow>Recovering</inflow>
+                <units>people</units>
+            </stock>
+            <flow name="Succumbing">
+                <eqn>Susceptible*Infectious/Total Population*Contact Infectivity</eqn>
+                <units>person/time</units>
+            </flow>
+            <flow name="Recovering">
+                <eqn>Infectious/Duration</eqn>
+                <units>person/time</units>
+            </flow>
+            <aux name="Total Population">
+                <eqn>1000</eqn>
+                <units>people</units>
+            </aux>
+            <aux name="Duration">
+                <eqn>5</eqn>
+                <units>days</units>
+            </aux>
+            <aux name="Contact Infectivity">
+                <eqn>0.3</eqn>
+            </aux>
+        </variables>
+    </model>
+</xmile>
