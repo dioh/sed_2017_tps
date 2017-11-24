@@ -36,7 +36,7 @@ A partir de estas observaciones, decidimos representar este mismo modelo en el f
 En el diagrama de la figura \ref{fig:Teacup_devs_flattened} se puede observar lo siguiente: el \textit{stock} se corresponde en el modelo DEVS con dos atómicos.
 
 \begin{itemize}
-	\item Un integrador QSS1 de nombre \textit{"Teacup Temperature Integrator"} (\texttt{utilizamo el nombre del \textit{stock} más la palabra \textit{Integrator}})
+	\item Un integrador QSS1\cite{qss} de nombre \textit{"Teacup Temperature Integrator"} (\texttt{utilizamo el nombre del \textit{stock} más la palabra \textit{Integrator}})
 	\item Un atómico Ftot que determina la variación de unidades que tendrá dicho \textit{stock}, utilizando todos los \textit{inflows} y \textit{outflows} que operan sobre dicho \textit{stock} ($\sum inflows - \sum outflows $). Los \textit{inflows} se conectarán al puerto \texttt{inPlus} y los \textit{outflows} al \texttt{inMinus}. 
 \end{itemize}
 
