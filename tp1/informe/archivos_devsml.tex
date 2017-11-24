@@ -1,0 +1,14 @@
+\section{DEVSML}
+El archivo DEVSML utilizado por el traductor está basado en \cite{devsml}, pero posee diferencias con este a fin de poder realizar fácilmente la traducción a \textit{CD++} (archivos \texttt{.ma} y \texttt{.ev}) desde la definición de un acoplado. Es decir, no hemos utilizado para este trabajo archivos \texttt{DEVSML} de modelos atómicos.
+Los cambios relevantes son:
+
+\begin{itemize}
+	\item Se incluye información de los parámetros utilizados por los modelos
+	\item Se incluye información de los puertos de los atómicos
+	\item No se incluye información respecto del simulador utilizado 
+\end{itemize}
+
+\subsection{Archivos XSD}
+
+\lstinputlisting[language=XML,caption={Archivo XSD de DEVSML para el modelo acoplado}, captionpos=b,showstringspaces=false
+]{traductor/devsml.xsd}
