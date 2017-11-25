@@ -1,0 +1,10 @@
+pandas
+numpy 
+seaborn 
+matplotlib
+jupyter
+jupyter-client
+jupyter-console
+jupyter-core
+
+
