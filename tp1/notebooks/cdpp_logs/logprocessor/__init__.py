@@ -6,6 +6,26 @@ from functools import partial
 import re
 
 
+def extract_model_name(model_str_from_log):
+    return model_str_from_log.split('(')[0]
+
+
+def time_str_to_seconds(time_str):
+    """
+    Transforma un string de tiempo del tipo HH:MM:SS:ms en segundos
+    """
+    if time_str == '...':
+        return float('Inf')
+
+    vals = [float(x) for x in time_str.strip().split(':')]
+    return vals[0]*3600 + vals[1] * 60 + vals[2] + vals[3]/1000
+
+
+def remove_square_brackets(value):
+    return re.sub('[]', '', value)
+
+
+
 class DevsLogs(object):
 
     message_transform_map = {'X': log_line_to_x_y_message,
@@ -101,24 +121,6 @@ def if_three_dot_transform_to_inf(time_str):
     return time_str
     
 
-def extract_model_name(model_str_from_log):
-    return model_str_from_log.split('(')[0]
-
-
-def time_str_to_seconds(time_str):
-    """
-    Transforma un string de tiempo del tipo HH:MM:SS:ms en segundos
-    """
-    if time_str == '...':
-        return float('Inf')
-
-    vals = [float(x) for x in time_str.strip().split(':')]
-    return vals[0]*3600 + vals[1] * 60 + vals[2] + vals[3]/1000
-
-
-def remove_square_brackets(value):
-    return re.sub('[]', '', value)
-
 
 def devs_outputline_to_dict(line):
     splitted_line = line.split(' ')
@@ -134,6 +136,7 @@ def devs_output_to_list_of_dict(filename):
         ret_val = [devs_outputline_to_dict(line) for line in file.readlines()]
 
     return ret_val
+
 
 def get_devs_logs(filename):
     devs_logs = DevsLogs()
