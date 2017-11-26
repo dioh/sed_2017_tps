@@ -22,7 +22,8 @@ def time_str_to_seconds(time_str):
 
 
 def remove_square_brackets(value):
-    return re.sub('[]', '', value)
+    # No funciona re.sub('\[\]', '', value)
+    return value[value.find('[')+1:value.find(']')]
 
 
 
@@ -125,7 +126,7 @@ def if_three_dot_transform_to_inf(time_str):
 
 
 def devs_outputline_to_dict(line):
-    splitted_line = line.split(' ')
+    splitted_line = [part.strip() for part in line.split(' ')]
     return {'time_mark': splitted_line[0],
             'time_in_seconds': time_str_to_seconds(splitted_line[0]),
             'port': splitted_line[1],
