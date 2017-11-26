@@ -44,7 +44,7 @@
                 <units>people</units>
             </aux>
             <aux name="Duration">
-                <eqn>5</eqn>
+                <eqn>10</eqn>
                 <units>days</units>
             </aux>
             <aux name="Contact Infectivity">
