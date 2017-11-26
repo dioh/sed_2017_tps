@@ -28,45 +28,16 @@ def remove_square_brackets(value):
 
 class DevsLogs(object):
 
-    message_transform_map = {'X': log_line_to_x_y_message,
-                             'Y': log_line_to_x_y_message,
-                             '*': log_line_to_at_asterisk_message,
-                             '@': log_line_to_at_asterisk_message,
-                             'D': log_line_to_d_message}
-
     @classmethod
     def add_to_message_to_list(cls, a_list, a_message):
         a_list.append(a_message)
-
-    def __init__(self):
-        self.y_messages = []
-        self.x_messages = []
-        self.at_messages = []
-        self.asterisk_messages = []
-        self.d_messages = []
-        self.add_message_map = {'X': partial(self.add_to_message_to_list,
-                                             self.x_messages),
-                                'Y': partial(self.add_to_message_to_list,
-                                             self.y_messages),
-                                '*': partial(self.add_to_message_to_list,
-                                             self.asterisk_messages),
-                                '@': partial(self.add_to_message_to_list,
-                                             self.at_messages),
-                                'D': partial(self.add_to_message_to_list,
-                                             self.d_messages)}
-
-    def add_message(self, raw_message):
-        message_parts = [part.strip() for part in raw_message.split('/')]
-        message_type = message_parts[2]
-        message = self.message_transform_map[message_type](message_parts)
-        self.add_message_map[message_type](message)
 
     @classmethod
     def log_line_to_x_y_message(cls, log_line):
         """
         Transforma mensajes del tipo
         0 / L / (X|Y) / time_mark / model_from(int) / port / [value] / model_to(int)
-        
+
         en:
         { 'seconds': time_mark_in_seconds, 'model_from': model_from,
           'model_to': model_to, 'port_to': port, 'value':value }
@@ -112,6 +83,37 @@ class DevsLogs(object):
                 'model_to': extract_model_name(log_line[-1]),
                 'next_time_mark': if_three_dot_transform_to_inf(log_line[5]),
                 'next_time_mark_in_seconds': time_str_to_seconds(log_line[5])}
+
+    message_transform_map = {'X': log_line_to_x_y_message,
+                             'Y': log_line_to_x_y_message,
+                             '*': log_line_to_at_asterisk_message,
+                             '@': log_line_to_at_asterisk_message,
+                             'D': log_line_to_d_message}
+
+
+    def __init__(self):
+        self.y_messages = []
+        self.x_messages = []
+        self.at_messages = []
+        self.asterisk_messages = []
+        self.d_messages = []
+        self.add_message_map = {'X': partial(self.add_to_message_to_list,
+                                             self.x_messages),
+                                'Y': partial(self.add_to_message_to_list,
+                                             self.y_messages),
+                                '*': partial(self.add_to_message_to_list,
+                                             self.asterisk_messages),
+                                '@': partial(self.add_to_message_to_list,
+                                             self.at_messages),
+                                'D': partial(self.add_to_message_to_list,
+                                             self.d_messages)}
+
+    def add_message(self, raw_message):
+        message_parts = [part.strip() for part in raw_message.split('/')]
+        message_type = message_parts[2]
+        message = self.message_transform_map[message_type](message_parts)
+        self.add_message_map[message_type](message)
+
 
 
 def if_three_dot_transform_to_inf(time_str):
