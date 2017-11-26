@@ -1,13 +1,13 @@
-Para poder simular el comportamiento de los shockers fue necesario extender el trabajo en distintos puntos.
+Para poder simular el comportamiento de los shockers fue necesario extender el trabajo en distintos puntos explicados a continuación.
 
 \subsection{Modelo atómico Shocker}
 
-El comportamiento exógeno fue modelado con n modelos atómicos. Cada uno de éstos modelos afecta a una porción de las celdas totales de la grilla.
+El comportamiento exógeno fue modelado con $K$  modelos atómicos. Cada uno de éstos modelos afecta a una porción de las celdas totales de la grilla.
 En particular, si asumimos una grilla cuadrada de $N \times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
 
-Las celdas afectadas por cada Shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
+De las celdas a las cuales el shocker puede influir, solo una porción recibirá un shock. Las celdas afectadas por cada Shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
 
-Los shockers emitirán en momentos específicos y valores específicos. Cuando sus funciones de salida ejecuten, algunas celdas recibirán estos valores y actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
+Los shockers emitirán en momentos específicos valores específicos. Cuando sus funciones de salida ejecuten, algunas celdas recibirán estos valores y actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
 
 
 \subsection{Nuevas reglas para la grilla}
@@ -27,35 +27,38 @@ Para sintetizar el comportamiento agregado podemos decir que existirán tres tip
 
 Diseñamos experimentos para responder algunas preguntas, como por ejemplo:
 \begin{itemize}
-\item La presencia de shockers influye en el estado final del proceso de intercambio de opinión$?$ 
-\item Cómo afecta la presencia o no de shockers al estado final del sistema (partidismo vs. bipartidismo)$?$ 
-\item Qué diferencias se pueden observar en el efecto que producen los diferentes shockers en el estado final de la población$?$ 
-\item Con qué frecuencia se deberían generar shocks en la población para que estos tengan un efecto sobre la dinámica de intercambio de opinión de la misma?
-\item Cuál es el factor más determinante del estado final de la simulación: el estado inicial de las celdas o la cantidad / características / frecuencia de shockeo de los shockers$?$ 
+\item ¿Cómo afecta la presencia o no de shockers al estado final del sistema (partidismo vs. bipartidismo)$?$ 
+\item ¿Con qué frecuencia se deberían generar shocks en la población para que estos tengan un efecto sobre la dinámica de intercambio de opinión de la misma?
+\item ¿Cuál es el factor más determinante del estado final de la simulación: el estado inicial de las celdas o la cantidad / características / frecuencia de los shockers?
 \end{itemize}
 
 Definimos:
 
 \begin{description}
     \item \textbf{Tamaño de la grilla}  $10 \times 10$
-    \item \textbf{Cantidad de shockers} 5
-    \item \textbf{Tiempo entre shocks} 10 segundos
-    \item \textbf{Tiempo virtual de simulación} 4 minutos
+    \item \textbf{Cantidad de shockers} 5.
+    \item \textbf{Tiempo entre shocks} 10 segundos. Todos los shockers actuarán en simultaneo.
+    \item \textbf{Tiempo de influencia entre vecinos} 100 milisegundos. Se espera mayor interacción entre vecinos que shocks.
+    \item \textbf{Tiempo virtual de simulación} 4 minutos.
     \item \textbf{Distribución poblacional inicial} 10\% de indecisos, 45\% de votantes de A, 45\% votantes de B.
 \end{description}
 
 Las variaciones entre los experimentos están dadas por los efectos por cada shocker.
 
-Supongamos el vector de influencias tal que se pueden tener shocks de tres
-tipos. Los shocks de tipo A, llevan a una celda a un valor con distribución
-uniforme extremo, un valor entre [-3, -2]. Los shocks de tipo I, neutralizan
+Distingamos los tres tipos de shocks que pueden observarse en nuestro modelo.
+Los shocks de tipo A, llevan a una celda a un valor con distribución
+uniforme [-3, -2]. Los shocks de tipo I, neutralizan
 llevando las celdas al intervalo  [-1, 1]. Por último los shocks de tipo B
-polarizan hacia los valores [2, 3].
+polarizan hacia los valores [2, 3]. Siempre con distribución uniforme.
 
-Detrás del diseño de estos experimentos se esconde la idea de competencia por
-territorios. En donde el que mayor influencia tiene en él, puede dominar la
-partida o generar una votación a su favor.
+Este diseño experimental pretende reproducir casos donde los influenciadores
+llevan adelante una competencia territorial,eventualmente llegando a una
+situación donde uno prevalece logrando votación mayoritaria a su favor
 
+\subsection{Escenarios} % (fold)
+\label{sub:Escenarios}
+
+% subsection Escenarios (end)
 \begin{itemize}
     \item \textbf{Shockers: 5A} Todos los shockers obran a favor del partido A.
     \item \textbf{Shockers: 2A 2I 1B} Hay mayor dominación del partido A, sin embargo existen 2 shockers que generan indecisos.
