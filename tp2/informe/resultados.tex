@@ -1,8 +1,8 @@
-Para el análisis de los resultados generamos 10 ejecuciones como las detalladas
+Para el análisis de los resultados generamos 10 ejecuciones 
 en la sección \textit{Desarrollo}.
-Luego, generamos dos gráficos para analizar los valores de las muestras.
-Categorizamos los valores finales de cada celda dependiendo su rango en partido
-\textit{A, B o I (indeciso)}. Para A, si se encuentra en el rango [-3, -1], Indeciso [-1, 1]  y B si se encuentra en el rango [1, 3].
+Luego, generamos dos gráficos para analizar los resultados de los experimentos.
+Categorizamos los valores de cada celda dependiendo su rango en partido
+\textit{A, B o I }. Para A, si se encuentra en el rango [-3, -1], Indeciso [-1, 1]  y B si se encuentra en el rango [1, 3].
 
 La figura \ref{fig:modelo_shock_box} describe la cantidad de celdas finales que
 finalizaron la simulación siendo del partido \textit{A, B o I (indeciso)}.
@@ -20,19 +20,21 @@ externos. Esto significa que su estado está dado únicamente por la dinámica d
 interacción entre las celdas.
 
 Decidimos tomar este estado inicial de las celdas para, luego de estimularlas
-con los shocks, si era visible la dinámica generada por estos.
+con los shocks, analizar si era visible la dinámica generada por estos.
 Este caso, nos da un \textit{baseline} contra el cual poder razonar.
 
-En el caso de shockers balanceados (misma cantidad de Shockers de tipo A  y de
-B) que se observa en \textit{Shocker 2A 1I 2B} el shocker
+En el caso de Shockers balanceados (misma cantidad de Shockers de tipo A  y de
+B) que se observa en \textit{2A 1I 2B} el Shocker
 pareciera aumentar la varianza muestral de los datos finales con respecto al
 caso que no presenta estímulos exógenos.
 
-Es muy distinto el caso de shockers balanceados en el cual los shockers que generan
-Indecisos tiene más de un 50\% de participación, el gráfico \textit{Shocker 1A 3I 1B}.
+Es muy distinto el caso de Shockers balanceados en el cual los Shockers que generan
+Indecisos tiene más de un 50\% de participación, el gráfico \textit{1A 3I 1B}.
 En este caso se observa que los indecisos tienen mucha influencia y que estos
 mantienen su estado al finalizar la simulación aun siendo que inicialmente eran una minoría.
-Los shockers de indecisos en este caso sirven como un neutralizador de opiniones.
+Los Shockers de indecisos en este caso sirven como un neutralizador de opiniones.
+
+Es importante notar cómo cambia el comportamiento entre los casos \textit{2A 1I 2B} y \textit{2A 2I 1B}. Se observa que al aumentar la cantidad de Shocks de indecisión el más influyente (A) toma partido de ello y copta la mayor parte de la población.
 
 
 
