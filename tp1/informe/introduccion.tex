@@ -3,10 +3,8 @@ El formalismo \textit{System Dynamics} (de ahora en más \texttt{SD}) fue creado
 Forrester como un mecanismo para modelar sistemas continuos. El método tuvo un
 gran éxito en varias aplicaciones como por ejemplo la simulación de sistemas
 socioeconómicos y de gestión. La metodología fue aplicada en un sinfín de
-escenarios muy diversos: en la simulación de portfolios de negocios (Merten,
-Löfler, Weidman, 1987), construcción de autopistas en China (Xu, Mashayeki,
-Saeed, 1998), proceso de desarrollo de productos (Ford, Sterman, 1998),
-modelización de HIV (Sterman, 2001), etc.
+escenarios muy diversos: en la simulación de portfolios de negocios \cite{merten1987}, construcción de autopistas en China \cite{xu}, proceso de desarrollo de productos\cite{ford1998} ,
+modelización de HIV \cite{sterman2001}, etc.
 
 
 Se han desarrollado una gran variedad de programas de simulación basados en este formalismo. Algunos ejemplos son: \textit{Dynamo, Stella, Vensim, Simile, Simulink, Sybase, AnyLogic, PowerSim}, etc. Hasta hace poco tiempo, todos estos programas eran absolutamente incompatibles, ya que no había un estándar para representar modelos (es decir, dado un mismo modelo para cierto sistema, para correrlo en los distintos programas era necesario reescribir el modelo para cada caso particular). Sin embargo, en 2013 la IEEE en conjunto con IBM establecieron un estándar para representar modelos del formalismo \texttt{SD} en \texttt{XML} denominado \texttt{XMILE}\cite{xmile}. El estándar permite que modelos desarrollados en diferentes programas puedan ser exportados a \texttt{XMILE} para luego ser importados y simulados en otros programas sin la necesidad de una total o parcial reescritura.
