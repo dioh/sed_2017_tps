@@ -2,14 +2,16 @@
 \subsection{Shocker}
 \begin{itemize}
 
-	\item \textbf{Shocker} : $ roomTemperature, characteristicTime \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
+	\item \textbf{Shocker} : $ shocker_i \rightarrow \langle X, S, Y, \delta_{int}, \delta_{ext}, \lambda, t_{a} \rangle$ \newline
 	\begin{itemize}
 		\item $ X = \{ inValue \} $ \newline
-		\item $ S = \{ value \} $ \newline
-		\item $ Y = \{ out \} $ \newline
+		\item $ S = \{ value, numberOfChosenOutputPorts \} $ \newline
+		\item $ Y = \{ out_1 \dots out_{N^2/K} \} $ \newline
 		\item $ \delta_{int}(\langle value \rangle) = \emptyset $ \newline
 		\item $ \delta_{ext} (\langle value \rangle, e, x)= \{ value := x.value \} $ \newline
-		\item $ \lambda(\langle value \rangle, out) = value $ \newline
+		\item $ \lambda_i(\langle value \rangle, out_i) = if (i \in selectedOutPorts(numberOfChosenOutputPorts)) \rightarrow value $ \newline
 		\item $ t_{a}(s) = \infty $ 
 	\end{itemize}
 \end{itemize}
+
+Donde $selectedOutPorts(numberOfChosenOutputPorts)$ es una función que devuelve un subconjunto del conjunto de puertos de salida para cada evento de shock. Donde $numberOfChosenOutputPorts$ es la cantidad de puertos devueltos por la función. 
