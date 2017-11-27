@@ -10,6 +10,12 @@
 
 \usepackage{caratula/caratula}
 
+%Para el uso de apéndices (nombres de la seccion)
+\usepackage{appendix}
+\renewcommand{\appendixtocname}{Apéndices}
+\renewcommand{\appendixpagename}{Apéndices}
+
+
 \begin{document}
 
 \input{caratula.tex}
@@ -46,5 +52,10 @@
 % \section{Conclusiones}
 % \input{conclusiones.tex}
 %
+\clearpage
+\addappheadtotoc
+\appendix
+\appendixpage
 
+\input{modelos_formales.tex}
 \end{document}

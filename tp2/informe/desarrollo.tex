@@ -1,14 +1,15 @@
-Para poder simular el comportamiento de los Shockers fue necesario extender el trabajo en distintos puntos explicados a continuación.
+Para poder simular el comportamiento de los shockers, que envían un eventos exógeno al celda del modelo cell-devs, fue necesario extender el trabajo en distintos puntos, explicados a continuación.
 
 \subsection{Modelo atómico Shocker}
 
-El comportamiento exógeno fue modelado con $K$  modelos atómicos. Cada uno de éstos modelos afecta a una porción de las celdas totales de la grilla.
-En particular, si asumimos una grilla cuadrada de $N \times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
+El shocker en sí, está modelado mediante un modelo atómico DEVS. Al recibir un valor de entrada enviará el mismo a un subconjunto de las celdas a las cuales está conectado. Las celdas afectadas por el shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
 
-De las celdas a las cuales el Shocker puede influir, solo una porción recibirá un shock. Las celdas afectadas por cada Shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
 
-Los Shockers emitirán en momentos específicos valores específicos. Cuando sus funciones de salida ejecuten, algunas celdas recibirán estos valores y actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
+El conjunto de los shockers del modelo afectará a todas las celdas del modelo, es decir, cada shocker del modelo afectará a una porción de las celdas totales de la grilla. En particular, si asumimos una grilla cuadrada de $N \times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
 
+Los shockers emitirán en momentos específicos valores específicos, estos momentos estarán definidos de antemano mediante la señalización de externos eventos (archivo \texttt{.ev} en \textit{CD++}). Al recibir esta señal, ejecutarán sus funciones de salida y algunas celdas recibirán el valor generado y actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
+
+La definición formal del shocker puede encontrarse 
 
 \subsection{Nuevas reglas para la grilla}
 
@@ -43,7 +44,7 @@ Definimos:
     \item \textbf{Distribución poblacional inicial} 10\% de indecisos, 45\% de votantes de A, 45\% votantes de B.
 \end{description}
 
-Las variaciones entre los experimentos están dadas por los efectos por cada Shocker.
+Las variaciones entre los experimentos están dadas por los efectos por cada shocker.
 
 Distingamos los tres tipos de shocks que pueden observarse en nuestro modelo.
 Los shocks de tipo A, llevan a una celda a un valor con distribución
@@ -52,19 +53,19 @@ llevando las celdas al intervalo  [-1, 1]. Por último los shocks de tipo B
 polarizan hacia los valores [2, 3]. Siempre con distribución uniforme.
 
 Este diseño experimental pretende reproducir casos donde los influenciadores
-llevan adelante una competencia territorial,eventualmente llegando a una
-situación donde uno prevalece logrando votación mayoritaria a su favor
+llevan adelante una competencia territorial, el territorio sería en este caso la grilla conformada por las celdas, eventualmente llegando a una
+situación donde uno o varios prevalecen logrando votación mayoritaria a su favor.
 
 \subsection{Escenarios} % (fold)
 \label{sub:Escenarios}
 
 % subsection Escenarios (end)
 \begin{itemize}
-    \item \textbf{Shockers: 5A} Todos los Shockers obran a favor del partido A.
-    \item \textbf{Shockers: 2A 2I 1B} Hay mayor dominación del partido A, sin embargo existen 2 Shockers que generan indecisos.
+    \item \textbf{Shockers: 5A} Los 5 shockers obran a favor del partido A.
+    \item \textbf{Shockers: 2A 2I 1B} Hay mayor dominación del partido A, sin embargo existen 2 shockers que generan indecisos.
     \item \textbf{Shockers: 2A 1I 2B} Terreno neutral, ninguno de los dos partidos domina.
     \item \textbf{Shockers: 2A 3B} Hay dominación por parte del partido B, pero ligeramente.
     \item \textbf{Shockers: 1A 3I 1B} Terreno neutral con mayor cantidad de Shockers que generan indecisos.
-    \item \textbf{Shockers: 1A 4B} La mayor cantidad de Shockers dominan a favor del partido B pero el partido A tiene un socker que genera opinión a su favor.  
+    \item \textbf{Shockers: 1A 4B} La mayor cantidad de shockers dominan a favor del partido B pero el partido A tiene un socker que genera opinión a su favor.  
 \end{itemize}
 
