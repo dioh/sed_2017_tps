@@ -4,12 +4,13 @@ Para poder simular el comportamiento de los shockers, que envían un eventos ex�
 
 El shocker en sí, está modelado mediante un modelo atómico DEVS. Al recibir un valor de entrada enviará el mismo a un subconjunto de las celdas a las cuales está conectado. Las celdas afectadas por el shocker se decide con probabilidad uniforme. No todas las celdas serán afectadas.
 
+El conjunto de los shockers del modelo se conectará a todas las celdas del modelo, es decir, cada shocker estará conectado a una porción de las celdas totales de la grilla. En particular, si asumimos una grilla cuadrada de $N \times N$ y $K$ Shockers, cada uno se conectará a $N^2/K$ celdas.
 
-El conjunto de los shockers del modelo afectará a todas las celdas del modelo, es decir, cada shocker del modelo afectará a una porción de las celdas totales de la grilla. En particular, si asumimos una grilla cuadrada de $N \times N$ y $K$ Shockers, cada uno afectará $N^2/K$ celdas.
+Las celdas a las cuales se conectará cada shocker serán siempre las mismas, pero se determinará mediante una variable uniforme, esperando que se distribuyan estas conexiones de manera uniformemente por toda la grilla.
 
-Los shockers emitirán en momentos específicos valores específicos, estos momentos estarán definidos de antemano mediante la señalización de externos eventos (archivo \texttt{.ev} en \textit{CD++}). Al recibir esta señal, ejecutarán sus funciones de salida y algunas celdas recibirán el valor generado y actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
+Los shockers emitirán en momentos específicos valores específicos, estos momentos estarán definidos de antemano mediante la señalización de externos eventos (archivo \texttt{.ev} en \textit{CD++}). Al recibir esta señal, ejecutarán sus funciones de salida y algunas celdas (la mitad) recibirán el valor generado. Las celdas que reciben la señal se seleccionan mediante aleatoriamente. Al recibir la señal actuarán de acuerdo a cierta lógica descrita en la siguiente sección.
 
-La definición formal del shocker puede encontrarse 
+La definición formal del shocker puede encontrarse el apéndice.
 
 \subsection{Nuevas reglas para la grilla}
 
@@ -28,7 +29,7 @@ Para sintetizar el comportamiento agregado podemos decir que existirán tres tip
 
 Diseñamos experimentos para responder algunas preguntas, como por ejemplo:
 \begin{itemize}
-\item ¿Cómo afecta la presencia o no de Shockers al estado final del sistema (partidismo vs. bipartidismo)$?$ 
+\item ¿Cómo afecta la presencia o no de Shockers al estado final del sistema (partidismo vs. bipartidismo)?
 \item ¿Con qué frecuencia se deberían generar shocks en la población para que estos tengan un efecto sobre la dinámica de intercambio de opinión de la misma?
 \item ¿Cuál es el factor más determinante del estado final de la simulación: el estado inicial de las celdas o la cantidad / características / frecuencia de los Shockers?
 \end{itemize}
