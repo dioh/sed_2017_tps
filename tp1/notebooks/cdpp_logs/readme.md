@@ -33,5 +33,20 @@ The three type of plots are:
 
 Look for the image files in img directory to see some examples of the expected outcome.
 
+## Altair instalation
 
+Altair is included in requeriments.txt, to complete installation execute:
 
+```
+pip install --upgrade notebook
+```
+
+In addition, to render Altair visualizations in the classic Jupyter Notebook,
+you will need to enable the [ipyvega](https://github.com/vega/ipyvega) nbextension:
+
+```
+jupyter nbextension enable --sys-prefix --py vega
+```
+
+This single step is not needed for usage with JupyterLab and nteract, which have built-in
+support for Vega-Lite.
