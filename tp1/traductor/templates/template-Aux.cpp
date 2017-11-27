@@ -56,7 +56,7 @@ Model &{{model}}::outputFunction(const CollectMessage &msg)
 {
 	if({% for var, port in params_ports.items() -%} 
 		{% if loop.index0 == 0 %} isSet_{{var}} {% endif -%}
-		{% if loop.index0 > 0 %}& isSet_{{var}} {% endif -%}
+		{% if loop.index0 > 0 %}&& isSet_{{var}} {% endif -%}
 	{% endfor -%}) {
 		double val = {{function}};
 		Tuple<Real> out_value { val };

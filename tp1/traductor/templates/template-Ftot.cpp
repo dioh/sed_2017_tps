@@ -63,7 +63,7 @@ Model &{{model}}::outputFunction(const CollectMessage &msg)
 	double minus = 0;
 	if({% for inPort in ft_inPorts -%} 
 		{% if loop.index0 == 0 %} isSet_val_{{inPort}} {% endif -%}
-		{% if loop.index0 > 0 %}& isSet_val_{{inPort}} {% endif -%}
+		{% if loop.index0 > 0 %}&& isSet_val_{{inPort}} {% endif -%}
 	{% endfor -%}) {
 		{% for inPort in ft_inPorts -%}
 		{% if 'inPlus' in inPort -%}
