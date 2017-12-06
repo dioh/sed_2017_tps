@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile>
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>samuelson-1</name>
+		<uuid>85a996c3-78db-4e59-9d1f-bf7a1d2ffbd4</uuid>
+		<vendor>isee systems, inc.</vendor>
+	</header>
+	<sim_specs>
+		<start>1</start>
+		<stop>18</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<model_units>
+		<unit name="Years">
+			<eqn/>
+			<alias>yr</alias>
+			<alias>year</alias>
+		</unit>
+	</model_units>
+	<model>
+		<variables>
+			<stock name="Capital">
+				<eqn>300</eqn>
+				<inflow>chgCapital</inflow>
+			</stock>
+			<stock name="Population">
+				<eqn>150</eqn>
+				<inflow>chgPopulation</inflow>
+			</stock>
+			<aux name="velocityOfMoney">
+				<eqn>3</eqn>
+			</aux>
+			<stock name="LaborProductivity">
+				<eqn>1</eqn>
+				<inflow>chgLaborProductivity</inflow>
+			</stock>
+			<stock name="wageRate">
+				<eqn>0.8</eqn>
+				<inflow>chgWageRate</inflow>
+			</stock>
+			<aux name="Output">
+				<eqn>Capital / velocityOfMoney</eqn>
+			</aux>
+			<aux name="Labor">
+				<eqn>Output / LaborProductivity</eqn>
+			</aux>
+			<aux name="employmentRate">
+				<eqn>Labor / Population</eqn>
+			</aux>
+			<aux name="constantEmploymentRate">
+				<eqn>0.6</eqn>
+			</aux>
+			<aux name="wageFunction">
+				<eqn>(employmentRate - constantEmploymentRate) * effectOfEmploymentRateInWages</eqn>
+			</aux>
+			<aux name="effectOfEmploymentRateInWages">
+				<eqn>10</eqn>
+			</aux>
+			<flow name="chgWageRate">
+				<eqn>wageFunction * wageRate</eqn>
+			</flow>
+			<aux name="wageBill">
+				<eqn>wageRate * Labor</eqn>
+			</aux>
+			<aux name="Profit">
+				<eqn>Output - wageBill</eqn>
+			</aux>
+			<aux name="InvestmentGross">
+				<eqn>Profit</eqn>
+			</aux>
+			<aux name="rateOfAppreciation">
+				<eqn>0</eqn>
+			</aux>
+			<aux name="InvestmentNetReal">
+				<eqn>InvestmentGross - (Capital * rateOfAppreciation)</eqn>
+			</aux>
+			<flow name="chgCapital">
+				<eqn>InvestmentNetReal</eqn>
+			</flow>
+			<aux name="omega">
+				<eqn>wageBill / Output</eqn>
+			</aux>
+			<flow name="chgPopulation">
+				<eqn>Population * betaChgPopulation</eqn>
+			</flow>
+			<aux name="betaChgPopulation">
+				<eqn>0.015</eqn>
+			</aux>
+			<flow name="chgLaborProductivity">
+				<eqn>LaborProductivity * alphaChgLaborProductivity</eqn>
+			</flow>
+			<aux name="alphaChgLaborProductivity">
+				<eqn>0.025</eqn>
+			</aux>
+			<iseedependencies>
+				<var name="Output">
+					<in>Capital</in>
+					<in>velocityOfMoney</in>
+				</var>
+				<var name="Labor">
+					<in>Output</in>
+					<in>LaborProductivity</in>
+				</var>
+				<var name="employmentRate">
+					<in>Labor</in>
+					<in>Population</in>
+				</var>
+				<var name="wageFunction">
+					<in>constantEmploymentRate</in>
+					<in>employmentRate</in>
+					<in>effectOfEmploymentRateInWages</in>
+				</var>
+				<var name="chgWageRate">
+					<in>wageRate</in>
+					<in>wageFunction</in>
+				</var>
+				<var name="wageBill">
+					<in>Labor</in>
+					<in>wageRate</in>
+				</var>
+				<var name="Profit">
+					<in>Output</in>
+					<in>wageBill</in>
+				</var>
+				<var name="InvestmentGross">
+					<in>Profit</in>
+				</var>
+				<var name="InvestmentNetReal">
+					<in>InvestmentGross</in>
+					<in>rateOfAppreciation</in>
+					<in>Capital</in>
+				</var>
+				<var name="chgCapital">
+					<in>InvestmentNetReal</in>
+				</var>
+				<var name="omega">
+					<in>Output</in>
+					<in>wageBill</in>
+				</var>
+				<var name="chgPopulation">
+					<in>betaChgPopulation</in>
+					<in>Population</in>
+				</var>
+				<var name="chgLaborProductivity">
+					<in>alphaChgLaborProductivity</in>
+					<in>LaborProductivity</in>
+				</var>
+			</iseedependencies>
+		</variables>
+	</model>
+</xmile>
+
