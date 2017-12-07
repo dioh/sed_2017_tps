@@ -13,9 +13,7 @@ using namespace std;
 FplusPopulationchgPopulation::FplusPopulationchgPopulation(const string &name) :
 	Atomic(name),
 	in_populationIntegrator(addInputPort("in_populationIntegrator")),
-	in_betaChgpopulationIntegrator(addInputPort("in_betaChgpopulationIntegrator")),
 	isSet_populationIntegrator(false),
-	isSet_betaChgpopulationIntegrator(false),
 	out(addOutputPort("out"))
 {
 }
@@ -36,10 +34,6 @@ Model &FplusPopulationchgPopulation::externalFunction(const ExternalMessage &msg
 		populationIntegrator = x;
 		isSet_populationIntegrator = true;
 	}
-	if(msg.port() == in_betaChgpopulationIntegrator) {
-		betaChgpopulationIntegrator = x;
-		isSet_betaChgpopulationIntegrator = true;
-	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -54,8 +48,8 @@ Model &FplusPopulationchgPopulation::internalFunction(const InternalMessage &)
 
 Model &FplusPopulationchgPopulation::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_populationIntegrator & isSet_betaChgpopulationIntegrator ) {
-		double val = populationIntegrator * betaChgpopulationIntegrator;
+	if( isSet_populationIntegrator ) {
+		double val = populationIntegrator * 0.015;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

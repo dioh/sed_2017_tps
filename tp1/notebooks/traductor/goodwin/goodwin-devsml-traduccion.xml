@@ -7,10 +7,8 @@
       <inputs>
         <port name="effectOfEmploymentRateInWages" />
         <port name="constantEmploymentRate" />
-        <port name="alphaChgLaborProductivity" />
-        <port name="betaChgPopulation" />
-        <port name="velocityOfMoney" />
         <port name="rateOfAppreciation" />
+        <port name="velocityOfMoney" />
         </inputs>
       <!-- Outputs -->
       <outputs>
@@ -81,19 +79,21 @@
         <atomicRef name="fp LaborProductivity - chgLaborProductivity" model="Fplus">
           <!-- Puertos del atomico -->
           <port name="in LaborProductivity " type="in" />
-          <port name="in  alphaChgLaborProductivity" type="in" />
+          <port name="in  0" type="in" />
+          <port name="in 025" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="LaborProductivity * alphaChgLaborProductivity" />
+          <parameter name="function" value="LaborProductivity * 0.025" />
         </atomicRef>
         <!-- Flow : chgPopulation -->
         <atomicRef name="fp Population - chgPopulation" model="Fplus">
           <!-- Puertos del atomico -->
           <port name="in Population " type="in" />
-          <port name="in  betaChgPopulation" type="in" />
+          <port name="in  0" type="in" />
+          <port name="in 015" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="Population * betaChgPopulation" />
+          <parameter name="function" value="Population * 0.015" />
         </atomicRef>
         <!-- Flow : chgWageRate -->
         <atomicRef name="fp wageRate - chgWageRate" model="Fplus">
@@ -123,25 +123,15 @@
           <port name="out" type="out" />
           <parameter name="value" value="0.6" />
         </atomicRef>
-        <atomicRef name="alphaChgLaborProductivity" model="Cte">
+        <atomicRef name="rateOfAppreciation" model="Cte">
           <port name="inValue" type="in" />
           <port name="out" type="out" />
-          <parameter name="value" value="0.025" />
-        </atomicRef>
-        <atomicRef name="betaChgPopulation" model="Cte">
-          <port name="inValue" type="in" />
-          <port name="out" type="out" />
-          <parameter name="value" value="0.015" />
+          <parameter name="value" value="0" />
         </atomicRef>
         <atomicRef name="velocityOfMoney" model="Cte">
           <port name="inValue" type="in" />
           <port name="out" type="out" />
           <parameter name="value" value="3" />
-        </atomicRef>
-        <atomicRef name="rateOfAppreciation" model="Cte">
-          <port name="inValue" type="in" />
-          <port name="out" type="out" />
-          <parameter name="value" value="0" />
         </atomicRef>
         <!-- Parameters / Auxiliares -->
         <atomicRef name="wageFunction" model="Aux">
@@ -181,10 +171,10 @@
         <connection component_from="effectOfEmploymentRateInWages" port_from="out" comonent_to="wageFunction" port_to="in effectOfEmploymentRateInWages"/>
         <!-- Aux : wageFunction -->
         <connection component_from="constantEmploymentRate" port_from="out" comonent_to="wageFunction" port_to="in constantEmploymentRate"/>
-        <!-- Aux : Output -->
-        <connection component_from="velocityOfMoney" port_from="out" comonent_to="Output" port_to="in velocityOfMoney"/>
         <!-- Aux : InvestmentNetReal -->
         <connection component_from="rateOfAppreciation" port_from="out" comonent_to="InvestmentNetReal" port_to="in rateOfAppreciation"/>
+        <!-- Aux : Output -->
+        <connection component_from="velocityOfMoney" port_from="out" comonent_to="Output" port_to="in velocityOfMoney"/>
         <!-- Link : Aux a Aux's que las usan -->
         <!-- Aux : InvestmentGross => InvestmentNetReal-->
         <connection component_from="InvestmentGross" port_from="out" component_to="InvestmentNetReal" port_to="in InvestmentGross"/>
@@ -237,10 +227,8 @@
       <external_input_connections>
         <connection component_from="top" port_from="in - effectOfEmploymentRateInWages" component_to="effectOfEmploymentRateInWages" port_to="inValue" />
         <connection component_from="top" port_from="in - constantEmploymentRate" component_to="constantEmploymentRate" port_to="inValue" />
-        <connection component_from="top" port_from="in - alphaChgLaborProductivity" component_to="alphaChgLaborProductivity" port_to="inValue" />
-        <connection component_from="top" port_from="in - betaChgPopulation" component_to="betaChgPopulation" port_to="inValue" />
-        <connection component_from="top" port_from="in - velocityOfMoney" component_to="velocityOfMoney" port_to="inValue" />
         <connection component_from="top" port_from="in - rateOfAppreciation" component_to="rateOfAppreciation" port_to="inValue" />
+        <connection component_from="top" port_from="in - velocityOfMoney" component_to="velocityOfMoney" port_to="inValue" />
         
       </external_input_connections>
 

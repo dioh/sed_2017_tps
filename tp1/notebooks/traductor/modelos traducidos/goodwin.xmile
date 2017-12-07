@@ -82,17 +82,11 @@
 				<eqn>wageBill / Output</eqn>
 			</aux>
 			<flow name="chgPopulation">
-				<eqn>Population * betaChgPopulation</eqn>
+				<eqn>Population * 0.015</eqn>
 			</flow>
-			<aux name="betaChgPopulation">
-				<eqn>0.015</eqn>
-			</aux>
 			<flow name="chgLaborProductivity">
-				<eqn>LaborProductivity * alphaChgLaborProductivity</eqn>
+				<eqn>LaborProductivity * 0.025</eqn>
 			</flow>
-			<aux name="alphaChgLaborProductivity">
-				<eqn>0.025</eqn>
-			</aux>
 			<iseedependencies>
 				<var name="Output">
 					<in>Capital</in>
@@ -139,11 +133,9 @@
 					<in>wageBill</in>
 				</var>
 				<var name="chgPopulation">
-					<in>betaChgPopulation</in>
 					<in>Population</in>
 				</var>
 				<var name="chgLaborProductivity">
-					<in>alphaChgLaborProductivity</in>
 					<in>LaborProductivity</in>
 				</var>
 			</iseedependencies>

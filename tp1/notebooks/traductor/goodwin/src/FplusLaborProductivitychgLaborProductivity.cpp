@@ -13,9 +13,7 @@ using namespace std;
 FplusLaborProductivitychgLaborProductivity::FplusLaborProductivitychgLaborProductivity(const string &name) :
 	Atomic(name),
 	in_laborProductivityIntegrator(addInputPort("in_laborProductivityIntegrator")),
-	in_alphaChglaborProductivityIntegrator(addInputPort("in_alphaChglaborProductivityIntegrator")),
 	isSet_laborProductivityIntegrator(false),
-	isSet_alphaChglaborProductivityIntegrator(false),
 	out(addOutputPort("out"))
 {
 }
@@ -36,10 +34,6 @@ Model &FplusLaborProductivitychgLaborProductivity::externalFunction(const Extern
 		laborProductivityIntegrator = x;
 		isSet_laborProductivityIntegrator = true;
 	}
-	if(msg.port() == in_alphaChglaborProductivityIntegrator) {
-		alphaChglaborProductivityIntegrator = x;
-		isSet_alphaChglaborProductivityIntegrator = true;
-	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -54,8 +48,8 @@ Model &FplusLaborProductivitychgLaborProductivity::internalFunction(const Intern
 
 Model &FplusLaborProductivitychgLaborProductivity::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_laborProductivityIntegrator & isSet_alphaChglaborProductivityIntegrator ) {
-		double val = laborProductivityIntegrator * alphaChglaborProductivityIntegrator;
+	if( isSet_laborProductivityIntegrator ) {
+		double val = laborProductivityIntegrator * 0.025;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}
