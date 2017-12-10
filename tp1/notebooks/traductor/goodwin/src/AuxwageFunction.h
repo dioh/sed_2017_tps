@@ -25,19 +25,13 @@ class AuxwageFunction : public Atomic {
   private:
     // Input ports
     const Port &in_employmentRate;
-    const Port &in_constantEmploymentRate;
-    const Port &in_effectOfEmploymentRateInWages;
     // Output ports
     Port &out;
 
     // State variables
-    double effectOfEmploymentRateInWages;
-    double constantEmploymentRate;
     double employmentRate;
     //
     // Check set of state variables
-    bool isSet_effectOfEmploymentRateInWages;
-    bool isSet_constantEmploymentRate;
     bool isSet_employmentRate;
     //
 };

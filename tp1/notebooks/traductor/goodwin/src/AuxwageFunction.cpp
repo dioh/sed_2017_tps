@@ -12,11 +12,7 @@ using namespace std;
 
 AuxwageFunction::AuxwageFunction(const string &name) :
 	Atomic(name),
-	in_effectOfEmploymentRateInWages(addInputPort("in_effectOfEmploymentRateInWages")),
-	in_constantEmploymentRate(addInputPort("in_constantEmploymentRate")),
 	in_employmentRate(addInputPort("in_employmentRate")),
-	isSet_effectOfEmploymentRateInWages(false),
-	isSet_constantEmploymentRate(false),
 	isSet_employmentRate(false),
 	out(addOutputPort("out"))
 {
@@ -34,14 +30,6 @@ Model &AuxwageFunction::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_effectOfEmploymentRateInWages) {
-		effectOfEmploymentRateInWages = x;
-		isSet_effectOfEmploymentRateInWages = true;
-	}
-	if(msg.port() == in_constantEmploymentRate) {
-		constantEmploymentRate = x;
-		isSet_constantEmploymentRate = true;
-	}
 	if(msg.port() == in_employmentRate) {
 		employmentRate = x;
 		isSet_employmentRate = true;
@@ -60,8 +48,8 @@ Model &AuxwageFunction::internalFunction(const InternalMessage &)
 
 Model &AuxwageFunction::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_effectOfEmploymentRateInWages & isSet_constantEmploymentRate & isSet_employmentRate ) {
-		double val = (employmentRate - constantEmploymentRate) * effectOfEmploymentRateInWages;
+	if( isSet_employmentRate ) {
+		double val = (employmentRate - 0.6) * 10;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

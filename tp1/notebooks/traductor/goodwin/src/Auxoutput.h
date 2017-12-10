@@ -25,17 +25,14 @@ class Auxoutput : public Atomic {
   private:
     // Input ports
     const Port &in_capitalIntegrator;
-    const Port &in_velocityOfMoney;
     // Output ports
     Port &out;
 
     // State variables
     double capitalIntegrator;
-    double velocityOfMoney;
     //
     // Check set of state variables
     bool isSet_capitalIntegrator;
-    bool isSet_velocityOfMoney;
     //
 };
 

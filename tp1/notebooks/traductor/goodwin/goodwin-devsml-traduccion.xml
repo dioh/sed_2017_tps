@@ -5,10 +5,6 @@
       <!-- Input / Output -->
       <!-- Inputs -->
       <inputs>
-        <port name="effectOfEmploymentRateInWages" />
-        <port name="constantEmploymentRate" />
-        <port name="rateOfAppreciation" />
-        <port name="velocityOfMoney" />
         </inputs>
       <!-- Outputs -->
       <outputs>
@@ -113,29 +109,9 @@
           <parameter name="function" value="InvestmentNetReal" />
         </atomicRef>
         <!-- Parameters / Constantes -->
-        <atomicRef name="effectOfEmploymentRateInWages" model="Cte">
-          <port name="inValue" type="in" />
-          <port name="out" type="out" />
-          <parameter name="value" value="10" />
-        </atomicRef>
-        <atomicRef name="constantEmploymentRate" model="Cte">
-          <port name="inValue" type="in" />
-          <port name="out" type="out" />
-          <parameter name="value" value="0.6" />
-        </atomicRef>
-        <atomicRef name="rateOfAppreciation" model="Cte">
-          <port name="inValue" type="in" />
-          <port name="out" type="out" />
-          <parameter name="value" value="0" />
-        </atomicRef>
-        <atomicRef name="velocityOfMoney" model="Cte">
-          <port name="inValue" type="in" />
-          <port name="out" type="out" />
-          <parameter name="value" value="3" />
-        </atomicRef>
         <!-- Parameters / Auxiliares -->
         <atomicRef name="wageFunction" model="Aux">
-          <parameter name="function" value="(employmentRate - constantEmploymentRate) * effectOfEmploymentRateInWages" />
+          <parameter name="function" value="(employmentRate - 0.6) * 10" />
         </atomicRef>
         <atomicRef name="InvestmentGross" model="Aux">
           <parameter name="function" value="Profit" />
@@ -150,13 +126,13 @@
           <parameter name="function" value="Output / LaborProductivity" />
         </atomicRef>
         <atomicRef name="Output" model="Aux">
-          <parameter name="function" value="Capital / velocityOfMoney" />
+          <parameter name="function" value="Capital / 3" />
         </atomicRef>
         <atomicRef name="omega" model="Aux">
           <parameter name="function" value="wageBill / Output" />
         </atomicRef>
         <atomicRef name="InvestmentNetReal" model="Aux">
-          <parameter name="function" value="InvestmentGross - (Capital * rateOfAppreciation)" />
+          <parameter name="function" value="InvestmentGross - (Capital * 0.1)" />
         </atomicRef>
         <atomicRef name="employmentRate" model="Aux">
           <parameter name="function" value="Labor / Population" />
@@ -167,14 +143,6 @@
 
         <!-- Link : Cte's a f's que las usan -->
         <!-- Link : Cte's a Aux's que las usan -->
-        <!-- Aux : wageFunction -->
-        <connection component_from="effectOfEmploymentRateInWages" port_from="out" comonent_to="wageFunction" port_to="in effectOfEmploymentRateInWages"/>
-        <!-- Aux : wageFunction -->
-        <connection component_from="constantEmploymentRate" port_from="out" comonent_to="wageFunction" port_to="in constantEmploymentRate"/>
-        <!-- Aux : InvestmentNetReal -->
-        <connection component_from="rateOfAppreciation" port_from="out" comonent_to="InvestmentNetReal" port_to="in rateOfAppreciation"/>
-        <!-- Aux : Output -->
-        <connection component_from="velocityOfMoney" port_from="out" comonent_to="Output" port_to="in velocityOfMoney"/>
         <!-- Link : Aux a Aux's que las usan -->
         <!-- Aux : InvestmentGross => InvestmentNetReal-->
         <connection component_from="InvestmentGross" port_from="out" component_to="InvestmentNetReal" port_to="in InvestmentGross"/>
@@ -225,10 +193,6 @@
       <!-- Links inputs a constantes -->
       <!-- external input -->
       <external_input_connections>
-        <connection component_from="top" port_from="in - effectOfEmploymentRateInWages" component_to="effectOfEmploymentRateInWages" port_to="inValue" />
-        <connection component_from="top" port_from="in - constantEmploymentRate" component_to="constantEmploymentRate" port_to="inValue" />
-        <connection component_from="top" port_from="in - rateOfAppreciation" component_to="rateOfAppreciation" port_to="inValue" />
-        <connection component_from="top" port_from="in - velocityOfMoney" component_to="velocityOfMoney" port_to="inValue" />
         
       </external_input_connections>
 
