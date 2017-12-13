@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile>
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>Lotka-Volterra</name>
+		<uuid>52bb5822-62d8-4b4f-a936-34e522ca9d0e</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="1.5" iseebuild_number="1277" iseesaved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs iseesimulation_delay="0.00375" method="Euler" time_units="Months" iseeinstantaneous_flows="false">
+		<start>1</start>
+		<stop>400</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<iseeprefs show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" saved_runs="5" keep="false" rifp="true"/>
+	<iseemultiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" observer_start_page="home_page" enabled="false"/>
+	<model_units/>
+	<model>
+		<variables>
+			<stock name="Prey">
+				<eqn>100</eqn>
+				<inflow>PlusPrey</inflow>
+				<outflow>MinusPrey</outflow>
+			</stock>
+			<stock name="Predator">
+				<eqn>5</eqn>
+				<inflow>PlusPredator</inflow>
+				<outflow>MinusPredator</outflow>
+			</stock>
+			<flow name="PlusPrey">
+				<eqn>0.1 * Prey</eqn>
+			</flow>
+			<flow name="PlusPredator">
+				<eqn>0.01 * Prey * Predator</eqn>
+			</flow>
+			<flow name="MinusPrey">
+				<eqn>0.02 * Prey * Predator</eqn>
+			</flow>
+			<flow name="MinusPredator">
+				<eqn>0.3 * Predator</eqn>
+			</flow>
+			<iseedependencies>
+				<var name="PlusPrey">
+					<in>Prey</in>
+				</var>
+				<var name="PlusPredator">
+					<in>Prey</in>
+					<in>Predator</in>
+				</var>
+				<var name="MinusPrey">
+					<in>Prey</in>
+					<in>Predator</in>
+				</var>
+				<var name="MinusPredator">
+					<in>Predator</in>
+				</var>
+			</iseedependencies>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<iseeloop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="blue" background="white" font_size="9pt" iseetransparent="false"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" iseegraph_area_color="white" legend_position="bottom" iseetransparent="false" iseehide_border="false">
+					<iseeseries_styles>
+						<iseeseries_style color="blue" thickness="1"/>
+						<iseeseries_style color="red" thickness="1" pen_style="dot_dashed"/>
+						<iseeseries_style color="fuchsia" thickness="1" pen_style="dotted"/>
+						<iseeseries_style color="#008F44" thickness="1" pen_style="dashed"/>
+						<iseeseries_style color="#FF7F00" thickness="1"/>
+						<iseeseries_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+						<iseeseries_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+						<iseeseries_style color="lime" thickness="1" pen_style="dashed"/>
+						<iseeseries_style color="#FF007F" thickness="1"/>
+						<iseeseries_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+						<iseeseries_style color="#F586FF" thickness="1" pen_style="dotted"/>
+						<iseeseries_style color="black" thickness="1" pen_style="dashed"/>
+						<iseeseries_style color="#C8C8C8" thickness="1"/>
+					</iseeseries_styles>
+				</graph>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" iseeauto_fit="true" iseeuse_alternate_row_colors="false" iseeunlimited_table_length="false" blank_column_width="80" column_width="160" iseereport_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" iseeflat="false" icon_side="top"/>
+				<iseeannotation color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" iseeflat="false" icon_side="top" popup_background_color="#FFFECF"/>
+				<slider color="black" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" iseealways_show_hover_tip="false" input_expands="true" input_width="100"/>
+				<iseepie_input color="black" background="white" font_size="12pt" legend_position="bottom" iseetransparent="false"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" iseeappearance="switch"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="11" show_numeric_value="true"/>
+				<iseespatial_map color="black" background="white" font_size="12pt"/>
+				<iseeanimation_object color="black" background="white" font_size="12pt"/>
+			</style>
+			<view iseeshow_pages="false" page_width="1123" page_height="793" iseepage_cols="2" iseepopup_graphs_are_comparative="true" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom"/>
+					<module color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="55" height="45"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="9pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" iseethickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<iseeloop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="blue" background="white" font_size="9pt" iseetransparent="false"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" iseegraph_area_color="white" legend_position="bottom" iseetransparent="false" iseehide_border="false">
+						<iseeseries_styles>
+							<iseeseries_style color="blue" thickness="1"/>
+							<iseeseries_style color="red" thickness="1" pen_style="dot_dashed"/>
+							<iseeseries_style color="fuchsia" thickness="1" pen_style="dotted"/>
+							<iseeseries_style color="#008F44" thickness="1" pen_style="dashed"/>
+							<iseeseries_style color="#FF7F00" thickness="1"/>
+							<iseeseries_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+							<iseeseries_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+							<iseeseries_style color="lime" thickness="1" pen_style="dashed"/>
+							<iseeseries_style color="#FF007F" thickness="1"/>
+							<iseeseries_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+							<iseeseries_style color="#F586FF" thickness="1" pen_style="dotted"/>
+							<iseeseries_style color="black" thickness="1" pen_style="dashed"/>
+							<iseeseries_style color="#C8C8C8" thickness="1"/>
+						</iseeseries_styles>
+					</graph>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" iseeauto_fit="true" iseeuse_alternate_row_colors="false" iseeunlimited_table_length="false" blank_column_width="80" column_width="160" iseereport_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
+				</style>
+				<stock x="453" y="144" name="Prey"/>
+				<stock x="447" y="310" name="Predator"/>
+				<flow x="344.25" y="147" name="PlusPrey">
+					<pts>
+						<pt x="246" y="147"/>
+						<pt x="430.5" y="147"/>
+					</pts>
+				</flow>
+				<flow label_side="bottom" x="346.75" y="317" name="PlusPredator">
+					<pts>
+						<pt x="257" y="317"/>
+						<pt x="424.5" y="317"/>
+					</pts>
+				</flow>
+				<flow x="569.25" y="148" name="MinusPrey">
+					<pts>
+						<pt x="475.5" y="148"/>
+						<pt x="675" y="148"/>
+					</pts>
+				</flow>
+				<flow x="556.25" y="317" name="MinusPredator">
+					<pts>
+						<pt x="469.5" y="317"/>
+						<pt x="655" y="317"/>
+					</pts>
+				</flow>
+				<connector uid="1" angle="24.1791">
+					<from>Prey</from>
+					<to>MinusPrey</to>
+				</connector>
+				<connector uid="2" angle="33.1785">
+					<from>Predator</from>
+					<to>MinusPrey</to>
+				</connector>
+				<connector uid="3" angle="331.557">
+					<from>Predator</from>
+					<to>MinusPredator</to>
+				</connector>
+				<connector uid="4" angle="216.027">
+					<from>Prey</from>
+					<to>PlusPredator</to>
+				</connector>
+				<connector uid="5" angle="152.949">
+					<from>Predator</from>
+					<to>PlusPredator</to>
+				</connector>
+				<connector uid="6" angle="151.144">
+					<from>Prey</from>
+					<to>PlusPrey</to>
+				</connector>
+				<stacked_container uid="7" x="729" y="86" width="507" height="393">
+					<graph x="729" y="86" width="507" height="393" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" iseelabel_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" iseefill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Predator"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" pen_width="1" index="1" show_y_axis="true">
+							<entity name="Prey"/>
+						</plot>
+					</graph>
+				</stacked_container>
+			</view>
+		</views>
+	</model>
+</xmile>
+
