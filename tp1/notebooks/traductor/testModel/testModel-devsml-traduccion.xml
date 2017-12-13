@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devs>
+  <scenario>
+    <coupled name="top" model="Coupled" >
+      <!-- Input / Output -->
+      <!-- Inputs -->
+      <inputs>
+        <port name="constant" />
+        </inputs>
+      <!-- Outputs -->
+      <outputs>
+        <port name="Investment" />
+        <port name="Capital" />
+        </outputs>
+      <components>
+
+        <!-- Stock : Investment -->
+        <atomicRef name="ft Investment" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inPlus - inflow" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="Investment" model="QSS1">
+          <parameter name="x0" value="10" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Stock : Capital -->
+        <atomicRef name="ft Capital" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inMinus - biflow" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="Capital" model="QSS1">
+          <parameter name="x0" value="100" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Flow : biflow -->
+        <atomicRef name="fm Capital - biflow" model="Fminus">
+          <!-- Puertos del atomico -->
+          <port name="in Capital " type="in" />
+          <port name="in  Investment" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="Capital - Investment" />
+        </atomicRef>
+        <!-- Flow : inflow -->
+        <atomicRef name="fp Investment - inflow" model="Fplus">
+          <!-- Puertos del atomico -->
+          <port name="in constant" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="constant" />
+        </atomicRef>
+        <!-- Parameters / Constantes -->
+        <atomicRef name="constant" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="10" />
+        </atomicRef>
+        <!-- Parameters / Auxiliares -->
+        </components>
+
+      <internal_connections>
+
+        <!-- Link : Cte's a f's que las usan -->
+        <!-- Cte :  constant -->
+        <connection component_from="constant" port_from="out" component_to="fp Investment - inflow" port_to="in - constant"/>
+        <!-- Link : Cte's a Aux's que las usan -->
+        <!-- Link : Aux a Aux's que las usan -->
+        <!-- Link : Aux a funciones que las usan --> 
+        
+        <!-- Links modelo acoplado minimal integrador Investment -->
+        <connection component_from="fp Investment - inflow" port_from="out" component_to="ft Investment" port_to="inPlus - inflow" />
+        <connection component_from="ft Investment" port_from="out" component_to="Investment" port_to="in" />
+        <!-- Links modelo acoplado minimal integrador Capital -->
+        <connection component_from="fm Capital - biflow" port_from="out" component_to="ft Capital" port_to="inMinus - biflow" />
+        <connection component_from="ft Capital" port_from="out" component_to="Capital" port_to="in" />
+        
+        <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
+        </internal_connections>
+      
+      <!-- Links inputs a constantes -->
+      <!-- external input -->
+      <external_input_connections>
+        <connection component_from="top" port_from="in - constant" component_to="constant" port_to="inValue" />
+        
+      </external_input_connections>
+
+      <!-- external output -->
+      <external_output_connections />
+    </coupled>
+  </scenario>
+</devs>

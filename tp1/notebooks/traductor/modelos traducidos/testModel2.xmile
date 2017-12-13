@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile>
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>testModel2</name>
+		<uuid>85a996c3-78db-4e59-9d1f-bf7a1d2ffbd4</uuid>
+		<vendor>isee systems, inc.</vendor>
+	</header>
+	<sim_specs>
+		<start>1</start>
+		<stop>18</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<model_units>
+		<unit name="Years">
+			<eqn/>
+			<alias>yr</alias>
+			<alias>year</alias>
+		</unit>
+	</model_units>
+	<model>
+		<variables>
+			<stock name="Capital">
+				<eqn>100</eqn>
+				<inflow>biflow</inflow>
+				<non_negative/>
+			</stock>
+			<stock name="Investment">
+				<eqn>10</eqn>
+				<inflow>inflow</inflow>
+				<non_negative/>
+			</stock>
+			<flow name="inflow">
+				<eqn>constant</eqn>
+				<non_negative/>
+			</flow>
+			<aux name="constant">
+				<eqn>10</eqn>
+			</aux>
+			<flow name="biflow">
+				<eqn>Investment - Capital</eqn>
+			</flow>
+			<iseedependencies>
+				<var name="inflow">
+					<in>constant</in>
+				</var>
+				<var name="biflow">
+					<in>Investment</in>
+					<in>Capital</in>
+				</var>
+			</iseedependencies>
+		</variables>
+	</model>
+</xmile>
+
