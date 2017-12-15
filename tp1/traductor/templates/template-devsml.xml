@@ -35,6 +35,8 @@
           <parameter name="minus" value="0" /> 
         </atomicRef>
         <atomicRef name="{{stockName}}" model="QSS1">
+          <port name="in" type="in" />
+          <port name="out" type="out" />
           <parameter name="x0" value="{{attr['initialValue']}}" />
           <parameter name="dQRel" value="1e-2" />
           <parameter name="dQMin" value="1e-4" />
