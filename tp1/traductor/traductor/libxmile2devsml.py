@@ -83,7 +83,7 @@ def convert_xmile_to_devsml(archivoDevsml, archivoXmile):
         flows_[flowName]['units'] = None
         if flow.find('units') is not None:
             flows_[flowName]['units'] = flow.find('units').text
-        flows_[flowName]['params_eqn'] = lfilter(lambda x: x != '' and re.match("^\d*?\.?\d+?$", x.strip()) is None, re.split("[-+*/()]+", flow.find('eqn').text))
+        flows_[flowName]['params_eqn'] = [param.strip() for param in lfilter(lambda x: x != '' and re.match("^\d*?\.?\d+?$", x.strip()) is None, re.split("[-+*/()]+", flow.find('eqn').text))]
 
     for stockName, attr in iteritems(stocks_):
         for i, flow in enumerate(attr['outflows']):
