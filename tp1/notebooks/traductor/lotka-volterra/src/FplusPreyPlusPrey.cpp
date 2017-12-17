@@ -13,7 +13,9 @@ using namespace std;
 FplusPreyPlusPrey::FplusPreyPlusPrey(const string &name) :
 	Atomic(name),
 	in_preyIntegrator(addInputPort("in_preyIntegrator")),
+	in_paramA(addInputPort("in_paramA")),
 	isSet_preyIntegrator(false),
+	isSet_paramA(false),
 	out(addOutputPort("out"))
 {
 }
@@ -34,6 +36,10 @@ Model &FplusPreyPlusPrey::externalFunction(const ExternalMessage &msg)
 		preyIntegrator = x;
 		isSet_preyIntegrator = true;
 	}
+	if(msg.port() == in_paramA) {
+		paramA = x;
+		isSet_paramA = true;
+	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -48,8 +54,8 @@ Model &FplusPreyPlusPrey::internalFunction(const InternalMessage &)
 
 Model &FplusPreyPlusPrey::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_preyIntegrator ) {
-		double val = 0.1 * preyIntegrator;
+	if( isSet_preyIntegrator & isSet_paramA ) {
+		double val = paramA * preyIntegrator;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

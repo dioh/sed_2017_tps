@@ -13,8 +13,10 @@ using namespace std;
 FminusPreyMinusPrey::FminusPreyMinusPrey(const string &name) :
 	Atomic(name),
 	in_predatorIntegrator(addInputPort("in_predatorIntegrator")),
+	in_paramB(addInputPort("in_paramB")),
 	in_preyIntegrator(addInputPort("in_preyIntegrator")),
 	isSet_predatorIntegrator(false),
+	isSet_paramB(false),
 	isSet_preyIntegrator(false),
 	out(addOutputPort("out"))
 {
@@ -36,6 +38,10 @@ Model &FminusPreyMinusPrey::externalFunction(const ExternalMessage &msg)
 		predatorIntegrator = x;
 		isSet_predatorIntegrator = true;
 	}
+	if(msg.port() == in_paramB) {
+		paramB = x;
+		isSet_paramB = true;
+	}
 	if(msg.port() == in_preyIntegrator) {
 		preyIntegrator = x;
 		isSet_preyIntegrator = true;
@@ -54,8 +60,8 @@ Model &FminusPreyMinusPrey::internalFunction(const InternalMessage &)
 
 Model &FminusPreyMinusPrey::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_predatorIntegrator & isSet_preyIntegrator ) {
-		double val = 0.02 * preyIntegrator * predatorIntegrator;
+	if( isSet_predatorIntegrator & isSet_paramB & isSet_preyIntegrator ) {
+		double val = paramB * preyIntegrator * predatorIntegrator;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

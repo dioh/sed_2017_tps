@@ -22,15 +22,18 @@ class FplusPopulationchgPopulation : public Atomic {
 
   private:
     // Input ports
+    const Port &in_betaa;
     const Port &in_populationIntegrator;
     // Output ports
     Port &out;
 
     // State variables
     double populationIntegrator;
+    double betaa;
     //
     // Check set of state variables
     bool isSet_populationIntegrator;
+    bool isSet_betaa;
     //
 };
 

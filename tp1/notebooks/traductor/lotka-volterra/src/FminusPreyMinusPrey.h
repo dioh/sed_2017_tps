@@ -22,6 +22,7 @@ class FminusPreyMinusPrey : public Atomic {
 
   private:
     // Input ports
+    const Port &in_paramB;
     const Port &in_preyIntegrator;
     const Port &in_predatorIntegrator;
     // Output ports
@@ -29,10 +30,12 @@ class FminusPreyMinusPrey : public Atomic {
 
     // State variables
     double predatorIntegrator;
+    double paramB;
     double preyIntegrator;
     //
     // Check set of state variables
     bool isSet_predatorIntegrator;
+    bool isSet_paramB;
     bool isSet_preyIntegrator;
     //
 };

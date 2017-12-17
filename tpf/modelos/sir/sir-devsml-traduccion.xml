@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devs>
+  <scenario>
+    <coupled name="top" model="Coupled" >
+      <!-- Input / Output -->
+      <!-- Inputs -->
+      <inputs>
+        <port name="TotalPopulation" />
+        <port name="Duration" />
+        <port name="ContactInfectivity" />
+        </inputs>
+      <!-- Outputs -->
+      <outputs>
+        <port name="Susceptible" />
+        <port name="Infectious" />
+        <port name="Recovered" />
+        </outputs>
+      <components>
+
+        <!-- Stock : Susceptible -->
+        <atomicRef name="ft_Susceptible" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inMinus_Succumbing" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="Susceptible" model="QSS1">
+          <parameter name="x0" value="TotalPopulation" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Stock : Infectious -->
+        <atomicRef name="ft_Infectious" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inMinus_Recovering" type="in" />
+          <port name="inPlus_Succumbing" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="Infectious" model="QSS1">
+          <parameter name="x0" value="5" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Stock : Recovered -->
+        <atomicRef name="ft_Recovered" model="Ftot">
+          <!-- Puertos del atomico -->
+          <port name="inPlus_Recovering" type="in" />
+          <port name="out" type="out" />
+          <!-- State variables del atomico -->
+          <parameter name="plus" value="0" />
+          <parameter name="minus" value="0" /> 
+        </atomicRef>
+        <atomicRef name="Recovered" model="QSS1">
+          <parameter name="x0" value="0" />
+          <parameter name="dQRel" value="1e-2" />
+          <parameter name="dQMin" value="1e-4" />
+        </atomicRef>
+        <!-- Flow : Succumbing -->
+        <atomicRef name="fm_Susceptible_Succumbing" model="Fminus">
+          <!-- Puertos del atomico -->
+          <port name="in_Susceptible" type="in" />
+          <port name="in_Infectious" type="in" />
+          <port name="in_TotalPopulation" type="in" />
+          <port name="in_ContactInfectivity" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="Susceptible*Infectious/TotalPopulation*ContactInfectivity" />
+        </atomicRef>
+        <atomicRef name="fp_Infectious_Succumbing" model="Fplus">
+          <!-- Puertos del atomico -->
+          <port name="in_Susceptible" type="in" />
+          <port name="in_Infectious" type="in" />
+          <port name="in_TotalPopulation" type="in" />
+          <port name="in_ContactInfectivity" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="Susceptible*Infectious/TotalPopulation*ContactInfectivity" />
+        </atomicRef>
+        <!-- Flow : Recovering -->
+        <atomicRef name="fm_Infectious_Recovering" model="Fminus">
+          <!-- Puertos del atomico -->
+          <port name="in_Infectious" type="in" />
+          <port name="in_Duration" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="Infectious/Duration" />
+        </atomicRef>
+        <atomicRef name="fp_Recovered_Recovering" model="Fplus">
+          <!-- Puertos del atomico -->
+          <port name="in_Infectious" type="in" />
+          <port name="in_Duration" type="in" />
+          <port name="out" type="out" />
+          <!-- Funcion usada en output function del atomico -->
+          <parameter name="function" value="Infectious/Duration" />
+        </atomicRef>
+        <!-- Parameters / Constantes -->
+        <atomicRef name="TotalPopulation" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="1000" unit="people"/>
+        </atomicRef>
+        <atomicRef name="Duration" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="5" unit="days"/>
+        </atomicRef>
+        <atomicRef name="ContactInfectivity" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="0.3" />
+        </atomicRef>
+        <!-- Parameters / Auxiliares -->
+        </components>
+
+      <internal_connections>
+
+        <!-- Link : Cte's a f's que las usan -->
+        <!-- Cte :  TotalPopulation -->
+        <connection component_from="TotalPopulation" port_from="out" component_to="fm_Susceptible_Succumbing" port_to="in_TotalPopulation"/>
+        <connection component_from="TotalPopulation" port_from="out" component_to="fp_Infectious_Succumbing" port_to="in_TotalPopulation"/>
+        <!-- Cte :  Duration -->
+        <connection component_from="Duration" port_from="out" component_to="fm_Infectious_Recovering" port_to="in_Duration"/>
+        <connection component_from="Duration" port_from="out" component_to="fp_Recovered_Recovering" port_to="in_Duration"/>
+        <!-- Cte :  ContactInfectivity -->
+        <connection component_from="ContactInfectivity" port_from="out" component_to="fm_Susceptible_Succumbing" port_to="in_ContactInfectivity"/>
+        <connection component_from="ContactInfectivity" port_from="out" component_to="fp_Infectious_Succumbing" port_to="in_ContactInfectivity"/>
+        <!-- Link : Cte's a Aux's que las usan -->
+        <!-- Link : Aux a Aux's que las usan (TODO : sacar el 'in', porque compara substrings y no quiero eso) -->
+        <!-- Link : Aux a funciones que las usan (TODO : sacar el 'in', porque compara substrings y no quiero eso) --> 
+        <!-- Link : Stock a Aux's que las usan -->
+        
+        <!-- Links modelo acoplado minimal integrador Susceptible -->
+        <connection component_from="fm_Susceptible_Succumbing" port_from="out" component_to="ft_Susceptible" port_to="inMinus_Succumbing" />
+        <connection component_from="ft_Susceptible" port_from="out" component_to="Susceptible" port_to="in" />
+        <!-- Links modelo acoplado minimal integrador Infectious -->
+        <connection component_from="fp_Infectious_Succumbing" port_from="out" component_to="ft_Infectious" port_to="inPlus_Succumbing" />
+        <connection component_from="fm_Infectious_Recovering" port_from="out" component_to="ft_Infectious" port_to="inMinus_Recovering" />
+        <connection component_from="ft_Infectious" port_from="out" component_to="Infectious" port_to="in" />
+        <!-- Links modelo acoplado minimal integrador Recovered -->
+        <connection component_from="fp_Recovered_Recovering" port_from="out" component_to="ft_Recovered" port_to="inPlus_Recovering" />
+        <connection component_from="ft_Recovered" port_from="out" component_to="Recovered" port_to="in" />
+        
+        <!-- Links : Stock a f's que las usan == Links modelo (las flechas azules en el modelo grafico de Vensim-SD) -->
+        <connection component_from="Susceptible" port_from="out" component_to="fm_Susceptible_Succumbing" port_to="in_Susceptible" />
+        <connection component_from="Susceptible" port_from="out" component_to="fp_Infectious_Succumbing" port_to="in_Infectious" />
+        <connection component_from="Infectious" port_from="out" component_to="fm_Susceptible_Succumbing" port_to="in_Susceptible" />
+        <connection component_from="Infectious" port_from="out" component_to="fp_Infectious_Succumbing" port_to="in_Infectious" />
+        <connection component_from="Infectious" port_from="out" component_to="fm_Infectious_Recovering" port_to="in_Infectious" />
+        <connection component_from="Infectious" port_from="out" component_to="fp_Recovered_Recovering" port_to="in_Recovered" />
+        </internal_connections>
+      
+      <!-- Links inputs a constantes -->
+      <!-- external input -->
+      <external_input_connections>
+        <connection component_from="top" port_from="in" component_to="TotalPopulation" port_to="inValue" />
+        <connection component_from="top" port_from="in" component_to="Duration" port_to="inValue" />
+        <connection component_from="top" port_from="in" component_to="ContactInfectivity" port_to="inValue" />
+        
+      </external_input_connections>
+
+      <!-- external output -->
+      <external_output_connections />
+    </coupled>
+  </scenario>
+</devs>

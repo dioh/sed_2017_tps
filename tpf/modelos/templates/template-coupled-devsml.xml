@@ -1,0 +1,66 @@
+<coupled name="{{coupled_model_name}}" model="Coupled" >
+
+	<!-- Inputs -->
+	<inputs>
+		{%- for in_port in in_ports %}
+		<port name="{{in_port}}" />
+		{%- endfor %}
+	</inputs>
+
+	<!-- Outputs -->
+	<outputs>
+		{%- for out_port in out_ports %}
+		<port name="{{out_port}}" />
+		{%- endfor %}
+	</outputs>
+
+	<!-- Components -->
+	<components>
+		{% for atomic in atomics -%}
+		<!-- Atomico : {{atomic['name']}} -->
+		<atomicRef name="{{atomic['name']}}" model="{{atomic['model']}}">
+			{%- for in_port in atomic['in_ports'] %}
+			<port name="{{in_port['name']}}" type="{{in_port['type']}}" />
+			{%- endfor -%}
+			{%- for out_port in atomic['out_ports'] %}
+			<port name="{{out_port['name']}}" type="{{out_port['type']}}" />
+			{%- endfor -%}
+			{%- for parameter in atomic['parameters'] %}
+			<parameter name="{{parameter['name']}}" function="{{parameter['function']}}" />
+			{%- endfor %}
+		</atomicRef>
+
+		{% endfor -%}
+	</components>
+
+	<!-- Internal Connections -->
+	<internal_connections>
+		{% for internal_connection in internal_connections %}
+		<!-- Link interno : {{internal_connection['component_from']}} ==> {{internal_connection['component_to']}} -->
+		<connection component_from="{{internal_connection['component_from']}}"
+			component_to="{{internal_connection['component_to']}}"
+			port_from="{{internal_connection['port_from']}}"
+			port_to="{{internal_connection['port_to']}}"/>
+		{%- endfor %}
+	</internal_connections>
+
+	<!-- External Input Connections -->
+	<external_input_connections>
+		{% for external_connection in external_input_connections -%}
+		<connection component_from="{{external_connection['component_from']}}"
+			component_to="{{extternal_connection['component_to']}}"
+			port_from="{{external_connection['port_from']}}"
+			port_to="{{external_connection['port_to']}}"/>
+		{%- endfor %}
+	</external_input_connections>
+
+	<!-- External Output Connections -->
+	<external_output_connections>
+		{% for external_connection in external_output_connections -%}
+		<connection component_from="{{external_connection['component_from']}}"
+			component_to="{{extternal_connection['component_to']}}"
+			port_from="{{external_connection['port_from']}}"
+			port_to="{{external_connection['port_to']}}"/>
+		{%- endfor %}
+	</external_output_connections>
+</coupled>

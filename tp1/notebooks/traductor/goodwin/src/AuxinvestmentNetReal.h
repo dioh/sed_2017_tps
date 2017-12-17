@@ -26,15 +26,18 @@ class AuxinvestmentNetReal : public Atomic {
     // Input ports
     const Port &in_investmentGross;
     const Port &in_capitalIntegrator;
+    const Port &in_deltaKReal;
     // Output ports
     Port &out;
 
     // State variables
     double investmentGross;
+    double deltaKReal;
     double capitalIntegrator;
     //
     // Check set of state variables
     bool isSet_investmentGross;
+    bool isSet_deltaKReal;
     bool isSet_capitalIntegrator;
     //
 };

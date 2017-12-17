@@ -3,30 +3,30 @@
 
 #include "qss1.h"
 #include "Cte.h"
-#include "FtotWageRateIntegrator.h"
-#include "AuxinvestmentFunctionReal.h"
-#include "FplusDebtchgDebt.h"
-#include "Auxwages.h"
-#include "AuxwageFunction.h"
-#include "FtotDebtIntegrator.h"
-#include "FplusPopulationchgPopulation.h"
-#include "AuxprofitNet.h"
-#include "AuxdebtRate.h"
-#include "AuxemploymentRate.h"
-#include "FtotLaborProductivityIntegrator.h"
-#include "FplusCapitalchgCapital.h"
-#include "FtotPopulationIntegrator.h"
-#include "FplusWageRatechgWageRate.h"
-#include "AuxinterestPayments.h"
-#include "AuxinvestmentGross.h"
-#include "FtotCapitalIntegrator.h"
-#include "Auxlabor.h"
-#include "AuxprofitGrossReal.h"
-#include "AuxpiR.h"
-#include "Auxoutput.h"
-#include "Auxomega.h"
-#include "FplusLaborProductivitychgLaborProductivity.h"
-#include "AuxinvestmentNetReal.h"
+#include "wageFunction.h"
+#include "fp_Capital_chgCapital.h"
+#include "ft_Population.h"
+#include "InvestmentNetReal.h"
+#include "Labor.h"
+#include "ft_WageRate.h"
+#include "Output.h"
+#include "piR.h"
+#include "fp_LaborProductivity_chgLaborProductivity.h"
+#include "ft_Debt.h"
+#include "InvestmentGross.h"
+#include "InterestPayments.h"
+#include "debtRate.h"
+#include "ProfitNet.h"
+#include "fp_WageRate_chgWageRate.h"
+#include "fp_Population_chgPopulation.h"
+#include "ft_LaborProductivity.h"
+#include "fp_Debt_chgDebt.h"
+#include "ProfitGrossReal.h"
+#include "Wages.h"
+#include "Omega.h"
+#include "InvestmentFunctionReal.h"
+#include "employmentRate.h"
+#include "ft_Capital.h"
 // Registro modelos atomicos
 void register_atomics_on(ParallelModelAdmin &admin)
 {
@@ -35,29 +35,29 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	admin.registerAtomic(NewAtomicFunction<Cte>(), CTE);
 	
 	// Atomicos especificos del modelo
-	admin.registerAtomic(NewAtomicFunction<FtotWageRateIntegrator>(), FTOTWAGERATEINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<AuxinvestmentFunctionReal>(), AUXINVESTMENTFUNCTIONREAL);
-	admin.registerAtomic(NewAtomicFunction<FplusDebtchgDebt>(), FPLUSDEBTCHGDEBT);
-	admin.registerAtomic(NewAtomicFunction<Auxwages>(), AUXWAGES);
-	admin.registerAtomic(NewAtomicFunction<AuxwageFunction>(), AUXWAGEFUNCTION);
-	admin.registerAtomic(NewAtomicFunction<FtotDebtIntegrator>(), FTOTDEBTINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<FplusPopulationchgPopulation>(), FPLUSPOPULATIONCHGPOPULATION);
-	admin.registerAtomic(NewAtomicFunction<AuxprofitNet>(), AUXPROFITNET);
-	admin.registerAtomic(NewAtomicFunction<AuxdebtRate>(), AUXDEBTRATE);
-	admin.registerAtomic(NewAtomicFunction<AuxemploymentRate>(), AUXEMPLOYMENTRATE);
-	admin.registerAtomic(NewAtomicFunction<FtotLaborProductivityIntegrator>(), FTOTLABORPRODUCTIVITYINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<FplusCapitalchgCapital>(), FPLUSCAPITALCHGCAPITAL);
-	admin.registerAtomic(NewAtomicFunction<FtotPopulationIntegrator>(), FTOTPOPULATIONINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<FplusWageRatechgWageRate>(), FPLUSWAGERATECHGWAGERATE);
-	admin.registerAtomic(NewAtomicFunction<AuxinterestPayments>(), AUXINTERESTPAYMENTS);
-	admin.registerAtomic(NewAtomicFunction<AuxinvestmentGross>(), AUXINVESTMENTGROSS);
-	admin.registerAtomic(NewAtomicFunction<FtotCapitalIntegrator>(), FTOTCAPITALINTEGRATOR);
-	admin.registerAtomic(NewAtomicFunction<Auxlabor>(), AUXLABOR);
-	admin.registerAtomic(NewAtomicFunction<AuxprofitGrossReal>(), AUXPROFITGROSSREAL);
-	admin.registerAtomic(NewAtomicFunction<AuxpiR>(), AUXPIR);
-	admin.registerAtomic(NewAtomicFunction<Auxoutput>(), AUXOUTPUT);
-	admin.registerAtomic(NewAtomicFunction<Auxomega>(), AUXOMEGA);
-	admin.registerAtomic(NewAtomicFunction<FplusLaborProductivitychgLaborProductivity>(), FPLUSLABORPRODUCTIVITYCHGLABORPRODUCTIVITY);
-	admin.registerAtomic(NewAtomicFunction<AuxinvestmentNetReal>(), AUXINVESTMENTNETREAL);
+	admin.registerAtomic(NewAtomicFunction<wageFunction>(), WAGEFUNCTION);
+	admin.registerAtomic(NewAtomicFunction<fp_Capital_chgCapital>(), FP_CAPITAL_CHGCAPITAL);
+	admin.registerAtomic(NewAtomicFunction<ft_Population>(), FT_POPULATION);
+	admin.registerAtomic(NewAtomicFunction<InvestmentNetReal>(), INVESTMENTNETREAL);
+	admin.registerAtomic(NewAtomicFunction<Labor>(), LABOR);
+	admin.registerAtomic(NewAtomicFunction<ft_WageRate>(), FT_WAGERATE);
+	admin.registerAtomic(NewAtomicFunction<Output>(), OUTPUT);
+	admin.registerAtomic(NewAtomicFunction<piR>(), PIR);
+	admin.registerAtomic(NewAtomicFunction<fp_LaborProductivity_chgLaborProductivity>(), FP_LABORPRODUCTIVITY_CHGLABORPRODUCTIVITY);
+	admin.registerAtomic(NewAtomicFunction<ft_Debt>(), FT_DEBT);
+	admin.registerAtomic(NewAtomicFunction<InvestmentGross>(), INVESTMENTGROSS);
+	admin.registerAtomic(NewAtomicFunction<InterestPayments>(), INTERESTPAYMENTS);
+	admin.registerAtomic(NewAtomicFunction<debtRate>(), DEBTRATE);
+	admin.registerAtomic(NewAtomicFunction<ProfitNet>(), PROFITNET);
+	admin.registerAtomic(NewAtomicFunction<fp_WageRate_chgWageRate>(), FP_WAGERATE_CHGWAGERATE);
+	admin.registerAtomic(NewAtomicFunction<fp_Population_chgPopulation>(), FP_POPULATION_CHGPOPULATION);
+	admin.registerAtomic(NewAtomicFunction<ft_LaborProductivity>(), FT_LABORPRODUCTIVITY);
+	admin.registerAtomic(NewAtomicFunction<fp_Debt_chgDebt>(), FP_DEBT_CHGDEBT);
+	admin.registerAtomic(NewAtomicFunction<ProfitGrossReal>(), PROFITGROSSREAL);
+	admin.registerAtomic(NewAtomicFunction<Wages>(), WAGES);
+	admin.registerAtomic(NewAtomicFunction<Omega>(), OMEGA);
+	admin.registerAtomic(NewAtomicFunction<InvestmentFunctionReal>(), INVESTMENTFUNCTIONREAL);
+	admin.registerAtomic(NewAtomicFunction<employmentRate>(), EMPLOYMENTRATE);
+	admin.registerAtomic(NewAtomicFunction<ft_Capital>(), FT_CAPITAL);
 	//
 }

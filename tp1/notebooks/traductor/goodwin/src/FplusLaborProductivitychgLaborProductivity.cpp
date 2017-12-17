@@ -13,7 +13,9 @@ using namespace std;
 FplusLaborProductivitychgLaborProductivity::FplusLaborProductivitychgLaborProductivity(const string &name) :
 	Atomic(name),
 	in_laborProductivityIntegrator(addInputPort("in_laborProductivityIntegrator")),
+	in_alphaa(addInputPort("in_alphaa")),
 	isSet_laborProductivityIntegrator(false),
+	isSet_alphaa(false),
 	out(addOutputPort("out"))
 {
 }
@@ -34,6 +36,10 @@ Model &FplusLaborProductivitychgLaborProductivity::externalFunction(const Extern
 		laborProductivityIntegrator = x;
 		isSet_laborProductivityIntegrator = true;
 	}
+	if(msg.port() == in_alphaa) {
+		alphaa = x;
+		isSet_alphaa = true;
+	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -48,8 +54,8 @@ Model &FplusLaborProductivitychgLaborProductivity::internalFunction(const Intern
 
 Model &FplusLaborProductivitychgLaborProductivity::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_laborProductivityIntegrator ) {
-		double val = laborProductivityIntegrator * 0.025;
+	if( isSet_laborProductivityIntegrator & isSet_alphaa ) {
+		double val = alphaa * laborProductivityIntegrator;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

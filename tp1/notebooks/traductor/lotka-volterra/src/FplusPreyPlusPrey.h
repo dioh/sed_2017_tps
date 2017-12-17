@@ -22,15 +22,18 @@ class FplusPreyPlusPrey : public Atomic {
 
   private:
     // Input ports
+    const Port &in_paramA;
     const Port &in_preyIntegrator;
     // Output ports
     Port &out;
 
     // State variables
     double preyIntegrator;
+    double paramA;
     //
     // Check set of state variables
     bool isSet_preyIntegrator;
+    bool isSet_paramA;
     //
 };
 

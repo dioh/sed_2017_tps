@@ -22,16 +22,19 @@ class FplusPredatorPlusPredator : public Atomic {
 
   private:
     // Input ports
+    const Port &in_paramD;
     const Port &in_preyIntegrator;
     const Port &in_predatorIntegrator;
     // Output ports
     Port &out;
 
     // State variables
+    double paramD;
     double predatorIntegrator;
     double preyIntegrator;
     //
     // Check set of state variables
+    bool isSet_paramD;
     bool isSet_predatorIntegrator;
     bool isSet_preyIntegrator;
     //

@@ -12,8 +12,10 @@ using namespace std;
 
 FplusPredatorPlusPredator::FplusPredatorPlusPredator(const string &name) :
 	Atomic(name),
+	in_paramD(addInputPort("in_paramD")),
 	in_predatorIntegrator(addInputPort("in_predatorIntegrator")),
 	in_preyIntegrator(addInputPort("in_preyIntegrator")),
+	isSet_paramD(false),
 	isSet_predatorIntegrator(false),
 	isSet_preyIntegrator(false),
 	out(addOutputPort("out"))
@@ -32,6 +34,10 @@ Model &FplusPredatorPlusPredator::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
+	if(msg.port() == in_paramD) {
+		paramD = x;
+		isSet_paramD = true;
+	}
 	if(msg.port() == in_predatorIntegrator) {
 		predatorIntegrator = x;
 		isSet_predatorIntegrator = true;
@@ -54,8 +60,8 @@ Model &FplusPredatorPlusPredator::internalFunction(const InternalMessage &)
 
 Model &FplusPredatorPlusPredator::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_predatorIntegrator & isSet_preyIntegrator ) {
-		double val = 0.01 * preyIntegrator * predatorIntegrator;
+	if( isSet_paramD & isSet_predatorIntegrator & isSet_preyIntegrator ) {
+		double val = paramD * preyIntegrator * predatorIntegrator;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

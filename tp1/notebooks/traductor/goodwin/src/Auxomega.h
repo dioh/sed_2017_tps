@@ -24,18 +24,18 @@ class Auxomega : public Atomic {
 
   private:
     // Input ports
-    const Port &in_wageBill;
+    const Port &in_wages;
     const Port &in_output;
     // Output ports
     Port &out;
 
     // State variables
     double output;
-    double wageBill;
+    double wages;
     //
     // Check set of state variables
     bool isSet_output;
-    bool isSet_wageBill;
+    bool isSet_wages;
     //
 };
 

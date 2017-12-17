@@ -22,15 +22,18 @@ class FplusLaborProductivitychgLaborProductivity : public Atomic {
 
   private:
     // Input ports
+    const Port &in_alphaa;
     const Port &in_laborProductivityIntegrator;
     // Output ports
     Port &out;
 
     // State variables
     double laborProductivityIntegrator;
+    double alphaa;
     //
     // Check set of state variables
     bool isSet_laborProductivityIntegrator;
+    bool isSet_alphaa;
     //
 };
 

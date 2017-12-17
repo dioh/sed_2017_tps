@@ -13,7 +13,9 @@ using namespace std;
 Auxoutput::Auxoutput(const string &name) :
 	Atomic(name),
 	in_capitalIntegrator(addInputPort("in_capitalIntegrator")),
+	in_velocityOfMoney(addInputPort("in_velocityOfMoney")),
 	isSet_capitalIntegrator(false),
+	isSet_velocityOfMoney(false),
 	out(addOutputPort("out"))
 {
 }
@@ -34,6 +36,10 @@ Model &Auxoutput::externalFunction(const ExternalMessage &msg)
 		capitalIntegrator = x;
 		isSet_capitalIntegrator = true;
 	}
+	if(msg.port() == in_velocityOfMoney) {
+		velocityOfMoney = x;
+		isSet_velocityOfMoney = true;
+	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -48,8 +54,8 @@ Model &Auxoutput::internalFunction(const InternalMessage &)
 
 Model &Auxoutput::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_capitalIntegrator ) {
-		double val = capitalIntegrator / 3;
+	if( isSet_capitalIntegrator & isSet_velocityOfMoney ) {
+		double val = capitalIntegrator / velocityOfMoney;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

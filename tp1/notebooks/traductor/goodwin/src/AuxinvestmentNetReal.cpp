@@ -13,8 +13,10 @@ using namespace std;
 AuxinvestmentNetReal::AuxinvestmentNetReal(const string &name) :
 	Atomic(name),
 	in_investmentGross(addInputPort("in_investmentGross")),
+	in_deltaKReal(addInputPort("in_deltaKReal")),
 	in_capitalIntegrator(addInputPort("in_capitalIntegrator")),
 	isSet_investmentGross(false),
+	isSet_deltaKReal(false),
 	isSet_capitalIntegrator(false),
 	out(addOutputPort("out"))
 {
@@ -36,6 +38,10 @@ Model &AuxinvestmentNetReal::externalFunction(const ExternalMessage &msg)
 		investmentGross = x;
 		isSet_investmentGross = true;
 	}
+	if(msg.port() == in_deltaKReal) {
+		deltaKReal = x;
+		isSet_deltaKReal = true;
+	}
 	if(msg.port() == in_capitalIntegrator) {
 		capitalIntegrator = x;
 		isSet_capitalIntegrator = true;
@@ -54,8 +60,8 @@ Model &AuxinvestmentNetReal::internalFunction(const InternalMessage &)
 
 Model &AuxinvestmentNetReal::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_investmentGross & isSet_capitalIntegrator ) {
-		double val = investmentGross - (capitalIntegrator * 0.1);
+	if( isSet_investmentGross & isSet_deltaKReal & isSet_capitalIntegrator ) {
+		double val = investmentGross - (capitalIntegrator * deltaKReal);
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

@@ -13,9 +13,9 @@ using namespace std;
 Auxomega::Auxomega(const string &name) :
 	Atomic(name),
 	in_output(addInputPort("in_output")),
-	in_wageBill(addInputPort("in_wageBill")),
+	in_wages(addInputPort("in_wages")),
 	isSet_output(false),
-	isSet_wageBill(false),
+	isSet_wages(false),
 	out(addOutputPort("out"))
 {
 }
@@ -36,9 +36,9 @@ Model &Auxomega::externalFunction(const ExternalMessage &msg)
 		output = x;
 		isSet_output = true;
 	}
-	if(msg.port() == in_wageBill) {
-		wageBill = x;
-		isSet_wageBill = true;
+	if(msg.port() == in_wages) {
+		wages = x;
+		isSet_wages = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -54,8 +54,8 @@ Model &Auxomega::internalFunction(const InternalMessage &)
 
 Model &Auxomega::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_output & isSet_wageBill ) {
-		double val = wageBill / output;
+	if( isSet_output & isSet_wages ) {
+		double val = wages / output;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

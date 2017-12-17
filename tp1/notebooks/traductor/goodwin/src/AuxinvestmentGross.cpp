@@ -12,8 +12,10 @@ using namespace std;
 
 AuxinvestmentGross::AuxinvestmentGross(const string &name) :
 	Atomic(name),
-	in_profit(addInputPort("in_profit")),
-	isSet_profit(false),
+	in_output(addInputPort("in_output")),
+	in_investmentFunctionReal(addInputPort("in_investmentFunctionReal")),
+	isSet_output(false),
+	isSet_investmentFunctionReal(false),
 	out(addOutputPort("out"))
 {
 }
@@ -30,9 +32,13 @@ Model &AuxinvestmentGross::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_profit) {
-		profit = x;
-		isSet_profit = true;
+	if(msg.port() == in_output) {
+		output = x;
+		isSet_output = true;
+	}
+	if(msg.port() == in_investmentFunctionReal) {
+		investmentFunctionReal = x;
+		isSet_investmentFunctionReal = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -48,8 +54,8 @@ Model &AuxinvestmentGross::internalFunction(const InternalMessage &)
 
 Model &AuxinvestmentGross::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_profit ) {
-		double val = profit;
+	if( isSet_output & isSet_investmentFunctionReal ) {
+		double val = investmentFunctionReal * output;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

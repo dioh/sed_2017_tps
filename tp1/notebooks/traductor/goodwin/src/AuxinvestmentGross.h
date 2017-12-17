@@ -24,15 +24,18 @@ class AuxinvestmentGross : public Atomic {
 
   private:
     // Input ports
-    const Port &in_profit;
+    const Port &in_investmentFunctionReal;
+    const Port &in_output;
     // Output ports
     Port &out;
 
     // State variables
-    double profit;
+    double output;
+    double investmentFunctionReal;
     //
     // Check set of state variables
-    bool isSet_profit;
+    bool isSet_output;
+    bool isSet_investmentFunctionReal;
     //
 };
 

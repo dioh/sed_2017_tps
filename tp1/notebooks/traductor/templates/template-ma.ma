@@ -93,7 +93,7 @@ link : out@{{intName}} out_{{intName}}
 {% for intName, attr in integradores_.iteritems() -%}
 [{{intName}}]
 x0 : {{attr['x0']}}
-dQRel : {{attr['dQRel']}}
-dQMin : {{attr['dQMin']}}
+dQRel : 1e-4
+dQMin : ee-4
 
 {% endfor -%}

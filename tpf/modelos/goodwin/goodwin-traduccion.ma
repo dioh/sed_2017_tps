@@ -1,121 +1,98 @@
 [top]
-components : capitalIntegrator@QSS1 laborProductivityIntegrator@QSS1 wageRateIntegrator@QSS1 debtIntegrator@QSS1 populationIntegrator@QSS1 ftDebtIntegrator@FtotDebtIntegrator ftWageRateIntegrator@FtotWageRateIntegrator ftCapitalIntegrator@FtotCapitalIntegrator ftPopulationIntegrator@FtotPopulationIntegrator ftLaborProductivityIntegrator@FtotLaborProductivityIntegrator fpPopulationchgPopulation@FplusPopulationchgPopulation fpCapitalchgCapital@FplusCapitalchgCapital fpWageRatechgWageRate@FplusWageRatechgWageRate fpLaborProductivitychgLaborProductivity@FplusLaborProductivitychgLaborProductivity fpDebtchgDebt@FplusDebtchgDebt deltaKReal@Cte betaa@Cte rateInterestOnLoans@Cte piZ@Cte alphaa@Cte employmentRateZero@Cte employmentRateStable@Cte piS@Cte velocityOfMoney@Cte  wageFunction@AuxwageFunction  investmentGross@AuxinvestmentGross  interestPayments@AuxinterestPayments  profitNet@AuxprofitNet  investmentFunctionReal@AuxinvestmentFunctionReal  investmentNetReal@AuxinvestmentNetReal  piR@AuxpiR  profitGrossReal@AuxprofitGrossReal  output@Auxoutput  wages@Auxwages  labor@Auxlabor  omega@Auxomega  debtRate@AuxdebtRate  employmentRate@AuxemploymentRate 
+components : Debt@QSS1 WageRate@QSS1 LaborProductivity@QSS1 Capital@QSS1 Population@QSS1 ft_WageRate@ft_WageRate ft_Debt@ft_Debt ft_Capital@ft_Capital ft_LaborProductivity@ft_LaborProductivity ft_Population@ft_Population fp_Capital_chgCapital@fp_Capital_chgCapital fp_WageRate_chgWageRate@fp_WageRate_chgWageRate fp_Population_chgPopulation@fp_Population_chgPopulation fp_Debt_chgDebt@fp_Debt_chgDebt fp_LaborProductivity_chgLaborProductivity@fp_LaborProductivity_chgLaborProductivity deltaKReal@Cte Betaa@Cte rateInterestOnLoans@Cte piZ@Cte Alphaa@Cte employmentRateZero@Cte employmentRateStable@Cte piS@Cte velocityOfMoney@Cte wageFunction@wageFunction InvestmentGross@InvestmentGross InterestPayments@InterestPayments ProfitNet@ProfitNet InvestmentFunctionReal@InvestmentFunctionReal employmentRate@employmentRate piR@piR ProfitGrossReal@ProfitGrossReal Output@Output Wages@Wages Labor@Labor Omega@Omega debtRate@debtRate InvestmentNetReal@InvestmentNetReal 
 
 % Puertos: Input de parametros. Output de variables de interes
-in : in_deltaKReal in_betaa in_rateInterestOnLoans in_piZ in_alphaa in_employmentRateZero in_employmentRateStable in_piS in_velocityOfMoney 
-out : out_capitalIntegrator out_laborProductivityIntegrator out_wageRateIntegrator out_debtIntegrator out_populationIntegrator out_output out_labor out_debtrate out_employmentrate
+in : in_piS in_Betaa in_rateInterestOnLoans in_piZ in_Alphaa in_employmentRateZero in_employmentRateStable in_deltaKReal in_velocityOfMoney 
+out : out_LaborProductivity out_WageRate out_Debt out_Population out_Capital 
 
 % Links inputs a constantes (conexiones con el top model)
-link : in_deltaKReal inValue@deltaKReal
-link : in_betaa inValue@betaa
-link : in_rateInterestOnLoans inValue@rateInterestOnLoans
-link : in_piZ inValue@piZ
-link : in_alphaa inValue@alphaa
-link : in_employmentRateZero inValue@employmentRateZero
-link : in_employmentRateStable inValue@employmentRateStable
-link : in_piS inValue@piS
-link : in_velocityOfMoney inValue@velocityOfMoney
+link : in_piS inValue@piS 
+link : in_Betaa inValue@Betaa 
+link : in_rateInterestOnLoans inValue@rateInterestOnLoans 
+link : in_piZ inValue@piZ 
+link : in_Alphaa inValue@Alphaa 
+link : in_employmentRateZero inValue@employmentRateZero 
+link : in_employmentRateStable inValue@employmentRateStable 
+link : in_deltaKReal inValue@deltaKReal 
+link : in_velocityOfMoney inValue@velocityOfMoney 
 
-% Links constantes a f's que las usan
-link : out@betaa in_betaa@fpPopulationchgPopulation
-link : out@alphaa in_alphaa@fpLaborProductivitychgLaborProductivity
 
-% Link constantes a Aux's que las usan
-link : out@employmentRateZero in_employmentRateZero@wageFunction
-link : out@employmentRateStable in_employmentRateStable@wageFunction
-link : out@rateInterestOnLoans in_rateInterestOnLoans@interestPayments
-link : out@piZ in_piZ@investmentFunctionReal
-link : out@piS in_piS@investmentFunctionReal
-link : out@deltaKReal in_deltaKReal@investmentNetReal
-link : out@velocityOfMoney in_velocityOfMoney@output
+% Link entre Stocks, Cte's, Aux's y f's
+link : out@Betaa in_Betaa@fp_Population_chgPopulation 
+link : out@Alphaa in_Alphaa@fp_LaborProductivity_chgLaborProductivity 
+link : out@piS in_piS@InvestmentFunctionReal 
+link : out@rateInterestOnLoans in_rateInterestOnLoans@InterestPayments 
+link : out@piZ in_piZ@InvestmentFunctionReal 
+link : out@employmentRateZero in_employmentRateZero@wageFunction 
+link : out@employmentRateStable in_employmentRateStable@wageFunction 
+link : out@deltaKReal in_deltaKReal@InvestmentNetReal 
+link : out@velocityOfMoney in_velocityOfMoney@Output 
+link : out@InvestmentGross in_InvestmentGross@InvestmentNetReal 
+link : out@InterestPayments in_InterestPayments@ProfitNet 
+link : out@ProfitNet in_ProfitNet@piR 
+link : out@InvestmentFunctionReal in_InvestmentFunctionReal@InvestmentGross 
+link : out@Labor in_Labor@Wages 
+link : out@Labor in_Labor@employmentRate 
+link : out@ProfitGrossReal in_ProfitGrossReal@ProfitNet 
+link : out@Output in_Output@InvestmentGross 
+link : out@Output in_Output@debtRate 
+link : out@Output in_Output@Omega 
+link : out@Output in_Output@Labor 
+link : out@Output in_Output@ProfitGrossReal 
+link : out@Wages in_Wages@Omega 
+link : out@Wages in_Wages@ProfitGrossReal 
+link : out@piR in_piR@InvestmentFunctionReal 
+link : out@employmentRate in_employmentRate@wageFunction 
+link : out@wageFunction in_wageFunction@fp_WageRate_chgWageRate 
+link : out@InvestmentGross in_InvestmentGross@fp_Debt_chgDebt 
+link : out@InvestmentNetReal in_InvestmentNetReal@fp_Capital_chgCapital 
+link : out@LaborProductivity in_LaborProductivity@Labor 
+link : out@WageRate in_WageRate@Wages 
+link : out@Debt in_Debt@InterestPayments 
+link : out@Debt in_Debt@debtRate 
+link : out@Population in_Population@employmentRate 
+link : out@Capital in_Capital@Output 
+link : out@Capital in_Capital@InvestmentNetReal 
+link : out@Capital in_Capital@piR 
+link : out@fp_LaborProductivity_chgLaborProductivity inPlus_chgLaborProductivity@ft_LaborProductivity 
+link : out@ft_LaborProductivity in@LaborProductivity 
+link : out@fp_WageRate_chgWageRate inPlus_chgWageRate@ft_WageRate 
+link : out@ft_WageRate in@WageRate 
+link : out@fp_Debt_chgDebt inPlus_chgDebt@ft_Debt 
 
-% Link Aux's a Aux's que las usan
-link : out@employmentRate in_employmentRate@wageFunction
-link : out@investmentFunctionReal in_investmentFunctionReal@investmentGross
-link : out@output in_output@investmentGross
-link : out@profitGrossReal in_profitGrossReal@profitNet
-link : out@interestPayments in_interestPayments@profitNet
-link : out@piR in_piR@investmentFunctionReal
-link : out@investmentGross in_investmentGross@investmentNetReal
-link : out@profitNet in_profitNet@piR
-link : out@output in_output@profitGrossReal
-link : out@wages in_wages@profitGrossReal
-link : out@labor in_labor@wages
-link : out@output in_output@labor
-link : out@wages in_wages@omega
-link : out@output in_output@omega
-link : out@output in_output@debtRate
-link : out@labor in_labor@employmentRate
 
-link : out@labor out_labor
-link : out@output out_output
-link : out@debtRate out_debtrate
-link : out@employmentRate out_employmentrate
-
-% Link Aux's a funciones que las usan 
-link : out@investmentNetReal in_investmentNetReal@fpCapitalchgCapital
-link : out@wageFunction in_wageFunction@fpWageRatechgWageRate
-link : out@investmentGross in_investmentGross@fpDebtchgDebt
-
-% Links internos de los acoplados minimales (Ftot => Integrador)
-link : out@ftCapitalIntegrator in@capitalIntegrator
-link : out@ftLaborProductivityIntegrator in@laborProductivityIntegrator
-link : out@ftWageRateIntegrator in@wageRateIntegrator
-link : out@ftDebtIntegrator in@debtIntegrator
-link : out@ftPopulationIntegrator in@populationIntegrator
-
-% Links internos de los acoplados minimales (Fms => Fts)
-
-% Links internos de los acoplados minimales (Fps => Fts)
-link : out@fpPopulationchgPopulation inPlus_chgPopulation@ftPopulationIntegrator
-link : out@fpCapitalchgCapital inPlus_chgCapital@ftCapitalIntegrator
-link : out@fpWageRatechgWageRate inPlus_chgWageRate@ftWageRateIntegrator
-link : out@fpLaborProductivitychgLaborProductivity inPlus_chgLaborProductivity@ftLaborProductivityIntegrator
-link : out@fpDebtchgDebt inPlus_chgDebt@ftDebtIntegrator
-
-% Links importantes del modelo
-link : out@capitalIntegrator in_capitalIntegrator@investmentNetReal
-link : out@capitalIntegrator in_capitalIntegrator@piR
-link : out@capitalIntegrator in_capitalIntegrator@output
-link : out@laborProductivityIntegrator in_laborProductivityIntegrator@fpLaborProductivitychgLaborProductivity
-link : out@laborProductivityIntegrator in_laborProductivityIntegrator@labor
-link : out@wageRateIntegrator in_wageRateIntegrator@fpWageRatechgWageRate
-link : out@wageRateIntegrator in_wageRateIntegrator@wages
-link : out@debtIntegrator in_debtIntegrator@interestPayments
-link : out@debtIntegrator in_debtIntegrator@debtRate
-link : out@populationIntegrator in_populationIntegrator@fpPopulationchgPopulation
-link : out@populationIntegrator in_populationIntegrator@employmentRate
 
 % Liks output variables de interes
-link : out@capitalIntegrator out_capitalIntegrator
-link : out@laborProductivityIntegrator out_laborProductivityIntegrator
-link : out@wageRateIntegrator out_wageRateIntegrator
-link : out@debtIntegrator out_debtIntegrator
-link : out@populationIntegrator out_populationIntegrator
+link : out@Debt out_Debt
+link : out@WageRate out_WageRate
+link : out@LaborProductivity out_LaborProductivity
+link : out@Capital out_Capital
+link : out@Population out_Population
+
 
 % Integradores
-[capitalIntegrator]
-x0 : 300
+[Debt]
+x0 : x0
 dQRel : 1e-4
-dQMin : 1e-4
+dQMin : ee-4
 
-[laborProductivityIntegrator]
-x0 : 1
+[WageRate]
+x0 : x0
 dQRel : 1e-4
-dQMin : 1e-4
+dQMin : ee-4
 
-[wageRateIntegrator]
-x0 : 0.8
+[LaborProductivity]
+x0 : x0
 dQRel : 1e-4
-dQMin : 1e-4
+dQMin : ee-4
 
-[debtIntegrator]
-x0 : 0
+[Capital]
+x0 : x0
 dQRel : 1e-4
-dQMin : 1e-4
+dQMin : ee-4
 
-[populationIntegrator]
-x0 : 150
+[Population]
+x0 : x0
 dQRel : 1e-4
-dQMin : 1e-4
+dQMin : ee-4
 

@@ -27,7 +27,7 @@ Model &Cte::initFunction()
 
 Model &Cte::externalFunction(const ExternalMessage &msg)
 {
-	double x = Tuple<Real>::from_value(msg.value())[0].	value();
+	double x = Tuple<Real>::from_value(msg.value())[0].value();
 	if(msg.port() == inValue) {
 		value = x;
 	}

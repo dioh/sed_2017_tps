@@ -1,15 +1,21 @@
 [top]
-components : predatorIntegrator@QSS1 preyIntegrator@QSS1 ftPredatorIntegrator@FtotPredatorIntegrator ftPreyIntegrator@FtotPreyIntegrator 
-fmPredatorMinusPredator@FminusPredatorMinusPredator fmPreyMinusPrey@FminusPreyMinusPrey fpPreyPlusPrey@FplusPreyPlusPrey 
-fpPredatorPlusPredator@FplusPredatorPlusPredator 
+components : predatorIntegrator@QSS1 preyIntegrator@QSS1 ftPredatorIntegrator@FtotPredatorIntegrator ftPreyIntegrator@FtotPreyIntegrator fmPredatorMinusPredator@FminusPredatorMinusPredator fmPreyMinusPrey@FminusPreyMinusPrey fpPreyPlusPrey@FplusPreyPlusPrey fpPredatorPlusPredator@FplusPredatorPlusPredator paramD@Cte paramC@Cte paramB@Cte paramA@Cte 
 
 % Puertos: Input de parametros. Output de variables de interes
-in : 
+in : in_paramD in_paramC in_paramB in_paramA 
 out : out_predatorIntegrator out_preyIntegrator 
 
 % Links inputs a constantes (conexiones con el top model)
+link : in_paramD inValue@paramD
+link : in_paramC inValue@paramC
+link : in_paramB inValue@paramB
+link : in_paramA inValue@paramA
 
 % Links constantes a f's que las usan
+link : out@paramC in_paramC@fmPredatorMinusPredator
+link : out@paramB in_paramB@fmPreyMinusPrey
+link : out@paramA in_paramA@fpPreyPlusPrey
+link : out@paramD in_paramD@fpPredatorPlusPredator
 
 % Link constantes a Aux's que las usan
 
@@ -45,10 +51,10 @@ link : out@preyIntegrator out_preyIntegrator
 [predatorIntegrator]
 x0 : 5
 dQRel : 1e-2
-dQMin : 1e-5
+dQMin : 1e-4
 
 [preyIntegrator]
 x0 : 100
 dQRel : 1e-2
-dQMin : 1e-5
+dQMin : 1e-4
 

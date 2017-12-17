@@ -5,6 +5,10 @@
       <!-- Input / Output -->
       <!-- Inputs -->
       <inputs>
+        <port name="paramD" />
+        <port name="paramC" />
+        <port name="paramB" />
+        <port name="paramA" />
         </inputs>
       <!-- Outputs -->
       <outputs>
@@ -46,52 +50,76 @@
         <!-- Flow : PlusPrey -->
         <atomicRef name="fp Prey - PlusPrey" model="Fplus">
           <!-- Puertos del atomico -->
-          <port name="in 0" type="in" />
-          <port name="in 1 " type="in" />
-          <port name="in  Prey" type="in" />
+          <port name="in paramA" type="in" />
+          <port name="in Prey" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="0.1 * Prey" />
+          <parameter name="function" value="paramA * Prey" />
         </atomicRef>
         <!-- Flow : MinusPrey -->
         <atomicRef name="fm Prey - MinusPrey" model="Fminus">
           <!-- Puertos del atomico -->
-          <port name="in 0" type="in" />
-          <port name="in 02 " type="in" />
-          <port name="in  Prey " type="in" />
-          <port name="in  Predator" type="in" />
+          <port name="in paramB" type="in" />
+          <port name="in Prey" type="in" />
+          <port name="in Predator" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="0.02 * Prey * Predator" />
+          <parameter name="function" value="paramB * Prey * Predator" />
         </atomicRef>
         <!-- Flow : MinusPredator -->
         <atomicRef name="fm Predator - MinusPredator" model="Fminus">
           <!-- Puertos del atomico -->
-          <port name="in 0" type="in" />
-          <port name="in 3 " type="in" />
-          <port name="in  Predator" type="in" />
+          <port name="in paramC" type="in" />
+          <port name="in Predator" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="0.3 * Predator" />
+          <parameter name="function" value="paramC * Predator" />
         </atomicRef>
         <!-- Flow : PlusPredator -->
         <atomicRef name="fp Predator - PlusPredator" model="Fplus">
           <!-- Puertos del atomico -->
-          <port name="in 0" type="in" />
-          <port name="in 01 " type="in" />
-          <port name="in  Prey " type="in" />
-          <port name="in  Predator" type="in" />
+          <port name="in paramD" type="in" />
+          <port name="in Prey" type="in" />
+          <port name="in Predator" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
-          <parameter name="function" value="0.01 * Prey * Predator" />
+          <parameter name="function" value="paramD * Prey * Predator" />
         </atomicRef>
         <!-- Parameters / Constantes -->
+        <atomicRef name="paramD" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="0.01" />
+        </atomicRef>
+        <atomicRef name="paramC" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="0.3" />
+        </atomicRef>
+        <atomicRef name="paramB" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="0.02" />
+        </atomicRef>
+        <atomicRef name="paramA" model="Cte">
+          <port name="inValue" type="in" />
+          <port name="out" type="out" />
+          <parameter name="value" value="0.1" />
+        </atomicRef>
         <!-- Parameters / Auxiliares -->
         </components>
 
       <internal_connections>
 
         <!-- Link : Cte's a f's que las usan -->
+        <!-- Cte :  paramD -->
+        <connection component_from="paramD" port_from="out" component_to="fp Predator - PlusPredator" port_to="in - paramD"/>
+        <!-- Cte :  paramC -->
+        <connection component_from="paramC" port_from="out" component_to="fm Predator - MinusPredator" port_to="in - paramC"/>
+        <!-- Cte :  paramB -->
+        <connection component_from="paramB" port_from="out" component_to="fm Prey - MinusPrey" port_to="in - paramB"/>
+        <!-- Cte :  paramA -->
+        <connection component_from="paramA" port_from="out" component_to="fp Prey - PlusPrey" port_to="in - paramA"/>
         <!-- Link : Cte's a Aux's que las usan -->
         <!-- Link : Aux a Aux's que las usan -->
         <!-- Link : Aux a funciones que las usan --> 
@@ -106,11 +134,21 @@
         <connection component_from="ft Predator" port_from="out" component_to="Predator" port_to="in" />
         
         <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
+        <connection component_from="Prey" port_from="out" component_to="fp Prey - PlusPrey" port_to="in - Prey" />
+        <connection component_from="Prey" port_from="out" component_to="fm Prey - MinusPrey" port_to="in - Prey" />
+        <connection component_from="Prey" port_from="out" component_to="fp Predator - PlusPredator" port_to="in - Predator" />
+        <connection component_from="Predator" port_from="out" component_to="fm Prey - MinusPrey" port_to="in - Prey" />
+        <connection component_from="Predator" port_from="out" component_to="fm Predator - MinusPredator" port_to="in - Predator" />
+        <connection component_from="Predator" port_from="out" component_to="fp Predator - PlusPredator" port_to="in - Predator" />
         </internal_connections>
       
       <!-- Links inputs a constantes -->
       <!-- external input -->
       <external_input_connections>
+        <connection component_from="top" port_from="in - paramD" component_to="paramD" port_to="inValue" />
+        <connection component_from="top" port_from="in - paramC" component_to="paramC" port_to="inValue" />
+        <connection component_from="top" port_from="in - paramB" component_to="paramB" port_to="inValue" />
+        <connection component_from="top" port_from="in - paramA" component_to="paramA" port_to="inValue" />
         
       </external_input_connections>
 
