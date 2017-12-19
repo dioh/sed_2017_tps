@@ -23,16 +23,13 @@ class InvestmentGross : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in_InvestmentFunctionReal;
-    const Port &in_Output;
+    const Port &Profit;
     Port &out;
     
 
-    double InvestmentFunctionReal;
-    double Output;
-    bool isSet_InvestmentFunctionReal;
-    bool isSet_Output;
-    //
+    double val_Profit;
+    bool isSet_val_Profit;
+    
 };
 
 #endif

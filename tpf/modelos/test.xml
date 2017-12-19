@@ -19,13 +19,12 @@
 	<components>
 		<!-- Atomico : LaborProductivityTot -->
 		<atomicRef name="LaborProductivityTot" model="Ftot">
-			<port name="plus" type="in" />
-			<port name="minus" type="in" />
+			<port name="chgLaborProductivity" type="in_plus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
 		<!-- Atomico : LaborProductivity -->
-		<atomicRef name="LaborProductivity" model="Stock">
+		<atomicRef name="LaborProductivity" model="QSS1">
 			<port name="in" type="in" />
 			<port name="out" type="out" />
 			<parameter name="x0" function="1" />
@@ -35,13 +34,12 @@
 
 		<!-- Atomico : wageRateTot -->
 		<atomicRef name="wageRateTot" model="Ftot">
-			<port name="plus" type="in" />
-			<port name="minus" type="in" />
+			<port name="chgWageRate" type="in_plus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
 		<!-- Atomico : wageRate -->
-		<atomicRef name="wageRate" model="Stock">
+		<atomicRef name="wageRate" model="QSS1">
 			<port name="in" type="in" />
 			<port name="out" type="out" />
 			<parameter name="x0" function="0.8" />
@@ -51,13 +49,12 @@
 
 		<!-- Atomico : PopulationTot -->
 		<atomicRef name="PopulationTot" model="Ftot">
-			<port name="plus" type="in" />
-			<port name="minus" type="in" />
+			<port name="chgPopulation" type="in_plus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
 		<!-- Atomico : Population -->
-		<atomicRef name="Population" model="Stock">
+		<atomicRef name="Population" model="QSS1">
 			<port name="in" type="in" />
 			<port name="out" type="out" />
 			<parameter name="x0" function="150" />
@@ -67,13 +64,12 @@
 
 		<!-- Atomico : CapitalTot -->
 		<atomicRef name="CapitalTot" model="Ftot">
-			<port name="plus" type="in" />
-			<port name="minus" type="in" />
+			<port name="chgCapital" type="in_plus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
 		<!-- Atomico : Capital -->
-		<atomicRef name="Capital" model="Stock">
+		<atomicRef name="Capital" model="QSS1">
 			<port name="in" type="in" />
 			<port name="out" type="out" />
 			<parameter name="x0" function="300" />
@@ -114,7 +110,7 @@
 		</atomicRef>
 
 		<!-- Atomico : constantEmploymentRate -->
-		<atomicRef name="constantEmploymentRate" model="Aux">
+		<atomicRef name="constantEmploymentRate" model="Cte">
 			<port name="out" type="out" />
 			<parameter name="function" function="0.6" />
 		</atomicRef>
@@ -128,7 +124,7 @@
 		</atomicRef>
 
 		<!-- Atomico : velocityOfMoney -->
-		<atomicRef name="velocityOfMoney" model="Aux">
+		<atomicRef name="velocityOfMoney" model="Cte">
 			<port name="out" type="out" />
 			<parameter name="function" function="3" />
 		</atomicRef>
@@ -158,7 +154,7 @@
 		</atomicRef>
 
 		<!-- Atomico : rateOfAppreciation -->
-		<atomicRef name="rateOfAppreciation" model="Aux">
+		<atomicRef name="rateOfAppreciation" model="Cte">
 			<port name="out" type="out" />
 			<parameter name="function" function="0" />
 		</atomicRef>

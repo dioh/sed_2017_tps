@@ -1,5 +1,5 @@
-#ifndef _Labor_H_
-#define _Labor_H_
+#ifndef _omega_H_
+#define _omega_H_
 
 #include <random>
 
@@ -7,14 +7,14 @@
 #include "VTime.h"
 
 
-#define LABOR "Labor"
+#define OMEGA "omega"
 
 
-class Labor : public Atomic {
+class omega : public Atomic {
   public:
     
-    Labor(const string &name = LABOR );
-    virtual string className() const {  return LABOR ;}
+    omega(const string &name = OMEGA );
+    virtual string className() const {  return OMEGA ;}
   
   protected:
     Model &initFunction();
@@ -23,15 +23,15 @@ class Labor : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
+    const Port &wageBill;
     const Port &Output;
-    const Port &LaborProductivity;
     Port &out;
     
 
+    double val_wageBill;
     double val_Output;
-    double val_LaborProductivity;
+    bool isSet_val_wageBill;
     bool isSet_val_Output;
-    bool isSet_val_LaborProductivity;
     
 };
 

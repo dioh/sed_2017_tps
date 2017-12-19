@@ -12,12 +12,12 @@ using namespace std;
 
 InvestmentNetReal::InvestmentNetReal(const string &name) :
 	Atomic(name),
-	in_InvestmentGross(addInputPort("in_InvestmentGross")),
-	in_Capital(addInputPort("in_Capital")),
-	in_deltaKReal(addInputPort("in_deltaKReal")),
-	isSet_InvestmentGross(false),
-	isSet_Capital(false),
-	isSet_deltaKReal(false),
+	InvestmentGross(addInputPort("InvestmentGross")),
+	Capital(addInputPort("Capital")),
+	rateOfAppreciation(addInputPort("rateOfAppreciation")),
+	isSet_val_InvestmentGross(false),
+	isSet_val_Capital(false),
+	isSet_val_rateOfAppreciation(false),
 	out(addOutputPort("out"))
 {
 }
@@ -34,17 +34,17 @@ Model &InvestmentNetReal::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_InvestmentGross) {
-		InvestmentGross = x;
-		isSet_InvestmentGross = true;
+	if(msg.port() == InvestmentGross) {
+		val_InvestmentGross = x;
+		isSet_val_InvestmentGross = true;
 	}
-	if(msg.port() == in_Capital) {
-		Capital = x;
-		isSet_Capital = true;
+	if(msg.port() == Capital) {
+		val_Capital = x;
+		isSet_val_Capital = true;
 	}
-	if(msg.port() == in_deltaKReal) {
-		deltaKReal = x;
-		isSet_deltaKReal = true;
+	if(msg.port() == rateOfAppreciation) {
+		val_rateOfAppreciation = x;
+		isSet_val_rateOfAppreciation = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -60,8 +60,8 @@ Model &InvestmentNetReal::internalFunction(const InternalMessage &)
 
 Model &InvestmentNetReal::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_InvestmentGross & isSet_Capital & isSet_deltaKReal ) {
-		double val = InvestmentGross - (Capital * deltaKReal);
+	if( isSet_val_InvestmentGross & isSet_val_Capital & isSet_val_rateOfAppreciation ) {
+		double val = val_InvestmentGross - (val_Capital * val_rateOfAppreciation);
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

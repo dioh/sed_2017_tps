@@ -23,19 +23,19 @@ class InvestmentNetReal : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in_InvestmentGross;
-    const Port &in_Capital;
-    const Port &in_deltaKReal;
+    const Port &InvestmentGross;
+    const Port &Capital;
+    const Port &rateOfAppreciation;
     Port &out;
     
 
-    double InvestmentGross;
-    double Capital;
-    double deltaKReal;
-    bool isSet_InvestmentGross;
-    bool isSet_Capital;
-    bool isSet_deltaKReal;
-    //
+    double val_InvestmentGross;
+    double val_Capital;
+    double val_rateOfAppreciation;
+    bool isSet_val_InvestmentGross;
+    bool isSet_val_Capital;
+    bool isSet_val_rateOfAppreciation;
+    
 };
 
 #endif

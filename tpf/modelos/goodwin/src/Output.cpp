@@ -12,10 +12,10 @@ using namespace std;
 
 Output::Output(const string &name) :
 	Atomic(name),
-	in_Capital(addInputPort("in_Capital")),
-	in_velocityOfMoney(addInputPort("in_velocityOfMoney")),
-	isSet_Capital(false),
-	isSet_velocityOfMoney(false),
+	Capital(addInputPort("Capital")),
+	velocityOfMoney(addInputPort("velocityOfMoney")),
+	isSet_val_Capital(false),
+	isSet_val_velocityOfMoney(false),
 	out(addOutputPort("out"))
 {
 }
@@ -32,13 +32,13 @@ Model &Output::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_Capital) {
-		Capital = x;
-		isSet_Capital = true;
+	if(msg.port() == Capital) {
+		val_Capital = x;
+		isSet_val_Capital = true;
 	}
-	if(msg.port() == in_velocityOfMoney) {
-		velocityOfMoney = x;
-		isSet_velocityOfMoney = true;
+	if(msg.port() == velocityOfMoney) {
+		val_velocityOfMoney = x;
+		isSet_val_velocityOfMoney = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -54,8 +54,8 @@ Model &Output::internalFunction(const InternalMessage &)
 
 Model &Output::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_Capital & isSet_velocityOfMoney ) {
-		double val = Capital / velocityOfMoney;
+	if( isSet_val_Capital & isSet_val_velocityOfMoney ) {
+		double val = val_Capital / val_velocityOfMoney;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

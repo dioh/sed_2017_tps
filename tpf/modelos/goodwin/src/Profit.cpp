@@ -6,29 +6,29 @@
 #include "real.h"
 #include "tuple_value.h"
 
-#include "Labor.h"
+#include "Profit.h"
 
 using namespace std;
 
-Labor::Labor(const string &name) :
+Profit::Profit(const string &name) :
 	Atomic(name),
 	Output(addInputPort("Output")),
-	LaborProductivity(addInputPort("LaborProductivity")),
+	wageBill(addInputPort("wageBill")),
 	isSet_val_Output(false),
-	isSet_val_LaborProductivity(false),
+	isSet_val_wageBill(false),
 	out(addOutputPort("out"))
 {
 }
 
 
-Model &Labor::initFunction()
+Model &Profit::initFunction()
 {
 	holdIn(AtomicState::passive, VTime::Inf);
 	return *this;
 }
 
 
-Model &Labor::externalFunction(const ExternalMessage &msg)
+Model &Profit::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
@@ -36,26 +36,26 @@ Model &Labor::externalFunction(const ExternalMessage &msg)
 		val_Output = x;
 		isSet_val_Output = true;
 	}
-	if(msg.port() == LaborProductivity) {
-		val_LaborProductivity = x;
-		isSet_val_LaborProductivity = true;
+	if(msg.port() == wageBill) {
+		val_wageBill = x;
+		isSet_val_wageBill = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
 
 
-Model &Labor::internalFunction(const InternalMessage &)
+Model &Profit::internalFunction(const InternalMessage &)
 {
 	passivate();
 	return *this ;
 }
 
 
-Model &Labor::outputFunction(const CollectMessage &msg)
+Model &Profit::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_val_Output & isSet_val_LaborProductivity ) {
-		double val = val_Output / val_LaborProductivity;
+	if( isSet_val_Output & isSet_val_wageBill ) {
+		double val = val_Output - val_wageBill;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

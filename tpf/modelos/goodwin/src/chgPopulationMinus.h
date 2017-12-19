@@ -1,5 +1,5 @@
-#ifndef _employmentRate_H_
-#define _employmentRate_H_
+#ifndef _chgPopulationMinus_H_
+#define _chgPopulationMinus_H_
 
 #include <random>
 
@@ -7,14 +7,14 @@
 #include "VTime.h"
 
 
-#define EMPLOYMENTRATE "employmentRate"
+#define CHGPOPULATIONMINUS "chgPopulationMinus"
 
 
-class employmentRate : public Atomic {
+class chgPopulationMinus : public Atomic {
   public:
     
-    employmentRate(const string &name = EMPLOYMENTRATE );
-    virtual string className() const {  return EMPLOYMENTRATE ;}
+    chgPopulationMinus(const string &name = CHGPOPULATIONMINUS );
+    virtual string className() const {  return CHGPOPULATIONMINUS ;}
   
   protected:
     Model &initFunction();
@@ -23,14 +23,11 @@ class employmentRate : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &Labor;
     const Port &Population;
     Port &out;
     
 
-    double val_Labor;
     double val_Population;
-    bool isSet_val_Labor;
     bool isSet_val_Population;
     
 };

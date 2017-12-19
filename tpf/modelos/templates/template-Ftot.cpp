@@ -12,11 +12,17 @@ using namespace std;
 
 {{name}}::{{name}}(const string &name) :
 	Atomic(name),
-	{% for port_name in ft_inPorts -%}
-	{{port_name}}(addInputPort("{{port_name}}")),
+	{% for port_plus in in_ports_plus -%}
+	plus_{{port_plus['name']}}(addInputPort("plus_{{port_plus['name']}}")),
 	{% endfor -%}
-	{% for val in values -%}
-	isSet_val_{{val}}(false),
+	{% for port_minus in in_ports_minus -%}
+	minus_{{port_minus['name']}}(addInputPort("minus_{{port_minus['name']}}")),
+	{% endfor -%}
+	{% for port_plus in in_ports_plus -%}
+	isSet_val_plus_{{port_plus['name']}}(false),
+	{% endfor -%}
+	{% for port_minus in in_ports_minus -%}
+	isSet_val_minus_{{port_minus['name']}}(false),
 	{% endfor -%}
 	out(addOutputPort("out"))
 {
@@ -34,10 +40,16 @@ Model &{{name}}::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	{% for port_name in ft_inPorts -%}
-	if(msg.port() == {{port_name}}) {
-		val_{{values[loop.index0]}} = x;
-		isSet_val_{{values[loop.index0]}} = true;
+	{% for port_plus in in_ports_plus -%}
+	if(msg.port() == plus_{{port_plus['name']}}) {
+		val_plus_{{port_plus['name']}} = x;
+		isSet_val_plus_{{port_plus['name']}} = true;
+	}
+	{% endfor -%}
+	{% for port_minus in in_ports_minus -%}
+	if(msg.port() == minus_{{port_minus['name']}}) {
+		val_minus_{{port_plus['name']}} = x;
+		isSet_val_minus_{{port_minus['name']}} = true;
 	}
 	{% endfor -%}
 	holdIn(AtomicState::active, VTime::Zero);
@@ -56,17 +68,18 @@ Model &{{name}}::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if({% for inPort in ft_inPorts -%} 
-		{% if loop.index0 == 0 %} isSet_val_{{values[loop.index0]}} {% endif -%}
-		{% if loop.index0 > 0 %}& isSet_val_{{values[loop.index0]}} {% endif -%}
+	if({% for port_plus in in_ports_plus -%} 
+		{% if loop.index0 == 0 %} isSet_val_plus_{{port_plus['name']}} {% endif -%}
+		{% if loop.index0 > 0 %}& isSet_val_plus_{{port_plus['name']}} {% endif -%}
+	{% endfor -%}
+	{% for port_minus in in_ports_minus -%}
+		& isSet_val_minus_{{port_minus['name']}}
 	{% endfor -%}) {
-		{% for inPort in ft_inPorts -%}
-		{% if 'inPlus' in inPort -%}
-		plus = plus + val_{{values[loop.index0]}};
-		{% endif -%}
-		{% if 'inMinus' in inPort -%}
-		minus = minus + val_{{values[loop.index0]}};
-		{% endif -%}
+		{% for port_plus in in_ports_plus -%}
+		plus = plus + val_plus_{{port_plus['name']}};
+		{% endfor -%}
+		{% for port_plus in in_ports_minus -%}
+		minus = minus + val_minus_{{port_minus['name']}};
 		{% endfor -%}
 		double val = plus - minus;
 		Tuple<Real> out_value { val };

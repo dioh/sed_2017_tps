@@ -23,19 +23,16 @@ class wageFunction : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in_employmentRate;
-    const Port &in_employmentRateZero;
-    const Port &in_employmentRateStable;
+    const Port &employmentRate;
+    const Port &constantEmploymentRate;
     Port &out;
     
 
-    double employmentRate;
-    double employmentRateZero;
-    double employmentRateStable;
-    bool isSet_employmentRate;
-    bool isSet_employmentRateZero;
-    bool isSet_employmentRateStable;
-    //
+    double val_employmentRate;
+    double val_constantEmploymentRate;
+    bool isSet_val_employmentRate;
+    bool isSet_val_constantEmploymentRate;
+    
 };
 
 #endif

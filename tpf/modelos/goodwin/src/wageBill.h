@@ -1,5 +1,5 @@
-#ifndef _employmentRate_H_
-#define _employmentRate_H_
+#ifndef _wageBill_H_
+#define _wageBill_H_
 
 #include <random>
 
@@ -7,14 +7,14 @@
 #include "VTime.h"
 
 
-#define EMPLOYMENTRATE "employmentRate"
+#define WAGEBILL "wageBill"
 
 
-class employmentRate : public Atomic {
+class wageBill : public Atomic {
   public:
     
-    employmentRate(const string &name = EMPLOYMENTRATE );
-    virtual string className() const {  return EMPLOYMENTRATE ;}
+    wageBill(const string &name = WAGEBILL );
+    virtual string className() const {  return WAGEBILL ;}
   
   protected:
     Model &initFunction();
@@ -23,15 +23,15 @@ class employmentRate : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
+    const Port &wageRate;
     const Port &Labor;
-    const Port &Population;
     Port &out;
     
 
+    double val_wageRate;
     double val_Labor;
-    double val_Population;
+    bool isSet_val_wageRate;
     bool isSet_val_Labor;
-    bool isSet_val_Population;
     
 };
 

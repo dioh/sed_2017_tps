@@ -23,16 +23,16 @@ class Output : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in_Capital;
-    const Port &in_velocityOfMoney;
+    const Port &Capital;
+    const Port &velocityOfMoney;
     Port &out;
     
 
-    double Capital;
-    double velocityOfMoney;
-    bool isSet_Capital;
-    bool isSet_velocityOfMoney;
-    //
+    double val_Capital;
+    double val_velocityOfMoney;
+    bool isSet_val_Capital;
+    bool isSet_val_velocityOfMoney;
+    
 };
 
 #endif

@@ -12,12 +12,10 @@ using namespace std;
 
 wageFunction::wageFunction(const string &name) :
 	Atomic(name),
-	in_employmentRate(addInputPort("in_employmentRate")),
-	in_employmentRateZero(addInputPort("in_employmentRateZero")),
-	in_employmentRateStable(addInputPort("in_employmentRateStable")),
-	isSet_employmentRate(false),
-	isSet_employmentRateZero(false),
-	isSet_employmentRateStable(false),
+	employmentRate(addInputPort("employmentRate")),
+	constantEmploymentRate(addInputPort("constantEmploymentRate")),
+	isSet_val_employmentRate(false),
+	isSet_val_constantEmploymentRate(false),
 	out(addOutputPort("out"))
 {
 }
@@ -34,17 +32,13 @@ Model &wageFunction::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_employmentRate) {
-		employmentRate = x;
-		isSet_employmentRate = true;
+	if(msg.port() == employmentRate) {
+		val_employmentRate = x;
+		isSet_val_employmentRate = true;
 	}
-	if(msg.port() == in_employmentRateZero) {
-		employmentRateZero = x;
-		isSet_employmentRateZero = true;
-	}
-	if(msg.port() == in_employmentRateStable) {
-		employmentRateStable = x;
-		isSet_employmentRateStable = true;
+	if(msg.port() == constantEmploymentRate) {
+		val_constantEmploymentRate = x;
+		isSet_val_constantEmploymentRate = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -60,8 +54,8 @@ Model &wageFunction::internalFunction(const InternalMessage &)
 
 Model &wageFunction::outputFunction(const CollectMessage &msg)
 {
-	if( isSet_employmentRate & isSet_employmentRateZero & isSet_employmentRateStable ) {
-		double val = (employmentRate - employmentRateZero) * employmentRateStable;
+	if( isSet_val_employmentRate & isSet_val_constantEmploymentRate ) {
+		double val = (val_employmentRate - val_constantEmploymentRate) * 10;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}

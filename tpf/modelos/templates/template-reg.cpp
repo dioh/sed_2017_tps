@@ -3,8 +3,8 @@
 
 #include "qss1.h"
 #include "Cte.h"
-{% for modelName, modelAttr in models.iteritems() -%}
-#include "{{modelName}}.h"
+{% for atomic in atomics -%}
+#include "{{atomic}}.h"
 {% endfor -%}
 
 // Registro modelos atomicos
@@ -15,8 +15,8 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	admin.registerAtomic(NewAtomicFunction<Cte>(), CTE);
 	
 	// Atomicos especificos del modelo
-	{% for modelName, modelAttr in models.iteritems() -%}
-	admin.registerAtomic(NewAtomicFunction<{{modelName}}>(), {{modelAttr['modelUpper']}});
+	{% for atomic in atomics -%}
+	admin.registerAtomic(NewAtomicFunction<{{atomic}}>(), {{atomic.upper()}});
 	{% endfor -%}
 	//
 }
