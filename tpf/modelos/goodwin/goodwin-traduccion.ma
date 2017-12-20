@@ -6,15 +6,20 @@ in : constantEmploymentRate velocityOfMoney rateOfAppreciation
 % External Output Ports
 out : LaborProductivity wageRate Population Capital 
 
+% Links internos (input ports => atomicos tipo 'Cte')
+link : constantEmploymentRate inValue@constantEmploymentRate
+link : velocityOfMoney inValue@velocityOfMoney
+link : rateOfAppreciation inValue@rateOfAppreciation
+
 % Internal I/O Connections
 link : out@LaborProductivityTot in@LaborProductivity
 link : out@wageRateTot in@wageRate
 link : out@PopulationTot in@Population
 link : out@CapitalTot in@Capital
-link : out@LaborProductivityPlus plus@LaborProductivityTot
-link : out@PopulationPlus plus@PopulationTot
-link : out@wageRatePlus plus@wageRateTot
-link : out@CapitalPlus plus@CapitalTot
+link : out@chgLaborProductivityPlus chgLaborProductivityPlus@LaborProductivityTot
+link : out@chgPopulationPlus chgPopulationPlus@PopulationTot
+link : out@chgWageRatePlus chgWageRatePlus@wageRateTot
+link : out@chgCapitalPlus chgCapitalPlus@CapitalTot
 link : out@LaborProductivity LaborProductivity@chgLaborProductivityPlus
 link : out@LaborProductivity LaborProductivity@Labor
 link : out@wageRate wageRate@chgWageRatePlus
@@ -40,6 +45,12 @@ link : out@Labor Labor@wageBill
 link : out@Labor Labor@employmentRate
 link : out@rateOfAppreciation rateOfAppreciation@InvestmentNetReal
 link : out@employmentRate employmentRate@wageFunction
+
+% Links internos (variables de interes => output ports)
+link : out@LaborProductivity LaborProductivity
+link : out@wageRate wageRate
+link : out@Population Population
+link : out@Capital Capital
 
 % Integradores
 [LaborProductivity]

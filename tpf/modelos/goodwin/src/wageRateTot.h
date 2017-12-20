@@ -22,12 +22,12 @@ class wageRateTot : public Atomic {
 
   private:
     
-    const Port &plus_chgWageRate;
+    const Port &chgWageRatePlus;
     Port &out;
     
 
-    double val_plus_chgWageRate;
-    bool isSet_val_plus_chgWageRate;
+    double val_chgWageRatePlus;
+    bool isSet_val_chgWageRatePlus;
     
     
 };

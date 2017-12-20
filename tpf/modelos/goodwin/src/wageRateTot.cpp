@@ -12,8 +12,8 @@ using namespace std;
 
 wageRateTot::wageRateTot(const string &name) :
 	Atomic(name),
-	plus_chgWageRate(addInputPort("plus_chgWageRate")),
-	isSet_val_plus_chgWageRate(false),
+	chgWageRatePlus(addInputPort("chgWageRatePlus")),
+	isSet_val_chgWageRatePlus(false),
 	out(addOutputPort("out"))
 {
 }
@@ -30,9 +30,9 @@ Model &wageRateTot::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == plus_chgWageRate) {
-		val_plus_chgWageRate = x;
-		isSet_val_plus_chgWageRate = true;
+	if(msg.port() == chgWageRatePlus) {
+		val_chgWageRatePlus = x;
+		isSet_val_chgWageRatePlus = true;
 	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
@@ -50,8 +50,8 @@ Model &wageRateTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_plus_chgWageRate ) {
-		plus = plus + val_plus_chgWageRate;
+	if( isSet_val_chgWageRatePlus ) {
+		plus = plus + val_chgWageRatePlus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);

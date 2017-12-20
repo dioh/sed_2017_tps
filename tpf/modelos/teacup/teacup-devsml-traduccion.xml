@@ -1,0 +1,112 @@
+<coupled name="top" model="Coupled" >
+
+	<!-- Inputs -->
+	<inputs>
+		<port name="RoomTemperature" />
+		<port name="CharacteristicTime" />
+	</inputs>
+
+	<!-- Outputs -->
+	<outputs>
+		<port name="Temperature" />
+	</outputs>
+
+	<!-- Components -->
+	<components>
+		<!-- Atomico : TemperatureTot -->
+		<atomicRef name="TemperatureTot" model="Ftot">
+			<port name="HeatLossToRoomMinus" type="in_minius" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Temperature -->
+		<atomicRef name="Temperature" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="180" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : RoomTemperature -->
+		<atomicRef name="RoomTemperature" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="27" />
+		</atomicRef>
+
+		<!-- Atomico : CharacteristicTime -->
+		<atomicRef name="CharacteristicTime" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.8" />
+		</atomicRef>
+
+		<!-- Atomico : HeatLossToRoomPlus -->
+		<atomicRef name="HeatLossToRoomPlus" model="Fpm">
+			<port name="Temperature" type="in" />
+			<port name="RoomTemperature" type="in" />
+			<port name="CharacteristicTime" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Temperature - RoomTemperature) / CharacteristicTime" />
+		</atomicRef>
+
+		<!-- Atomico : HeatLossToRoomMinus -->
+		<atomicRef name="HeatLossToRoomMinus" model="Fpm">
+			<port name="Temperature" type="in" />
+			<port name="RoomTemperature" type="in" />
+			<port name="CharacteristicTime" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Temperature - RoomTemperature) / CharacteristicTime" />
+		</atomicRef>
+
+		</components>
+
+	<!-- Internal Connections -->
+	<internal_connections>
+		
+		<!-- Link interno : TemperatureTot ==> Temperature -->
+		<connection component_from="TemperatureTot"
+			component_to="Temperature"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : HeatLossToRoomMinus ==> TemperatureTot -->
+		<connection component_from="HeatLossToRoomMinus"
+			component_to="TemperatureTot"
+			port_from="out"
+			port_to="HeatLossToRoomMinus"/>
+		<!-- Link interno : Temperature ==> HeatLossToRoomMinus -->
+		<connection component_from="Temperature"
+			component_to="HeatLossToRoomMinus"
+			port_from="out"
+			port_to="Temperature"/>
+		<!-- Link interno : RoomTemperature ==> HeatLossToRoomPlus -->
+		<connection component_from="RoomTemperature"
+			component_to="HeatLossToRoomPlus"
+			port_from="out"
+			port_to="RoomTemperature"/>
+		<!-- Link interno : RoomTemperature ==> HeatLossToRoomMinus -->
+		<connection component_from="RoomTemperature"
+			component_to="HeatLossToRoomMinus"
+			port_from="out"
+			port_to="RoomTemperature"/>
+		<!-- Link interno : CharacteristicTime ==> HeatLossToRoomPlus -->
+		<connection component_from="CharacteristicTime"
+			component_to="HeatLossToRoomPlus"
+			port_from="out"
+			port_to="CharacteristicTime"/>
+		<!-- Link interno : CharacteristicTime ==> HeatLossToRoomMinus -->
+		<connection component_from="CharacteristicTime"
+			component_to="HeatLossToRoomMinus"
+			port_from="out"
+			port_to="CharacteristicTime"/>
+	</internal_connections>
+
+	<!-- External Input Connections -->
+	<external_input_connections>
+		
+	</external_input_connections>
+
+	<!-- External Output Connections -->
+	<external_output_connections>
+		
+	</external_output_connections>
+</coupled>

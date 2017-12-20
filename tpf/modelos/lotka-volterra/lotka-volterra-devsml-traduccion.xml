@@ -1,0 +1,249 @@
+<coupled name="top" model="Coupled" >
+
+	<!-- Inputs -->
+	<inputs>
+		<port name="paramD" />
+		<port name="paramC" />
+		<port name="paramB" />
+		<port name="paramA" />
+	</inputs>
+
+	<!-- Outputs -->
+	<outputs>
+		<port name="Prey" />
+		<port name="Predator" />
+	</outputs>
+
+	<!-- Components -->
+	<components>
+		<!-- Atomico : PreyTot -->
+		<atomicRef name="PreyTot" model="Ftot">
+			<port name="PlusPreyPlus" type="in_plus" />
+			<port name="MinusPreyMinus" type="in_minius" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Prey -->
+		<atomicRef name="Prey" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="100" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : PredatorTot -->
+		<atomicRef name="PredatorTot" model="Ftot">
+			<port name="PlusPredatorPlus" type="in_plus" />
+			<port name="MinusPredatorMinus" type="in_minius" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Predator -->
+		<atomicRef name="Predator" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="5" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : paramD -->
+		<atomicRef name="paramD" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.01" />
+		</atomicRef>
+
+		<!-- Atomico : paramC -->
+		<atomicRef name="paramC" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.3" />
+		</atomicRef>
+
+		<!-- Atomico : paramB -->
+		<atomicRef name="paramB" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.02" />
+		</atomicRef>
+
+		<!-- Atomico : paramA -->
+		<atomicRef name="paramA" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.1" />
+		</atomicRef>
+
+		<!-- Atomico : PlusPreyPlus -->
+		<atomicRef name="PlusPreyPlus" model="Fpm">
+			<port name="paramA" type="in" />
+			<port name="Prey" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramA * Prey" />
+		</atomicRef>
+
+		<!-- Atomico : PlusPreyMinus -->
+		<atomicRef name="PlusPreyMinus" model="Fpm">
+			<port name="paramA" type="in" />
+			<port name="Prey" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramA * Prey" />
+		</atomicRef>
+
+		<!-- Atomico : PlusPredatorPlus -->
+		<atomicRef name="PlusPredatorPlus" model="Fpm">
+			<port name="paramD" type="in" />
+			<port name="Prey" type="in" />
+			<port name="Predator" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramD * Prey * Predator" />
+		</atomicRef>
+
+		<!-- Atomico : PlusPredatorMinus -->
+		<atomicRef name="PlusPredatorMinus" model="Fpm">
+			<port name="paramD" type="in" />
+			<port name="Prey" type="in" />
+			<port name="Predator" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramD * Prey * Predator" />
+		</atomicRef>
+
+		<!-- Atomico : MinusPredatorPlus -->
+		<atomicRef name="MinusPredatorPlus" model="Fpm">
+			<port name="paramC" type="in" />
+			<port name="Predator" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramC * Predator" />
+		</atomicRef>
+
+		<!-- Atomico : MinusPredatorMinus -->
+		<atomicRef name="MinusPredatorMinus" model="Fpm">
+			<port name="paramC" type="in" />
+			<port name="Predator" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramC * Predator" />
+		</atomicRef>
+
+		<!-- Atomico : MinusPreyPlus -->
+		<atomicRef name="MinusPreyPlus" model="Fpm">
+			<port name="paramB" type="in" />
+			<port name="Prey" type="in" />
+			<port name="Predator" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramB * Prey * Predator" />
+		</atomicRef>
+
+		<!-- Atomico : MinusPreyMinus -->
+		<atomicRef name="MinusPreyMinus" model="Fpm">
+			<port name="paramB" type="in" />
+			<port name="Prey" type="in" />
+			<port name="Predator" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="paramB * Prey * Predator" />
+		</atomicRef>
+
+		</components>
+
+	<!-- Internal Connections -->
+	<internal_connections>
+		
+		<!-- Link interno : PreyTot ==> Prey -->
+		<connection component_from="PreyTot"
+			component_to="Prey"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : PredatorTot ==> Predator -->
+		<connection component_from="PredatorTot"
+			component_to="Predator"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : PlusPreyPlus ==> PreyTot -->
+		<connection component_from="PlusPreyPlus"
+			component_to="PreyTot"
+			port_from="out"
+			port_to="PlusPreyPlus"/>
+		<!-- Link interno : PlusPredatorPlus ==> PredatorTot -->
+		<connection component_from="PlusPredatorPlus"
+			component_to="PredatorTot"
+			port_from="out"
+			port_to="PlusPredatorPlus"/>
+		<!-- Link interno : MinusPredatorMinus ==> PredatorTot -->
+		<connection component_from="MinusPredatorMinus"
+			component_to="PredatorTot"
+			port_from="out"
+			port_to="MinusPredatorMinus"/>
+		<!-- Link interno : MinusPreyMinus ==> PreyTot -->
+		<connection component_from="MinusPreyMinus"
+			component_to="PreyTot"
+			port_from="out"
+			port_to="MinusPreyMinus"/>
+		<!-- Link interno : Prey ==> PlusPreyPlus -->
+		<connection component_from="Prey"
+			component_to="PlusPreyPlus"
+			port_from="out"
+			port_to="Prey"/>
+		<!-- Link interno : Prey ==> MinusPreyMinus -->
+		<connection component_from="Prey"
+			component_to="MinusPreyMinus"
+			port_from="out"
+			port_to="Prey"/>
+		<!-- Link interno : Predator ==> PlusPredatorPlus -->
+		<connection component_from="Predator"
+			component_to="PlusPredatorPlus"
+			port_from="out"
+			port_to="Predator"/>
+		<!-- Link interno : Predator ==> MinusPredatorMinus -->
+		<connection component_from="Predator"
+			component_to="MinusPredatorMinus"
+			port_from="out"
+			port_to="Predator"/>
+		<!-- Link interno : paramD ==> PlusPredatorPlus -->
+		<connection component_from="paramD"
+			component_to="PlusPredatorPlus"
+			port_from="out"
+			port_to="paramD"/>
+		<!-- Link interno : paramD ==> PlusPredatorMinus -->
+		<connection component_from="paramD"
+			component_to="PlusPredatorMinus"
+			port_from="out"
+			port_to="paramD"/>
+		<!-- Link interno : paramC ==> MinusPredatorPlus -->
+		<connection component_from="paramC"
+			component_to="MinusPredatorPlus"
+			port_from="out"
+			port_to="paramC"/>
+		<!-- Link interno : paramC ==> MinusPredatorMinus -->
+		<connection component_from="paramC"
+			component_to="MinusPredatorMinus"
+			port_from="out"
+			port_to="paramC"/>
+		<!-- Link interno : paramB ==> MinusPreyPlus -->
+		<connection component_from="paramB"
+			component_to="MinusPreyPlus"
+			port_from="out"
+			port_to="paramB"/>
+		<!-- Link interno : paramB ==> MinusPreyMinus -->
+		<connection component_from="paramB"
+			component_to="MinusPreyMinus"
+			port_from="out"
+			port_to="paramB"/>
+		<!-- Link interno : paramA ==> PlusPreyPlus -->
+		<connection component_from="paramA"
+			component_to="PlusPreyPlus"
+			port_from="out"
+			port_to="paramA"/>
+		<!-- Link interno : paramA ==> PlusPreyMinus -->
+		<connection component_from="paramA"
+			component_to="PlusPreyMinus"
+			port_from="out"
+			port_to="paramA"/>
+	</internal_connections>
+
+	<!-- External Input Connections -->
+	<external_input_connections>
+		
+	</external_input_connections>
+
+	<!-- External Output Connections -->
+	<external_output_connections>
+		
+	</external_output_connections>
+</coupled>
