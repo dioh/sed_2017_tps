@@ -48,7 +48,7 @@ Model &{{name}}::externalFunction(const ExternalMessage &msg)
 	{% endfor -%}
 	{% for port_minus in in_ports_minus -%}
 	if(msg.port() == {{port_minus['name']}}) {
-		val_{{port_plus['name']}} = x;
+		val_{{port_minus['name']}} = x;
 		isSet_val_{{port_minus['name']}} = true;
 	}
 	{% endfor -%}
@@ -68,17 +68,22 @@ Model &{{name}}::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if({% for port_plus in in_ports_plus -%} 
-		{% if loop.index0 == 0 %} isSet_val_{{port_plus['name']}} {% endif -%}
-		{% if loop.index0 > 0 %}& isSet_val_{{port_plus['name']}} {% endif -%}
-	{% endfor -%}
-	{% for port_minus in in_ports_minus -%}
-		& isSet_val_{{port_minus['name']}}
-	{% endfor -%}) {
+	if({%- for port_plus in in_ports_plus -%} 
+	{%- if loop.index0 == 0 %}isSet_val_{{port_plus['name']}} {%- endif -%}
+	{%- if loop.index0 > 0 %}& isSet_val_{{port_plus['name']}} 
+	{%- endif -%}
+	{%- endfor -%}
+	{%- for port_minus in in_ports_minus -%}
+	{%- if loop.index0 == 0 and in_ports_plus|length == 0 %}isSet_val_{{port_minus['name']}}
+	{%- endif %}
+	{%- if loop.index0 > 0 or (loop.index0 == 0 and in_ports_plus|length > 0) %} & isSet_val_{{port_minus['name']}}
+	{%- endif %}
+	{%- endfor -%}
+	) {
 		{% for port_plus in in_ports_plus -%}
 		plus = plus + val_{{port_plus['name']}};
 		{% endfor -%}
-		{% for port_plus in in_ports_minus -%}
+		{% for port_minus in in_ports_minus -%}
 		minus = minus + val_{{port_minus['name']}};
 		{% endfor -%}
 		double val = plus - minus;

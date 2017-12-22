@@ -20,9 +20,17 @@ link : out@PlusPredatorPlus PlusPredatorPlus@PredatorTot
 link : out@MinusPredatorMinus MinusPredatorMinus@PredatorTot
 link : out@MinusPreyMinus MinusPreyMinus@PreyTot
 link : out@Prey Prey@PlusPreyPlus
+link : out@Prey Prey@PlusPreyMinus
+link : out@Prey Prey@PlusPredatorPlus
+link : out@Prey Prey@PlusPredatorMinus
+link : out@Prey Prey@MinusPreyPlus
 link : out@Prey Prey@MinusPreyMinus
 link : out@Predator Predator@PlusPredatorPlus
+link : out@Predator Predator@PlusPredatorMinus
+link : out@Predator Predator@MinusPredatorPlus
 link : out@Predator Predator@MinusPredatorMinus
+link : out@Predator Predator@MinusPreyPlus
+link : out@Predator Predator@MinusPreyMinus
 link : out@paramD paramD@PlusPredatorPlus
 link : out@paramD paramD@PlusPredatorMinus
 link : out@paramC paramC@MinusPredatorPlus

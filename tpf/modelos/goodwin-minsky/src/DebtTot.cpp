@@ -50,7 +50,7 @@ Model &DebtTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_chgDebtPlus ) {
+	if(isSet_val_chgDebtPlus) {
 		plus = plus + val_chgDebtPlus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };

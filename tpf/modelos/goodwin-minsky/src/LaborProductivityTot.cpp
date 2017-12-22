@@ -50,7 +50,7 @@ Model &LaborProductivityTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_chgLaborProductivityPlus ) {
+	if(isSet_val_chgLaborProductivityPlus) {
 		plus = plus + val_chgLaborProductivityPlus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };

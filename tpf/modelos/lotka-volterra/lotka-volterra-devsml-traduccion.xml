@@ -19,7 +19,7 @@
 		<!-- Atomico : PreyTot -->
 		<atomicRef name="PreyTot" model="Ftot">
 			<port name="PlusPreyPlus" type="in_plus" />
-			<port name="MinusPreyMinus" type="in_minius" />
+			<port name="MinusPreyMinus" type="in_minus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
@@ -35,7 +35,7 @@
 		<!-- Atomico : PredatorTot -->
 		<atomicRef name="PredatorTot" model="Ftot">
 			<port name="PlusPredatorPlus" type="in_plus" />
-			<port name="MinusPredatorMinus" type="in_minius" />
+			<port name="MinusPredatorMinus" type="in_minus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
@@ -180,6 +180,26 @@
 			component_to="PlusPreyPlus"
 			port_from="out"
 			port_to="Prey"/>
+		<!-- Link interno : Prey ==> PlusPreyMinus -->
+		<connection component_from="Prey"
+			component_to="PlusPreyMinus"
+			port_from="out"
+			port_to="Prey"/>
+		<!-- Link interno : Prey ==> PlusPredatorPlus -->
+		<connection component_from="Prey"
+			component_to="PlusPredatorPlus"
+			port_from="out"
+			port_to="Prey"/>
+		<!-- Link interno : Prey ==> PlusPredatorMinus -->
+		<connection component_from="Prey"
+			component_to="PlusPredatorMinus"
+			port_from="out"
+			port_to="Prey"/>
+		<!-- Link interno : Prey ==> MinusPreyPlus -->
+		<connection component_from="Prey"
+			component_to="MinusPreyPlus"
+			port_from="out"
+			port_to="Prey"/>
 		<!-- Link interno : Prey ==> MinusPreyMinus -->
 		<connection component_from="Prey"
 			component_to="MinusPreyMinus"
@@ -190,9 +210,29 @@
 			component_to="PlusPredatorPlus"
 			port_from="out"
 			port_to="Predator"/>
+		<!-- Link interno : Predator ==> PlusPredatorMinus -->
+		<connection component_from="Predator"
+			component_to="PlusPredatorMinus"
+			port_from="out"
+			port_to="Predator"/>
+		<!-- Link interno : Predator ==> MinusPredatorPlus -->
+		<connection component_from="Predator"
+			component_to="MinusPredatorPlus"
+			port_from="out"
+			port_to="Predator"/>
 		<!-- Link interno : Predator ==> MinusPredatorMinus -->
 		<connection component_from="Predator"
 			component_to="MinusPredatorMinus"
+			port_from="out"
+			port_to="Predator"/>
+		<!-- Link interno : Predator ==> MinusPreyPlus -->
+		<connection component_from="Predator"
+			component_to="MinusPreyPlus"
+			port_from="out"
+			port_to="Predator"/>
+		<!-- Link interno : Predator ==> MinusPreyMinus -->
+		<connection component_from="Predator"
+			component_to="MinusPreyMinus"
 			port_from="out"
 			port_to="Predator"/>
 		<!-- Link interno : paramD ==> PlusPredatorPlus -->

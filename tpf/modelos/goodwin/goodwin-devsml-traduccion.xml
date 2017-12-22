@@ -275,6 +275,11 @@
 			component_to="chgLaborProductivityPlus"
 			port_from="out"
 			port_to="LaborProductivity"/>
+		<!-- Link interno : LaborProductivity ==> chgLaborProductivityMinus -->
+		<connection component_from="LaborProductivity"
+			component_to="chgLaborProductivityMinus"
+			port_from="out"
+			port_to="LaborProductivity"/>
 		<!-- Link interno : LaborProductivity ==> Labor -->
 		<connection component_from="LaborProductivity"
 			component_to="Labor"
@@ -285,6 +290,11 @@
 			component_to="chgWageRatePlus"
 			port_from="out"
 			port_to="wageRate"/>
+		<!-- Link interno : wageRate ==> chgWageRateMinus -->
+		<connection component_from="wageRate"
+			component_to="chgWageRateMinus"
+			port_from="out"
+			port_to="wageRate"/>
 		<!-- Link interno : wageRate ==> wageBill -->
 		<connection component_from="wageRate"
 			component_to="wageBill"
@@ -293,6 +303,11 @@
 		<!-- Link interno : Population ==> chgPopulationPlus -->
 		<connection component_from="Population"
 			component_to="chgPopulationPlus"
+			port_from="out"
+			port_to="Population"/>
+		<!-- Link interno : Population ==> chgPopulationMinus -->
+		<connection component_from="Population"
+			component_to="chgPopulationMinus"
 			port_from="out"
 			port_to="Population"/>
 		<!-- Link interno : Population ==> employmentRate -->

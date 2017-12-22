@@ -50,7 +50,7 @@ Model &PopulationTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_chgPopulationPlus ) {
+	if(isSet_val_chgPopulationPlus) {
 		plus = plus + val_chgPopulationPlus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };

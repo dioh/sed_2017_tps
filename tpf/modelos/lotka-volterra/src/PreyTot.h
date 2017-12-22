@@ -23,12 +23,16 @@ class PreyTot : public Atomic {
   private:
     
     const Port &PlusPreyPlus;
+    
+    const Port &MinusPreyMinus;
     Port &out;
     
 
     double val_PlusPreyPlus;
+    double val_MinusPreyMinus;
     bool isSet_val_PlusPreyPlus;
     
+    bool isSet_val_MinusPreyMinus;
     
 };
 

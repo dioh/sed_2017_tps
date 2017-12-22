@@ -23,16 +23,16 @@ class HeatLossToRoomMinus : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &Temperature;
+    const Port &TemperatureValue;
     const Port &RoomTemperature;
     const Port &CharacteristicTime;
     Port &out;
     
 
-    double val_Temperature;
+    double val_TemperatureValue;
     double val_RoomTemperature;
     double val_CharacteristicTime;
-    bool isSet_val_Temperature;
+    bool isSet_val_TemperatureValue;
     bool isSet_val_RoomTemperature;
     bool isSet_val_CharacteristicTime;
     

@@ -21,10 +21,14 @@ class SusceptiblesTot : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
+    
+    const Port &SuccumbingMinus;
     Port &out;
     
 
+    double val_SuccumbingMinus;
     
+    bool isSet_val_SuccumbingMinus;
     
 };
 

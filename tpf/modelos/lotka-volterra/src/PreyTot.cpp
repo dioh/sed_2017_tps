@@ -13,7 +13,9 @@ using namespace std;
 PreyTot::PreyTot(const string &name) :
 	Atomic(name),
 	PlusPreyPlus(addInputPort("PlusPreyPlus")),
+	MinusPreyMinus(addInputPort("MinusPreyMinus")),
 	isSet_val_PlusPreyPlus(false),
+	isSet_val_MinusPreyMinus(false),
 	out(addOutputPort("out"))
 {
 }
@@ -34,6 +36,10 @@ Model &PreyTot::externalFunction(const ExternalMessage &msg)
 		val_PlusPreyPlus = x;
 		isSet_val_PlusPreyPlus = true;
 	}
+	if(msg.port() == MinusPreyMinus) {
+		val_MinusPreyMinus = x;
+		isSet_val_MinusPreyMinus = true;
+	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -50,8 +56,9 @@ Model &PreyTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_PlusPreyPlus ) {
+	if(isSet_val_PlusPreyPlus & isSet_val_MinusPreyMinus) {
 		plus = plus + val_PlusPreyPlus;
+		minus = minus + val_MinusPreyMinus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);

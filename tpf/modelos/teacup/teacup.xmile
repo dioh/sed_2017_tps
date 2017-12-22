@@ -17,13 +17,13 @@
 	<model_units/>
 	<model>
 		<variables>
-			<stock name="Temperature">
+			<stock name="TemperatureValue">
 				<eqn>180</eqn>
 				<outflow>HeatLossToRoom</outflow>
 				<non_negative/>
 			</stock>
 			<flow name="HeatLossToRoom">
-				<eqn>(Temperature - RoomTemperature) / CharacteristicTime</eqn>
+				<eqn>(TemperatureValue - RoomTemperature) / CharacteristicTime</eqn>
 				<non_negative/>
 			</flow>
 			<aux name="CharacteristicTime">
@@ -34,7 +34,7 @@
 			</aux>
 			<isee:dependencies>
 				<var name="HeatLossToRoom">
-					<in>Temperature</in>
+					<in>TemperatureValue</in>
 					<in>CharacteristicTime</in>
 					<in>RoomTemperature</in>
 				</var>
@@ -114,15 +114,15 @@
 					</graph>
 					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
 				</style>
-				<stock x="322" y="279" name="Temperature"/>
-				<flow label_side="bottom" x="421.25" y="278" name="HeatLossToRoom">
+				<stock x="322" y="279" name="TemperatureValue"/>
+				<flow x="421.25" y="278" name="HeatLossToRoom">
 					<pts>
 						<pt x="344.5" y="278"/>
 						<pt x="522" y="278"/>
 					</pts>
 				</flow>
 				<connector uid="1" angle="40.5028">
-					<from>Temperature</from>
+					<from>TemperatureValue</from>
 					<to>HeatLossToRoom</to>
 				</connector>
 				<aux x="387.25" y="188" name="CharacteristicTime"/>
@@ -138,7 +138,7 @@
 				<stacked_container uid="4" x="247" y="360" width="505" height="343">
 					<graph x="247" y="360" width="505" height="343" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
 						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
-							<entity name="Temperature"/>
+							<entity name="TemperatureValue"/>
 						</plot>
 					</graph>
 				</stacked_container>

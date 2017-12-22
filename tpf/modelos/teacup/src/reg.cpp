@@ -5,7 +5,7 @@
 #include "Cte.h"
 #include "HeatLossToRoomPlus.h"
 #include "HeatLossToRoomMinus.h"
-#include "TemperatureTot.h"
+#include "TemperatureValueTot.h"
 // Registro modelos atomicos
 void register_atomics_on(ParallelModelAdmin &admin)
 {
@@ -16,6 +16,6 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	// Atomicos especificos del modelo
 	admin.registerAtomic(NewAtomicFunction<HeatLossToRoomPlus>(), HEATLOSSTOROOMPLUS);
 	admin.registerAtomic(NewAtomicFunction<HeatLossToRoomMinus>(), HEATLOSSTOROOMMINUS);
-	admin.registerAtomic(NewAtomicFunction<TemperatureTot>(), TEMPERATURETOT);
+	admin.registerAtomic(NewAtomicFunction<TemperatureValueTot>(), TEMPERATUREVALUETOT);
 	//
 }

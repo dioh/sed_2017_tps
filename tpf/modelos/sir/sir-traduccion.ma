@@ -20,7 +20,10 @@ link : out@SuccumbingMinus SuccumbingMinus@SusceptiblesTot
 link : out@RecoveringMinus RecoveringMinus@InfectedTot
 link : out@RecoveringPlus RecoveringPlus@RecoveredTot
 link : out@Infected Infected@SuccumbingPlus
+link : out@Infected Infected@SuccumbingMinus
+link : out@Infected Infected@RecoveringPlus
 link : out@Infected Infected@RecoveringMinus
+link : out@Susceptibles Susceptibles@SuccumbingPlus
 link : out@Susceptibles Susceptibles@SuccumbingMinus
 link : out@InfectionRate InfectionRate@SuccumbingPlus
 link : out@InfectionRate InfectionRate@SuccumbingMinus

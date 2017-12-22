@@ -6,11 +6,11 @@
 #include "real.h"
 #include "tuple_value.h"
 
-#include "TemperatureTot.h"
+#include "TemperatureValueTot.h"
 
 using namespace std;
 
-TemperatureTot::TemperatureTot(const string &name) :
+TemperatureValueTot::TemperatureValueTot(const string &name) :
 	Atomic(name),
 	HeatLossToRoomMinus(addInputPort("HeatLossToRoomMinus")),
 	isSet_val_HeatLossToRoomMinus(false),
@@ -19,14 +19,14 @@ TemperatureTot::TemperatureTot(const string &name) :
 }
 
 
-Model &TemperatureTot::initFunction()
+Model &TemperatureValueTot::initFunction()
 {
 	holdIn(AtomicState::passive, VTime::Inf);
 	return *this;
 }
 
 
-Model &TemperatureTot::externalFunction(const ExternalMessage &msg)
+Model &TemperatureValueTot::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
@@ -39,14 +39,14 @@ Model &TemperatureTot::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &TemperatureTot::internalFunction(const InternalMessage &)
+Model &TemperatureValueTot::internalFunction(const InternalMessage &)
 {
 	passivate();
 	return *this ;
 }
 
 
-Model &TemperatureTot::outputFunction(const CollectMessage &msg)
+Model &TemperatureValueTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;

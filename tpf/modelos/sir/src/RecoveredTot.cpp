@@ -50,7 +50,7 @@ Model &RecoveredTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_RecoveringPlus ) {
+	if(isSet_val_RecoveringPlus) {
 		plus = plus + val_RecoveringPlus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };

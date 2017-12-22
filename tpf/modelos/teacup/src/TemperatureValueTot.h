@@ -1,18 +1,18 @@
-#ifndef _TemperatureTot_H_
-#define _TemperatureTot_H_
+#ifndef _TemperatureValueTot_H_
+#define _TemperatureValueTot_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
-#define TEMPERATURETOT "TemperatureTot"
+#define TEMPERATUREVALUETOT "TemperatureValueTot"
 
-class TemperatureTot : public Atomic {
+class TemperatureValueTot : public Atomic {
   public:
     
-    TemperatureTot(const string &name = TEMPERATURETOT );
-    virtual string className() const {  return TEMPERATURETOT ;}
+    TemperatureValueTot(const string &name = TEMPERATUREVALUETOT );
+    virtual string className() const {  return TEMPERATUREVALUETOT ;}
   
   protected:
     Model &initFunction();

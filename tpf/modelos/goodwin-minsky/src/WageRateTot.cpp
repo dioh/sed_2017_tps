@@ -50,7 +50,7 @@ Model &WageRateTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_chgWageRatePlus ) {
+	if(isSet_val_chgWageRatePlus) {
 		plus = plus + val_chgWageRatePlus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };

@@ -23,12 +23,16 @@ class InfectedTot : public Atomic {
   private:
     
     const Port &SuccumbingPlus;
+    
+    const Port &RecoveringMinus;
     Port &out;
     
 
     double val_SuccumbingPlus;
+    double val_RecoveringMinus;
     bool isSet_val_SuccumbingPlus;
     
+    bool isSet_val_RecoveringMinus;
     
 };
 

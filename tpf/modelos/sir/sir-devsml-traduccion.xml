@@ -19,7 +19,7 @@
 		<!-- Atomico : InfectedTot -->
 		<atomicRef name="InfectedTot" model="Ftot">
 			<port name="SuccumbingPlus" type="in_plus" />
-			<port name="RecoveringMinus" type="in_minius" />
+			<port name="RecoveringMinus" type="in_minus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
@@ -49,7 +49,7 @@
 
 		<!-- Atomico : SusceptiblesTot -->
 		<atomicRef name="SusceptiblesTot" model="Ftot">
-			<port name="SuccumbingMinus" type="in_minius" />
+			<port name="SuccumbingMinus" type="in_minus" />
 			<port name="out" type="out" />
 		</atomicRef>
 
@@ -161,11 +161,26 @@
 			component_to="SuccumbingPlus"
 			port_from="out"
 			port_to="Infected"/>
+		<!-- Link interno : Infected ==> SuccumbingMinus -->
+		<connection component_from="Infected"
+			component_to="SuccumbingMinus"
+			port_from="out"
+			port_to="Infected"/>
+		<!-- Link interno : Infected ==> RecoveringPlus -->
+		<connection component_from="Infected"
+			component_to="RecoveringPlus"
+			port_from="out"
+			port_to="Infected"/>
 		<!-- Link interno : Infected ==> RecoveringMinus -->
 		<connection component_from="Infected"
 			component_to="RecoveringMinus"
 			port_from="out"
 			port_to="Infected"/>
+		<!-- Link interno : Susceptibles ==> SuccumbingPlus -->
+		<connection component_from="Susceptibles"
+			component_to="SuccumbingPlus"
+			port_from="out"
+			port_to="Susceptibles"/>
 		<!-- Link interno : Susceptibles ==> SuccumbingMinus -->
 		<connection component_from="Susceptibles"
 			component_to="SuccumbingMinus"

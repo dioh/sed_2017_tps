@@ -29,12 +29,15 @@ link : out@chgDebtPlus chgDebtPlus@DebtTot
 link : out@chgWageRatePlus chgWageRatePlus@WageRateTot
 link : out@chgCapitalPlus chgCapitalPlus@CapitalTot
 link : out@LaborProductivity LaborProductivity@chgLaborProductivityPlus
+link : out@LaborProductivity LaborProductivity@chgLaborProductivityMinus
 link : out@LaborProductivity LaborProductivity@Labor
 link : out@WageRate WageRate@chgWageRatePlus
+link : out@WageRate WageRate@chgWageRateMinus
 link : out@WageRate WageRate@Wages
 link : out@Debt Debt@InterestPayments
 link : out@Debt Debt@debtRate
 link : out@Population Population@chgPopulationPlus
+link : out@Population Population@chgPopulationMinus
 link : out@Population Population@employmentRateValue
 link : out@Capital Capital@Output
 link : out@Capital Capital@piR

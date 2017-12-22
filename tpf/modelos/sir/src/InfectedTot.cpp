@@ -13,7 +13,9 @@ using namespace std;
 InfectedTot::InfectedTot(const string &name) :
 	Atomic(name),
 	SuccumbingPlus(addInputPort("SuccumbingPlus")),
+	RecoveringMinus(addInputPort("RecoveringMinus")),
 	isSet_val_SuccumbingPlus(false),
+	isSet_val_RecoveringMinus(false),
 	out(addOutputPort("out"))
 {
 }
@@ -34,6 +36,10 @@ Model &InfectedTot::externalFunction(const ExternalMessage &msg)
 		val_SuccumbingPlus = x;
 		isSet_val_SuccumbingPlus = true;
 	}
+	if(msg.port() == RecoveringMinus) {
+		val_RecoveringMinus = x;
+		isSet_val_RecoveringMinus = true;
+	}
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -50,8 +56,9 @@ Model &InfectedTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_SuccumbingPlus ) {
+	if(isSet_val_SuccumbingPlus & isSet_val_RecoveringMinus) {
 		plus = plus + val_SuccumbingPlus;
+		minus = minus + val_RecoveringMinus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);

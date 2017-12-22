@@ -50,7 +50,7 @@ Model &CapitalTot::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if( isSet_val_chgCapitalPlus ) {
+	if(isSet_val_chgCapitalPlus) {
 		plus = plus + val_chgCapitalPlus;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
