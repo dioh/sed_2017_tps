@@ -21,13 +21,24 @@ class Conector : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
+
     // Input ports
-    const Port &in;
+    const Port &inRationalSupporters;
+    const Port &inDegenerates;
+    const Port &inNeutralists;
     // Output ports
     Port &out;
 
     // State variables
-    double outValue;
+    double RationalSupporters, prev_RationalSupporters;
+    double Degenerates, prev_Degenerates;
+    double Neutralists, prev_Neutralists;
+
+    // Variables set
+    bool isSet_RationalSupporters;
+    bool isSet_Degenerates;
+    bool isSet_Neutralists;
+
 };
 
 #endif

@@ -1,14 +1,142 @@
 #include(macros.inc)
 
 [top]
-components : conector@Conector opinion shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker RationalSupportersTot@RationalSupportersTot RationalSupporters@QSS1 DegeneratesTot@DegeneratesTot Degenerates@QSS1 NeutralistsTot@NeutralistsTot Neutralists@QSS1 outDegeneratesRightPlus@outDegeneratesRightPlus outDegeneratesRightMinus@outDegeneratesRightMinus neutralistsToDegeneratesPlus@neutralistsToDegeneratesPlus neutralistsToDegeneratesMinus@neutralistsToDegeneratesMinus rationalsToNeutralistsPlus@rationalsToNeutralistsPlus rationalsToNeutralistsMinus@rationalsToNeutralistsMinus neutralistsToRationalsPlus@neutralistsToRationalsPlus neutralistsToRationalsMinus@neutralistsToRationalsMinus outDegeneratesLeftPlus@outDegeneratesLeftPlus outDegeneratesLeftMinus@outDegeneratesLeftMinus 
+components : conector@Conector dueling-loops opinion shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker
 
-% External Input Ports
 in : in0 in1 in2 in3 in4
-% External Output Ports
-out : RationalSupporters Degenerates Neutralists 
+out : 
 
-% Links internos (input ports => atomicos tipo 'Cte')
+% =============================== Conexiones entre modelos acoplados ========================= %
+link : RationalSupporters@dueling-loops inRationalSupporters@conector
+link : Degenerates@dueling-loops inDegenerates@conector
+link : Neutralists@dueling-loops inNeutralists@conector
+
+% ======== Links : inputs => shockers ========= %
+%link : in0 in@shocker0 
+%link : in1 in@shocker1 
+%link : in2 in@shocker2 
+%link : in3 in@shocker3 
+%link : in4 in@shocker4 
+
+% ======== Links : conector => shockers ========= %
+link : out@conector in05@opinion
+link : out@conector in06@opinion
+link : out@conector in07@opinion
+%link : out@conector in@shocker0
+%link : out2@conector in@shocker1
+%link : out3@conector in@shocker2
+%link : out4@conector in@shocker3
+%link : out5@conector in@shocker4
+
+% ======== Links : shockers => opinion ========= %
+link : out0@shocker0 in78@opinion
+link : out0@shocker1 in94@opinion
+link : out0@shocker2 in05@opinion
+link : out0@shocker3 in61@opinion
+link : out0@shocker4 in37@opinion
+link : out10@shocker0 in92@opinion
+link : out10@shocker1 in81@opinion
+link : out10@shocker2 in16@opinion
+link : out10@shocker3 in40@opinion
+link : out10@shocker4 in28@opinion
+link : out11@shocker0 in52@opinion
+link : out11@shocker1 in18@opinion
+link : out11@shocker2 in53@opinion
+link : out11@shocker3 in67@opinion
+link : out11@shocker4 in55@opinion
+link : out12@shocker0 in95@opinion
+link : out12@shocker1 in44@opinion
+link : out12@shocker2 in85@opinion
+link : out12@shocker3 in88@opinion
+link : out12@shocker4 in49@opinion
+link : out13@shocker0 in30@opinion
+link : out13@shocker1 in29@opinion
+link : out13@shocker2 in97@opinion
+link : out13@shocker3 in83@opinion
+link : out13@shocker4 in12@opinion
+link : out14@shocker0 in03@opinion
+link : out14@shocker1 in42@opinion
+link : out14@shocker2 in34@opinion
+link : out14@shocker3 in89@opinion
+link : out14@shocker4 in23@opinion
+link : out15@shocker0 in31@opinion
+link : out15@shocker1 in38@opinion
+link : out15@shocker2 in56@opinion
+link : out15@shocker3 in35@opinion
+link : out15@shocker4 in65@opinion
+link : out16@shocker0 in06@opinion
+link : out16@shocker1 in80@opinion
+link : out16@shocker2 in47@opinion
+link : out16@shocker3 in01@opinion
+link : out16@shocker4 in64@opinion
+link : out17@shocker0 in51@opinion
+link : out17@shocker1 in21@opinion
+link : out17@shocker2 in24@opinion
+link : out17@shocker3 in91@opinion
+link : out17@shocker4 in54@opinion
+link : out18@shocker0 in41@opinion
+link : out18@shocker1 in20@opinion
+link : out18@shocker2 in00@opinion
+link : out18@shocker3 in76@opinion
+link : out18@shocker4 in75@opinion
+link : out19@shocker0 in08@opinion
+link : out19@shocker1 in84@opinion
+link : out19@shocker2 in99@opinion
+link : out19@shocker3 in98@opinion
+link : out19@shocker4 in27@opinion
+link : out1@shocker0 in72@opinion
+link : out1@shocker1 in15@opinion
+link : out1@shocker2 in26@opinion
+link : out1@shocker3 in09@opinion
+link : out1@shocker4 in62@opinion
+link : out2@shocker0 in22@opinion
+link : out2@shocker1 in93@opinion
+link : out2@shocker2 in43@opinion
+link : out2@shocker3 in36@opinion
+link : out2@shocker4 in07@opinion
+link : out3@shocker0 in66@opinion
+link : out3@shocker1 in14@opinion
+link : out3@shocker2 in79@opinion
+link : out3@shocker3 in59@opinion
+link : out3@shocker4 in04@opinion
+link : out4@shocker0 in58@opinion
+link : out4@shocker1 in11@opinion
+link : out4@shocker2 in87@opinion
+link : out4@shocker3 in50@opinion
+link : out4@shocker4 in60@opinion
+link : out5@shocker0 in68@opinion
+link : out5@shocker1 in74@opinion
+link : out5@shocker2 in46@opinion
+link : out5@shocker3 in82@opinion
+link : out5@shocker4 in39@opinion
+link : out6@shocker0 in73@opinion
+link : out6@shocker1 in10@opinion
+link : out6@shocker2 in13@opinion
+link : out6@shocker3 in70@opinion
+link : out6@shocker4 in69@opinion
+link : out7@shocker0 in45@opinion
+link : out7@shocker1 in57@opinion
+link : out7@shocker2 in63@opinion
+link : out7@shocker3 in19@opinion
+link : out7@shocker4 in02@opinion
+link : out8@shocker0 in86@opinion
+link : out8@shocker1 in32@opinion
+link : out8@shocker2 in17@opinion
+link : out8@shocker3 in71@opinion
+link : out8@shocker4 in33@opinion
+link : out9@shocker0 in48@opinion
+link : out9@shocker1 in90@opinion
+link : out9@shocker2 in96@opinion
+link : out9@shocker3 in77@opinion
+link : out9@shocker4 in25@opinion
+
+% ===================== Dueling Loops Coupled Model ===================== %
+[dueling-loops]
+components : RationalSupportersTot@RationalSupportersTot RationalSupporters@QSS1 DegeneratesTot@DegeneratesTot Degenerates@QSS1 NeutralistsTot@NeutralistsTot Neutralists@QSS1 outDegeneratesRightPlus@outDegeneratesRightPlus outDegeneratesRightMinus@outDegeneratesRightMinus neutralistsToDegeneratesPlus@neutralistsToDegeneratesPlus neutralistsToDegeneratesMinus@neutralistsToDegeneratesMinus rationalsToNeutralistsPlus@rationalsToNeutralistsPlus rationalsToNeutralistsMinus@rationalsToNeutralistsMinus neutralistsToRationalsPlus@neutralistsToRationalsPlus neutralistsToRationalsMinus@neutralistsToRationalsMinus outDegeneratesLeftPlus@outDegeneratesLeftPlus outDegeneratesLeftMinus@outDegeneratesLeftMinus 
+
+% I/O Ports
+in : in0 in1 in2 in3 in4
+out : RationalSupporters Degenerates Neutralists 
 
 % Internal I/O Connections
 link : out@RationalSupportersTot in@RationalSupporters
@@ -55,12 +183,18 @@ dQRel : 0.0001
 dQMin : 0.0001
 
 % ====================================== % ====================================== % ====================================== %
+% ============================         Conexiones dueling-loops => conector => shockers        ===========================
+
+link : 
+
+% ====================================== % ====================================== % ====================================== %
 % ======================================         Modelo Cell-Devs de OPINION        ======================================
 [opinion]
 type : cell
 dim : (10,10,2)
+% TODO : cambiar por delay = inertial. Para esto, es necesario aplicar FIX en el kernel
 delay : transport
-defaultDelayTime : 100	
+defaultDelayTime : 100
 border : unwrapped 		
 neighbors : opinion(-1,0,0)
 neighbors : opinion(0,-1,0)  opinion(0,0,0)  opinion(0,1,0)
