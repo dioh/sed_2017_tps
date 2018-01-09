@@ -185,15 +185,14 @@ dQMin : 0.0001
 % ====================================== % ====================================== % ====================================== %
 % ============================         Conexiones dueling-loops => conector => shockers        ===========================
 
-link : 
+% link : 
 
 % ====================================== % ====================================== % ====================================== %
 % ======================================         Modelo Cell-Devs de OPINION        ======================================
 [opinion]
 type : cell
 dim : (10,10,2)
-% TODO : cambiar por delay = inertial. Para esto, es necesario aplicar FIX en el kernel
-delay : transport
+delay : inertial
 defaultDelayTime : 100
 border : unwrapped 		
 neighbors : opinion(-1,0,0)
@@ -309,21 +308,23 @@ link : in98 in@opinion(9,8,0)
 link : in99 in@opinion(9,9,0)
 
 %---------------------------------------------------
-
 localtransition : opinion-rule
-%----------------------------------------------------------------------------
-%----------------------------------------------------------------------------
 
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+PortInTransition : in@opinion(0,5,0) shockExterno
+PortInTransition : in@opinion(0,6,0) shockExterno
+PortInTransition : in@opinion(0,7,0) shockExterno
+%----------------------------------------------------------------------------
+[shockExterno]
+rule : 3 0 { portValue(in) = 8 }
+rule : { (0,0,0) } 0 { t }
+
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
 [opinion-rule]
-rule :  { uniform(-2,2) } 0 { (0,0,0)=-70 and (0,0,1)!=? }
-%Condicion inicial para la capa de opiniones (layer 1).
-rule :  { randInt(3)+1 } 0 { (0,0,0)=-70 and (0,0,1)=?   }
-%Condicion inicial para la capa de conectividad (layer 2).
- 
-%----------------------------------------------------------------------------
-rule :  { randInt(3)+1 } 100 { (0,0,1)=?  }	
-%Clock del modelo: actualizacion de la capa de conectividad.
-%----------------------------------------------------------------------------
 
 %----------------------------------------------------------------------------
 % --------------- REGLAS DE REACCION ANTE SHOCKS EXTERNOS -------------------
@@ -331,6 +332,16 @@ rule :  { randInt(3)+1 } 100 { (0,0,1)=?  }
 rule : {  uniform(-3, -2) } 0 { (0,0,0) = 5 }
 rule : {  uniform(-1, 1)  } 0 { (0,0,0) = 6 }
 rule : {  uniform(2, 3) } 0 { (0,0,0) = 7 }
+
+%----------------------------------------------------------------------------
+rule :  { uniform(-2,2) } 0 { (0,0,0)=-70 and (0,0,1)!=? }
+%Condicion inicial para la capa de opiniones (layer 1).
+rule :  { randInt(3)+1 } 0 { (0,0,0)=-70 and (0,0,1)=?   }
+%Condicion inicial para la capa de conectividad (layer 2).
+
+%----------------------------------------------------------------------------
+rule :  { randInt(3)+1 } 100 { (0,0,1)=?  }	
+%Clock del modelo: actualizacion de la capa de conectividad.
 %----------------------------------------------------------------------------
 
 %Reglas para no pasarme del intervalo [-3;3] por sumar o restar #macro(delta): 

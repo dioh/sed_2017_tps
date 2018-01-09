@@ -76,7 +76,7 @@ Model &Conector::outputFunction(const CollectMessage &msg)
         double outValue = 0;
         // Funcion que determina si activar o no activar los shockers
         if (prev_Neutralists > 20 && Neutralists < 20) {
-            outValue = 3; // Shock positivo
+            outValue = 8; // Shock : 8 debe ser interpretado como positivo en el Cell-Devs
         }
 
         // Output
