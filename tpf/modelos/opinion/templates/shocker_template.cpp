@@ -20,8 +20,7 @@ using namespace std;
 	{% endfor -%}
 	in(addInputPort("in")),
 	numberOfOutputPorts({{numberOfOutputPorts}}),
-	numberOfChosenOutputPorts({{numberOfChosenOutputPorts}}),
-	outValue({{outValue}})
+	numberOfChosenOutputPorts({{numberOfChosenOutputPorts}})
 {
 }
 
@@ -35,7 +34,7 @@ Model &{{atomicClass}}::initFunction()
 
 Model &{{atomicClass}}::externalFunction(const ExternalMessage &msg)
 {
-	outValue = Tuple<Real>::from_value(msg.value())[0].value();
+	shockValue = Tuple<Real>::from_value(msg.value())[0];
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -67,7 +66,7 @@ Model &{{atomicClass}}::outputFunction(const CollectMessage &msg)
 
 	// Send output through rondomized group of output ports
 	{% for outPort in outPorts -%} 
-		if(selected_ports[{{loop.index - 1}}] == 1) { sendOutput(msg.time(), {{outPort}}, outValue); } 
+		if(selected_ports[{{loop.index - 1}}] == 1) { sendOutput(msg.time(), {{outPort}}, shockValue); } 
 	{% endfor -%}
 	return *this ;
 }

@@ -31,7 +31,7 @@ class {{atomicClass}} : public Atomic {
     // State variables
     double numberOfOutputPorts;
     double numberOfChosenOutputPorts;
-    double outValue;
+    Real shockValue;
 };
 
 #endif

@@ -2,6 +2,7 @@
 
 [top]
 components : opinion shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker 
+
 %---------------------------------------------------
 % Inputs + Links externos para shock exogeno
 %---------------------------------------------------

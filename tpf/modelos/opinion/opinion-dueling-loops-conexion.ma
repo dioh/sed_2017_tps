@@ -1,32 +1,29 @@
 #include(macros.inc)
 
+% ====================================== % ====================================== % ====================================== %
+% ======================================                TOP MODEL                   ======================================
+% ====================================== % ====================================== % ====================================== %
 [top]
-components : conector@Conector dueling-loops opinion shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker
+components : shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker conector@Conector opinion dueling-loops
 
-in : in0 in1 in2 in3 in4
-out : 
+out : RationalSupporters Degenerates Neutralists
+
+% ======= Output Connections ======= %
+link : RationalSupporters@dueling-loops RationalSupporters
+link : Degenerates@dueling-loops Degenerates
+link : Neutralists@dueling-loops Neutralists
 
 % =============================== Conexiones entre modelos acoplados ========================= %
 link : RationalSupporters@dueling-loops inRationalSupporters@conector
 link : Degenerates@dueling-loops inDegenerates@conector
 link : Neutralists@dueling-loops inNeutralists@conector
 
-% ======== Links : inputs => shockers ========= %
-%link : in0 in@shocker0 
-%link : in1 in@shocker1 
-%link : in2 in@shocker2 
-%link : in3 in@shocker3 
-%link : in4 in@shocker4 
-
 % ======== Links : conector => shockers ========= %
-link : out@conector in05@opinion
-link : out@conector in06@opinion
-link : out@conector in07@opinion
-%link : out@conector in@shocker0
-%link : out2@conector in@shocker1
-%link : out3@conector in@shocker2
-%link : out4@conector in@shocker3
-%link : out5@conector in@shocker4
+link : out0@conector in@shocker0
+link : out1@conector in@shocker1
+link : out2@conector in@shocker2
+link : out3@conector in@shocker3
+link : out4@conector in@shocker4
 
 % ======== Links : shockers => opinion ========= %
 link : out0@shocker0 in78@opinion
@@ -130,7 +127,9 @@ link : out9@shocker2 in96@opinion
 link : out9@shocker3 in77@opinion
 link : out9@shocker4 in25@opinion
 
-% ===================== Dueling Loops Coupled Model ===================== %
+% ====================================== % ====================================== % ====================================== %
+% ======================================           Modelo Dueling Loops             ======================================
+% ====================================== % ====================================== % ====================================== %
 [dueling-loops]
 components : RationalSupportersTot@RationalSupportersTot RationalSupporters@QSS1 DegeneratesTot@DegeneratesTot Degenerates@QSS1 NeutralistsTot@NeutralistsTot Neutralists@QSS1 outDegeneratesRightPlus@outDegeneratesRightPlus outDegeneratesRightMinus@outDegeneratesRightMinus neutralistsToDegeneratesPlus@neutralistsToDegeneratesPlus neutralistsToDegeneratesMinus@neutralistsToDegeneratesMinus rationalsToNeutralistsPlus@rationalsToNeutralistsPlus rationalsToNeutralistsMinus@rationalsToNeutralistsMinus neutralistsToRationalsPlus@neutralistsToRationalsPlus neutralistsToRationalsMinus@neutralistsToRationalsMinus outDegeneratesLeftPlus@outDegeneratesLeftPlus outDegeneratesLeftMinus@outDegeneratesLeftMinus 
 
@@ -169,26 +168,22 @@ link : out@Neutralists Neutralists
 % Integradores
 [RationalSupporters]
 x0 : 1
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 [Degenerates]
 x0 : 1
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 [Neutralists]
 x0 : 98
-dQRel : 0.0001
-dQMin : 0.0001
-
-% ====================================== % ====================================== % ====================================== %
-% ============================         Conexiones dueling-loops => conector => shockers        ===========================
-
-% link : 
+dQRel : 0.001
+dQMin : 0.001
 
 % ====================================== % ====================================== % ====================================== %
 % ======================================         Modelo Cell-Devs de OPINION        ======================================
+% ====================================== % ====================================== % ====================================== %
 [opinion]
 type : cell
 dim : (10,10,2)
@@ -307,40 +302,137 @@ link : in97 in@opinion(9,7,0)
 link : in98 in@opinion(9,8,0)
 link : in99 in@opinion(9,9,0)
 
-%---------------------------------------------------
-localtransition : opinion-rule
 
 %----------------------------------------------------------------------------
+localtransition : opinion-rule
 %----------------------------------------------------------------------------
+
 %----------------------------------------------------------------------------
+% --- SETEO PUERTOS DEL CELL-DEVS QUE REACCIONAN ANTE SHOCKS EXTERNOS -------
+%----------------------------------------------------------------------------
+PortInTransition : in@opinion(0,0,0) shockExterno
+PortInTransition : in@opinion(0,1,0) shockExterno
+PortInTransition : in@opinion(0,2,0) shockExterno
+PortInTransition : in@opinion(0,3,0) shockExterno
+PortInTransition : in@opinion(0,4,0) shockExterno
 PortInTransition : in@opinion(0,5,0) shockExterno
 PortInTransition : in@opinion(0,6,0) shockExterno
 PortInTransition : in@opinion(0,7,0) shockExterno
-%----------------------------------------------------------------------------
-[shockExterno]
-rule : 3 0 { portValue(in) = 8 }
-rule : { (0,0,0) } 0 { t }
-
-%----------------------------------------------------------------------------
-%----------------------------------------------------------------------------
-%----------------------------------------------------------------------------
-[opinion-rule]
+PortInTransition : in@opinion(0,8,0) shockExterno
+PortInTransition : in@opinion(0,9,0) shockExterno
+PortInTransition : in@opinion(1,0,0) shockExterno
+PortInTransition : in@opinion(1,1,0) shockExterno
+PortInTransition : in@opinion(1,2,0) shockExterno
+PortInTransition : in@opinion(1,3,0) shockExterno
+PortInTransition : in@opinion(1,4,0) shockExterno
+PortInTransition : in@opinion(1,5,0) shockExterno
+PortInTransition : in@opinion(1,6,0) shockExterno
+PortInTransition : in@opinion(1,7,0) shockExterno
+PortInTransition : in@opinion(1,8,0) shockExterno
+PortInTransition : in@opinion(1,9,0) shockExterno
+PortInTransition : in@opinion(2,0,0) shockExterno
+PortInTransition : in@opinion(2,1,0) shockExterno
+PortInTransition : in@opinion(2,2,0) shockExterno
+PortInTransition : in@opinion(2,3,0) shockExterno
+PortInTransition : in@opinion(2,4,0) shockExterno
+PortInTransition : in@opinion(2,5,0) shockExterno
+PortInTransition : in@opinion(2,6,0) shockExterno
+PortInTransition : in@opinion(2,7,0) shockExterno
+PortInTransition : in@opinion(2,8,0) shockExterno
+PortInTransition : in@opinion(2,9,0) shockExterno
+PortInTransition : in@opinion(3,0,0) shockExterno
+PortInTransition : in@opinion(3,1,0) shockExterno
+PortInTransition : in@opinion(3,2,0) shockExterno
+PortInTransition : in@opinion(3,3,0) shockExterno
+PortInTransition : in@opinion(3,4,0) shockExterno
+PortInTransition : in@opinion(3,5,0) shockExterno
+PortInTransition : in@opinion(3,6,0) shockExterno
+PortInTransition : in@opinion(3,7,0) shockExterno
+PortInTransition : in@opinion(3,8,0) shockExterno
+PortInTransition : in@opinion(3,9,0) shockExterno
+PortInTransition : in@opinion(4,0,0) shockExterno
+PortInTransition : in@opinion(4,1,0) shockExterno
+PortInTransition : in@opinion(4,2,0) shockExterno
+PortInTransition : in@opinion(4,3,0) shockExterno
+PortInTransition : in@opinion(4,4,0) shockExterno
+PortInTransition : in@opinion(4,5,0) shockExterno
+PortInTransition : in@opinion(4,6,0) shockExterno
+PortInTransition : in@opinion(4,7,0) shockExterno
+PortInTransition : in@opinion(4,8,0) shockExterno
+PortInTransition : in@opinion(4,9,0) shockExterno
+PortInTransition : in@opinion(5,0,0) shockExterno
+PortInTransition : in@opinion(5,1,0) shockExterno
+PortInTransition : in@opinion(5,2,0) shockExterno
+PortInTransition : in@opinion(5,3,0) shockExterno
+PortInTransition : in@opinion(5,4,0) shockExterno
+PortInTransition : in@opinion(5,5,0) shockExterno
+PortInTransition : in@opinion(5,6,0) shockExterno
+PortInTransition : in@opinion(5,7,0) shockExterno
+PortInTransition : in@opinion(5,8,0) shockExterno
+PortInTransition : in@opinion(5,9,0) shockExterno
+PortInTransition : in@opinion(6,0,0) shockExterno
+PortInTransition : in@opinion(6,1,0) shockExterno
+PortInTransition : in@opinion(6,2,0) shockExterno
+PortInTransition : in@opinion(6,3,0) shockExterno
+PortInTransition : in@opinion(6,4,0) shockExterno
+PortInTransition : in@opinion(6,5,0) shockExterno
+PortInTransition : in@opinion(6,6,0) shockExterno
+PortInTransition : in@opinion(6,7,0) shockExterno
+PortInTransition : in@opinion(6,8,0) shockExterno
+PortInTransition : in@opinion(6,9,0) shockExterno
+PortInTransition : in@opinion(7,0,0) shockExterno
+PortInTransition : in@opinion(7,1,0) shockExterno
+PortInTransition : in@opinion(7,2,0) shockExterno
+PortInTransition : in@opinion(7,3,0) shockExterno
+PortInTransition : in@opinion(7,4,0) shockExterno
+PortInTransition : in@opinion(7,5,0) shockExterno
+PortInTransition : in@opinion(7,6,0) shockExterno
+PortInTransition : in@opinion(7,7,0) shockExterno
+PortInTransition : in@opinion(7,8,0) shockExterno
+PortInTransition : in@opinion(7,9,0) shockExterno
+PortInTransition : in@opinion(8,0,0) shockExterno
+PortInTransition : in@opinion(8,1,0) shockExterno
+PortInTransition : in@opinion(8,2,0) shockExterno
+PortInTransition : in@opinion(8,3,0) shockExterno
+PortInTransition : in@opinion(8,4,0) shockExterno
+PortInTransition : in@opinion(8,5,0) shockExterno
+PortInTransition : in@opinion(8,6,0) shockExterno
+PortInTransition : in@opinion(8,7,0) shockExterno
+PortInTransition : in@opinion(8,8,0) shockExterno
+PortInTransition : in@opinion(8,9,0) shockExterno
+PortInTransition : in@opinion(9,0,0) shockExterno
+PortInTransition : in@opinion(9,1,0) shockExterno
+PortInTransition : in@opinion(9,2,0) shockExterno
+PortInTransition : in@opinion(9,3,0) shockExterno
+PortInTransition : in@opinion(9,4,0) shockExterno
+PortInTransition : in@opinion(9,5,0) shockExterno
+PortInTransition : in@opinion(9,6,0) shockExterno
+PortInTransition : in@opinion(9,7,0) shockExterno
+PortInTransition : in@opinion(9,8,0) shockExterno
+PortInTransition : in@opinion(9,9,0) shockExterno
 
 %----------------------------------------------------------------------------
 % --------------- REGLAS DE REACCION ANTE SHOCKS EXTERNOS -------------------
 %----------------------------------------------------------------------------
-rule : {  uniform(-3, -2) } 0 { (0,0,0) = 5 }
-rule : {  uniform(-1, 1)  } 0 { (0,0,0) = 6 }
-rule : {  uniform(2, 3) } 0 { (0,0,0) = 7 }
+[shockExterno]
+rule : {  uniform(-3, -2) } 0 { portValue(in) = 5 }
+rule : {  uniform(-1, 1)  } 0 { portValue(in) = 6 }
+rule : {  uniform(2, 3) } 0 { portValue(in) = 7 }
+rule : 3 0 { portValue(in) = 8 }
+rule : { (0,0,0) } 0 { t }
 
 %----------------------------------------------------------------------------
+% ------------- REGLAS LOCALES PARA EL CELL - DEVS --------------------------
+%----------------------------------------------------------------------------
+[opinion-rule]
 rule :  { uniform(-2,2) } 0 { (0,0,0)=-70 and (0,0,1)!=? }
+
 %Condicion inicial para la capa de opiniones (layer 1).
 rule :  { randInt(3)+1 } 0 { (0,0,0)=-70 and (0,0,1)=?   }
-%Condicion inicial para la capa de conectividad (layer 2).
 
-%----------------------------------------------------------------------------
+%Condicion inicial para la capa de conectividad (layer 2).
 rule :  { randInt(3)+1 } 100 { (0,0,1)=?  }	
+
 %Clock del modelo: actualizacion de la capa de conectividad.
 %----------------------------------------------------------------------------
 

@@ -25,7 +25,11 @@ Conector::Conector(const string &name) :
     prev_RationalSupporters(0),
     prev_Neutralists(0),
     prev_Degenerates(0),
-    out(addOutputPort("out"))
+    out0(addOutputPort("out0")),
+    out1(addOutputPort("out1")),
+    out2(addOutputPort("out2")),
+    out3(addOutputPort("out3")),
+    out4(addOutputPort("out4"))
 {
 }
 
@@ -73,15 +77,52 @@ Model &Conector::outputFunction(const CollectMessage &msg)
 {
     if( isSet_Neutralists && isSet_Degenerates && isSet_RationalSupporters) {
 
-        double outValue = 0;
         // Funcion que determina si activar o no activar los shockers
-        if (prev_Neutralists > 20 && Neutralists < 20) {
-            outValue = 8; // Shock : 8 debe ser interpretado como positivo en el Cell-Devs
-        }
 
-        // Output
-        if (outValue > 0) {
-            sendOutput(msg.time(), out, outValue);
+        /////////////////////////////////////////////////////////////////
+        // Regla : envio shocks negativo / negativo / neutro / positivo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
+        /*if (prev_Neutralists > 80 && Neutralists < 80) {
+            double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv);
+            sendOutput(msg.time(), out0, outValue);
+        }
+        if (prev_Neutralists > 60 && Neutralists < 60) {
+            double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv);
+            sendOutput(msg.time(), out1, outValue);
+        }
+        if (prev_Neutralists > 40 && Neutralists < 40) {
+            double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv);
+            sendOutput(msg.time(), out2, outValue);
+        }
+        if (prev_Neutralists > 20 && Neutralists < 20) {
+            double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv); 
+            sendOutput(msg.time(), out3, outValue);
+        }*/
+        
+        /////////////////////////////////////////////////////////////////
+        // Regla : envio shocks neutro / positivo / neutro / negativo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
+        if (prev_Neutralists > 80 && Neutralists < 80) {
+            double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv);
+            sendOutput(msg.time(), out0, outValue);
+        }
+        if (prev_Neutralists > 60 && Neutralists < 60) {
+            double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv);
+            sendOutput(msg.time(), out1, outValue);
+        }
+        if (prev_Neutralists > 40 && Neutralists < 40) {
+            double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv);
+            sendOutput(msg.time(), out2, outValue);
+        }
+        if (prev_Neutralists > 20 && Neutralists < 20) {
+            double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
+            Tuple<Real> outValue = Tuple<Real>(&tv); 
+            sendOutput(msg.time(), out3, outValue);
         }
     }
     return *this ;

@@ -29,7 +29,7 @@ class Shocker : public Atomic {
     // State variables
     double numberOfOutputPorts;
     double numberOfChosenOutputPorts;
-    double outValue;
+    Real shockValue;
 };
 
 #endif

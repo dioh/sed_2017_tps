@@ -27,7 +27,7 @@ class Conector : public Atomic {
     const Port &inDegenerates;
     const Port &inNeutralists;
     // Output ports
-    Port &out;
+    Port &out0, &out1, &out2, &out3, &out4;
 
     // State variables
     double RationalSupporters, prev_RationalSupporters;
