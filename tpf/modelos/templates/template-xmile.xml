@@ -2,7 +2,7 @@
 <xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
 	<header>
 		<smile version="1.0" namespace="std, isee"/>
-		<name>{{model_name}}</name>
+		<name>"{{model_name}}"</name>
 		<uuid>193868c2-0b04-4d3d-b865-0cb31a83d64a</uuid>
 		<vendor>isee systems, inc.</vendor>
 		<product version="1.5" isee:build_number="1277" isee:saved_by_v1="true" lang="en">Stella Architect</product>
@@ -15,18 +15,34 @@
 	<model_units/>
 	<model>
 		<variables>
-			{% for stock in stocks %}
-
+			{% for stock in stocks -%}
+			<stock name="{{stock['name']}}">
+				<eqn>{{stock['eqn']}}</eqn>
+				<inflow>{{stock['inflow']}}</inflow>
+			</stock>
 			{% endfor %}
 
-			{% for aux in auxs %}
-
+			{% for flow in flows -%}
+			<flow name="{{flow['name']}}">
+				<eqn>{{flow['eqn']}}</eqn>
+			</flow>
 			{% endfor %}
 
-			{% for dependency in dependencies %}
+			{% for aux in auxs -%}
+			<aux name="{{aux['name']}}">
+				<eqn>{{aux['eqn']}}</eqn>
+			</aux>
+			{% endfor %}
+
 			<isee:dependencies>
-			</isee:dependencies>
+			{% for dependency in dependencies %}
+				<var name="{{dependency['name']}}">
+					{% for input in dependency['inputs'] -%}
+					<in>{{input}}</in>
+					{% endfor %}
+				</var>
 			{% endfor %}
+			</isee:dependencies>
 		</variables>
 	</model>
 </xmile>

@@ -46,7 +46,7 @@ Model &Conector::initFunction()
 Model &Conector::externalFunction(const ExternalMessage &msg)
 {
     double x = Tuple<Real>::from_value(msg.value())[0].value();
-
+    
     if(msg.port() == inRationalSupporters) {
         prev_RationalSupporters = RationalSupporters;
         RationalSupporters = x;
