@@ -52,7 +52,6 @@ Model &Shocker::initFunction()
 Model &Shocker::externalFunction(const ExternalMessage &msg)
 {
 	shockValue = Tuple<Real>::from_value(msg.value())[0];
-
 	holdIn(AtomicState::active, VTime::Zero);
 	return *this;
 }
@@ -76,7 +75,6 @@ Model &Shocker::outputFunction(const CollectMessage &msg)
 			selected_ports[i] = 0;
 		}
   	}
-
   	// Shuffle selected ports
   	for(int i = 20 - 1; i > 0; i--) {
 	 	int j = rand() % i;
@@ -84,11 +82,9 @@ Model &Shocker::outputFunction(const CollectMessage &msg)
 	}
 
 	// Send output through rondomized group of output ports
-
 	if(selected_ports[0] == 1) { sendOutput(msg.time(), out0, shockValue); } 
 	if(selected_ports[1] == 1) { sendOutput(msg.time(), out1, shockValue); } 
 	if(selected_ports[2] == 1) { sendOutput(msg.time(), out2, shockValue); } 
-	
 	if(selected_ports[3] == 1) { sendOutput(msg.time(), out3, shockValue); } 
 	if(selected_ports[4] == 1) { sendOutput(msg.time(), out4, shockValue); } 
 	if(selected_ports[5] == 1) { sendOutput(msg.time(), out5, shockValue); } 
@@ -106,7 +102,5 @@ Model &Shocker::outputFunction(const CollectMessage &msg)
 	if(selected_ports[17] == 1) { sendOutput(msg.time(), out17, shockValue); } 
 	if(selected_ports[18] == 1) { sendOutput(msg.time(), out18, shockValue); } 
 	if(selected_ports[19] == 1) { sendOutput(msg.time(), out19, shockValue); } 
-	
-
 	return *this ;
 }

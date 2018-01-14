@@ -6,7 +6,10 @@
 [top]
 components : shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker conector@Conector opinion dueling-loops
 
+in : inShockCriteria
 out : RationalSupporters Degenerates Neutralists
+
+link : inShockCriteria inShockCriteria@conector
 
 % ======= Output Connections ======= %
 link : RationalSupporters@dueling-loops RationalSupporters
@@ -168,18 +171,18 @@ link : out@Neutralists Neutralists
 % Integradores
 [RationalSupporters]
 x0 : 1
-dQRel : 0.001
-dQMin : 0.001
+dQRel : 0.0001
+dQMin : 0.0001
 
 [Degenerates]
 x0 : 1
-dQRel : 0.001
-dQMin : 0.001
+dQRel : 0.0001
+dQMin : 0.0001
 
 [Neutralists]
 x0 : 98
-dQRel : 0.001
-dQMin : 0.001
+dQRel : 0.0001
+dQMin : 0.0001
 
 % ====================================== % ====================================== % ====================================== %
 % ======================================         Modelo Cell-Devs de OPINION        ======================================

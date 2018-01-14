@@ -26,6 +26,9 @@ class Conector : public Atomic {
     const Port &inRationalSupporters;
     const Port &inDegenerates;
     const Port &inNeutralists;
+
+    const Port &inShockCriteria;
+
     // Output ports
     Port &out0, &out1, &out2, &out3, &out4;
 
@@ -34,10 +37,14 @@ class Conector : public Atomic {
     double Degenerates, prev_Degenerates;
     double Neutralists, prev_Neutralists;
 
+    double ShockCriteria;
+
     // Variables set
     bool isSet_RationalSupporters;
     bool isSet_Degenerates;
     bool isSet_Neutralists;
+
+    bool isSet_ShockCriteria;
 
 };
 

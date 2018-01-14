@@ -19,6 +19,8 @@ Conector::Conector(const string &name) :
     inRationalSupporters(addInputPort("inRationalSupporters")),
     inDegenerates(addInputPort("inDegenerates")),
     inNeutralists(addInputPort("inNeutralists")),
+    inShockCriteria(addInputPort("inShockCriteria")),
+    isSet_ShockCriteria(false),
     isSet_Degenerates(false),
     isSet_Neutralists(false),
     isSet_RationalSupporters(false),
@@ -61,6 +63,11 @@ Model &Conector::externalFunction(const ExternalMessage &msg)
         isSet_Neutralists = true;
     }
 
+    if(msg.port() == inShockCriteria) {
+        ShockCriteria = x;
+        isSet_ShockCriteria = true;
+    }
+
     holdIn(AtomicState::active, VTime::Zero);
     return *this;
 }
@@ -75,54 +82,54 @@ Model &Conector::internalFunction(const InternalMessage &)
 
 Model &Conector::outputFunction(const CollectMessage &msg)
 {
-    if( isSet_Neutralists && isSet_Degenerates && isSet_RationalSupporters) {
+    if( isSet_ShockCriteria && isSet_Neutralists && isSet_Degenerates && isSet_RationalSupporters) {
 
         // Funcion que determina si activar o no activar los shockers
 
-        /////////////////////////////////////////////////////////////////
-        // Regla : envio shocks negativo / negativo / neutro / positivo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
-        /*if (prev_Neutralists > 80 && Neutralists < 80) {
-            double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv);
-            sendOutput(msg.time(), out0, outValue);
-        }
-        if (prev_Neutralists > 60 && Neutralists < 60) {
-            double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv);
-            sendOutput(msg.time(), out1, outValue);
-        }
-        if (prev_Neutralists > 40 && Neutralists < 40) {
-            double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv);
-            sendOutput(msg.time(), out2, outValue);
-        }
-        if (prev_Neutralists > 20 && Neutralists < 20) {
-            double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv); 
-            sendOutput(msg.time(), out3, outValue);
-        }*/
-        
-        /////////////////////////////////////////////////////////////////
-        // Regla : envio shocks neutro / positivo / neutro / negativo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
-        if (prev_Neutralists > 80 && Neutralists < 80) {
-            double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv);
-            sendOutput(msg.time(), out0, outValue);
-        }
-        if (prev_Neutralists > 60 && Neutralists < 60) {
-            double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv);
-            sendOutput(msg.time(), out1, outValue);
-        }
-        if (prev_Neutralists > 40 && Neutralists < 40) {
-            double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv);
-            sendOutput(msg.time(), out2, outValue);
-        }
-        if (prev_Neutralists > 20 && Neutralists < 20) {
-            double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
-            Tuple<Real> outValue = Tuple<Real>(&tv); 
-            sendOutput(msg.time(), out3, outValue);
+        if(ShockCriteria == 1) {
+            // Regla : envio shocks negativo / negativo / neutro / positivo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
+            if (prev_Neutralists > 80 && Neutralists < 80) {
+                double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv);
+                sendOutput(msg.time(), out0, outValue);
+            }
+            if (prev_Neutralists > 60 && Neutralists < 60) {
+                double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv);
+                sendOutput(msg.time(), out1, outValue);
+            }
+            if (prev_Neutralists > 40 && Neutralists < 40) {
+                double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv);
+                sendOutput(msg.time(), out2, outValue);
+            }
+            if (prev_Neutralists > 20 && Neutralists < 20) {
+                double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv); 
+                sendOutput(msg.time(), out3, outValue);
+            }
+        } else if(ShockCriteria == 2) {
+            // Regla : envio shocks neutro / positivo / neutro / negativo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
+            if (prev_Neutralists > 80 && Neutralists < 80) {
+                double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv);
+                sendOutput(msg.time(), out0, outValue);
+            }
+            if (prev_Neutralists > 60 && Neutralists < 60) {
+                double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv);
+                sendOutput(msg.time(), out1, outValue);
+            }
+            if (prev_Neutralists > 40 && Neutralists < 40) {
+                double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv);
+                sendOutput(msg.time(), out2, outValue);
+            }
+            if (prev_Neutralists > 20 && Neutralists < 20) {
+                double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
+                Tuple<Real> outValue = Tuple<Real>(&tv); 
+                sendOutput(msg.time(), out3, outValue);
+            }
         }
     }
     return *this ;
