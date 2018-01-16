@@ -1,0 +1,1 @@
+. Generar experimentos con el notebook. Ahi explica como luego correr los mismos
