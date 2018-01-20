@@ -169,18 +169,18 @@ link : out@Neutralists Neutralists
 % Integradores
 [RationalSupporters]
 x0 : 1
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 [Degenerates]
 x0 : 1
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 [Neutralists]
 x0 : 98
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 % ====================================== % ====================================== % ====================================== %
 % ======================================         Modelo Cell-Devs de OPINION        ======================================

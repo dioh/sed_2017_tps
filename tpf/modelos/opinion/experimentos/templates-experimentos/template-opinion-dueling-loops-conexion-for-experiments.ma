@@ -26,106 +26,106 @@ link : out3@conector in@shocker3
 link : out4@conector in@shocker4
 
 % ======== Links : shockers => opinion ========= %
-link : out0@shocker0 in59@opinion
-link : out0@shocker1 in19@opinion
-link : out0@shocker2 in36@opinion
-link : out0@shocker3 in34@opinion
-link : out0@shocker4 in79@opinion
-link : out10@shocker0 in51@opinion
-link : out10@shocker1 in11@opinion
-link : out10@shocker2 in94@opinion
-link : out10@shocker3 in54@opinion
-link : out10@shocker4 in21@opinion
-link : out11@shocker0 in80@opinion
-link : out11@shocker1 in00@opinion
-link : out11@shocker2 in32@opinion
-link : out11@shocker3 in26@opinion
-link : out11@shocker4 in75@opinion
-link : out12@shocker0 in62@opinion
-link : out12@shocker1 in43@opinion
-link : out12@shocker2 in22@opinion
-link : out12@shocker3 in55@opinion
-link : out12@shocker4 in13@opinion
-link : out13@shocker0 in49@opinion
-link : out13@shocker1 in91@opinion
-link : out13@shocker2 in07@opinion
-link : out13@shocker3 in78@opinion
-link : out13@shocker4 in56@opinion
-link : out14@shocker0 in77@opinion
-link : out14@shocker1 in96@opinion
-link : out14@shocker2 in74@opinion
-link : out14@shocker3 in08@opinion
+link : out0@shocker0 in25@opinion
+link : out0@shocker1 in32@opinion
+link : out0@shocker2 in41@opinion
+link : out0@shocker3 in61@opinion
+link : out0@shocker4 in03@opinion
+link : out10@shocker0 in75@opinion
+link : out10@shocker1 in83@opinion
+link : out10@shocker2 in87@opinion
+link : out10@shocker3 in12@opinion
+link : out10@shocker4 in96@opinion
+link : out11@shocker0 in50@opinion
+link : out11@shocker1 in64@opinion
+link : out11@shocker2 in53@opinion
+link : out11@shocker3 in07@opinion
+link : out11@shocker4 in81@opinion
+link : out12@shocker0 in63@opinion
+link : out12@shocker1 in31@opinion
+link : out12@shocker2 in26@opinion
+link : out12@shocker3 in91@opinion
+link : out12@shocker4 in74@opinion
+link : out13@shocker0 in88@opinion
+link : out13@shocker1 in43@opinion
+link : out13@shocker2 in69@opinion
+link : out13@shocker3 in42@opinion
+link : out13@shocker4 in57@opinion
+link : out14@shocker0 in01@opinion
+link : out14@shocker1 in06@opinion
+link : out14@shocker2 in76@opinion
+link : out14@shocker3 in34@opinion
 link : out14@shocker4 in70@opinion
-link : out15@shocker0 in95@opinion
+link : out15@shocker0 in94@opinion
 link : out15@shocker1 in33@opinion
-link : out15@shocker2 in52@opinion
-link : out15@shocker3 in44@opinion
-link : out15@shocker4 in81@opinion
-link : out16@shocker0 in61@opinion
-link : out16@shocker1 in45@opinion
-link : out16@shocker2 in27@opinion
-link : out16@shocker3 in68@opinion
-link : out16@shocker4 in65@opinion
-link : out17@shocker0 in35@opinion
-link : out17@shocker1 in30@opinion
-link : out17@shocker2 in12@opinion
-link : out17@shocker3 in31@opinion
-link : out17@shocker4 in38@opinion
-link : out18@shocker0 in99@opinion
-link : out18@shocker1 in87@opinion
-link : out18@shocker2 in01@opinion
-link : out18@shocker3 in16@opinion
-link : out18@shocker4 in84@opinion
-link : out19@shocker0 in90@opinion
-link : out19@shocker1 in73@opinion
-link : out19@shocker2 in67@opinion
-link : out19@shocker3 in50@opinion
-link : out19@shocker4 in09@opinion
-link : out1@shocker0 in18@opinion
-link : out1@shocker1 in53@opinion
-link : out1@shocker2 in42@opinion
-link : out1@shocker3 in14@opinion
-link : out1@shocker4 in92@opinion
-link : out2@shocker0 in48@opinion
-link : out2@shocker1 in63@opinion
-link : out2@shocker2 in66@opinion
-link : out2@shocker3 in15@opinion
-link : out2@shocker4 in23@opinion
-link : out3@shocker0 in37@opinion
-link : out3@shocker1 in39@opinion
-link : out3@shocker2 in60@opinion
-link : out3@shocker3 in58@opinion
-link : out3@shocker4 in41@opinion
-link : out4@shocker0 in05@opinion
-link : out4@shocker1 in76@opinion
-link : out4@shocker2 in29@opinion
-link : out4@shocker3 in93@opinion
-link : out4@shocker4 in03@opinion
-link : out5@shocker0 in04@opinion
-link : out5@shocker1 in72@opinion
-link : out5@shocker2 in89@opinion
-link : out5@shocker3 in24@opinion
-link : out5@shocker4 in71@opinion
-link : out6@shocker0 in06@opinion
-link : out6@shocker1 in57@opinion
-link : out6@shocker2 in88@opinion
-link : out6@shocker3 in85@opinion
-link : out6@shocker4 in82@opinion
-link : out7@shocker0 in86@opinion
-link : out7@shocker1 in97@opinion
-link : out7@shocker2 in46@opinion
-link : out7@shocker3 in28@opinion
-link : out7@shocker4 in83@opinion
-link : out8@shocker0 in40@opinion
-link : out8@shocker1 in47@opinion
-link : out8@shocker2 in69@opinion
-link : out8@shocker3 in98@opinion
-link : out8@shocker4 in17@opinion
-link : out9@shocker0 in10@opinion
-link : out9@shocker1 in64@opinion
-link : out9@shocker2 in25@opinion
-link : out9@shocker3 in02@opinion
-link : out9@shocker4 in20@opinion
+link : out15@shocker2 in27@opinion
+link : out15@shocker3 in90@opinion
+link : out15@shocker4 in08@opinion
+link : out16@shocker0 in65@opinion
+link : out16@shocker1 in49@opinion
+link : out16@shocker2 in86@opinion
+link : out16@shocker3 in77@opinion
+link : out16@shocker4 in89@opinion
+link : out17@shocker0 in13@opinion
+link : out17@shocker1 in45@opinion
+link : out17@shocker2 in52@opinion
+link : out17@shocker3 in82@opinion
+link : out17@shocker4 in67@opinion
+link : out18@shocker0 in29@opinion
+link : out18@shocker1 in16@opinion
+link : out18@shocker2 in66@opinion
+link : out18@shocker3 in11@opinion
+link : out18@shocker4 in72@opinion
+link : out19@shocker0 in51@opinion
+link : out19@shocker1 in84@opinion
+link : out19@shocker2 in09@opinion
+link : out19@shocker3 in99@opinion
+link : out19@shocker4 in10@opinion
+link : out1@shocker0 in78@opinion
+link : out1@shocker1 in98@opinion
+link : out1@shocker2 in62@opinion
+link : out1@shocker3 in02@opinion
+link : out1@shocker4 in28@opinion
+link : out2@shocker0 in46@opinion
+link : out2@shocker1 in20@opinion
+link : out2@shocker2 in92@opinion
+link : out2@shocker3 in44@opinion
+link : out2@shocker4 in14@opinion
+link : out3@shocker0 in79@opinion
+link : out3@shocker1 in15@opinion
+link : out3@shocker2 in58@opinion
+link : out3@shocker3 in37@opinion
+link : out3@shocker4 in56@opinion
+link : out4@shocker0 in04@opinion
+link : out4@shocker1 in18@opinion
+link : out4@shocker2 in48@opinion
+link : out4@shocker3 in05@opinion
+link : out4@shocker4 in21@opinion
+link : out5@shocker0 in39@opinion
+link : out5@shocker1 in19@opinion
+link : out5@shocker2 in71@opinion
+link : out5@shocker3 in36@opinion
+link : out5@shocker4 in55@opinion
+link : out6@shocker0 in23@opinion
+link : out6@shocker1 in93@opinion
+link : out6@shocker2 in47@opinion
+link : out6@shocker3 in73@opinion
+link : out6@shocker4 in22@opinion
+link : out7@shocker0 in97@opinion
+link : out7@shocker1 in40@opinion
+link : out7@shocker2 in38@opinion
+link : out7@shocker3 in85@opinion
+link : out7@shocker4 in35@opinion
+link : out8@shocker0 in24@opinion
+link : out8@shocker1 in00@opinion
+link : out8@shocker2 in54@opinion
+link : out8@shocker3 in80@opinion
+link : out8@shocker4 in59@opinion
+link : out9@shocker0 in17@opinion
+link : out9@shocker1 in30@opinion
+link : out9@shocker2 in95@opinion
+link : out9@shocker3 in60@opinion
+link : out9@shocker4 in68@opinion
 
 
 % ====================================== % ====================================== % ====================================== %
@@ -169,18 +169,18 @@ link : out@Neutralists Neutralists
 % Integradores
 [RationalSupporters]
 x0 : 1
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 [Degenerates]
 x0 : 1
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 [Neutralists]
 x0 : 98
-dQRel : 0.0001
-dQMin : 0.0001
+dQRel : 0.001
+dQMin : 0.001
 
 % ====================================== % ====================================== % ====================================== %
 % ======================================         Modelo Cell-Devs de OPINION        ======================================
@@ -311,115 +311,115 @@ localtransition : opinion-rule
 %----------------------------------------------------------------------------
 % --- SETEO PUERTOS DEL CELL-DEVS QUE REACCIONAN ANTE SHOCKS EXTERNOS -------
 %----------------------------------------------------------------------------
-PortInTransition : in@opinion(5,9,0) shockExterno
-PortInTransition : in@opinion(1,9,0) shockExterno
-PortInTransition : in@opinion(3,6,0) shockExterno
-PortInTransition : in@opinion(3,4,0) shockExterno
-PortInTransition : in@opinion(7,9,0) shockExterno
-PortInTransition : in@opinion(1,8,0) shockExterno
-PortInTransition : in@opinion(5,3,0) shockExterno
-PortInTransition : in@opinion(4,2,0) shockExterno
-PortInTransition : in@opinion(1,4,0) shockExterno
-PortInTransition : in@opinion(9,2,0) shockExterno
-PortInTransition : in@opinion(4,8,0) shockExterno
-PortInTransition : in@opinion(6,3,0) shockExterno
-PortInTransition : in@opinion(6,6,0) shockExterno
-PortInTransition : in@opinion(1,5,0) shockExterno
-PortInTransition : in@opinion(2,3,0) shockExterno
-PortInTransition : in@opinion(3,7,0) shockExterno
-PortInTransition : in@opinion(3,9,0) shockExterno
-PortInTransition : in@opinion(6,0,0) shockExterno
-PortInTransition : in@opinion(5,8,0) shockExterno
-PortInTransition : in@opinion(4,1,0) shockExterno
-PortInTransition : in@opinion(0,5,0) shockExterno
-PortInTransition : in@opinion(7,6,0) shockExterno
-PortInTransition : in@opinion(2,9,0) shockExterno
-PortInTransition : in@opinion(9,3,0) shockExterno
-PortInTransition : in@opinion(0,3,0) shockExterno
-PortInTransition : in@opinion(0,4,0) shockExterno
-PortInTransition : in@opinion(7,2,0) shockExterno
-PortInTransition : in@opinion(8,9,0) shockExterno
-PortInTransition : in@opinion(2,4,0) shockExterno
-PortInTransition : in@opinion(7,1,0) shockExterno
-PortInTransition : in@opinion(0,6,0) shockExterno
-PortInTransition : in@opinion(5,7,0) shockExterno
-PortInTransition : in@opinion(8,8,0) shockExterno
-PortInTransition : in@opinion(8,5,0) shockExterno
-PortInTransition : in@opinion(8,2,0) shockExterno
-PortInTransition : in@opinion(8,6,0) shockExterno
-PortInTransition : in@opinion(9,7,0) shockExterno
-PortInTransition : in@opinion(4,6,0) shockExterno
-PortInTransition : in@opinion(2,8,0) shockExterno
-PortInTransition : in@opinion(8,3,0) shockExterno
-PortInTransition : in@opinion(4,0,0) shockExterno
-PortInTransition : in@opinion(4,7,0) shockExterno
-PortInTransition : in@opinion(6,9,0) shockExterno
-PortInTransition : in@opinion(9,8,0) shockExterno
-PortInTransition : in@opinion(1,7,0) shockExterno
-PortInTransition : in@opinion(1,0,0) shockExterno
-PortInTransition : in@opinion(6,4,0) shockExterno
 PortInTransition : in@opinion(2,5,0) shockExterno
-PortInTransition : in@opinion(0,2,0) shockExterno
-PortInTransition : in@opinion(2,0,0) shockExterno
-PortInTransition : in@opinion(5,1,0) shockExterno
-PortInTransition : in@opinion(1,1,0) shockExterno
-PortInTransition : in@opinion(9,4,0) shockExterno
-PortInTransition : in@opinion(5,4,0) shockExterno
-PortInTransition : in@opinion(2,1,0) shockExterno
-PortInTransition : in@opinion(8,0,0) shockExterno
-PortInTransition : in@opinion(0,0,0) shockExterno
 PortInTransition : in@opinion(3,2,0) shockExterno
-PortInTransition : in@opinion(2,6,0) shockExterno
-PortInTransition : in@opinion(7,5,0) shockExterno
-PortInTransition : in@opinion(6,2,0) shockExterno
-PortInTransition : in@opinion(4,3,0) shockExterno
-PortInTransition : in@opinion(2,2,0) shockExterno
-PortInTransition : in@opinion(5,5,0) shockExterno
-PortInTransition : in@opinion(1,3,0) shockExterno
-PortInTransition : in@opinion(4,9,0) shockExterno
-PortInTransition : in@opinion(9,1,0) shockExterno
-PortInTransition : in@opinion(0,7,0) shockExterno
-PortInTransition : in@opinion(7,8,0) shockExterno
-PortInTransition : in@opinion(5,6,0) shockExterno
-PortInTransition : in@opinion(7,7,0) shockExterno
-PortInTransition : in@opinion(9,6,0) shockExterno
-PortInTransition : in@opinion(7,4,0) shockExterno
-PortInTransition : in@opinion(0,8,0) shockExterno
-PortInTransition : in@opinion(7,0,0) shockExterno
-PortInTransition : in@opinion(9,5,0) shockExterno
-PortInTransition : in@opinion(3,3,0) shockExterno
-PortInTransition : in@opinion(5,2,0) shockExterno
-PortInTransition : in@opinion(4,4,0) shockExterno
-PortInTransition : in@opinion(8,1,0) shockExterno
+PortInTransition : in@opinion(4,1,0) shockExterno
 PortInTransition : in@opinion(6,1,0) shockExterno
-PortInTransition : in@opinion(4,5,0) shockExterno
-PortInTransition : in@opinion(2,7,0) shockExterno
-PortInTransition : in@opinion(6,8,0) shockExterno
-PortInTransition : in@opinion(6,5,0) shockExterno
-PortInTransition : in@opinion(3,5,0) shockExterno
-PortInTransition : in@opinion(3,0,0) shockExterno
-PortInTransition : in@opinion(1,2,0) shockExterno
-PortInTransition : in@opinion(3,1,0) shockExterno
-PortInTransition : in@opinion(3,8,0) shockExterno
-PortInTransition : in@opinion(9,9,0) shockExterno
-PortInTransition : in@opinion(8,7,0) shockExterno
-PortInTransition : in@opinion(0,1,0) shockExterno
-PortInTransition : in@opinion(1,6,0) shockExterno
-PortInTransition : in@opinion(8,4,0) shockExterno
-PortInTransition : in@opinion(9,0,0) shockExterno
+PortInTransition : in@opinion(0,3,0) shockExterno
+PortInTransition : in@opinion(7,8,0) shockExterno
+PortInTransition : in@opinion(9,8,0) shockExterno
+PortInTransition : in@opinion(6,2,0) shockExterno
+PortInTransition : in@opinion(0,2,0) shockExterno
+PortInTransition : in@opinion(2,8,0) shockExterno
+PortInTransition : in@opinion(4,6,0) shockExterno
+PortInTransition : in@opinion(2,0,0) shockExterno
+PortInTransition : in@opinion(9,2,0) shockExterno
+PortInTransition : in@opinion(4,4,0) shockExterno
+PortInTransition : in@opinion(1,4,0) shockExterno
+PortInTransition : in@opinion(7,9,0) shockExterno
+PortInTransition : in@opinion(1,5,0) shockExterno
+PortInTransition : in@opinion(5,8,0) shockExterno
+PortInTransition : in@opinion(3,7,0) shockExterno
+PortInTransition : in@opinion(5,6,0) shockExterno
+PortInTransition : in@opinion(0,4,0) shockExterno
+PortInTransition : in@opinion(1,8,0) shockExterno
+PortInTransition : in@opinion(4,8,0) shockExterno
+PortInTransition : in@opinion(0,5,0) shockExterno
+PortInTransition : in@opinion(2,1,0) shockExterno
+PortInTransition : in@opinion(3,9,0) shockExterno
+PortInTransition : in@opinion(1,9,0) shockExterno
+PortInTransition : in@opinion(7,1,0) shockExterno
+PortInTransition : in@opinion(3,6,0) shockExterno
+PortInTransition : in@opinion(5,5,0) shockExterno
+PortInTransition : in@opinion(2,3,0) shockExterno
+PortInTransition : in@opinion(9,3,0) shockExterno
+PortInTransition : in@opinion(4,7,0) shockExterno
 PortInTransition : in@opinion(7,3,0) shockExterno
-PortInTransition : in@opinion(6,7,0) shockExterno
+PortInTransition : in@opinion(2,2,0) shockExterno
+PortInTransition : in@opinion(9,7,0) shockExterno
+PortInTransition : in@opinion(4,0,0) shockExterno
+PortInTransition : in@opinion(3,8,0) shockExterno
+PortInTransition : in@opinion(8,5,0) shockExterno
+PortInTransition : in@opinion(3,5,0) shockExterno
+PortInTransition : in@opinion(2,4,0) shockExterno
+PortInTransition : in@opinion(0,0,0) shockExterno
+PortInTransition : in@opinion(5,4,0) shockExterno
+PortInTransition : in@opinion(8,0,0) shockExterno
+PortInTransition : in@opinion(5,9,0) shockExterno
+PortInTransition : in@opinion(1,7,0) shockExterno
+PortInTransition : in@opinion(3,0,0) shockExterno
+PortInTransition : in@opinion(9,5,0) shockExterno
+PortInTransition : in@opinion(6,0,0) shockExterno
+PortInTransition : in@opinion(6,8,0) shockExterno
+PortInTransition : in@opinion(7,5,0) shockExterno
+PortInTransition : in@opinion(8,3,0) shockExterno
+PortInTransition : in@opinion(8,7,0) shockExterno
+PortInTransition : in@opinion(1,2,0) shockExterno
+PortInTransition : in@opinion(9,6,0) shockExterno
 PortInTransition : in@opinion(5,0,0) shockExterno
+PortInTransition : in@opinion(6,4,0) shockExterno
+PortInTransition : in@opinion(5,3,0) shockExterno
+PortInTransition : in@opinion(0,7,0) shockExterno
+PortInTransition : in@opinion(8,1,0) shockExterno
+PortInTransition : in@opinion(6,3,0) shockExterno
+PortInTransition : in@opinion(3,1,0) shockExterno
+PortInTransition : in@opinion(2,6,0) shockExterno
+PortInTransition : in@opinion(9,1,0) shockExterno
+PortInTransition : in@opinion(7,4,0) shockExterno
+PortInTransition : in@opinion(8,8,0) shockExterno
+PortInTransition : in@opinion(4,3,0) shockExterno
+PortInTransition : in@opinion(6,9,0) shockExterno
+PortInTransition : in@opinion(4,2,0) shockExterno
+PortInTransition : in@opinion(5,7,0) shockExterno
+PortInTransition : in@opinion(0,1,0) shockExterno
+PortInTransition : in@opinion(0,6,0) shockExterno
+PortInTransition : in@opinion(7,6,0) shockExterno
+PortInTransition : in@opinion(3,4,0) shockExterno
+PortInTransition : in@opinion(7,0,0) shockExterno
+PortInTransition : in@opinion(9,4,0) shockExterno
+PortInTransition : in@opinion(3,3,0) shockExterno
+PortInTransition : in@opinion(2,7,0) shockExterno
+PortInTransition : in@opinion(9,0,0) shockExterno
+PortInTransition : in@opinion(0,8,0) shockExterno
+PortInTransition : in@opinion(6,5,0) shockExterno
+PortInTransition : in@opinion(4,9,0) shockExterno
+PortInTransition : in@opinion(8,6,0) shockExterno
+PortInTransition : in@opinion(7,7,0) shockExterno
+PortInTransition : in@opinion(8,9,0) shockExterno
+PortInTransition : in@opinion(1,3,0) shockExterno
+PortInTransition : in@opinion(4,5,0) shockExterno
+PortInTransition : in@opinion(5,2,0) shockExterno
+PortInTransition : in@opinion(8,2,0) shockExterno
+PortInTransition : in@opinion(6,7,0) shockExterno
+PortInTransition : in@opinion(2,9,0) shockExterno
+PortInTransition : in@opinion(1,6,0) shockExterno
+PortInTransition : in@opinion(6,6,0) shockExterno
+PortInTransition : in@opinion(1,1,0) shockExterno
+PortInTransition : in@opinion(7,2,0) shockExterno
+PortInTransition : in@opinion(5,1,0) shockExterno
+PortInTransition : in@opinion(8,4,0) shockExterno
 PortInTransition : in@opinion(0,9,0) shockExterno
+PortInTransition : in@opinion(9,9,0) shockExterno
+PortInTransition : in@opinion(1,0,0) shockExterno
 
 
 %----------------------------------------------------------------------------
 % --------------- REGLAS DE REACCION ANTE SHOCKS EXTERNOS -------------------
 %----------------------------------------------------------------------------
 [shockExterno]
-rule : {  uniform(-3, -2) } 0 { (0,0,0) = 5 }
-rule : {  uniform(-1, 1)  } 0 { (0,0,0) = 6 }
-rule : {  uniform(2, 3) } 0 { (0,0,0) = 7 }
+rule : {  uniform(-3, -2) } 0 { portValue(in) = 5 }
+rule : {  uniform(-1, 1)  } 0 { portValue(in) = 6 }
+rule : {  uniform(2, 3) } 0 { portValue(in) = 7 }
 rule : 3 0 { portValue(in) = 8 }
 rule : { (0,0,0) } 0 { t }
 %----------------------------------------------------------------------------

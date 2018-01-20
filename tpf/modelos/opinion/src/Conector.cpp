@@ -87,7 +87,7 @@ Model &Conector::outputFunction(const CollectMessage &msg)
         // Funcion que determina si activar o no activar los shockers
 
         if(ShockCriteria == 1) {
-            // Regla : envio shocks negativo / negativo / neutro / positivo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
+            // Regla : envio shocks negativo / negativo / negativo / negativo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
             if (prev_Neutralists > 80 && Neutralists < 80) {
                 double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
                 Tuple<Real> outValue = Tuple<Real>(&tv);
@@ -99,19 +99,19 @@ Model &Conector::outputFunction(const CollectMessage &msg)
                 sendOutput(msg.time(), out1, outValue);
             }
             if (prev_Neutralists > 40 && Neutralists < 40) {
-                double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+                double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
                 Tuple<Real> outValue = Tuple<Real>(&tv);
                 sendOutput(msg.time(), out2, outValue);
             }
             if (prev_Neutralists > 20 && Neutralists < 20) {
-                double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
+                double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
                 Tuple<Real> outValue = Tuple<Real>(&tv); 
                 sendOutput(msg.time(), out3, outValue);
             }
         } else if(ShockCriteria == 2) {
-            // Regla : envio shocks neutro / positivo / neutro / negativo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
+            // Regla : envio shocks positivo / positivo / positivo / positivo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
             if (prev_Neutralists > 80 && Neutralists < 80) {
-                double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+                double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
                 Tuple<Real> outValue = Tuple<Real>(&tv);
                 sendOutput(msg.time(), out0, outValue);
             }
@@ -121,12 +121,12 @@ Model &Conector::outputFunction(const CollectMessage &msg)
                 sendOutput(msg.time(), out1, outValue);
             }
             if (prev_Neutralists > 40 && Neutralists < 40) {
-                double val = 6.0; std::vector<Real> tv; tv.push_back(Real(val));
+                double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
                 Tuple<Real> outValue = Tuple<Real>(&tv);
                 sendOutput(msg.time(), out2, outValue);
             }
             if (prev_Neutralists > 20 && Neutralists < 20) {
-                double val = 5.0; std::vector<Real> tv; tv.push_back(Real(val));
+                double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
                 Tuple<Real> outValue = Tuple<Real>(&tv); 
                 sendOutput(msg.time(), out3, outValue);
             }
