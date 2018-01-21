@@ -1,0 +1,282 @@
+{UTF-8}
+constant true meme size=
+	1
+	~	memes/$ [1,1,1]
+	~		|
+
+degenerates infectivity rate=
+	DELAY3I ( memetic infectivity ( false memes ) , incubation time , 0 ) / one year
+	~	1/year
+	~		|
+
+rationalists infectivity rate=
+	DELAY3I ( memetic infectivity ( true memes ) , incubation time , 0 ) / one year
+	~	1/year
+	~		|
+
+one year=
+	1
+	~	year [1,1,1]
+	~		|
+
+true memes=
+	rationalists influence * constant true meme size
+	~	memes/year
+	~		|
+
+rationalists recovery rate=
+	Supporters Due to Rationality / infection lifetime
+	~	people/year
+	~		|
+
+percent rationalists=
+	Supporters Due to Rationality / ( Supporters Due to Rationality + Supporters Due to Degeneration\
+		 )
+	~	Dmnl
+	~		|
+
+false meme size=
+	1
+	~	memes/$ [1,2,0.01]
+	~	Was 1.3
+	|
+
+false memes=
+	degenerates influence * false meme size
+	~	memes/year
+	~		|
+
+rationalists maturation rate=
+	Not Infected Neutralists * rationalists infectivity rate
+	~	people/year
+	~		|
+
+rationalists influence=
+	Supporters Due to Rationality * influence per rationalist
+	~	$/year
+	~		|
+
+initial rationalist supporters=
+	1
+	~	people [0,99,1]
+	~		|
+
+Not Infected Neutralists= INTEG (
+	degenerates recovery rate - degenerates maturation rate + rationalists recovery rate\
+		 - rationalists maturation rate,
+		100 - initial degenerate supporters - initial rationalist supporters)
+	~	people
+	~		|
+
+influence per rationalist=
+	30
+	~	$/year/people [0,100,1]
+	~		|
+
+Supporters Due to Rationality= INTEG (
+	rationalists maturation rate - rationalists recovery rate,
+		initial rationalist supporters)
+	~	people
+	~		|
+
+degenerates influence=
+	Supporters Due to Degeneration * influence per degenerate
+	~	$/year
+	~		|
+
+infection lifetime=
+	20
+	~	year [0,50,1]
+	~		|
+
+degenerates maturation rate=
+	Not Infected Neutralists * degenerates infectivity rate
+	~	people/year
+	~		|
+
+degenerates recovery rate=
+	Supporters Due to Degeneration / infection lifetime
+	~	people/year
+	~		|
+
+incubation time=
+	10
+	~	year [1,50,1]
+	~		|
+
+influence per degenerate=
+	30
+	~	$/year/people [0,100,1]
+	~		|
+
+initial degenerate supporters=
+	1
+	~	people [0,99,1]
+	~		|
+
+memetic infectivity(
+	[(0,0)-(20000,0.5)],(0,0),(2164.71,0.145907),(5552.94,0.293594),(13129.4,0.455516),(\
+		19905.9,0.5))
+	~	Dmnl
+	~	As memes rise from 0 to 20,000 per year, response effect rises from 0 to \
+		.5 via goal seeking curve.
+	|
+
+Supporters Due to Degeneration= INTEG (
+	degenerates maturation rate-degenerates recovery rate,
+		initial degenerate supporters)
+	~	people
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 2300
+	~	year [2300,4300,500]
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 1800
+	~	year
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 5
+	~	year [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.5
+	~	year [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|120,120,100,0
+12,1,0,403,92,304,21,8,132,0,24,-1,0,0,0,0-0-0,0-0-0,|18|B|0-0-0
+The Basic Structure of the Dueling Loops 
+10,2,Supporters Due to Degeneration,307,270,87,33,3,3,0,16,0,2,0,0,0-0-0,0-0-0,|12|B|0-0-0
+10,3,Not Infected Neutralists,307,537,87,33,3,3,0,16,0,2,0,0,0-0-0,0-0-0,|12|B|0-0-0
+1,4,6,2,4,0,0,22,0,0,0,-1--1--1,,1|(380,362)|
+1,5,6,3,100,0,0,22,0,0,0,-1--1--1,,1|(380,468)|
+11,6,380,380,427,8,6,33,3,0,0,4,0,0,0
+10,7,degenerates maturation rate,451,427,63,31,40,3,0,0,-1,0,0,0
+1,8,10,3,4,0,0,22,0,0,0,-1--1--1,,1|(236,440)|
+1,9,10,2,100,0,0,22,0,0,0,-1--1--1,,1|(236,333)|
+11,10,540,236,370,8,6,33,3,0,0,4,0,0,0
+10,11,degenerates recovery rate,304,370,60,32,40,3,0,0,-1,0,0,0
+10,12,infection lifetime,301,460,39,23,8,3,0,0,0,0,0,0
+1,13,12,11,0,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(301,426)|
+1,14,2,11,0,0,0,0,0,64,0,-1--1--1,,1|(306,313)|
+1,15,3,6,0,0,0,0,0,64,0,-1--1--1,,1|(348,474)|
+10,16,degenerates influence,484,167,58,23,8,3,0,0,0,0,0,0
+10,17,false memes,679,230,58,13,8,3,0,0,0,0,0,0
+10,18,degenerates infectivity rate,660,366,64,23,8,3,0,0,0,0,0,0
+1,19,2,16,1,0,0,13,2,64,0,-1--1--1,|12||0-0-0,1|(354,175)|
+1,20,16,17,1,0,0,13,2,64,0,-1--1--1,|12||0-0-0,1|(621,173)|
+1,21,17,18,1,0,0,13,2,64,0,-1--1--1,|12||0-0-0,1|(689,294)|
+1,22,18,7,1,0,0,13,2,65,0,-1--1--1,|12||0-0-0,1|(595,428)|
+10,23,memetic infectivity,537,511,88,14,8,3,0,0,0,0,0,0
+10,24,incubation time,541,565,91,12,8,3,0,0,0,0,0,0
+1,25,23,18,1,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(602,472)|
+1,26,24,18,1,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(642,518)|
+12,27,0,537,289,140,33,8,4,0,26,-1,0,0,0,0-0-0,0-0-0,|14|B|0-0-255
+The Race to the Bottom Among Politicians
+12,28,0,508,348,20,20,4,4,0,19,-1,0,0,0,0-0-255,0-0-0,|12|B|0-0-255
+R
+10,29,influence per degenerate,253,150,59,23,8,3,0,0,0,0,0,0
+1,30,29,16,1,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(358,119)|
+10,31,initial degenerate supporters,143,240,60,35,8,3,0,0,0,0,0,0
+10,32,Supporters Due to Rationality,301,822,87,32,3,3,0,16,0,2,0,0,0-0-0,0-0-0,|12|B|0-0-0
+1,33,35,32,4,0,0,22,0,0,0,-1--1--1,,1|(378,723)|
+1,34,35,3,100,0,0,22,0,0,0,-1--1--1,,1|(378,607)|
+11,35,156,378,651,8,6,33,3,0,0,4,0,0,0
+10,36,rationalists maturation rate,443,651,57,32,40,3,0,0,-1,0,0,0
+1,37,39,3,4,0,0,22,0,0,0,-1--1--1,,1|(239,643)|
+1,38,39,32,100,0,0,22,0,0,0,-1--1--1,,1|(239,759)|
+11,39,364,239,723,8,6,33,3,0,0,4,0,0,0
+10,40,rationalists recovery rate,300,723,53,32,40,3,0,0,-1,0,0,0
+1,41,32,40,0,0,0,0,0,64,0,-1--1--1,,1|(300,779)|
+10,42,initial rationalist supporters,144,826,60,37,8,3,0,0,0,0,0,0
+10,43,influence per rationalist,271,909,59,23,8,3,0,0,0,0,0,0
+10,44,rationalists influence,466,911,50,23,8,3,0,0,0,0,0,0
+10,45,true memes,642,863,54,13,8,3,0,0,0,0,0,0
+10,46,rationalists infectivity rate,675,712,64,23,8,3,0,0,0,0,0,0
+1,47,32,44,1,0,0,13,2,64,0,-1--1--1,|12||0-0-0,1|(398,913)|
+1,48,44,45,1,0,0,13,2,64,0,-1--1--1,|12||0-0-0,1|(581,910)|
+1,49,45,46,1,0,0,13,2,64,0,-1--1--1,|12||0-0-0,1|(683,790)|
+1,50,46,36,1,0,0,13,2,65,0,-1--1--1,|12||0-0-0,1|(592,638)|
+1,51,24,46,1,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(638,623)|
+1,52,23,46,1,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(680,640)|
+1,53,43,44,1,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(370,937)|
+12,54,0,526,773,118,27,8,4,0,26,-1,0,0,0,0-0-0,0-0-0,|14|B|0-0-255
+The Race to the Top Among Politicians
+12,55,0,514,834,20,20,4,4,0,19,-1,0,0,0,0-0-255,0-0-0,|12|B|0-0-255
+R
+1,56,3,35,0,0,0,0,0,64,0,-1--1--1,,1|(346,601)|
+12,57,0,1209,275,329,200,3,60,0,0,1,0,0,0
+Race
+10,58,false meme size,727,140,57,27,8,131,0,0,0,0,0,0
+1,59,58,17,1,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(724,203)|
+12,60,0,515,718,52,22,8,4,0,42,-1,0,0,0,0-0-0,0-0-0,Arial Black|18|B|0-0-255
+Virtue
+12,61,0,521,230,105,20,8,4,0,42,-1,0,0,0,0-0-0,0-0-0,Arial Black|18|B|0-0-255
+Corruption
+10,62,percent rationalists,162,536,50,23,8,3,0,0,0,0,0,0
+1,63,2,62,1,0,0,1,2,64,0,-1--1--1,|12||0-0-0,1|(159,400)|
+1,64,32,62,1,0,0,0,0,64,0,-1--1--1,,1|(149,702)|
+10,65,infection lifetime,299,631,45,23,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,66,65,40,0,0,0,2,2,64,0,-1--1--1,|12||0-0-0,1|(299,665)|
+1,67,31,2,0,0,0,0,0,0,1,-1--1--1,,1|(204,250)|
+1,68,31,3,0,0,0,0,0,0,1,-1--1--1,,1|(221,383)|
+1,69,42,3,0,0,0,0,0,0,1,-1--1--1,,1|(222,685)|
+1,70,42,32,0,0,0,0,0,0,1,-1--1--1,,1|(202,825)|
+10,71,one year,688,542,41,13,8,3,0,0,0,0,0,0
+1,72,71,18,1,0,0,2,2,64,0,-1--1--1,|0||-1--1--1,1|(706,460)|
+1,73,71,46,1,0,0,2,2,64,0,-1--1--1,|0||-1--1--1,1|(707,613)|
+10,74,constant true meme size,721,929,60,23,8,3,0,0,0,0,0,0
+1,75,74,45,0,0,0,2,2,64,0,-1--1--1,|0||-1--1--1,1|(680,895)|
+///---\\\
+:GRAPH Race
+:TITLE Supporters Due to Degeneration and Rationality
+:X-DIV 10
+:Y-DIV 4
+:NO-LEGEND 4
+:SCALE
+:VAR Not Infected Neutralists
+:Y-MIN 0
+:Y-MAX 100
+:LINE-WIDTH 3
+:SCALE
+:VAR Supporters Due to Degeneration
+:Y-MIN 0
+:Y-MAX 100
+:LINE-WIDTH 4
+:SCALE
+:VAR Supporters Due to Rationality
+:Y-MIN 0
+:Y-MAX 100
+:LINE-WIDTH 4
+:SCALE
+:VAR percent rationalists
+:Y-MIN 0
+:Y-MAX 1
+:LINE-WIDTH 2
+:L<%^E!@
+1:o.vdf
+9:o
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:2,
+34:0,
+4:Time
+5:influence per degenerate
+24:1800
+25:2300
+26:2300

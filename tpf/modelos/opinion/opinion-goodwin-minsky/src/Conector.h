@@ -1,0 +1,57 @@
+#ifndef _Conector_H_
+#define _Conector_H_
+
+#include <random>
+
+#include "atomic.h"
+#include "VTime.h"
+
+#define CONECTOR "Conector"
+
+class Conector : public Atomic {
+  public:
+    
+    Conector(const string &name = CONECTOR );
+    virtual string className() const {  return CONECTOR ;}
+  
+  protected:
+    Model &initFunction();
+    Model &externalFunction( const ExternalMessage & );
+    Model &internalFunction( const InternalMessage & );
+    Model &outputFunction( const CollectMessage & );
+
+  private:
+
+    // Input ports
+    const Port &inLaborProductivity;
+    const Port &inWageRate;
+    const Port &inDebt;
+    const Port &inPopulation;
+    const Port &inCapital;
+
+    const Port &inShockCriteria;
+
+    // Output ports
+    Port &out0, &out1, &out2, &out3, &out4;
+
+    // State variables
+    double LaborProductivity, prev_LaborProductivity;
+    double WageRate, prev_WageRate;
+    double Debt, prev_Debt;
+    double Population, prev_Population;
+    double Capital, prev_Capital;
+
+    double ShockCriteria;
+
+    // Variables set
+    bool isSet_LaborProductivity;
+    bool isSet_WageRate;
+    bool isSet_Debt;
+    bool isSet_Population;
+    bool isSet_Capital;
+
+    bool isSet_ShockCriteria;
+
+};
+
+#endif
