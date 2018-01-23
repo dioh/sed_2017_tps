@@ -1,0 +1,630 @@
+<coupled name="top" model="Coupled" >
+
+	<!-- Inputs -->
+	<inputs>
+		<port name="velocityOfMoney" />
+		<port name="Betaa" />
+		<port name="Alphaa" />
+		<port name="employmentRateStable" />
+		<port name="deltaKReal" />
+		<port name="rateInterestOnLoans" />
+		<port name="piZ" />
+		<port name="employmentRateZero" />
+		<port name="piS" />
+	</inputs>
+
+	<!-- Outputs -->
+	<outputs>
+		<port name="Debt" />
+		<port name="wageRate" />
+		<port name="LaborProductivity" />
+		<port name="Capital" />
+		<port name="Population" />
+	</outputs>
+
+	<!-- Components -->
+	<components>
+		<!-- Atomico : DebtTot -->
+		<atomicRef name="DebtTot" model="Ftot">
+			<port name="chgDebtPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Debt -->
+		<atomicRef name="Debt" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="0" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : wageRateTot -->
+		<atomicRef name="wageRateTot" model="Ftot">
+			<port name="chgwageRatePlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : wageRate -->
+		<atomicRef name="wageRate" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="0.8" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : LaborProductivityTot -->
+		<atomicRef name="LaborProductivityTot" model="Ftot">
+			<port name="chgLaborProductivityPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : LaborProductivity -->
+		<atomicRef name="LaborProductivity" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="1" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : CapitalTot -->
+		<atomicRef name="CapitalTot" model="Ftot">
+			<port name="chgCapitalPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Capital -->
+		<atomicRef name="Capital" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="300" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : PopulationTot -->
+		<atomicRef name="PopulationTot" model="Ftot">
+			<port name="chgPopulationPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Population -->
+		<atomicRef name="Population" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="120" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : wageFunction -->
+		<atomicRef name="wageFunction" model="Aux">
+			<port name="employmentRateStable" type="in" />
+			<port name="employmentRateValue" type="in" />
+			<port name="employmentRateZero" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(employmentRateStable*(employmentRateValue-employmentRateZero))" />
+		</atomicRef>
+
+		<!-- Atomico : velocityOfMoney -->
+		<atomicRef name="velocityOfMoney" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="2" />
+		</atomicRef>
+
+		<!-- Atomico : Betaa -->
+		<atomicRef name="Betaa" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.015" />
+		</atomicRef>
+
+		<!-- Atomico : employmentRateValue -->
+		<atomicRef name="employmentRateValue" model="Aux">
+			<port name="Labor" type="in" />
+			<port name="Population" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Labor/Population)" />
+		</atomicRef>
+
+		<!-- Atomico : Labor -->
+		<atomicRef name="Labor" model="Aux">
+			<port name="Output" type="in" />
+			<port name="LaborProductivity" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Output/LaborProductivity)" />
+		</atomicRef>
+
+		<!-- Atomico : Alphaa -->
+		<atomicRef name="Alphaa" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.025" />
+		</atomicRef>
+
+		<!-- Atomico : employmentRateStable -->
+		<atomicRef name="employmentRateStable" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="10" />
+		</atomicRef>
+
+		<!-- Atomico : Interest -->
+		<atomicRef name="Interest" model="Aux">
+			<port name="rateInterestOnLoans" type="in" />
+			<port name="Debt" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(rateInterestOnLoans*Debt)" />
+		</atomicRef>
+
+		<!-- Atomico : Output -->
+		<atomicRef name="Output" model="Aux">
+			<port name="Capital" type="in" />
+			<port name="velocityOfMoney" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Capital/velocityOfMoney)" />
+		</atomicRef>
+
+		<!-- Atomico : deltaKReal -->
+		<atomicRef name="deltaKReal" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.1" />
+		</atomicRef>
+
+		<!-- Atomico : omega -->
+		<atomicRef name="omega" model="Aux">
+			<port name="Wages" type="in" />
+			<port name="Output" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Wages/Output)" />
+		</atomicRef>
+
+		<!-- Atomico : Wages -->
+		<atomicRef name="Wages" model="Aux">
+			<port name="wageRate" type="in" />
+			<port name="Labor" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(wageRate*Labor)" />
+		</atomicRef>
+
+		<!-- Atomico : InvestmentGross -->
+		<atomicRef name="InvestmentGross" model="Aux">
+			<port name="InvestmentFunctionReal" type="in" />
+			<port name="Output" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(InvestmentFunctionReal*Output)" />
+		</atomicRef>
+
+		<!-- Atomico : ProfitNet -->
+		<atomicRef name="ProfitNet" model="Aux">
+			<port name="ProfitGrossReal" type="in" />
+			<port name="Interest" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(ProfitGrossReal-Interest)" />
+		</atomicRef>
+
+		<!-- Atomico : rateInterestOnLoans -->
+		<atomicRef name="rateInterestOnLoans" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.04" />
+		</atomicRef>
+
+		<!-- Atomico : piZ -->
+		<atomicRef name="piZ" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.03" />
+		</atomicRef>
+
+		<!-- Atomico : employmentRateZero -->
+		<atomicRef name="employmentRateZero" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.9" />
+		</atomicRef>
+
+		<!-- Atomico : ProfitGrossReal -->
+		<atomicRef name="ProfitGrossReal" model="Aux">
+			<port name="Output" type="in" />
+			<port name="Wages" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Output-Wages)" />
+		</atomicRef>
+
+		<!-- Atomico : piR -->
+		<atomicRef name="piR" model="Aux">
+			<port name="ProfitNet" type="in" />
+			<port name="Capital" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(ProfitNet/Capital)" />
+		</atomicRef>
+
+		<!-- Atomico : piS -->
+		<atomicRef name="piS" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="10" />
+		</atomicRef>
+
+		<!-- Atomico : InvestmentFunctionReal -->
+		<atomicRef name="InvestmentFunctionReal" model="Aux">
+			<port name="piR" type="in" />
+			<port name="piZ" type="in" />
+			<port name="piS" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((piR-piZ)*piS)" />
+		</atomicRef>
+
+		<!-- Atomico : InvestmentNetReal -->
+		<atomicRef name="InvestmentNetReal" model="Aux">
+			<port name="InvestmentGross" type="in" />
+			<port name="Capital" type="in" />
+			<port name="deltaKReal" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(InvestmentGross-(Capital*deltaKReal))" />
+		</atomicRef>
+
+		<!-- Atomico : chgPopulationPlus -->
+		<atomicRef name="chgPopulationPlus" model="Fpm">
+			<port name="Population" type="in" />
+			<port name="Betaa" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Population*Betaa)" />
+		</atomicRef>
+
+		<!-- Atomico : chgPopulationMinus -->
+		<atomicRef name="chgPopulationMinus" model="Fpm">
+			<port name="Population" type="in" />
+			<port name="Betaa" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Population*Betaa)" />
+		</atomicRef>
+
+		<!-- Atomico : chgLaborProductivityPlus -->
+		<atomicRef name="chgLaborProductivityPlus" model="Fpm">
+			<port name="Alphaa" type="in" />
+			<port name="LaborProductivity" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Alphaa*LaborProductivity)" />
+		</atomicRef>
+
+		<!-- Atomico : chgLaborProductivityMinus -->
+		<atomicRef name="chgLaborProductivityMinus" model="Fpm">
+			<port name="Alphaa" type="in" />
+			<port name="LaborProductivity" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Alphaa*LaborProductivity)" />
+		</atomicRef>
+
+		<!-- Atomico : chgDebtPlus -->
+		<atomicRef name="chgDebtPlus" model="Fpm">
+			<port name="InvestmentGross" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="InvestmentGross" />
+		</atomicRef>
+
+		<!-- Atomico : chgDebtMinus -->
+		<atomicRef name="chgDebtMinus" model="Fpm">
+			<port name="InvestmentGross" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="InvestmentGross" />
+		</atomicRef>
+
+		<!-- Atomico : chgwageRatePlus -->
+		<atomicRef name="chgwageRatePlus" model="Fpm">
+			<port name="wageFunction" type="in" />
+			<port name="wageRate" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(wageFunction*wageRate)" />
+		</atomicRef>
+
+		<!-- Atomico : chgwageRateMinus -->
+		<atomicRef name="chgwageRateMinus" model="Fpm">
+			<port name="wageFunction" type="in" />
+			<port name="wageRate" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(wageFunction*wageRate)" />
+		</atomicRef>
+
+		<!-- Atomico : chgCapitalPlus -->
+		<atomicRef name="chgCapitalPlus" model="Fpm">
+			<port name="InvestmentNetReal" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="InvestmentNetReal" />
+		</atomicRef>
+
+		<!-- Atomico : chgCapitalMinus -->
+		<atomicRef name="chgCapitalMinus" model="Fpm">
+			<port name="InvestmentNetReal" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="InvestmentNetReal" />
+		</atomicRef>
+
+		</components>
+
+	<!-- Internal Connections -->
+	<internal_connections>
+		
+		<!-- Link interno : DebtTot ==> Debt -->
+		<connection component_from="DebtTot"
+			component_to="Debt"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : wageRateTot ==> wageRate -->
+		<connection component_from="wageRateTot"
+			component_to="wageRate"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : LaborProductivityTot ==> LaborProductivity -->
+		<connection component_from="LaborProductivityTot"
+			component_to="LaborProductivity"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : CapitalTot ==> Capital -->
+		<connection component_from="CapitalTot"
+			component_to="Capital"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : PopulationTot ==> Population -->
+		<connection component_from="PopulationTot"
+			component_to="Population"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : chgPopulationPlus ==> PopulationTot -->
+		<connection component_from="chgPopulationPlus"
+			component_to="PopulationTot"
+			port_from="out"
+			port_to="chgPopulationPlus"/>
+		<!-- Link interno : chgLaborProductivityPlus ==> LaborProductivityTot -->
+		<connection component_from="chgLaborProductivityPlus"
+			component_to="LaborProductivityTot"
+			port_from="out"
+			port_to="chgLaborProductivityPlus"/>
+		<!-- Link interno : chgDebtPlus ==> DebtTot -->
+		<connection component_from="chgDebtPlus"
+			component_to="DebtTot"
+			port_from="out"
+			port_to="chgDebtPlus"/>
+		<!-- Link interno : chgwageRatePlus ==> wageRateTot -->
+		<connection component_from="chgwageRatePlus"
+			component_to="wageRateTot"
+			port_from="out"
+			port_to="chgwageRatePlus"/>
+		<!-- Link interno : chgCapitalPlus ==> CapitalTot -->
+		<connection component_from="chgCapitalPlus"
+			component_to="CapitalTot"
+			port_from="out"
+			port_to="chgCapitalPlus"/>
+		<!-- Link interno : Debt ==> Interest -->
+		<connection component_from="Debt"
+			component_to="Interest"
+			port_from="out"
+			port_to="Debt"/>
+		<!-- Link interno : wageRate ==> chgwageRatePlus -->
+		<connection component_from="wageRate"
+			component_to="chgwageRatePlus"
+			port_from="out"
+			port_to="wageRate"/>
+		<!-- Link interno : wageRate ==> chgwageRateMinus -->
+		<connection component_from="wageRate"
+			component_to="chgwageRateMinus"
+			port_from="out"
+			port_to="wageRate"/>
+		<!-- Link interno : wageRate ==> Wages -->
+		<connection component_from="wageRate"
+			component_to="Wages"
+			port_from="out"
+			port_to="wageRate"/>
+		<!-- Link interno : LaborProductivity ==> chgLaborProductivityPlus -->
+		<connection component_from="LaborProductivity"
+			component_to="chgLaborProductivityPlus"
+			port_from="out"
+			port_to="LaborProductivity"/>
+		<!-- Link interno : LaborProductivity ==> chgLaborProductivityMinus -->
+		<connection component_from="LaborProductivity"
+			component_to="chgLaborProductivityMinus"
+			port_from="out"
+			port_to="LaborProductivity"/>
+		<!-- Link interno : LaborProductivity ==> Labor -->
+		<connection component_from="LaborProductivity"
+			component_to="Labor"
+			port_from="out"
+			port_to="LaborProductivity"/>
+		<!-- Link interno : Capital ==> Output -->
+		<connection component_from="Capital"
+			component_to="Output"
+			port_from="out"
+			port_to="Capital"/>
+		<!-- Link interno : Capital ==> piR -->
+		<connection component_from="Capital"
+			component_to="piR"
+			port_from="out"
+			port_to="Capital"/>
+		<!-- Link interno : Capital ==> InvestmentNetReal -->
+		<connection component_from="Capital"
+			component_to="InvestmentNetReal"
+			port_from="out"
+			port_to="Capital"/>
+		<!-- Link interno : Population ==> chgPopulationPlus -->
+		<connection component_from="Population"
+			component_to="chgPopulationPlus"
+			port_from="out"
+			port_to="Population"/>
+		<!-- Link interno : Population ==> chgPopulationMinus -->
+		<connection component_from="Population"
+			component_to="chgPopulationMinus"
+			port_from="out"
+			port_to="Population"/>
+		<!-- Link interno : Population ==> employmentRateValue -->
+		<connection component_from="Population"
+			component_to="employmentRateValue"
+			port_from="out"
+			port_to="Population"/>
+		<!-- Link interno : wageFunction ==> chgwageRatePlus -->
+		<connection component_from="wageFunction"
+			component_to="chgwageRatePlus"
+			port_from="out"
+			port_to="wageFunction"/>
+		<!-- Link interno : wageFunction ==> chgwageRateMinus -->
+		<connection component_from="wageFunction"
+			component_to="chgwageRateMinus"
+			port_from="out"
+			port_to="wageFunction"/>
+		<!-- Link interno : velocityOfMoney ==> Output -->
+		<connection component_from="velocityOfMoney"
+			component_to="Output"
+			port_from="out"
+			port_to="velocityOfMoney"/>
+		<!-- Link interno : Betaa ==> chgPopulationPlus -->
+		<connection component_from="Betaa"
+			component_to="chgPopulationPlus"
+			port_from="out"
+			port_to="Betaa"/>
+		<!-- Link interno : Betaa ==> chgPopulationMinus -->
+		<connection component_from="Betaa"
+			component_to="chgPopulationMinus"
+			port_from="out"
+			port_to="Betaa"/>
+		<!-- Link interno : employmentRateValue ==> wageFunction -->
+		<connection component_from="employmentRateValue"
+			component_to="wageFunction"
+			port_from="out"
+			port_to="employmentRateValue"/>
+		<!-- Link interno : Labor ==> employmentRateValue -->
+		<connection component_from="Labor"
+			component_to="employmentRateValue"
+			port_from="out"
+			port_to="Labor"/>
+		<!-- Link interno : Labor ==> Wages -->
+		<connection component_from="Labor"
+			component_to="Wages"
+			port_from="out"
+			port_to="Labor"/>
+		<!-- Link interno : Alphaa ==> chgLaborProductivityPlus -->
+		<connection component_from="Alphaa"
+			component_to="chgLaborProductivityPlus"
+			port_from="out"
+			port_to="Alphaa"/>
+		<!-- Link interno : Alphaa ==> chgLaborProductivityMinus -->
+		<connection component_from="Alphaa"
+			component_to="chgLaborProductivityMinus"
+			port_from="out"
+			port_to="Alphaa"/>
+		<!-- Link interno : employmentRateStable ==> wageFunction -->
+		<connection component_from="employmentRateStable"
+			component_to="wageFunction"
+			port_from="out"
+			port_to="employmentRateStable"/>
+		<!-- Link interno : Interest ==> ProfitNet -->
+		<connection component_from="Interest"
+			component_to="ProfitNet"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Output ==> Labor -->
+		<connection component_from="Output"
+			component_to="Labor"
+			port_from="out"
+			port_to="Output"/>
+		<!-- Link interno : Output ==> omega -->
+		<connection component_from="Output"
+			component_to="omega"
+			port_from="out"
+			port_to="Output"/>
+		<!-- Link interno : Output ==> InvestmentGross -->
+		<connection component_from="Output"
+			component_to="InvestmentGross"
+			port_from="out"
+			port_to="Output"/>
+		<!-- Link interno : Output ==> ProfitGrossReal -->
+		<connection component_from="Output"
+			component_to="ProfitGrossReal"
+			port_from="out"
+			port_to="Output"/>
+		<!-- Link interno : deltaKReal ==> InvestmentNetReal -->
+		<connection component_from="deltaKReal"
+			component_to="InvestmentNetReal"
+			port_from="out"
+			port_to="deltaKReal"/>
+		<!-- Link interno : Wages ==> omega -->
+		<connection component_from="Wages"
+			component_to="omega"
+			port_from="out"
+			port_to="Wages"/>
+		<!-- Link interno : Wages ==> ProfitGrossReal -->
+		<connection component_from="Wages"
+			component_to="ProfitGrossReal"
+			port_from="out"
+			port_to="Wages"/>
+		<!-- Link interno : InvestmentGross ==> chgDebtPlus -->
+		<connection component_from="InvestmentGross"
+			component_to="chgDebtPlus"
+			port_from="out"
+			port_to="InvestmentGross"/>
+		<!-- Link interno : InvestmentGross ==> chgDebtMinus -->
+		<connection component_from="InvestmentGross"
+			component_to="chgDebtMinus"
+			port_from="out"
+			port_to="InvestmentGross"/>
+		<!-- Link interno : InvestmentGross ==> InvestmentNetReal -->
+		<connection component_from="InvestmentGross"
+			component_to="InvestmentNetReal"
+			port_from="out"
+			port_to="InvestmentGross"/>
+		<!-- Link interno : ProfitNet ==> piR -->
+		<connection component_from="ProfitNet"
+			component_to="piR"
+			port_from="out"
+			port_to="ProfitNet"/>
+		<!-- Link interno : rateInterestOnLoans ==> Interest -->
+		<connection component_from="rateInterestOnLoans"
+			component_to="Interest"
+			port_from="out"
+			port_to="rateInterestOnLoans"/>
+		<!-- Link interno : piZ ==> InvestmentFunctionReal -->
+		<connection component_from="piZ"
+			component_to="InvestmentFunctionReal"
+			port_from="out"
+			port_to="piZ"/>
+		<!-- Link interno : employmentRateZero ==> wageFunction -->
+		<connection component_from="employmentRateZero"
+			component_to="wageFunction"
+			port_from="out"
+			port_to="employmentRateZero"/>
+		<!-- Link interno : ProfitGrossReal ==> ProfitNet -->
+		<connection component_from="ProfitGrossReal"
+			component_to="ProfitNet"
+			port_from="out"
+			port_to="ProfitGrossReal"/>
+		<!-- Link interno : piR ==> InvestmentFunctionReal -->
+		<connection component_from="piR"
+			component_to="InvestmentFunctionReal"
+			port_from="out"
+			port_to="piR"/>
+		<!-- Link interno : piS ==> InvestmentFunctionReal -->
+		<connection component_from="piS"
+			component_to="InvestmentFunctionReal"
+			port_from="out"
+			port_to="piS"/>
+		<!-- Link interno : InvestmentFunctionReal ==> InvestmentGross -->
+		<connection component_from="InvestmentFunctionReal"
+			component_to="InvestmentGross"
+			port_from="out"
+			port_to="InvestmentFunctionReal"/>
+		<!-- Link interno : InvestmentNetReal ==> chgCapitalPlus -->
+		<connection component_from="InvestmentNetReal"
+			component_to="chgCapitalPlus"
+			port_from="out"
+			port_to="InvestmentNetReal"/>
+		<!-- Link interno : InvestmentNetReal ==> chgCapitalMinus -->
+		<connection component_from="InvestmentNetReal"
+			component_to="chgCapitalMinus"
+			port_from="out"
+			port_to="InvestmentNetReal"/>
+	</internal_connections>
+
+	<!-- External Input Connections -->
+	<external_input_connections>
+		
+	</external_input_connections>
+
+	<!-- External Output Connections -->
+	<external_output_connections>
+		
+	</external_output_connections>
+</coupled>
