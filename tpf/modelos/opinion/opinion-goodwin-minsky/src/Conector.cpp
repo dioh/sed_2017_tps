@@ -57,6 +57,32 @@ Model &Conector::externalFunction(const ExternalMessage &msg)
         ShockCriteria = x;
         isSet_ShockCriteria = true;
     }
+    if(msg.port() == inLaborProductivity) {
+        prev_LaborProductivity.push_back(LaborProductivity);
+        LaborProductivity = x;
+        isSet_LaborProductivity = true;
+    }
+    if(msg.port() == inWageRate) {
+        prev_WageRate.push_back(WageRate);
+        WageRate = x;
+        isSet_WageRate = true;
+    }
+    if(msg.port() == inDebt) {
+        prev_Debt.push_back(Debt);
+        Debt = x;
+        isSet_Debt = true;
+    }
+    if(msg.port() == inPopulation) {
+        prev_Population.push_back(Population);
+        Population = x;
+        isSet_Population = true;
+    }
+    if(msg.port() == inCapital) {
+        prev_Capital.push_back(Capital);
+        Capital = x;
+        isSet_Capital = true;
+    }
+
 
     holdIn(AtomicState::active, VTime::Zero);
     return *this;
@@ -72,20 +98,37 @@ Model &Conector::internalFunction(const InternalMessage &)
 
 Model &Conector::outputFunction(const CollectMessage &msg)
 {
-    if( isSet_ShockCriteria ) {
+    // TODO : Mandar los momentos de shock mediante el .ev file. De esta forma, podemos mandar shocks a un ritmo definido ad hoc
+    // TODO : O, la otra opcion seria modificar el ritmo de shockeo de acuerdo a los valores que el Conector lee de sus puertos de entrada
+    if( isSet_ShockCriteria && isSet_LaborProductivity && isSet_WageRate && isSet_Debt && isSet_Population && isSet_Capital ) {
 
         // Funcion que determina si activar o no activar los shockers
 
         if(ShockCriteria == 1) {
-            // Regla : envio shocks negativo / negativo / negativo / negativo , segun se rompen los limites 80 / 60 / 40 / 20 para Neutralists
-            if (true) {
-                double val = 7.0; std::vector<Real> tv; tv.push_back(Real(val));
-                Tuple<Real> outValue = Tuple<Real>(&tv);
-                sendOutput(msg.time(), out0, outValue);
-                sendOutput(msg.time(), out1, outValue);
-                sendOutput(msg.time(), out2, outValue);
-                sendOutput(msg.time(), out3, outValue);
-                sendOutput(msg.time(), out4, outValue);
+            // Regla : envio shocks
+            if (((LaborProductivity > 1.5) && LaborProductivity - 1.5 < 0.01) || 
+                ((LaborProductivity > 2) && LaborProductivity - 2.0 < 0.01)   || 
+                ((LaborProductivity > 2.5) && LaborProductivity - 2.5 < 0.01) || 
+                ((LaborProductivity > 3) && LaborProductivity - 3.0 < 0.01)   || 
+                ((LaborProductivity > 3.5) && LaborProductivity - 3.5 < 0.01) || 
+                ((LaborProductivity > 4) && LaborProductivity - 4.0 < 0.01) ) {
+
+                double val0 = 5.0; std::vector<Real> tv0; tv0.push_back(Real(val0));
+                Tuple<Real> outValue0 = Tuple<Real>(&tv0);
+                double val1 = 6.0; std::vector<Real> tv1; tv1.push_back(Real(val1));
+                Tuple<Real> outValue1 = Tuple<Real>(&tv1);
+                double val2 = 6.0; std::vector<Real> tv2; tv2.push_back(Real(val2));
+                Tuple<Real> outValue2 = Tuple<Real>(&tv2);
+                double val3 = 7.0; std::vector<Real> tv3; tv3.push_back(Real(val3));
+                Tuple<Real> outValue3 = Tuple<Real>(&tv3);
+                double val4 = 7.0; std::vector<Real> tv4; tv4.push_back(Real(val4));
+                Tuple<Real> outValue4 = Tuple<Real>(&tv4);
+
+                //sendOutput(msg.time(), out0, outValue0);
+                //sendOutput(msg.time(), out1, outValue1);
+                //sendOutput(msg.time(), out2, outValue2);
+                sendOutput(msg.time(), out3, outValue3);
+                //sendOutput(msg.time(), out4, outValue4);
             }
         } else if(ShockCriteria == 2) {
             // Regla : envio shocks 2

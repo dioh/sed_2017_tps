@@ -35,11 +35,20 @@ class Conector : public Atomic {
     Port &out0, &out1, &out2, &out3, &out4;
 
     // State variables
-    double LaborProductivity, prev_LaborProductivity;
-    double WageRate, prev_WageRate;
-    double Debt, prev_Debt;
-    double Population, prev_Population;
-    double Capital, prev_Capital;
+    double LaborProductivity; 
+    std::vector<double> prev_LaborProductivity;
+    
+    double WageRate;
+    std::vector<double> prev_WageRate;
+    
+    double Debt;
+    std::vector<double> prev_Debt;
+    
+    double Population;
+    std::vector<double> prev_Population;
+    
+    double Capital;
+    std::vector<double> prev_Capital;
 
     double ShockCriteria;
 
