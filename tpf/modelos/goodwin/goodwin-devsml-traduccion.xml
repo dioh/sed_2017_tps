@@ -415,10 +415,31 @@
 	<!-- External Input Connections -->
 	<external_input_connections>
 		
+		<connection port_from="constantEmploymentRate"
+			component_to="constantEmploymentRate"
+			port_to="inValue"/>
+		<connection port_from="velocityOfMoney"
+			component_to="velocityOfMoney"
+			port_to="inValue"/>
+		<connection port_from="rateOfAppreciation"
+			component_to="rateOfAppreciation"
+			port_to="inValue"/>
 	</external_input_connections>
 
 	<!-- External Output Connections -->
 	<external_output_connections>
 		
+		<connection component_from="LaborProductivity"
+			port_from="out"
+			port_to="LaborProductivity"/>
+		<connection component_from="wageRate"
+			port_from="out"
+			port_to="wageRate"/>
+		<connection component_from="Population"
+			port_from="out"
+			port_to="Population"/>
+		<connection component_from="Capital"
+			port_from="out"
+			port_to="Capital"/>
 	</external_output_connections>
 </coupled>

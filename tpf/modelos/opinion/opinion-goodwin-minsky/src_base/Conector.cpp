@@ -124,11 +124,11 @@ Model &Conector::outputFunction(const CollectMessage &msg)
                 double val4 = 7.0; std::vector<Real> tv4; tv4.push_back(Real(val4));
                 Tuple<Real> outValue4 = Tuple<Real>(&tv4);
 
-                //sendOutput(msg.time(), out0, outValue0);
-                //sendOutput(msg.time(), out1, outValue1);
-                //sendOutput(msg.time(), out2, outValue2);
+                sendOutput(msg.time(), out0, outValue0);
+                sendOutput(msg.time(), out1, outValue1);
+                sendOutput(msg.time(), out2, outValue2);
                 sendOutput(msg.time(), out3, outValue3);
-                //sendOutput(msg.time(), out4, outValue4);
+                sendOutput(msg.time(), out4, outValue4);
             }
         } else if(ShockCriteria == 2) {
             // Regla : envio shocks 2

@@ -94,7 +94,7 @@
 		<atomicRef name="Population" model="QSS1">
 			<port name="in" type="in" />
 			<port name="out" type="out" />
-			<parameter name="x0" function="120" />
+			<parameter name="x0" function="150" />
 			<parameter name="dQRel" function="0.0001" />
 			<parameter name="dQMin" function="0.0001" />
 		</atomicRef>
@@ -111,7 +111,7 @@
 		<!-- Atomico : velocityOfMoney -->
 		<atomicRef name="velocityOfMoney" model="Cte">
 			<port name="out" type="out" />
-			<parameter name="function" function="2" />
+			<parameter name="function" function="3" />
 		</atomicRef>
 
 		<!-- Atomico : Betaa -->
@@ -167,7 +167,7 @@
 		<!-- Atomico : deltaKReal -->
 		<atomicRef name="deltaKReal" model="Cte">
 			<port name="out" type="out" />
-			<parameter name="function" function="0.1" />
+			<parameter name="function" function="0.05" />
 		</atomicRef>
 
 		<!-- Atomico : omega -->
@@ -211,13 +211,13 @@
 		<!-- Atomico : piZ -->
 		<atomicRef name="piZ" model="Cte">
 			<port name="out" type="out" />
-			<parameter name="function" function="0.03" />
+			<parameter name="function" function="0.04" />
 		</atomicRef>
 
 		<!-- Atomico : employmentRateZero -->
 		<atomicRef name="employmentRateZero" model="Cte">
 			<port name="out" type="out" />
-			<parameter name="function" function="0.9" />
+			<parameter name="function" function="0.6" />
 		</atomicRef>
 
 		<!-- Atomico : ProfitGrossReal -->
@@ -621,10 +621,52 @@
 	<!-- External Input Connections -->
 	<external_input_connections>
 		
+		<connection port_from="velocityOfMoney"
+			component_to="velocityOfMoney"
+			port_to="inValue"/>
+		<connection port_from="Betaa"
+			component_to="Betaa"
+			port_to="inValue"/>
+		<connection port_from="Alphaa"
+			component_to="Alphaa"
+			port_to="inValue"/>
+		<connection port_from="employmentRateStable"
+			component_to="employmentRateStable"
+			port_to="inValue"/>
+		<connection port_from="deltaKReal"
+			component_to="deltaKReal"
+			port_to="inValue"/>
+		<connection port_from="rateInterestOnLoans"
+			component_to="rateInterestOnLoans"
+			port_to="inValue"/>
+		<connection port_from="piZ"
+			component_to="piZ"
+			port_to="inValue"/>
+		<connection port_from="employmentRateZero"
+			component_to="employmentRateZero"
+			port_to="inValue"/>
+		<connection port_from="piS"
+			component_to="piS"
+			port_to="inValue"/>
 	</external_input_connections>
 
 	<!-- External Output Connections -->
 	<external_output_connections>
 		
+		<connection component_from="Debt"
+			port_from="out"
+			port_to="Debt"/>
+		<connection component_from="wageRate"
+			port_from="out"
+			port_to="wageRate"/>
+		<connection component_from="LaborProductivity"
+			port_from="out"
+			port_to="LaborProductivity"/>
+		<connection component_from="Capital"
+			port_from="out"
+			port_to="Capital"/>
+		<connection component_from="Population"
+			port_from="out"
+			port_to="Population"/>
 	</external_output_connections>
 </coupled>

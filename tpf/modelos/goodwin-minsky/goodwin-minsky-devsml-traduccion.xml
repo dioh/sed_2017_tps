@@ -639,10 +639,52 @@
 	<!-- External Input Connections -->
 	<external_input_connections>
 		
+		<connection port_from="Betaa"
+			component_to="Betaa"
+			port_to="inValue"/>
+		<connection port_from="rateInterestOnLoans"
+			component_to="rateInterestOnLoans"
+			port_to="inValue"/>
+		<connection port_from="Alphaa"
+			component_to="Alphaa"
+			port_to="inValue"/>
+		<connection port_from="employmentRateStable"
+			component_to="employmentRateStable"
+			port_to="inValue"/>
+		<connection port_from="deltaKReal"
+			component_to="deltaKReal"
+			port_to="inValue"/>
+		<connection port_from="velocityOfMoney"
+			component_to="velocityOfMoney"
+			port_to="inValue"/>
+		<connection port_from="piZ"
+			component_to="piZ"
+			port_to="inValue"/>
+		<connection port_from="employmentRateZero"
+			component_to="employmentRateZero"
+			port_to="inValue"/>
+		<connection port_from="piS"
+			component_to="piS"
+			port_to="inValue"/>
 	</external_input_connections>
 
 	<!-- External Output Connections -->
 	<external_output_connections>
 		
+		<connection component_from="LaborProductivity"
+			port_from="out"
+			port_to="LaborProductivity"/>
+		<connection component_from="WageRate"
+			port_from="out"
+			port_to="WageRate"/>
+		<connection component_from="Debt"
+			port_from="out"
+			port_to="Debt"/>
+		<connection component_from="Population"
+			port_from="out"
+			port_to="Population"/>
+		<connection component_from="Capital"
+			port_from="out"
+			port_to="Capital"/>
 	</external_output_connections>
 </coupled>

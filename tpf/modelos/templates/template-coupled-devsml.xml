@@ -46,19 +46,17 @@
 
 	<!-- External Input Connections -->
 	<external_input_connections>
-		{% for external_connection in external_input_connections -%}
-		<connection component_from="{{external_connection['component_from']}}"
-			component_to="{{extternal_connection['component_to']}}"
-			port_from="{{external_connection['port_from']}}"
+		{% for external_connection in external_input_connections %}
+		<connection port_from="{{external_connection['port_from']}}"
+			component_to="{{external_connection['component_to']}}"
 			port_to="{{external_connection['port_to']}}"/>
 		{%- endfor %}
 	</external_input_connections>
 
 	<!-- External Output Connections -->
 	<external_output_connections>
-		{% for external_connection in external_output_connections -%}
+		{% for external_connection in external_output_connections %}
 		<connection component_from="{{external_connection['component_from']}}"
-			component_to="{{extternal_connection['component_to']}}"
 			port_from="{{external_connection['port_from']}}"
 			port_to="{{external_connection['port_to']}}"/>
 		{%- endfor %}
