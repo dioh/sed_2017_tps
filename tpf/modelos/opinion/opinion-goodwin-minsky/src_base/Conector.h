@@ -30,6 +30,8 @@ class Conector : public Atomic {
     const Port &inCapital;
 
     const Port &inShockCriteria;
+    const Port &inShockTimeInterval;
+    const Port &inShockTimeWait;
 
     // Output ports
     Port &out0, &out1, &out2, &out3, &out4;
@@ -51,6 +53,8 @@ class Conector : public Atomic {
     std::vector<double> prev_Capital;
 
     double ShockCriteria;
+    VTime ShockTimeWait;
+    VTime ShockTimeInterval;
 
     // Variables set
     bool isSet_LaborProductivity;
@@ -60,6 +64,8 @@ class Conector : public Atomic {
     bool isSet_Capital;
 
     bool isSet_ShockCriteria;
+    bool isSet_ShockTimeInterval;
+    bool isSet_ShockTimeWait;
 
 };
 

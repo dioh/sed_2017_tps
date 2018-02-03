@@ -49,20 +49,19 @@ Model &{{atomicClass}}::internalFunction(const InternalMessage &)
 
 Model &{{atomicClass}}::outputFunction(const CollectMessage &msg)
 {
-	vector<int> selected_ports({{numberOfOutputPorts}});
+	srand(time(0));
+
+	vector<int> selected_ports;
 	// Generate vector with indices of output ports used
 	for(int i = 0; i < {{numberOfOutputPorts}}; i++) {
 		if(i < {{numberOfChosenOutputPorts}}) {
-			selected_ports[i] = 1;
+			selected_ports.push_back(1);
 		} else {
-			selected_ports[i] = 0;
+			selected_ports.push_back(0);
 		}
   	}
   	// Shuffle selected ports
-  	for(int i = {{numberOfOutputPorts}} - 1; i > 0; i--) {
-	 	int j = rand() % i;
-	 	swap(selected_ports[i], selected_ports[j]);
-	}
+  	std::random_shuffle ( selected_ports.begin(), selected_ports.end() );
 
 	// Send output through rondomized group of output ports
 	{% for outPort in outPorts -%} 

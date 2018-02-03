@@ -17,7 +17,11 @@ using namespace std;
 Conector::Conector(const string &name) :
     Atomic(name),
     inShockCriteria(addInputPort("inShockCriteria")),
+    inShockTimeInterval(addInputPort("inShockTimeInterval")),
+    inShockTimeWait(addInputPort("inShockTimeWait")),
     isSet_ShockCriteria(false),
+    isSet_ShockTimeInterval(false),
+    isSet_ShockTimeWait(false),
     inLaborProductivity(addInputPort("inLaborProductivity")),
     inWageRate(addInputPort("inWageRate")),
     inDebt(addInputPort("inDebt")),
@@ -82,9 +86,16 @@ Model &Conector::externalFunction(const ExternalMessage &msg)
         Capital = x;
         isSet_Capital = true;
     }
+    
+    // TODO : recibir inShockTimeWait y inShockTimeInterval para shocks a ritmo constante
+    // TODO : ACA, ESPERAR EL TIEMPO NECESARIO PARA LLEGAR A UN MULTIPLO DEL 'TIME_INTERVAL'
+    // TODO : Mandar los momentos de shock mediante el .ev file. De esta forma, podemos mandar shocks a un ritmo definido ad hoc
+    // TODO : O, la otra opcion seria modificar el ritmo de shockeo de acuerdo a los valores que el Conector lee de sus puertos de entrada
+    
+    VTime waitingTime = VTime::Zero;
+    //VTime waitingTime = VTime(0,0,0,100 - ((int)msg.time().asMsecs() % 1000),?);
 
-
-    holdIn(AtomicState::active, VTime::Zero);
+    holdIn(AtomicState::active, waitingTime);
     return *this;
 }
 
@@ -98,8 +109,6 @@ Model &Conector::internalFunction(const InternalMessage &)
 
 Model &Conector::outputFunction(const CollectMessage &msg)
 {
-    // TODO : Mandar los momentos de shock mediante el .ev file. De esta forma, podemos mandar shocks a un ritmo definido ad hoc
-    // TODO : O, la otra opcion seria modificar el ritmo de shockeo de acuerdo a los valores que el Conector lee de sus puertos de entrada
     if( isSet_ShockCriteria && isSet_LaborProductivity && isSet_WageRate && isSet_Debt && isSet_Population && isSet_Capital ) {
 
         // Funcion que determina si activar o no activar los shockers

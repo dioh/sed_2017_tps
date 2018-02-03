@@ -202,7 +202,11 @@ rule : {{rule}}
 % ------------- REGLAS LOCALES PARA EL CELL - DEVS --------------------------
 %----------------------------------------------------------------------------
 [opinion-rule]
-rule :  { uniform(-2,2) } 0 { (0,0,0)=-70 and (0,0,1)!=? }
+% TODO : estas reglas estarian bien para safar de los updates ante shocks? Como lo haria? Tambien puedo safar definiendo el momento de los shocks
+% rule : { (0,0,0) } 0 { si el vecino que me desperto se activo por un mensaje externo }
+% TODO : esto va comentado?
+%rule :  { uniform(-2,2) } 0 { (0,0,0)=-70 and (0,0,1)!=? }
+
 %Condicion inicial para la capa de opiniones (layer 1).
 rule :  { randInt(3)+1 } 0 { (0,0,0)=-70 and (0,0,1)=?   }
 %Condicion inicial para la capa de conectividad (layer 2).
