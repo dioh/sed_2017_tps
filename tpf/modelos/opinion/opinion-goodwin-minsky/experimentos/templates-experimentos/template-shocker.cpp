@@ -63,9 +63,9 @@ Model &{{atomicClass}}::outputFunction(const CollectMessage &msg)
   	// Shuffle selected ports
   	std::random_shuffle ( selected_ports.begin(), selected_ports.end() );
 
-	// Send output through rondomized group of output ports
+	// Send output through rondomized group of output ports : si mando 8, es para que la celda NO cambie de estado
 	{% for outPort in outPorts -%} 
-		if(selected_ports[{{loop.index - 1}}] == 1) { sendOutput(msg.time(), {{outPort}}, shockValue); } 
+		if(selected_ports[{{loop.index - 1}}] == 1) { sendOutput(msg.time(), {{outPort}}, shockValue); } else { sendOutput(msg.time(), {{outPort}}, 8); }
 	{% endfor -%}
 	return *this ;
 }

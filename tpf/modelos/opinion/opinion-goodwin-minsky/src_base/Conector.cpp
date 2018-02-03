@@ -41,7 +41,8 @@ Conector::Conector(const string &name) :
     out1(addOutputPort("out1")),
     out2(addOutputPort("out2")),
     out3(addOutputPort("out3")),
-    out4(addOutputPort("out4"))
+    out4(addOutputPort("out4")),
+    lastChange(0)
 {
 }
 
@@ -93,7 +94,6 @@ Model &Conector::externalFunction(const ExternalMessage &msg)
     // TODO : O, la otra opcion seria modificar el ritmo de shockeo de acuerdo a los valores que el Conector lee de sus puertos de entrada
     
     VTime waitingTime = VTime::Zero;
-    //VTime waitingTime = VTime(0,0,0,100 - ((int)msg.time().asMsecs() % 1000),?);
 
     holdIn(AtomicState::active, waitingTime);
     return *this;
@@ -113,15 +113,19 @@ Model &Conector::outputFunction(const CollectMessage &msg)
 
         // Funcion que determina si activar o no activar los shockers
 
-        if(ShockCriteria == 1) {
+        if(ShockCriteria == 1 && lastChange != LaborProductivity) {
             // Regla : envio shocks
-            if (((LaborProductivity > 1.5) && LaborProductivity - 1.5 < 0.01) || 
-                ((LaborProductivity > 2) && LaborProductivity - 2.0 < 0.01)   || 
-                ((LaborProductivity > 2.5) && LaborProductivity - 2.5 < 0.01) || 
-                ((LaborProductivity > 3) && LaborProductivity - 3.0 < 0.01)   || 
-                ((LaborProductivity > 3.5) && LaborProductivity - 3.5 < 0.01) || 
-                ((LaborProductivity > 4) && LaborProductivity - 4.0 < 0.01) ) {
+            if ((LaborProductivity > 1.5 && prev_LaborProductivity.back() < 1.5) || 
+                (LaborProductivity > 2 && prev_LaborProductivity.back() < 2) || 
+                (LaborProductivity > 2.5 && prev_LaborProductivity.back() < 2.5) || 
+                (LaborProductivity > 3 && prev_LaborProductivity.back() < 3) || 
+                (LaborProductivity > 3.5 && prev_LaborProductivity.back() < 3.5) || 
+                (LaborProductivity > 4 && prev_LaborProductivity.back() < 4) ) {
 
+                // Para que no afecten cambios en otras variables cuando 'LaborProductivity' cruza el threshold
+                lastChange = LaborProductivity;
+
+                // Shocks
                 double val0 = 5.0; std::vector<Real> tv0; tv0.push_back(Real(val0));
                 Tuple<Real> outValue0 = Tuple<Real>(&tv0);
                 double val1 = 6.0; std::vector<Real> tv1; tv1.push_back(Real(val1));

@@ -37,6 +37,8 @@ class Conector : public Atomic {
     Port &out0, &out1, &out2, &out3, &out4;
 
     // State variables
+    double lastChange;
+
     double LaborProductivity; 
     std::vector<double> prev_LaborProductivity;
     
