@@ -44,7 +44,7 @@ def get_groups(config, dimensions):
 
 def generate_group_values(group):
     values = []
-    for i in range(0, group['quantity']):
+    for _ in range(0, group['quantity']):
         values.append(random.uniform(group['min'], group['max']))
 
 
@@ -88,7 +88,7 @@ def create_groups_str(groups):
 
 
 def build_file_path(output_dir, outfiles_prefix, i, dimensions, groups):
-    dimensions_str = '_'.joint(dimensions)
+    dimensions_str = '_'.join(dimensions)
     groups_str = create_groups_str(groups)
     filename = '{0}_{1}_{2}_{3}.val'.format(outfiles_prefix, i,
                                             dimensions_str, groups_str)
