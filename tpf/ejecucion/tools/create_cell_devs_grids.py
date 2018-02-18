@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Script de punto de entrada para la traduccion xmile a devsml
+Script para crear archivos de grillas iniciales Cell-DEVS
 """
 
 import argparse
@@ -14,6 +14,7 @@ import configparser
 import random
 import functools
 from collections import deque
+from builtins import map
 
 logger = logging.getLogger(__name__)
 
@@ -28,9 +29,12 @@ def get_config(config_file_path):
 
 def get_dimensions(config):
     if 'grid' in config:
-        return list(map(lambda d: int(d), config['grid']['dimensions'].split(' ')))
+        return list(map(lambda d: int(d),
+                        config['grid']['dimensions'].split(' ')))
     else:
-        raise KeyError('grid section not found. Sections: {0}'.format(config.sections()))
+        raise KeyError(
+            'grid section not found. Sections: {0}'.format(config.sections()))
+
 
 def get_group_names(config):
     sections = config.sections()
@@ -46,10 +50,11 @@ def get_groups(config, dimensions):
     for group_name in group_names:
         groups[group_name] = {'min': config.getfloat(group_name, 'min value'),
                               'max': config.getfloat(group_name, 'max value'),
-                              'porcentage': config.getfloat(group_name, 'porcentage'),
+                              'porcentage': config.getfloat(group_name,
+                                                            'porcentage'),
                               'quantity':
-                                round(config.getfloat(group_name, 'porcentage') *
-                                      total_cells / 100)}
+                              round(config.getfloat(group_name, 'porcentage') *
+                                    total_cells / 100)}
 
     return groups
 
@@ -60,7 +65,7 @@ def generate_group_values(group):
     for i in range(0, group['quantity']):
         logger.debug('i: %i', i)
         values.append(random.uniform(group['min'], group['max']))
-    
+
     return values
 
 
@@ -83,7 +88,8 @@ def create_cells(dimensions):
             cell = cells.popleft()
             for j in range(0, dimension):
                 new_cell = '{0}{1},'.format(cell, j)
-                logger.debug('dimension: %i; iteration: %i, cell: %s', i, j, new_cell)
+                logger.debug('dimension: %i; iteration: %i, cell: %s',
+                             i, j, new_cell)
                 cells.append(new_cell)
 
     return list(map(lambda cell: cell[:-1]+')', list(cells)))
@@ -142,15 +148,20 @@ def config_logging():
     logger.setLevel(logging.DEBUG)
 
 
+def get_descripction():
+    return "Crea un archivo .val de valores iniciales de una grilla Cell-DEVS."
+
+
 def main():
     """
     Bloque principal
     """
     config_logging()
     parser = argparse.ArgumentParser(
-        description="Crea un archivo .val de valores iniciales de una grilla Cell-DEVS.")
-    parser.add_argument("-c", "--config",
-                        help="Archivo de configuracion de los parametros de la grilla")
+        description=get_descripction())
+    parser.add_argument("-c",
+                        "--config",
+                        help="Archivo con los parametros de la grilla")
     parser.add_argument("-p", "--outfile_prefix",
                         help="Prefijo de los archivos de salida")
     parser.add_argument("-q", "--cases", type=int, default=1,

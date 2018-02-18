@@ -12,6 +12,7 @@ except (ImportError, AttributeError):
     from pathlib2 import Path
 import csv
 import re
+from builtins import map
 
 logger = logging.getLogger(__name__)
 
