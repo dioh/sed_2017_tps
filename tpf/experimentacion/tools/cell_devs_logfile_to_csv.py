@@ -13,6 +13,7 @@ except (ImportError, AttributeError):
 import csv
 import re
 from builtins import map
+from collections import OrderedDict
 
 logger = logging.getLogger(__name__)
 
@@ -47,25 +48,25 @@ def to_seconds(time):
 
 
 def transform_to_csv_line(line):
-    out_dict = dict()
+    out_dict = OrderedDict()
     split_line = list(map(lambda part: part.strip(), line.split('/')))
     out_dict['time'] = split_line[TIME_FIELD]
     out_dict['seconds'] = to_seconds(split_line[TIME_FIELD])
     # logger.debug('cell field: \'%s\'', split_line[CELL_FIELD])
     match = cell_re.match(split_line[CELL_FIELD])
-    out_dict['cell_type'] = match['cell_type']
+    out_dict['cell_type'] = match.group('cell_type')
     i = 1
-    for coord in match['coords'].split(','):
+    for coord in match.group('coords').split(','):
         name = 'coord_{0}'.format(i)
         out_dict[name] = coord
         i += 1
 
-    out_dict['cell_id'] = match['cell_id']
+    out_dict['cell_id'] = match.group('cell_id')
     out_dict['value'] = split_line[VALUE_FIELD]
 
     out_match = out_cell_re.match(split_line[OUT_CELL_FIELD])
-    out_dict['out_cell_type'] = out_match['cell_type']
-    out_dict['out_cell_id'] = out_match['cell_id']
+    out_dict['out_cell_type'] = out_match.group('cell_type')
+    out_dict['out_cell_id'] = out_match.group('cell_id')
 
     return out_dict
 
@@ -73,7 +74,7 @@ def transform_to_csv_line(line):
 def parse_log(log_file, args):
     with log_file.open() as log:
         out_filename = '{0}.csv'.format(args.outfile)
-        with open(out_filename, 'w', newline='') as out_file:
+        with open(out_filename, 'w') as out_file:
             writer = csv.writer(out_file)
             for line in log:
                 if is_out_line(line):

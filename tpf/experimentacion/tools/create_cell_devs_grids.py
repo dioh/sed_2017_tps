@@ -53,8 +53,8 @@ def get_groups(config, dimensions):
                               'porcentage': config.getfloat(group_name,
                                                             'porcentage'),
                               'quantity':
-                              round(config.getfloat(group_name, 'porcentage') *
-                                    total_cells / 100)}
+                              int(round(config.getfloat(group_name, 'porcentage') *
+                                    total_cells / 100))}
 
     return groups
 
@@ -102,7 +102,7 @@ def create_grid_file(dimensions, groups, file_path):
     values = get_shuffled_group_values(groups)
     logger.debug('len values: %i', len(values))
 
-    with open(file_path, 'w') as outfile:
+    with file_path.open(mode='wb') as outfile:
         for cell, value in map(lambda x, y: (x, y), cells, values):
             outfile.write('{0}={1}\n'.format(cell, value))
 
@@ -160,9 +160,9 @@ def main():
     parser = argparse.ArgumentParser(
         description=get_descripction())
     parser.add_argument("-c",
-                        "--config",
+                        "--config", required=True,
                         help="Archivo con los parametros de la grilla")
-    parser.add_argument("-p", "--outfile_prefix",
+    parser.add_argument("-p", "--outfile_prefix", required=True,
                         help="Prefijo de los archivos de salida")
     parser.add_argument("-q", "--cases", type=int, default=1,
                         help="Cantidad de grillas a generar. Por defecto 1.")
