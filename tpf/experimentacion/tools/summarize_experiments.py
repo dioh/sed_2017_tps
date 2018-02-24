@@ -127,7 +127,6 @@ def write_summarize_to_file(summarize, outputfile):
 
         writer.writeheader()
         for row in summarize:
-            print(row)
             writer.writerow(row)
 
 
