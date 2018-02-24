@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ejemplo de uso
-# ./run.sh ./models/Influmodel.ma ./tp2_val_files ./event_files/exp_55555 tu.mail@dominio.com
+# ./run.sh ./models/Influmodel.ma ./tp2_val_files ./event_files/exp_55555 tu.mail@dominio.com > ./ejecucion 2>&1
 
 if [ -z "$1" ]; then
     echo "Debe pasarse un archivo modelo (.ma) a ejecturar como parametro"
@@ -31,6 +31,7 @@ fi
 # TODO Agregar parametro para el tiempo. ¿En segundos o formato DEVS?
 
 experimentos=`ls $2`
+model=$(basename $1)
 
 for valFile in $experimentos; do
 	forlog=${valFile::-4}
@@ -39,7 +40,7 @@ for valFile in $experimentos; do
 	sed "s:valfile.val:${replace}:" "$1" > Influmodel_now.ma
 
 	eventFile=$3
-	src/bin/cd++ -mInflumodel_now.ma -e$eventFile -t00:00:01:00	-llog
+	src/bin/cd++ -mInflumodel_now.ma -e$eventFile -t00:00:01:00	-llog 
     if [ -f "log01" ]; then
         echo "Archivo de log (log01) encontrado."
         newlog='result_'$forlog
@@ -62,9 +63,9 @@ if [ $count != 0 ]; then
     echo "Creando csv sumarizado."
     ./tools/summarize_experiments.py ./results grouped_*.csv ./results/summarized_grouped.csv
     echo "Enviando correo con archivo sumarizado." 
-    ./tools/send_email.py "$4" "$PASSWORD" "Experimento del modelo $1 con valores $2 finalizado" ./results/summarized_grouped.csv
+    ./tools/send_email.py "$4" "$PASSWORD" "Experimento del modelo $model con valores $2 finalizado" ./results/summarized_grouped.csv
     echo "Comprimiendo resultados." 
-    compress_filename="./results/$2.tar.gz"
+    compress_filename="./results/$model_$2.tar.gz"
     find ./results -name "*.csv" | xargs tar -czvf "$compress_filename"
     if [ -f "$compress_filename" ]; then
         echo "$compress_filename generado conteniendo csv. Eliminando archivos ./results/*.csv."
