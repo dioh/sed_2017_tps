@@ -129,7 +129,7 @@ def main():
     """
     config_logging()
     parser = argparse.ArgumentParser(
-        description="Transforma mensajes de out de un log Cell-DEVS en csv")
+        description="Transforma archivos csv de logs de output a csv contabilizador por grupos.")
     parser.add_argument("inputfile",
                         help="Nombre del archivo de csv de log")
     parser.add_argument("outputfile",
