@@ -18,7 +18,7 @@ from collections import OrderedDict
 import random
 from collections import OrderedDict
 import copy
-
+import io
 
 logger = logging.getLogger(__name__)
 variables = ['A', 'B', 'I']
@@ -76,7 +76,6 @@ def update(actual_value, row):
 
 
 def get_var(time_dict, varname):
-    times = time_dict.keys()
     rv = []
     for key, value in time_dict.items():
         rv.append((key, len(value[varname])))
@@ -107,13 +106,13 @@ def process_file(filename):
 
 def parse_csv_logfile(log_file, args):
     transformed_rows = process_file(log_file)
-    out_filename = '{0}.csv'.format(args.outfile)
-    with open(out_filename, 'w') as out_file:
-        writer = csv.DictWriter(out_file, ['time', 'A', 'I', 'B'])
-
+    with io.open(args.outputfile, 'w',  newline='') as out_file:
+        writer = csv.DictWriter(out_file, fieldnames=['time', 'A', 'I', 'B'], )
+        writer.writeheader()
         for key, value in transformed_rows.items():
             row = {'time': key}
-            row.update(value)
+            for group in ['A', 'I', 'B']:
+                row.update({group: len(value[group])})
             writer.writerow(row)
 
 
@@ -124,15 +123,15 @@ def main():
     config_logging()
     parser = argparse.ArgumentParser(
         description="Transforma mensajes de out de un log Cell-DEVS en csv")
-    parser.add_argument("logfilename",
-                        help="Nombre del archivo de log")
-    parser.add_argument("outfile",
+    parser.add_argument("inputfile",
+                        help="Nombre del archivo de csv de log")
+    parser.add_argument("outputfile",
                         help="Nombre del .csv de salida")
     args = parser.parse_args()
 
-    log_file = Path(args.logfilename)
+    log_file = Path(args.inputfile)
     if log_file.is_file():
-        parse_log(log_file, args)
+        parse_csv_logfile(log_file, args)
     else:
         print("Error!")
         print("Archivo {0} no encontrado".format(args.logfilename))
