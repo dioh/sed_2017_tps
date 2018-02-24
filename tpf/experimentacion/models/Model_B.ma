@@ -5,8 +5,6 @@
 %       Ni de 50% de atraccion entre distinto partido (intenta mas parecido al paper original)
 %       Tampoco acerca de manera diferenciada a los indecisos hacia un bando
 
-#include(macros.inc)
-
 [top]
 components : opinion 
 
@@ -75,7 +73,6 @@ rule :  { (0,0,0) } 100 { (0,0,1)=1  and ((0,1,0)=? or (0,1,0)=(0,0,0))}
 rule :  { (0,0,0) - #macro(delta) } 100 { (0,0,1)=1 and (0,0,0)>1 and abs((0,1,0))<=1 }
 rule :  { (0,0,0) + #macro(delta) } 100 { (0,0,1)=1 and (0,0,0)<-1 and abs((0,1,0))<=1 }
 
-
 %----------------------------------------------------------------------------
 %Yo: Indefinido - El: Partidiario - Resultado: Me acerco un delta.
 rule :  { (0,0,0) + #macro(delta) } 100 { (0,0,1)=1 and abs((0,0,0))<=1 and (0,1,0)>1 and (0,1,0)<#macro(long)}
@@ -111,17 +108,12 @@ rule :  { (0,0,0) - #macro(delta) } 100 { (0,0,1)=2 and (0,0,0)>1 and abs((1,0,0
 rule :  { (0,0,0) + #macro(delta) } 100 { (0,0,1)=2 and (0,0,0)<-1 and abs((1,0,0))<=1  }
 
 %----------------------------------------------------------------------------
-%Yo: Indefinido - El: Partidiario - Resultado: Me acerco un k*delta.
-% rule :  { (0,0,0) + #macro(k)*#macro(delta) } 100 { (0,0,1)=2 and abs((0,0,0))<=1 and (1,0,0)>1 and (1,0,0)<#macro(long)}
-% rule :  { (0,0,0) - #macro(k)*#macro(delta) } 100 { (0,0,1)=2 and abs((0,0,0))<=1 and (1,0,0)<-1 and (1,0,0)>-#macro(long)}
-
-%----------------------------------------------------------------------------
 %Yo: Indefinido - El: Partidiario - Resultado: Me acerco un delta.
 rule :  { (0,0,0) + #macro(delta) } 100 { (0,0,1)=2 and abs((0,0,0))<=1 and (1,0,0)>1 and (1,0,0)<#macro(long)}
 rule :  { (0,0,0) - #macro(delta) } 100 { (0,0,1)=2 and abs((0,0,0))<=1 and (1,0,0)<-1 and (1,0,0)>-#macro(long)}
 
 %----------------------------------------------------------------------------
-%%Yo: Indefinido - El: Indefinido - Resultado: Me acerco un delta.
+%Yo: Indefinido - El: Indefinido - Resultado: Me acerco un delta.
 rule :  { (0,0,0)*0 } 100 { (0,0,1)=2 and abs((0,0,0))<=#macro(delta) and abs((1,0,0))<=1 }
 rule :  { (0,0,0) - #macro(delta) } 100 { (0,0,1)=2 and abs((0,0,0))<=1 and abs((1,0,0))<=1 and (0,0,0)>0 }
 rule :  { (0,0,0) + #macro(delta) } 100 { (0,0,1)=2 and abs((0,0,0))<=1 and abs((1,0,0))<=1 and (0,0,0)<0 }
@@ -137,7 +129,6 @@ rule :  { (0,0,0) } 100 { (0,0,1)=2 and (0,0,0)<-1 and (1,0,0)<-1 and (0,0,0)<(1
 %Yo: Partidiario - El: Partidiario del bando contrario - Resultado: Me repele delta. (regla al final)
 rule :  { (0,0,0) - #macro(delta) } 100 { (0,0,1)=2 and (0,0,0)<-1 and (0,0,0)*(1,0,0)<=-1   }
 rule :  { (0,0,0) + #macro(delta) } 100 { (0,0,1)=2 and (0,0,0)>1 and (0,0,0)*(1,0,0)<=-1   }
-
 
 %----- Fin reglas para ver a abajo (capa de conectividad == 2) --------------
 
@@ -172,7 +163,6 @@ rule :  { (0,0,0) } 100 { (0,0,1)=3 and (0,0,0)<-1 and (0,-1,0)<-1 and (0,0,0)<(
 %Yo: Partidiario - El: Partidiario del bando contrario - Resultado: Me repele delta. (regla al final)
 rule :  { (0,0,0) - #macro(delta) } 100 { (0,0,1)=3 and (0,0,0)<-1 and (0,0,0)*(0,-1,0)<=-1   }
 rule :  { (0,0,0) + #macro(delta) } 100 { (0,0,1)=3 and (0,0,0)>1 and (0,0,0)*(0,-1,0)<=-1   }
-
 
 %----- Fin reglas para ver a la izquierda (capa de conectividad == 3) -------
 
