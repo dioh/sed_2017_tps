@@ -4,6 +4,7 @@ Script para transformar archivos csv de logs de output a
 csv contabilizador por grupos
 """
 
+import sys
 import argparse
 import logging
 try:
@@ -106,7 +107,13 @@ def process_file(filename):
 
 def parse_csv_logfile(log_file, args):
     transformed_rows = process_file(log_file)
-    with io.open(args.outputfile, 'w',  newline='') as out_file:
+    kwargs = {"mode": 'w', "newline": '', "encoding": 'utf-8'}
+    if sys.version_info.major < 3:
+        kwargs["mode"] = 'wb'
+        del kwargs["newline"]
+        del kwargs["encoding"]
+        
+    with io.open(args.outputfile, **kwargs) as out_file:
         writer = csv.DictWriter(out_file, fieldnames=['time', 'A', 'I', 'B'], )
         writer.writeheader()
         for key, value in transformed_rows.items():
