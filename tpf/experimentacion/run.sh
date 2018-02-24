@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ejemplo de uso
-# ./run.sh ./models/Influmodel.ma ./tp2_val_files ./event_files/exp_55555
+# ./run.sh ./models/Influmodel.ma ./tp2_val_files ./event_files/exp_55555 tu.mail@dominio.com
 
 if [ -z "$1" ]; then
     echo "Debe pasarse un archivo modelo (.ma) a ejecturar como parametro"
@@ -18,6 +18,16 @@ if [ -z "$3" ]; then
     exit 1
 fi
 
+if [ -z "$4" ]; then
+    echo "No se enviara correo tras la ejecucion"
+else
+    echo "Se enviara un correo a $4"
+    stty -echo
+    printf "email password: "
+    read PASSWORD
+    stty echo
+fi    
+
 # TODO Agregar parametro para el tiempo. ¿En segundos o formato DEVS?
 
 experimentos=`ls $2`
@@ -29,7 +39,7 @@ for valFile in $experimentos; do
 	sed "s:valfile.val:${replace}:" "$1" > Influmodel_now.ma
 
 	eventFile=$3
-	src/bin/cd++ -mInflumodel_now.ma -e$eventFile -t00:00:10:00	-llog
+	src/bin/cd++ -mInflumodel_now.ma -e$eventFile -t00:00:01:00	-llog
     if [ -f "log01" ]; then
         echo "Archivo de log (log01) encontrado."
         newlog='result_'$forlog
@@ -49,8 +59,13 @@ rm Influmodel_now.ma
 
 count=`ls -1 results/*.csv 2>/dev/null | wc -l`
 if [ $count != 0 ]; then
-    compress_filename='results/'$2'.tar.gz'
-    find ./results -name "*.csv" | xargs tar -czvf $compress_filename
+    echo "Creando csv sumarizado."
+    ./tools/summarize_experiments.py ./results grouped_*.csv ./results/summarized_grouped.csv
+    echo "Enviando correo con archivo sumarizado." 
+    ./tools/send_email.py "$4" "$PASSWORD" "Experimento del modelo $1 con valores $2 finalizado" ./results/summarized_grouped.csv
+    echo "Comprimiendo resultados." 
+    compress_filename="./results/$2.tar.gz"
+    find ./results -name "*.csv" | xargs tar -czvf "$compress_filename"
     if [ -f "$compress_filename" ]; then
         echo "$compress_filename generado conteniendo csv. Eliminando archivos ./results/*.csv."
         rm ./results/*.csv
