@@ -29,12 +29,16 @@ for valFile in $experimentos; do
 	sed "s:valfile.val:${replace}:" "$1" > Influmodel_now.ma
 
 	eventFile=$3
-	src/bin/cd++ -mInflumodel_now.ma -e$eventFile -t00:04:00:00	-llog
+	src/bin/cd++ -mInflumodel_now.ma -e$eventFile -t00:00:10:00	-llog
     if [ -f "log01" ]; then
-        echo "Archivo de log (log01) encontrado. Procesando.."
+        echo "Archivo de log (log01) encontrado."
         newlog='result_'$forlog
         # El script python pone la extension .csv en el archivo resultado
+        echo "Pasando out de celdas a csv."
         ./tools/cell_devs_logfile_to_csv.py log01 "results/$newlog"
+        #TODO PROBAR ESTA LINEA
+        echo "Creando csv con cantidad de celdas de cada grupos para cada t."
+        ./tools/csv_logfile_to_groups_count.py "results/$newlog.csv" "results/grouped_$newlog.csv"
         rm log*
     else
         echo "Archivo de log (log01) no encontrado. Continuando loop.."
