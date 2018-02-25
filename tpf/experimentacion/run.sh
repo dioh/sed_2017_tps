@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ejemplo de uso
-# ./run.sh ./models/Influmodel.ma ./tp2_val_files ./event_files/exp_55555 tu.mail@dominio.com > ./ejecucion 2>&1
+# ./run.sh ./models/Influmodel.ma ./tp2_val_files ./event_files/exp_55555 00:10:00:00 tu.mail@dominio.com > ./ejecucion 2>&1
 
 if [ -z "$1" ]; then
     echo "Debe pasarse un archivo modelo (.ma) a ejecturar como parametro"
@@ -17,39 +17,51 @@ if [ -z "$3" ]; then
     echo "Debe pasarse el archivo de eventos a utilizar"
     exit 1
 fi
-
 if [ -z "$4" ]; then
+    echo "Debe indicarse cuanto tiempo deben ejecutarse las ejecuciones. En formato HH:MM:SS:MS"
+fi
+
+if [ -z "$5" ]; then
     echo "No se enviara correo tras la ejecucion"
 else
-    echo "Se enviara un correo a $4"
+    echo "Se enviara un correo a $5"
     stty -echo
     printf "email password: "
     read PASSWORD
     stty echo
 fi    
 
-# TODO Agregar parametro para el tiempo. ¿En segundos o formato DEVS?
+# TODO Agregar parametro para el tiempo. ¿En segundos o formato DEVS? DEVS por ahora
 
-experimentos=`ls $2`
-model=$(basename $1)
+MODEL_FILE_PATH="$1"
+MODEL_FILE=$(basename $MODEL_FILE_PATH)
+VAL_FILES_DIR_PATH="$2"
+VAL_FILES_LAST_DIR=${VAL_FILES_DIR_PATH##*/}
+EXPERIMENTS=`ls $VAL_FILES_DIR_PATH`
+EVENTS_FILE="$3"
+SIMULATION_TIME="$4"
+EMAIL="$5"
 
-for valFile in $experimentos; do
-	forlog=${valFile::-4}
+RESULTS_DIR="./results"
+
+for valFile in $EXPERIMENTS; do
+	VAL_FILE_NAME=${valFile::-4}
 	
-	replace="$2/$valFile"
+	replace="$VAL_FILES_DIR_PATH/$valFile"
 	sed "s:valfile.val:${replace}:" "$1" > Influmodel_now.ma
 
-	eventFile=$3
-	src/bin/cd++ -mInflumodel_now.ma -e$eventFile -t00:00:01:00	-llog 
+	src/bin/cd++ -mInflumodel_now.ma -e$EVENTS_FILE -t$SIMULATION_TIME -llog 
     if [ -f "log01" ]; then
         echo "Archivo de log (log01) encontrado."
-        newlog='result_'$forlog
+        #VAR
+        CSV_LOG="result_$VAL_FILE_NAME.csv"
+        GROUPED_CSV="grouped_$VAL_FILE_NAME.csv"
         # El script python pone la extension .csv en el archivo resultado
         echo "Pasando out de celdas a csv."
-        ./tools/cell_devs_logfile_to_csv.py log01 "results/$newlog"
+        ./tools/cell_devs_logfile_to_csv.py log01 "$RESULTS_DIR/$CSV_LOG"
         #TODO PROBAR ESTA LINEA
         echo "Creando csv con cantidad de celdas de cada grupos para cada t."
-        ./tools/csv_logfile_to_groups_count.py "results/$newlog.csv" "results/grouped_$newlog.csv"
+        ./tools/csv_logfile_to_groups_count.py $RESULTS_DIR"/"$CSV_LOG $RESULTS_DIR"/"$GROUPED_CSV
         rm log*
     else
         echo "Archivo de log (log01) no encontrado. Continuando loop.."
@@ -58,14 +70,17 @@ done
 
 rm Influmodel_now.ma
 
-count=`ls -1 results/*.csv 2>/dev/null | wc -l`
+count=`ls -1 $RESULTS_DIR/*.csv 2>/dev/null | wc -l`
 if [ $count != 0 ]; then
     echo "Creando csv sumarizado."
-    ./tools/summarize_experiments.py ./results grouped_*.csv ./results/summarized_grouped.csv
-    echo "Enviando correo con archivo sumarizado." 
-    ./tools/send_email.py "$4" "$PASSWORD" "Experimento del modelo $model con valores $2 finalizado" ./results/summarized_grouped.csv
+    SUMMARIZED_FILE=$RESULTS_DIR"/"$VAL_FILES_LAST_DIR"_summarized_grouped.csv"
+    ./tools/summarize_experiments.py ./results grouped_*.csv $SUMMARIZED_FILE
+    if [[ ! -z $EMAIL ]]; then
+        echo "Enviando correo con archivo sumarizado." 
+        ./tools/send_email.py "$EMAIL" "$PASSWORD" "Experimento del modelo $MODEL_FILE con valores $VAL_FILES_LAST_DIR finalizado" $SUMMARIZED_FILE
+    fi
     echo "Comprimiendo resultados." 
-    compress_filename="./results/$model_$2.tar.gz"
+    compress_filename=$RESULTS_DIR"/"$MODEL_FILE"_"$VAL_FILES_LAST_DIR".tar.gz"
     find ./results -name "*.csv" | xargs tar -czvf "$compress_filename"
     if [ -f "$compress_filename" ]; then
         echo "$compress_filename generado conteniendo csv. Eliminando archivos ./results/*.csv."
