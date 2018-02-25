@@ -53,8 +53,9 @@ def get_groups(config, dimensions):
                               'porcentage': config.getfloat(group_name,
                                                             'porcentage'),
                               'quantity':
-                              int(round(config.getfloat(group_name, 'porcentage') *
-                                    total_cells / 100))}
+                              int(round(config.getfloat(group_name,
+                                                        'porcentage') *
+                                        total_cells / 100))}
 
     return groups
 
@@ -102,7 +103,7 @@ def create_grid_file(dimensions, groups, file_path):
     values = get_shuffled_group_values(groups)
     logger.debug('len values: %i', len(values))
 
-    with file_path.open(mode='wb') as outfile:
+    with file_path.open(mode='w') as outfile:
         for cell, value in map(lambda x, y: (x, y), cells, values):
             outfile.write('{0}={1}\n'.format(cell, value))
 
@@ -145,7 +146,7 @@ def config_logging():
             '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
 
 def get_descripction():
