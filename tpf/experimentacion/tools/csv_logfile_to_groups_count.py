@@ -112,7 +112,7 @@ def parse_csv_logfile(log_file, args):
         kwargs["mode"] = 'wb'
         del kwargs["newline"]
         del kwargs["encoding"]
-        
+
     with io.open(args.outputfile, **kwargs) as out_file:
         writer = csv.DictWriter(out_file, fieldnames=['time', 'A', 'I', 'B'], )
         writer.writeheader()
@@ -141,7 +141,7 @@ def main():
         parse_csv_logfile(log_file, args)
     else:
         print("Error!")
-        print("Archivo {0} no encontrado".format(args.logfilename))
+        print("Archivo {0} no encontrado".format(args.inputfile))
 
 
 if __name__ == "__main__":
