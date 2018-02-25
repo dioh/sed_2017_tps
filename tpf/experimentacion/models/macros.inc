@@ -14,6 +14,10 @@
 1.5
 #EndMacro
 
+#BeginMacro(shockq)
+15
+#EndMacro
+
 #BeginMacro(inicia)
 zz
 #EndMacro
