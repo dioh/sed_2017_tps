@@ -374,7 +374,7 @@ TSWLatexianTemp*
 /**/result_logs/*log
 
 # Archivos de datos del tpf
-tpf/experimentacion/log*
+tpf/experimentacion/**/log*
 tpf/experimentacion/results/*
 tpf/experimentacion/src/bin
 tpf/experimentacion/tools/*.csv
