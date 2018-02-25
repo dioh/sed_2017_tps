@@ -1,7 +1,13 @@
 #include(models/macros.inc)
 
-%NOTA: solo se cambiaron los comentarios de lugar por legibilidad respecto del TP2
-%      es decir las reglas estan en el mismo orden
+%NOTA: El modelo sigue las reglas descriptas originalmente en el TPF de Dima. 
+%      Tiene las reglas de los influyentes. 
+%      Hay 50% de chances de atraccion entre distinto partidos (no se rechazan siempre)
+%      Acerca de manera diferenciada (k*delta) a los indecisos hacia un bando
+%      Las celdas están conectadas por shockers. 
+%      Los shock se realizan de acuerdo a archivo de eventos
+%      Es decir, solo se cambiaron los comentarios de lugar por legibilidad respecto del TP2
+%      de Rodriguez-Modrow-Foguelman (modelo con. Es decir las reglas estan en el mismo orden
 
 [top]
 components : opinion shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker 
