@@ -22,7 +22,8 @@ CELL_FIELD = 4
 VALUE_FIELD = 6
 OUT_CELL_FIELD = 7
 
-cell_re = re.compile(r"(?P<cell_type>\w+)\((?P<coords>.*)\)\((?P<cell_id>.*)\)")
+cell_re = re.compile(
+    r"(?P<cell_type>\w+)\((?P<coords>.*)\)\((?P<cell_id>.*)\)")
 out_cell_re = re.compile(r"(?P<cell_type>\w+)\((?P<cell_id>.*)\)")
 
 
@@ -73,8 +74,7 @@ def transform_to_csv_line(line):
 
 def parse_log(log_file, args):
     with log_file.open() as log:
-        out_filename = '{0}.csv'.format(args.outfile)
-        with open(out_filename, 'w') as out_file:
+        with open(args.outfile, 'w') as out_file:
             writer = csv.writer(out_file)
             for line in log:
                 if is_out_line(line):
