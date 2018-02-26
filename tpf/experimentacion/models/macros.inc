@@ -14,8 +14,8 @@
 1.5
 #EndMacro
 
-#BeginMacro(shockq)
-15
+#BeginMacro(qshock)
+6
 #EndMacro
 
 #BeginMacro(inicia)

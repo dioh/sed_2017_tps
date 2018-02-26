@@ -76,13 +76,13 @@ PortInTransition: in@opinion(2,2,0) shock-rule
 % 7 es un shock hacia B (1,3] en qshock * delta
 %----------------------------------------------------------------------------
 [shock-rule]
-rule : {  (0,0,0) - #macro(shockq) * #macro(delta) } 0 { portValue(thisPort) = 5 }
+rule : {  (0,0,0) - #macro(qshock) * #macro(delta) } 0 { portValue(thisPort) = 5 }
 rule : {  (0,0,0) } 0 { portValue(thisPort) = 6 and (0,0,0) = 0}
-rule : {  (0,0,0) + #macro(shockq) * #macro(delta)  } 0 { portValue(thisPort) = 6 and (0,0,0) < 0}
-rule : {  (0,0,0) - #macro(shockq) * #macro(delta)  } 0 { portValue(thisPort) = 6 and (0,0,0) > 0}
-rule : {  (0,0,0) + #macro(shockq) * #macro(delta) } 0 { portValue(thisPort) = 7 }
+rule : {  (0,0,0) + #macro(qshock) * #macro(delta)  } 0 { portValue(thisPort) = 6 and (0,0,0) < 0}
+rule : {  (0,0,0) - #macro(qshock) * #macro(delta)  } 0 { portValue(thisPort) = 6 and (0,0,0) > 0}
+rule : {  (0,0,0) + #macro(qshock) * #macro(delta) } 0 { portValue(thisPort) = 7 }
 % Regla por defecto
-rule : { (0,0,0) } 100 { t }
+rule : { (0,0,0) } 0 { t }
 %----------------------------------------------------------------------------
 
 
