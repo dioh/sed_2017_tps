@@ -23,6 +23,18 @@ Basado en el Modelo_D_k.ma, pero que incluye reglas de Influyentes (TPF de Dima)
 
 ## Modelos con shocks
 
-### Modelo_D_k_I_shock.ma
+### Model_D_k_I_shock.ma
 
 Basado en el Modelo_D_k.ma con shocks (TP2 Rodriguez-Modrow-Foguelman).
+
+### Model_B_qshock_3x3.ma
+
+Modelo de shock para probar reglas de tratamiento de los shock, modificar en | q_shock * delta | el valor de la celda, por medio de la definición de PortInTransition para cada celda.
+
+### Model_B_qshock.ma
+
+Basado en Model_B con shocks que modifican el estado de la celda en |q_shock * delta|. Dependiendo del valor de la celda y el valor del shock se determina si es + ó -.
+
+### Model_D_qshock.ma
+
+Basado en Model_B con shocks que modifican el estado de la celda en |q_shock * delta|. Dependiendo del valor de la celda y el valor del shock se determina si es + ó -.
