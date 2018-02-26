@@ -85,7 +85,6 @@ rule : {  (0,0,0) + #macro(qshock) * #macro(delta) } 0 { portValue(thisPort) = 7
 rule : { (0,0,0) } 0 { t }
 %----------------------------------------------------------------------------
 
-
 [opinion-rule]
 rule :  { uniform(-2,2) } 0 { (0,0,0)=-70 and (0,0,1)!=? }
 %Condicion inicial para la capa de opiniones (layer 1).

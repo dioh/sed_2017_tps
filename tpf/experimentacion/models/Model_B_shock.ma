@@ -239,7 +239,6 @@ link : in96 in@opinion(9,6,0)
 link : in97 in@opinion(9,7,0)
 link : in98 in@opinion(9,8,0)
 link : in99 in@opinion(9,9,0)
-
 %---------------------------------------------------
 
 localtransition : opinion-rule
