@@ -29,16 +29,24 @@
           <parameter name="dQMin" value="1e-4" />
         </atomicRef>
         <!-- Flow : Heat Loss to Room -->
+<<<<<<< HEAD
         <atomicRef name="fm Teacup Temperature - Heat Loss to Room" 
                    model="Fminus">
+=======
+        <atomicRef name="fm Teacup Temperature - Heat Loss to Room" model="Fminus">
+>>>>>>> pedro_branch
           <!-- Puertos del atomico -->
           <port name="in Teacup Temperature" type="in" />
           <port name="in Room Temperature" type="in" />
           <port name="in Characteristic Time" type="in" />
           <port name="out" type="out" />
           <!-- Funcion usada en output function del atomico -->
+<<<<<<< HEAD
           <parameter name="function" 
                      value="(Teacup Temperature-Room Temperature)/Characteristic Time" />
+=======
+          <parameter name="function" value="(Teacup Temperature-Room Temperature)/Characteristic Time" />
+>>>>>>> pedro_branch
         </atomicRef>
         <!-- Parameters / Constantes -->
         <atomicRef name="Room Temperature" model="Cte">
@@ -62,6 +70,7 @@
         <!-- Link : Aux a funciones que las usan --> 
         
         <!-- Links modelo acoplado minimal integrador Teacup Temperature -->
+<<<<<<< HEAD
         <connection component_from="fm Teacup Temperature - Heat Loss to Room" 
                     port_from="out" 
                     component_to="ft Teacup Temperature" 
@@ -70,6 +79,10 @@
                     port_from="out" 
                     component_to="Teacup Temperature" 
                     port_to="in" />
+=======
+        <connection component_from="fm Teacup Temperature - Heat Loss to Room" port_from="out" component_to="ft Teacup Temperature" port_to="inMinus - Heat Loss to Room" />
+        <connection component_from="ft Teacup Temperature" port_from="out" component_to="Teacup Temperature" port_to="in" />
+>>>>>>> pedro_branch
         
         <!-- Links modelo (las flechas azules en el modelo grafico de SD) -->
         </internal_connections>
@@ -77,6 +90,7 @@
       <!-- Links inputs a constantes -->
       <!-- external input -->
       <external_input_connections>
+<<<<<<< HEAD
         <connection component_from="top" 
                     port_from="in - Room Temperature" 
                     component_to="Room Temperature" 
@@ -85,6 +99,10 @@
                     port_from="in - Characteristic Time" 
                     component_to="Characteristic Time" 
                     port_to="inValue" />
+=======
+        <connection component_from="top" port_from="in - Room Temperature" component_to="Room Temperature" port_to="inValue" />
+        <connection component_from="top" port_from="in - Characteristic Time" component_to="Characteristic Time" port_to="inValue" />
+>>>>>>> pedro_branch
         
       </external_input_connections>
 

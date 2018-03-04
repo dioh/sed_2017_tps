@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>goodwin-minsky</name>
+		<uuid>193868c2-0b04-4d3d-b865-0cb31a83d64a</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="1.5" isee:build_number="1277" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:simulation_delay="0.0909091" method="RK4" time_units="Seconds" isee:instantaneous_flows="false">
+		<start>1</start>
+		<stop>55</stop>
+		<dt>0.01</dt>
+	</sim_specs>
+	<isee:prefs show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" saved_runs="5" keep="false" rifp="true"/>
+	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" observer_start_page="home_page" enabled="false"/>
+	<model_units/>
+	<model>
+		<variables>
+			<stock name="Capital">
+				<eqn>300</eqn>
+				<inflow>chgCapital</inflow>
+				<non_negative/>
+			</stock>
+			<stock name="Debt">
+				<eqn>0</eqn>
+				<inflow>chgDebt</inflow>
+				<non_negative/>
+			</stock>
+			<stock name="WageRate">
+				<eqn>0.8</eqn>
+				<inflow>chgWageRate</inflow>
+				<non_negative/>
+			</stock>
+			<stock name="LaborProductivity">
+				<eqn>1</eqn>
+				<inflow>chgLaborProductivity</inflow>
+				<non_negative/>
+			</stock>
+			<stock name="Population">
+				<eqn>150</eqn>
+				<inflow>chgPopulation</inflow>
+				<non_negative/>
+			</stock>
+			<flow name="chgCapital">
+				<eqn>InvestmentNetReal</eqn>
+			</flow>
+			<flow name="chgDebt">
+				<eqn>InvestmentGross</eqn>
+			</flow>
+			<flow name="chgWageRate">
+				<eqn>wageFunction * WageRate</eqn>
+			</flow>
+			<flow name="chgLaborProductivity">
+				<eqn>Alphaa * LaborProductivity</eqn>
+			</flow>
+			<flow name="chgPopulation">
+				<eqn>Betaa * Population</eqn>
+			</flow>
+			<aux name="Output">
+				<eqn>Capital / velocityOfMoney</eqn>
+			</aux>
+			<aux name="Labor">
+				<eqn>Output / LaborProductivity</eqn>
+			</aux>
+			<aux name="velocityOfMoney">
+				<eqn>3</eqn>
+			</aux>
+			<aux name="employmentRateValue">
+				<eqn>Labor / Population</eqn>
+			</aux>
+			<aux name="employmentRateZero">
+				<eqn>0.6</eqn>
+			</aux>
+			<aux name="employmentRateStable">
+				<eqn>10</eqn>
+			</aux>
+			<aux name="wageFunction">
+				<eqn>(employmentRateValue - employmentRateZero) * employmentRateStable</eqn>
+			</aux>
+			<aux name="Wages">
+				<eqn>WageRate * Labor</eqn>
+			</aux>
+			<aux name="ProfitGrossReal">
+				<eqn>Output - Wages</eqn>
+			</aux>
+			<aux name="ProfitNet">
+				<eqn>ProfitGrossReal - InterestPayments</eqn>
+			</aux>
+			<aux name="InterestPayments">
+				<eqn>Debt * rateInterestOnLoans</eqn>
+			</aux>
+			<aux name="piR">
+				<eqn>ProfitNet / Capital</eqn>
+			</aux>
+			<aux name="piZ">
+				<eqn>0.04</eqn>
+			</aux>
+			<aux name="piS">
+				<eqn>10</eqn>
+			</aux>
+			<aux name="InvestmentFunctionReal">
+				<eqn>(piR - piZ) * piS</eqn>
+			</aux>
+			<aux name="InvestmentGross">
+				<eqn>InvestmentFunctionReal * Output</eqn>
+			</aux>
+			<aux name="deltaKReal">
+				<eqn>0.05</eqn>
+			</aux>
+			<aux name="InvestmentNetReal">
+				<eqn>InvestmentGross - (Capital * deltaKReal)</eqn>
+			</aux>
+			<aux name="Alphaa">
+				<eqn>0.025</eqn>
+			</aux>
+			<aux name="Betaa">
+				<eqn>0.015</eqn>
+			</aux>
+			<aux name="Omega">
+				<eqn>Wages / Output</eqn>
+			</aux>
+			<aux name="rateInterestOnLoans">
+				<eqn>0.04</eqn>
+			</aux>
+			<aux name="debtRate">
+				<eqn>Debt / Output</eqn>
+			</aux>
+			<isee:dependencies>
+				<var name="chgCapital">
+					<in>InvestmentNetReal</in>
+				</var>
+				<var name="chgDebt">
+					<in>InvestmentGross</in>
+				</var>
+				<var name="chgWageRate">
+					<in>wageFunction</in>
+					<in>WageRate</in>
+				</var>
+				<var name="chgLaborProductivity">
+					<in>Alphaa</in>
+					<in>LaborProductivity</in>
+				</var>
+				<var name="chgPopulation">
+					<in>Population</in>
+					<in>Betaa</in>
+				</var>
+				<var name="Output">
+					<in>Capital</in>
+					<in>velocityOfMoney</in>
+				</var>
+				<var name="Labor">
+					<in>Output</in>
+					<in>LaborProductivity</in>
+				</var>
+				<var name="employmentRateValue">
+					<in>Labor</in>
+					<in>Population</in>
+				</var>
+				<var name="wageFunction">
+					<in>employmentRateZero</in>
+					<in>employmentRateValue</in>
+					<in>employmentRateStable</in>
+				</var>
+				<var name="Wages">
+					<in>WageRate</in>
+					<in>Labor</in>
+				</var>
+				<var name="ProfitGrossReal">
+					<in>Wages</in>
+					<in>Output</in>
+				</var>
+				<var name="ProfitNet">
+					<in>ProfitGrossReal</in>
+					<in>InterestPayments</in>
+				</var>
+				<var name="InterestPayments">
+					<in>rateInterestOnLoans</in>
+					<in>Debt</in>
+				</var>
+				<var name="piR">
+					<in>ProfitNet</in>
+					<in>Capital</in>
+				</var>
+				<var name="InvestmentFunctionReal">
+					<in>piS</in>
+					<in>piR</in>
+					<in>piZ</in>
+				</var>
+				<var name="InvestmentGross">
+					<in>InvestmentFunctionReal</in>
+					<in>Output</in>
+				</var>
+				<var name="InvestmentNetReal">
+					<in>Capital</in>
+					<in>deltaKReal</in>
+					<in>InvestmentGross</in>
+				</var>
+				<var name="Omega">
+					<in>Wages</in>
+					<in>Output</in>
+				</var>
+				<var name="debtRate">
+					<in>Output</in>
+					<in>Debt</in>
+				</var>
+			</isee:dependencies>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="blue" background="white" font_size="9pt" isee:transparent="false"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false">
+					<isee:series_styles>
+						<isee:series_style color="blue" thickness="1"/>
+						<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF7F00" thickness="1"/>
+						<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF007F" thickness="1"/>
+						<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#C8C8C8" thickness="1"/>
+					</isee:series_styles>
+				</graph>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" isee:flat="false" icon_side="top"/>
+				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" popup_background_color="#FFFECF"/>
+				<slider color="black" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" isee:always_show_hover_tip="false" input_expands="true" input_width="100"/>
+				<isee:pie_input color="black" background="white" font_size="12pt" legend_position="bottom" isee:transparent="false"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" isee:appearance="switch"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="11" show_numeric_value="true"/>
+				<isee:spatial_map color="black" background="white" font_size="12pt"/>
+				<isee:animation_object color="black" background="white" font_size="12pt"/>
+			</style>
+			<view isee:show_pages="false" page_width="1123" page_height="793" isee:page_cols="2" isee:page_rows="2" isee:scroll_x="276" isee:scroll_y="180" isee:popup_graphs_are_comparative="true" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom"/>
+					<module color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="55" height="45"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="9pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="blue" background="white" font_size="9pt" isee:transparent="false"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false">
+						<isee:series_styles>
+							<isee:series_style color="blue" thickness="1"/>
+							<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF7F00" thickness="1"/>
+							<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF007F" thickness="1"/>
+							<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#C8C8C8" thickness="1"/>
+						</isee:series_styles>
+					</graph>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_family="asd"/>
+				</style>
+				<stock label_side="bottom" x="330" y="306" name="Capital"/>
+				<stock x="990" y="163.5" name="Debt"/>
+				<stock x="330" y="567" name="WageRate"/>
+				<stock x="861" y="357" name="LaborProductivity"/>
+				<stock x="866" y="500.5" name="Population"/>
+				<flow x="402.5" y="201" name="chgCapital">
+					<pts>
+						<pt x="499" y="201"/>
+						<pt x="330" y="201"/>
+						<pt x="330" y="288.5"/>
+					</pts>
+				</flow>
+				<flow x="907.25" y="163.5" name="chgDebt">
+					<pts>
+						<pt x="835" y="163.5"/>
+						<pt x="967.5" y="163.5"/>
+					</pts>
+				</flow>
+				<flow x="242.25" y="562" name="chgWageRate">
+					<pts>
+						<pt x="165" y="562"/>
+						<pt x="307.5" y="562"/>
+					</pts>
+				</flow>
+				<flow x="947.75" y="357" name="chgLaborProductivity">
+					<pts>
+						<pt x="1024" y="357"/>
+						<pt x="883.5" y="357"/>
+					</pts>
+				</flow>
+				<flow x="951.75" y="506" name="chgPopulation">
+					<pts>
+						<pt x="1027" y="506"/>
+						<pt x="888.5" y="506"/>
+					</pts>
+				</flow>
+				<aux x="622" y="347" name="Output"/>
+				<aux x="627" y="474" name="Labor"/>
+				<aux x="570" y="300" name="velocityOfMoney"/>
+				<connector uid="1" angle="352.007">
+					<from>Capital</from>
+					<to>Output</to>
+				</connector>
+				<connector uid="2" angle="355.236">
+					<from>velocityOfMoney</from>
+					<to>Output</to>
+				</connector>
+				<connector uid="3" angle="304.439">
+					<from>Output</from>
+					<to>Labor</to>
+				</connector>
+				<connector uid="4" angle="206.565">
+					<from>LaborProductivity</from>
+					<to>Labor</to>
+				</connector>
+				<aux x="738" y="562" name="employmentRateValue"/>
+				<connector uid="5" angle="328.782">
+					<from>Labor</from>
+					<to>employmentRateValue</to>
+				</connector>
+				<connector uid="6" angle="205.663">
+					<from>Population</from>
+					<to>employmentRateValue</to>
+				</connector>
+				<aux x="745" y="659.5" name="employmentRateZero"/>
+				<aux x="738" y="616" name="employmentRateStable"/>
+				<aux x="502" y="611.5" name="wageFunction"/>
+				<connector uid="7" angle="195.781">
+					<from>employmentRateZero</from>
+					<to>wageFunction</to>
+				</connector>
+				<connector uid="8" angle="191.846">
+					<from>employmentRateValue</from>
+					<to>wageFunction</to>
+				</connector>
+				<connector uid="9" angle="178.908">
+					<from>employmentRateStable</from>
+					<to>wageFunction</to>
+				</connector>
+				<connector uid="10" angle="203.429">
+					<from>wageFunction</from>
+					<to>chgWageRate</to>
+				</connector>
+				<connector uid="11" angle="143.696">
+					<from>WageRate</from>
+					<to>chgWageRate</to>
+				</connector>
+				<aux x="457" y="488" name="Wages"/>
+				<connector uid="12" angle="31.8836">
+					<from>WageRate</from>
+					<to>Wages</to>
+				</connector>
+				<connector uid="13" angle="184.708">
+					<from>Labor</from>
+					<to>Wages</to>
+				</connector>
+				<aux x="445" y="383.5" name="ProfitGrossReal"/>
+				<connector uid="14" angle="79.6952">
+					<from>Wages</from>
+					<to>ProfitGrossReal</to>
+				</connector>
+				<connector uid="15" angle="196.858">
+					<from>Output</from>
+					<to>ProfitGrossReal</to>
+				</connector>
+				<aux x="213" y="372" name="ProfitNet"/>
+				<aux x="111" y="145.5" name="InterestPayments"/>
+				<connector uid="16" angle="177.162">
+					<from>ProfitGrossReal</from>
+					<to>ProfitNet</to>
+				</connector>
+				<connector uid="17" angle="250.665">
+					<from>InterestPayments</from>
+					<to>ProfitNet</to>
+				</connector>
+				<aux x="154" y="209" name="piR"/>
+				<connector uid="18" angle="109.898">
+					<from>ProfitNet</from>
+					<to>piR</to>
+				</connector>
+				<connector uid="19" angle="151.139">
+					<from>Capital</from>
+					<to>piR</to>
+				</connector>
+				<aux x="272" y="136" name="piZ"/>
+				<aux x="379" y="133" name="piS"/>
+				<aux x="566" y="133" name="InvestmentFunctionReal"/>
+				<connector uid="20" angle="0">
+					<from>piS</from>
+					<to>InvestmentFunctionReal</to>
+				</connector>
+				<connector uid="21" angle="10.4516">
+					<from>piR</from>
+					<to>InvestmentFunctionReal</to>
+				</connector>
+				<connector uid="22" angle="35.6398">
+					<from>piZ</from>
+					<to>InvestmentFunctionReal</to>
+				</connector>
+				<aux x="734" y="227" name="InvestmentGross"/>
+				<connector uid="23" angle="25.641">
+					<from>InvestmentFunctionReal</from>
+					<to>InvestmentGross</to>
+				</connector>
+				<connector uid="24" angle="39.6442">
+					<from>Output</from>
+					<to>InvestmentGross</to>
+				</connector>
+				<aux x="566" y="187" name="deltaKReal"/>
+				<aux x="536" y="245" name="InvestmentNetReal"/>
+				<connector uid="25" angle="26.5651">
+					<from>Capital</from>
+					<to>InvestmentNetReal</to>
+				</connector>
+				<connector uid="26" angle="244.231">
+					<from>deltaKReal</from>
+					<to>InvestmentNetReal</to>
+				</connector>
+				<connector uid="27" angle="162.553">
+					<from>InvestmentGross</from>
+					<to>InvestmentNetReal</to>
+				</connector>
+				<connector uid="28" angle="149.349">
+					<from>InvestmentNetReal</from>
+					<to>chgCapital</to>
+				</connector>
+				<aux x="953.75" y="290" name="Alphaa"/>
+				<aux x="953.75" y="441" name="Betaa"/>
+				<connector uid="29" angle="282.907">
+					<from>Alphaa</from>
+					<to>chgLaborProductivity</to>
+				</connector>
+				<connector uid="30" angle="43.6678">
+					<from>LaborProductivity</from>
+					<to>chgLaborProductivity</to>
+				</connector>
+				<connector uid="31" angle="22.7028">
+					<from>Population</from>
+					<to>chgPopulation</to>
+				</connector>
+				<connector uid="32" angle="268.238">
+					<from>Betaa</from>
+					<to>chgPopulation</to>
+				</connector>
+				<aux x="542" y="414" name="Omega"/>
+				<connector uid="33" angle="41.0424">
+					<from>Wages</from>
+					<to>Omega</to>
+				</connector>
+				<connector uid="34" angle="235.222">
+					<from>Output</from>
+					<to>Omega</to>
+				</connector>
+				<connector uid="35" angle="20.129">
+					<from>InvestmentGross</from>
+					<to>chgDebt</to>
+				</connector>
+				<aux x="62" y="51" name="rateInterestOnLoans"/>
+				<connector uid="36" angle="304.778">
+					<from>rateInterestOnLoans</from>
+					<to>InterestPayments</to>
+				</connector>
+				<connector uid="37" angle="144.652">
+					<from>Debt</from>
+					<to>InterestPayments</to>
+				</connector>
+				<stacked_container uid="38" x="1053.5" y="363.5" width="472" height="230.5">
+					<graph x="1053.5" y="363.5" width="472" height="230.5" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="employmentRateValue"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="39" x="1313" y="214.5">
+					<graph x="1138" y="89.5" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Output"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="40" x="901" y="609" width="587" height="390">
+					<graph x="901" y="609" width="587" height="390" type="scatter" x_axis_auto_scale="true" connect_dots="true" single_point="false" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Omega"/>
+						</plot>
+						<plot color="#FF007F" pen_width="1" index="1" show_y_axis="true">
+							<entity name="employmentRateValue"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<aux x="769" y="308" name="debtRate"/>
+				<connector uid="41" angle="26.5651">
+					<from>Output</from>
+					<to>debtRate</to>
+				</connector>
+				<connector uid="42" angle="241.004">
+					<from>Debt</from>
+					<to>debtRate</to>
+				</connector>
+				<stacked_container uid="43" x="446" y="691" width="425" height="303">
+					<graph x="446" y="691" width="425" height="303" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="debtRate"/>
+						</plot>
+					</graph>
+				</stacked_container>
+			</view>
+		</views>
+	</model>
+</xmile>
+

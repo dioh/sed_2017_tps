@@ -9,14 +9,12 @@
   </xs:complexType>
   <xs:complexType name="inputsType">
     <xs:sequence>
-      <xs:element type="portType" name="port" 
-                  maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="portType" name="port" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="outputsType">
     <xs:sequence>
-      <xs:element type="portType" name="port" 
-                  maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="portType" name="port" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="parameterType">
@@ -30,18 +28,15 @@
   </xs:complexType>
   <xs:complexType name="atomicRefType">
     <xs:sequence>
-      <xs:element type="portType" name="port" 
-                  maxOccurs="unbounded" minOccurs="0"/>
-      <xs:element type="parameterType" name="parameter" 
-                  maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="portType" name="port" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="parameterType" name="parameter" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute type="xs:string" name="name" />
     <xs:attribute type="xs:string" name="model"/>
   </xs:complexType>
   <xs:complexType name="componentsType">
     <xs:sequence>
-      <xs:element type="atomicRefType" name="atomicRef" 
-                  maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="atomicRefType" name="atomicRef" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="connectionType">
@@ -56,15 +51,13 @@
   </xs:complexType>
   <xs:complexType name="internal_connectionsType">
     <xs:sequence>
-      <xs:element type="connectionType" name="connection" 
-                  maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="connectionType" name="connection" maxOccurs="unbounded" minOccurs="0">
       </xs:element>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="external_input_connectionsType">
     <xs:sequence>
-      <xs:element type="connectionType" name="connection" 
-                  maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="connectionType" name="connection" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="coupledType">
@@ -72,10 +65,8 @@
       <xs:element type="inputsType" name="inputs"/>
       <xs:element type="outputsType" name="outputs"/>
       <xs:element type="componentsType" name="components"/>
-      <xs:element type="internal_connectionsType" 
-                  name="internal_connections"/>
-      <xs:element type="external_input_connectionsType" 
-                  name="external_input_connections"/>
+      <xs:element type="internal_connectionsType" name="internal_connections"/>
+      <xs:element type="external_input_connectionsType" name="external_input_connections"/>
     </xs:sequence>
     <xs:attribute type="xs:string" name="name"/>
     <xs:attribute type="xs:string" name="model"/>

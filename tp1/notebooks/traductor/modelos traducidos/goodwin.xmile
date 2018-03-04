@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile>
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>goodwin</name>
+		<uuid>c026a89f-3aa6-4e6a-9d48-d0d3a4799e44</uuid>
+		<vendor>isee systems, inc.</vendor>
+	</header>
+	<sim_specs>
+		<start>1</start>
+		<stop>13</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<model_units/>
+	<model>
+		<variables>
+			<stock name="Capital">
+				<eqn>300</eqn>
+				<inflow>chgCapital</inflow>
+			</stock>
+			<stock name="Population">
+				<eqn>150</eqn>
+				<inflow>chgPopulation</inflow>
+			</stock>
+			<stock name="LaborProductivity">
+				<eqn>1</eqn>
+				<inflow>chgLaborProductivity</inflow>
+			</stock>
+			<stock name="wageRate">
+				<eqn>0.8</eqn>
+				<inflow>chgWageRate</inflow>
+			</stock>
+			<aux name="Output">
+				<eqn>Capital / 3</eqn>
+			</aux>
+			<aux name="Labor">
+				<eqn>Output / LaborProductivity</eqn>
+			</aux>
+			<aux name="employmentRate">
+				<eqn>Labor / Population</eqn>
+			</aux>
+			<aux name="wageFunction">
+				<eqn>(employmentRate - 0.6) * 10</eqn>
+			</aux>
+			<flow name="chgWageRate">
+				<eqn>wageFunction * wageRate</eqn>
+			</flow>
+			<aux name="wageBill">
+				<eqn>wageRate * Labor</eqn>
+			</aux>
+			<aux name="Profit">
+				<eqn>Output - wageBill</eqn>
+			</aux>
+			<aux name="InvestmentGross">
+				<eqn>Profit</eqn>
+			</aux>
+			<aux name="InvestmentNetReal">
+				<eqn>InvestmentGross - (Capital * 0.1)</eqn>
+			</aux>
+			<flow name="chgCapital">
+				<eqn>InvestmentNetReal</eqn>
+			</flow>
+			<aux name="omega">
+				<eqn>wageBill / Output</eqn>
+			</aux>
+			<flow name="chgPopulation">
+				<eqn>Population * 0.015</eqn>
+			</flow>
+			<flow name="chgLaborProductivity">
+				<eqn>LaborProductivity * 0.025</eqn>
+			</flow>
+			<iseedependencies>
+				<var name="Output">
+					<in>Capital</in>
+				</var>
+				<var name="Labor">
+					<in>Output</in>
+					<in>LaborProductivity</in>
+				</var>
+				<var name="employmentRate">
+					<in>Labor</in>
+					<in>Population</in>
+				</var>
+				<var name="wageFunction">
+					<in>employmentRate</in>
+				</var>
+				<var name="chgWageRate">
+					<in>wageRate</in>
+					<in>wageFunction</in>
+				</var>
+				<var name="wageBill">
+					<in>Labor</in>
+					<in>wageRate</in>
+				</var>
+				<var name="Profit">
+					<in>Output</in>
+					<in>wageBill</in>
+				</var>
+				<var name="InvestmentGross">
+					<in>Profit</in>
+				</var>
+				<var name="InvestmentNetReal">
+					<in>InvestmentGross</in>
+					<in>Capital</in>
+				</var>
+				<var name="chgCapital">
+					<in>InvestmentNetReal</in>
+				</var>
+				<var name="omega">
+					<in>Output</in>
+					<in>wageBill</in>
+				</var>
+				<var name="chgPopulation">
+					<in>Population</in>
+				</var>
+				<var name="chgLaborProductivity">
+					<in>LaborProductivity</in>
+				</var>
+			</iseedependencies>
+		</variables>
+	</model>
+</xmile>
+
