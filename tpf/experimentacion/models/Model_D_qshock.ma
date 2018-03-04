@@ -9,7 +9,119 @@
 %      Los shocks solo afectan en |q_shock * delta| a la celda
 
 [top]
-components : opinion 
+components : opinion shocker0@Shocker shocker1@Shocker shocker2@Shocker shocker3@Shocker shocker4@Shocker 
+%---------------------------------------------------
+% Inputs + Links externos para shock exogeno
+%---------------------------------------------------
+in : in0 in1 in2 in3 in4 
+link : in0 in@shocker0 
+link : in1 in@shocker1 
+link : in2 in@shocker2 
+link : in3 in@shocker3 
+link : in4 in@shocker4 
+
+link : out0@shocker0 in41@opinion
+link : out0@shocker1 in29@opinion
+link : out0@shocker2 in43@opinion
+link : out0@shocker3 in81@opinion
+link : out0@shocker4 in37@opinion
+link : out10@shocker0 in18@opinion
+link : out10@shocker1 in14@opinion
+link : out10@shocker2 in60@opinion
+link : out10@shocker3 in68@opinion
+link : out10@shocker4 in65@opinion
+link : out11@shocker0 in34@opinion
+link : out11@shocker1 in17@opinion
+link : out11@shocker2 in36@opinion
+link : out11@shocker3 in93@opinion
+link : out11@shocker4 in08@opinion
+link : out12@shocker0 in83@opinion
+link : out12@shocker1 in26@opinion
+link : out12@shocker2 in47@opinion
+link : out12@shocker3 in90@opinion
+link : out12@shocker4 in95@opinion
+link : out13@shocker0 in78@opinion
+link : out13@shocker1 in92@opinion
+link : out13@shocker2 in39@opinion
+link : out13@shocker3 in73@opinion
+link : out13@shocker4 in01@opinion
+link : out14@shocker0 in50@opinion
+link : out14@shocker1 in42@opinion
+link : out14@shocker2 in45@opinion
+link : out14@shocker3 in84@opinion
+link : out14@shocker4 in64@opinion
+link : out15@shocker0 in59@opinion
+link : out15@shocker1 in85@opinion
+link : out15@shocker2 in11@opinion
+link : out15@shocker3 in98@opinion
+link : out15@shocker4 in27@opinion
+link : out16@shocker0 in63@opinion
+link : out16@shocker1 in61@opinion
+link : out16@shocker2 in35@opinion
+link : out16@shocker3 in89@opinion
+link : out16@shocker4 in88@opinion
+link : out17@shocker0 in86@opinion
+link : out17@shocker1 in94@opinion
+link : out17@shocker2 in99@opinion
+link : out17@shocker3 in25@opinion
+link : out17@shocker4 in31@opinion
+link : out18@shocker0 in30@opinion
+link : out18@shocker1 in02@opinion
+link : out18@shocker2 in96@opinion
+link : out18@shocker3 in51@opinion
+link : out18@shocker4 in03@opinion
+link : out19@shocker0 in69@opinion
+link : out19@shocker1 in67@opinion
+link : out19@shocker2 in97@opinion
+link : out19@shocker3 in38@opinion
+link : out19@shocker4 in00@opinion
+link : out1@shocker0 in28@opinion
+link : out1@shocker1 in12@opinion
+link : out1@shocker2 in56@opinion
+link : out1@shocker3 in70@opinion
+link : out1@shocker4 in07@opinion
+link : out2@shocker0 in04@opinion
+link : out2@shocker1 in16@opinion
+link : out2@shocker2 in09@opinion
+link : out2@shocker3 in71@opinion
+link : out2@shocker4 in21@opinion
+link : out3@shocker0 in48@opinion
+link : out3@shocker1 in82@opinion
+link : out3@shocker2 in76@opinion
+link : out3@shocker3 in19@opinion
+link : out3@shocker4 in20@opinion
+link : out4@shocker0 in10@opinion
+link : out4@shocker1 in87@opinion
+link : out4@shocker2 in23@opinion
+link : out4@shocker3 in72@opinion
+link : out4@shocker4 in74@opinion
+link : out5@shocker0 in91@opinion
+link : out5@shocker1 in80@opinion
+link : out5@shocker2 in33@opinion
+link : out5@shocker3 in66@opinion
+link : out5@shocker4 in32@opinion
+link : out6@shocker0 in46@opinion
+link : out6@shocker1 in05@opinion
+link : out6@shocker2 in13@opinion
+link : out6@shocker3 in22@opinion
+link : out6@shocker4 in57@opinion
+link : out7@shocker0 in53@opinion
+link : out7@shocker1 in06@opinion
+link : out7@shocker2 in55@opinion
+link : out7@shocker3 in75@opinion
+link : out7@shocker4 in58@opinion
+link : out8@shocker0 in52@opinion
+link : out8@shocker1 in77@opinion
+link : out8@shocker2 in40@opinion
+link : out8@shocker3 in44@opinion
+link : out8@shocker4 in62@opinion
+link : out9@shocker0 in15@opinion
+link : out9@shocker1 in54@opinion
+link : out9@shocker2 in79@opinion
+link : out9@shocker3 in49@opinion
+link : out9@shocker4 in24@opinion
+
+%---------------------------------------------------
 
 [opinion]
 type : cell
