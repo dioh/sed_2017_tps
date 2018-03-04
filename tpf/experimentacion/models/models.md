@@ -25,7 +25,15 @@ Basado en el Modelo_D_k.ma, pero que incluye reglas de Influyentes (TPF de Dima)
 
 ### Model_D_k_I_shock.ma
 
-Basado en el Modelo_D_k.ma con shocks (TP2 Rodriguez-Modrow-Foguelman).
+Basado en el Modelo_D_k_I.ma con shocks (TP2 Rodriguez-Modrow-Foguelman).
+
+### Model_B_shock.ma
+
+Basado en Model_B con shocks. Estos shocks los modifican el valor de la celda, independiente del valor en el momento de la celda (según lo definido en el TP2 Rodriguez-Modrow-Foguelman).
+
+### Model_D_shock.ma
+
+Basado en Model_D con shocks. Estos shocks los modifican el valor de la celda, independiente del valor en el momento de la celda (según lo definido en el TP2 Rodriguez-Modrow-Foguelman).
 
 ### Model_B_qshock_3x3.ma
 
