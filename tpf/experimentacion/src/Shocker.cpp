@@ -1,6 +1,7 @@
 #include <random>
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "math.h"
 
@@ -11,7 +12,26 @@
 
 #include "Shocker.h"
 
-using namespace std;
+/*
+	Shameless C&P from QSS1, but as a static function with default value
+*/
+static double get_param(const std::string &modelName, const string &name, double default_value = 0)
+{
+    double value = default_value;
+
+    try
+    {
+        std::string param = ParallelMainSimulator::Instance().getParameter(modelName, name);
+        std::stringstream param_stream(param);
+
+        param_stream >> value;
+    }
+    catch(IniRequestException &)
+    {}
+
+    return value;
+}
+
 
 Shocker::Shocker(const string &name) :
 	Atomic(name),
@@ -40,7 +60,10 @@ Shocker::Shocker(const string &name) :
 	numberOfChosenOutputPorts(10),
 	outValue()
 {
+	numberOfChosenOutputPorts= get_param(description(), "NumberOfChosenOutputPorts", 10);
+	std::cout << "NumberOfChosenOutputPorts: " << numberOfChosenOutputPorts;
 }
+
 
 
 Model &Shocker::initFunction()
@@ -67,21 +90,25 @@ Model &Shocker::internalFunction(const InternalMessage &)
 
 Model &Shocker::outputFunction(const CollectMessage &msg)
 {
-	vector<int> selected_ports(20);
+	std::vector<int> selected_ports(20);
 	// Generate vector with indices of output ports used
 	for(int i = 0; i < 20; i++) {
-		if(i < 10) {
+		if(i < numberOfChosenOutputPorts) {
 			selected_ports[i] = 1;
 		} else {
 			selected_ports[i] = 0;
 		}
   	}
+  	// Shuffle selected ports using std
+	std::random_shuffle ( selected_ports.begin(),  selected_ports.end() );
+
   	// Shuffle selected ports
+	/*
   	for(int i = 20 - 1; i > 0; i--) {
 	 	int j = rand() % i;
 	 	swap(selected_ports[i], selected_ports[j]);
 	}
-
+	*/
 	// Send output through rondomized group of output ports
 	if(selected_ports[0] == 1) { sendOutput(msg.time(), out0, outValue); } 
 	if(selected_ports[1] == 1) { sendOutput(msg.time(), out1, outValue); } 
