@@ -16,7 +16,7 @@ import functools
 from collections import deque
 from builtins import map
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('create_cell_devs_grids')
 
 
 def get_config(config_file_path):
