@@ -38,7 +38,8 @@ MODEL_FILE=$(basename $MODEL_FILE_PATH)
 VAL_FILES_DIR_PATH="$2"
 VAL_FILES_LAST_DIR=${VAL_FILES_DIR_PATH##*/}
 EXPERIMENTS=`ls $VAL_FILES_DIR_PATH`
-EVENTS_FILE="$3"
+EVENTS_FILE_PATH="$3"
+EVENTS_FILE=$(basename $EVENTS_FILE_PATH)
 SIMULATION_TIME="$4"
 EMAIL="$5"
 
@@ -50,14 +51,14 @@ for valFile in $EXPERIMENTS; do
 	replace="$VAL_FILES_DIR_PATH/$valFile"
 	sed "s:valfile.val:${replace}:" "$1" > Influmodel_now.ma
 
-	src/bin/cd++ -mInflumodel_now.ma -e$EVENTS_FILE -t$SIMULATION_TIME -ltmp/log 
+	src/bin/cd++ -mInflumodel_now.ma -e$EVENTS_FILE_PATH -t$SIMULATION_TIME -ltmp/log 
     if [ -f "./tmp/log01" ]; then
         echo "Archivo de log (log01) encontrado. Eliminando restantes de ./tmp"
         # Borra todos los archivos de log excepto por log01
         find ./tmp ! -name 'log01' -type f -exec rm -f {} +
         #VAR
-        CSV_LOG="result_$VAL_FILE_NAME.csv"
-        GROUPED_CSV="grouped_$VAL_FILE_NAME.csv"
+        CSV_LOG="result_"$VAL_FILE_NAME"_"$EVENTS_FILE".csv"
+        GROUPED_CSV="grouped_"$VAL_FILE_NAME"_"$EVENTS_FILE".csv"
         # El script python pone la extension .csv en el archivo resultado
         echo "Pasando out de celdas a csv."
         ./tools/cell_devs_logfile_to_csv.py ./tmp/log01 "$RESULTS_DIR/$CSV_LOG"
@@ -77,18 +78,18 @@ rm Influmodel_now.ma
 count=`ls -1 $RESULTS_DIR/*.csv 2>/dev/null | wc -l`
 if [ $count != 0 ]; then
     echo "Creando csv sumarizado."
-    SUMMARIZED_FILE=$RESULTS_DIR"/"$VAL_FILES_LAST_DIR"_summarized_grouped.csv"
+    SUMMARIZED_FILE=$RESULTS_DIR"/"$VAL_FILES_LAST_DIR"_"$EVENTS_FILE"_summarized_grouped.csv"
     ./tools/summarize_experiments.py ./results grouped_*.csv $SUMMARIZED_FILE
     if [[ ! -z $EMAIL ]]; then
         echo "Enviando correo con archivo sumarizado." 
         ./tools/send_email.py "$EMAIL" "$PASSWORD" "Experimento del modelo $MODEL_FILE con valores $VAL_FILES_LAST_DIR finalizado" $SUMMARIZED_FILE
     fi
     echo "Comprimiendo resultados." 
-    compress_filename=$MODEL_FILE"_"$VAL_FILES_LAST_DIR".tar.gz"
+    compress_filename=$MODEL_FILE"_"$VAL_FILES_LAST_DIR"_"$EVENTS_FILE".tar.gz"
     find "$RESULTS_DIR" -name "*.csv*" | xargs tar -czvf "$RESULTS_DIR/$compress_filename"
     if [ -f "$RESULTS_DIR/$compress_filename" ]; then
         echo "$compress_filename generado conteniendo archivos generados. Eliminando archivos."
-        find "$RESULTS_DIR" ! -name "$compress_filename" -type f -exec rm -f {} +
+        #find "$RESULTS_DIR" ! -name "$compress_filename" -type f -exec rm -f {} +
     else
         echo "$compress_filename no encontrado. No se eliminan archivos de ./results/"
     fi    
