@@ -1,0 +1,38 @@
+% c es el valor de la Celda (conviccion). 
+% Partido A < -1. Partido B > 1. Indecisos si abs(c) < 1  
+% (0,0,1) = 1 => mirar a la derecha, (0,1,0). Si es de Partido A y c - delta < 3 y (la celda de la derecha es del partido A y tiene mayor conviccion o es de la oposición). Entonces ponemos -3. 
+rule :  { -3 } 100 { (0,0,1)=1  and (0,0,0) < -1 and (((0,0,0) - #macro(delta))<-3 )and ( (0,1,0) < (0,0,0) or  (0,1,0) > 1 )}
+
+% (0,0,1) = 1 => mirar a la derecha, (0,1,0). Si es de Partido A y la celda de la derecha es Indeciso o del partido A y c + delta > 3. Entonces ponemos 3. [Nota delta > 4]. 
+rule :  { 3 } 100 { (0,0,1)=1  and (0,0,0) < -1 and (0,1,0) <= 1 and (((0,0,0) + #macro(delta))>3) }
+
+% (0,0,1) = 1 => mirar a la derecha, (0,1,0). Si es de Partido B, c + delta > 3 y (la celda de la derecha es del partido B y tiene mayor conviccion o es de la oposición). Entonces ponemos 3.
+rule :  { 3 } 100 { (0,0,1)=1  and (0,0,0) > 1 and (((0,0,0) + #macro(delta))>3) and ((0,1,0) > (0,0,0)  or  (0,1,0) <= -1 )  }
+
+% (0,0,1) = 1 => mirar a la derecha, (0,1,0). Si es de Partido B, c - delta < -3 y la celda de la derecha tiene menor conviccion (puede ser Partido A, B ó I). Entonces ponemos -3. [Nota delta > -4].
+rule :  { -3 } 100 { (0,0,1)=1  and (0,0,0) > 1 and (((0,0,0) - #macro(delta))<-3) and (0,1,0) < (0,0,0)  }
+
+---
+% (0,0,1) = 3 => mirar a la izquierda, (0,-1,0). Si es de Partido A, c - delta < -3 y (la celda de la izquierda tiene menor valor conviccion (es Partido A con mayor conviccion) o es de la oposición). Entonces ponemos -3.
+
+rule :  { -3 } 100 { (0,0,1)=3  and (0,0,0) < -1 and (((0,0,0) - #macro(delta))<-3) and ( (0,-1,0) < (0,0,0) or  (0,-1,0) > 1 )}
+
+% (0,0,1) = 3 => mirar a la izquierda, (0,-1,0). Si es de Partido A, c + delta > 3 y la celda de la izquierda es Indeciso o del Partido A. Entonces ponemos 3.  [Nota delta > 4]. 
+
+
+rule :  { 3 } 100 { (0,0,1)=3  and (0,0,0) < -1 and (((0,0,0) + #macro(delta))>3) and (0,-1,0) <= 1 }
+rule :  { 3 } 100 { (0,0,1)=3  and (0,0,0) > 1 and (((0,0,0) + #macro(delta))>3) and ((0,-1,0) > (0,0,0)  or  (0,-1,0) <= -1 )  }
+rule :  { -3 } 100 { (0,0,1)=3  and (0,0,0) > 1 and (((0,0,0) - #macro(delta))<-3) and (0,-1,0) < (0,0,0)  }
+
+---
+rule :  { -3 } 100 { (0,0,1)=2  and (0,0,0) < -1 and (((0,0,0) - #macro(delta))<-3) and ( (-1,0,0) < (0,0,0) or  (-1,0,0) > 1 )}
+rule :  { 3 } 100 { (0,0,1)=2  and (0,0,0) < -1 and (((0,0,0) + #macro(delta))>3) and (-1,0,0) <= 1 }
+rule :  { 3 } 100 { (0,0,1)=2  and (0,0,0) > 1 and (((0,0,0) + #macro(delta))>3) and ((-1,0,0) > (0,0,0)  or  (-1,0,0) <= -1 )  }
+rule :  { -3 } 100 { (0,0,1)=2  and (0,0,0) > 1 and (((0,0,0) - #macro(delta))<-3) and (-1,0,0) < (0,0,0)  }
+
+
+---
+rule :  { -3 } 100 { (0,0,1)=4  and (0,0,0) < -1 and (((0,0,0) - #macro(delta))<-3) and ( (1,0,0) < (0,0,0) or  (1,0,0) > 1 )}
+rule :  { 3 } 100 { (0,0,1)=4  and (0,0,0) < -1 and (((0,0,0) + #macro(delta))>3) and (1,0,0) <= 1 }
+rule :  { 3 } 100 { (0,0,1)=4  and (0,0,0) > 1 and (((0,0,0) + #macro(delta))>3) and ((1,0,0) > (0,0,0)  or  (1,0,0) <= -1 )  }
+rule :  { -3 } 100 { (0,0,1)=4  and (0,0,0) > 1 and (((0,0,0) - #macro(delta))<-3) and (1,0,0) < (0,0,0)  }
