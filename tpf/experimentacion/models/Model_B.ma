@@ -35,14 +35,6 @@ rule :  { randInt(3)+1 } 100 { (0,0,1)=?  }
 %Clock del modelo: actualizacion de la capa de conectividad.
 %----------------------------------------------------------------------------
 
-%----------------------------------------------------------------------------
-% --------------- REGLAS DE REACCION ANTE SHOCKS EXTERNOS -------------------
-%----------------------------------------------------------------------------
-rule : {  uniform(-3, -2) } 0 { (0,0,0) = 5 }
-rule : {  uniform(-1, 1)  } 0 { (0,0,0) = 6 }
-rule : {  uniform(2, 3) } 0 { (0,0,0) = 7 }
-%----------------------------------------------------------------------------
-
 %Reglas para no pasarme del intervalo [-3;3] por sumar o restar #macro(delta): 
 %Mire a quien mire, vote a quien vote, si el resultado de mi estado de conviccion actual +/- delta es mayor a
 %3 (o -3), fijo el valor a 3 (o -3).
