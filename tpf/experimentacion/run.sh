@@ -57,8 +57,8 @@ for valFile in $EXPERIMENTS; do
         # Borra todos los archivos de log excepto por log01
         find ./tmp ! -name 'log01' -type f -exec rm -f {} +
         #VAR
-        CSV_LOG="result_"$VAL_FILE_NAME"_"$EVENTS_FILE".csv"
-        GROUPED_CSV="grouped_"$VAL_FILE_NAME"_"$EVENTS_FILE".csv"
+        CSV_LOG=$MODEL_FILE_"result_"$VAL_FILE_NAME"_"$EVENTS_FILE".csv"
+        GROUPED_CSV=$MODEL_FILE_"grouped_"$VAL_FILE_NAME"_"$EVENTS_FILE".csv"
         # El script python pone la extension .csv en el archivo resultado
         echo "Pasando out de celdas a csv."
         ./tools/cell_devs_logfile_to_csv.py ./tmp/log01 "$RESULTS_DIR/$CSV_LOG"
@@ -89,7 +89,7 @@ if [ $count != 0 ]; then
     find "$RESULTS_DIR" -name "*.csv*" | xargs tar -czvf "$RESULTS_DIR/$compress_filename"
     if [ -f "$RESULTS_DIR/$compress_filename" ]; then
         echo "$compress_filename generado conteniendo archivos generados. Eliminando archivos."
-        #find "$RESULTS_DIR" ! -name "$compress_filename" -type f -exec rm -f {} +
+        find "$RESULTS_DIR" ! -name "$compress_filename" -type f -exec rm -f {} +
     else
         echo "$compress_filename no encontrado. No se eliminan archivos de ./results/"
     fi    
