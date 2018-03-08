@@ -36,9 +36,9 @@ def config_logging():
 
 def get_value_set(value):
     value_as_float = float(value)
-    if value_as_float < -1.0:
+    if value_as_float < -1.0 and value_as_float >= -3:
         return 'A'
-    elif value_as_float > 1.0:
+    elif value_as_float > 1.0 and value_as_float <= 3:
         return 'B'
     elif value_as_float >= -1.0 and value_as_float <= 1.0:
         return 'I'
