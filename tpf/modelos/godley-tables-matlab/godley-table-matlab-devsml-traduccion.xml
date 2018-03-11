@@ -1,0 +1,665 @@
+<coupled name="top" model="Coupled" >
+
+	<!-- Inputs -->
+	<inputs>
+		<port name="tauWVal" />
+		<port name="tauT" />
+		<port name="tauBVal" />
+		<port name="share" />
+		<port name="tauR" />
+		<port name="tauL" />
+		<port name="rateOfInterestOnLoans" />
+	</inputs>
+
+	<!-- Outputs -->
+	<outputs>
+		<port name="Firms" />
+		<port name="DebtFirms" />
+		<port name="Workers" />
+		<port name="Bank" />
+	</outputs>
+
+	<!-- Components -->
+	<components>
+		<!-- Atomico : FirmsTot -->
+		<atomicRef name="FirmsTot" model="Ftot">
+			<port name="chgFirmsPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Firms -->
+		<atomicRef name="Firms" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="80" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : DebtFirmsTot -->
+		<atomicRef name="DebtFirmsTot" model="Ftot">
+			<port name="chgDebtFirmsPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : DebtFirms -->
+		<atomicRef name="DebtFirms" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="100" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : WorkersTot -->
+		<atomicRef name="WorkersTot" model="Ftot">
+			<port name="chgWorkersPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Workers -->
+		<atomicRef name="Workers" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="12" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : BankTot -->
+		<atomicRef name="BankTot" model="Ftot">
+			<port name="chgBankPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Bank -->
+		<atomicRef name="Bank" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="8" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : tauWVal -->
+		<atomicRef name="tauWVal" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.04" />
+		</atomicRef>
+
+		<!-- Atomico : tauT -->
+		<atomicRef name="tauT" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.33" />
+		</atomicRef>
+
+		<!-- Atomico : RepayF -->
+		<atomicRef name="RepayF" model="Aux">
+			<port name="DebtFirms" type="in" />
+			<port name="tauR" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(DebtFirms/tauR)" />
+		</atomicRef>
+
+		<!-- Atomico : ProfitNet -->
+		<atomicRef name="ProfitNet" model="Aux">
+			<port name="ProfitGross" type="in" />
+			<port name="Interest" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(ProfitGross-Interest)" />
+		</atomicRef>
+
+		<!-- Atomico : ConsW -->
+		<atomicRef name="ConsW" model="Aux">
+			<port name="Workers" type="in" />
+			<port name="tauWVal" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Workers/tauWVal)" />
+		</atomicRef>
+
+		<!-- Atomico : Money -->
+		<atomicRef name="Money" model="Aux">
+			<port name="Workers" type="in" />
+			<port name="Firms" type="in" />
+			<port name="Bank" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((Workers+Firms)+Bank)" />
+		</atomicRef>
+
+		<!-- Atomico : LendF -->
+		<atomicRef name="LendF" model="Aux">
+			<port name="DebtFirms" type="in" />
+			<port name="tauL" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(DebtFirms/tauL)" />
+		</atomicRef>
+
+		<!-- Atomico : tauBVal -->
+		<atomicRef name="tauBVal" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="1" />
+		</atomicRef>
+
+		<!-- Atomico : share -->
+		<atomicRef name="share" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.3" />
+		</atomicRef>
+
+		<!-- Atomico : tauR -->
+		<atomicRef name="tauR" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="7" />
+		</atomicRef>
+
+		<!-- Atomico : tauL -->
+		<atomicRef name="tauL" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="7" />
+		</atomicRef>
+
+		<!-- Atomico : ProfitShare -->
+		<atomicRef name="ProfitShare" model="Aux">
+			<port name="ProfitNet" type="in" />
+			<port name="GDProduct" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(ProfitNet/GDProduct)" />
+		</atomicRef>
+
+		<!-- Atomico : ProfitGross -->
+		<atomicRef name="ProfitGross" model="Aux">
+			<port name="GDProduct" type="in" />
+			<port name="Wages" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(GDProduct-Wages)" />
+		</atomicRef>
+
+		<!-- Atomico : ConsB -->
+		<atomicRef name="ConsB" model="Aux">
+			<port name="Bank" type="in" />
+			<port name="tauBVal" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Bank/tauBVal)" />
+		</atomicRef>
+
+		<!-- Atomico : rateOfInterestOnLoans -->
+		<atomicRef name="rateOfInterestOnLoans" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.185" />
+		</atomicRef>
+
+		<!-- Atomico : Interest -->
+		<atomicRef name="Interest" model="Aux">
+			<port name="DebtFirms" type="in" />
+			<port name="rateOfInterestOnLoans" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(DebtFirms*rateOfInterestOnLoans)" />
+		</atomicRef>
+
+		<!-- Atomico : GDProduct -->
+		<atomicRef name="GDProduct" model="Aux">
+			<port name="Firms" type="in" />
+			<port name="tauT" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Firms/tauT)" />
+		</atomicRef>
+
+		<!-- Atomico : Wages -->
+		<atomicRef name="Wages" model="Aux">
+			<port name="GDProduct" type="in" />
+			<port name="share" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(GDProduct*(1.0-share))" />
+		</atomicRef>
+
+		<!-- Atomico : WagesShare -->
+		<atomicRef name="WagesShare" model="Aux">
+			<port name="Wages" type="in" />
+			<port name="GDProduct" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Wages/GDProduct)" />
+		</atomicRef>
+
+		<!-- Atomico : velocityOfMoney -->
+		<atomicRef name="velocityOfMoney" model="Aux">
+			<port name="GDProduct" type="in" />
+			<port name="Money" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(GDProduct/Money)" />
+		</atomicRef>
+
+		<!-- Atomico : BankShare -->
+		<atomicRef name="BankShare" model="Aux">
+			<port name="Interest" type="in" />
+			<port name="GDProduct" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Interest/GDProduct)" />
+		</atomicRef>
+
+		<!-- Atomico : chgBankPlus -->
+		<atomicRef name="chgBankPlus" model="Fpm">
+			<port name="Interest" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Interest-ConsB)" />
+		</atomicRef>
+
+		<!-- Atomico : chgBankMinus -->
+		<atomicRef name="chgBankMinus" model="Fpm">
+			<port name="Interest" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Interest-ConsB)" />
+		</atomicRef>
+
+		<!-- Atomico : chgDebtFirmsPlus -->
+		<atomicRef name="chgDebtFirmsPlus" model="Fpm">
+			<port name="LendF" type="in" />
+			<port name="RepayF" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(LendF-RepayF)" />
+		</atomicRef>
+
+		<!-- Atomico : chgDebtFirmsMinus -->
+		<atomicRef name="chgDebtFirmsMinus" model="Fpm">
+			<port name="LendF" type="in" />
+			<port name="RepayF" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(LendF-RepayF)" />
+		</atomicRef>
+
+		<!-- Atomico : chgFirmsPlus -->
+		<atomicRef name="chgFirmsPlus" model="Fpm">
+			<port name="LendF" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="Interest" type="in" />
+			<port name="Wages" type="in" />
+			<port name="RepayF" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(((LendF+ConsW)+ConsB)-((Interest+Wages)+RepayF))" />
+		</atomicRef>
+
+		<!-- Atomico : chgFirmsMinus -->
+		<atomicRef name="chgFirmsMinus" model="Fpm">
+			<port name="LendF" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="Interest" type="in" />
+			<port name="Wages" type="in" />
+			<port name="RepayF" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(((LendF+ConsW)+ConsB)-((Interest+Wages)+RepayF))" />
+		</atomicRef>
+
+		<!-- Atomico : chgWorkersPlus -->
+		<atomicRef name="chgWorkersPlus" model="Fpm">
+			<port name="Wages" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Wages-ConsW)" />
+		</atomicRef>
+
+		<!-- Atomico : chgWorkersMinus -->
+		<atomicRef name="chgWorkersMinus" model="Fpm">
+			<port name="Wages" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Wages-ConsW)" />
+		</atomicRef>
+
+		</components>
+
+	<!-- Internal Connections -->
+	<internal_connections>
+		
+		<!-- Link interno : FirmsTot ==> Firms -->
+		<connection component_from="FirmsTot"
+			component_to="Firms"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : DebtFirmsTot ==> DebtFirms -->
+		<connection component_from="DebtFirmsTot"
+			component_to="DebtFirms"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : WorkersTot ==> Workers -->
+		<connection component_from="WorkersTot"
+			component_to="Workers"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : BankTot ==> Bank -->
+		<connection component_from="BankTot"
+			component_to="Bank"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : chgBankPlus ==> BankTot -->
+		<connection component_from="chgBankPlus"
+			component_to="BankTot"
+			port_from="out"
+			port_to="chgBankPlus"/>
+		<!-- Link interno : chgDebtFirmsPlus ==> DebtFirmsTot -->
+		<connection component_from="chgDebtFirmsPlus"
+			component_to="DebtFirmsTot"
+			port_from="out"
+			port_to="chgDebtFirmsPlus"/>
+		<!-- Link interno : chgFirmsPlus ==> FirmsTot -->
+		<connection component_from="chgFirmsPlus"
+			component_to="FirmsTot"
+			port_from="out"
+			port_to="chgFirmsPlus"/>
+		<!-- Link interno : chgWorkersPlus ==> WorkersTot -->
+		<connection component_from="chgWorkersPlus"
+			component_to="WorkersTot"
+			port_from="out"
+			port_to="chgWorkersPlus"/>
+		<!-- Link interno : Firms ==> Money -->
+		<connection component_from="Firms"
+			component_to="Money"
+			port_from="out"
+			port_to="Firms"/>
+		<!-- Link interno : Firms ==> GDProduct -->
+		<connection component_from="Firms"
+			component_to="GDProduct"
+			port_from="out"
+			port_to="Firms"/>
+		<!-- Link interno : DebtFirms ==> RepayF -->
+		<connection component_from="DebtFirms"
+			component_to="RepayF"
+			port_from="out"
+			port_to="DebtFirms"/>
+		<!-- Link interno : DebtFirms ==> LendF -->
+		<connection component_from="DebtFirms"
+			component_to="LendF"
+			port_from="out"
+			port_to="DebtFirms"/>
+		<!-- Link interno : DebtFirms ==> Interest -->
+		<connection component_from="DebtFirms"
+			component_to="Interest"
+			port_from="out"
+			port_to="DebtFirms"/>
+		<!-- Link interno : Workers ==> ConsW -->
+		<connection component_from="Workers"
+			component_to="ConsW"
+			port_from="out"
+			port_to="Workers"/>
+		<!-- Link interno : Workers ==> Money -->
+		<connection component_from="Workers"
+			component_to="Money"
+			port_from="out"
+			port_to="Workers"/>
+		<!-- Link interno : Bank ==> Money -->
+		<connection component_from="Bank"
+			component_to="Money"
+			port_from="out"
+			port_to="Bank"/>
+		<!-- Link interno : Bank ==> ConsB -->
+		<connection component_from="Bank"
+			component_to="ConsB"
+			port_from="out"
+			port_to="Bank"/>
+		<!-- Link interno : tauWVal ==> ConsW -->
+		<connection component_from="tauWVal"
+			component_to="ConsW"
+			port_from="out"
+			port_to="tauWVal"/>
+		<!-- Link interno : tauT ==> GDProduct -->
+		<connection component_from="tauT"
+			component_to="GDProduct"
+			port_from="out"
+			port_to="tauT"/>
+		<!-- Link interno : RepayF ==> chgDebtFirmsPlus -->
+		<connection component_from="RepayF"
+			component_to="chgDebtFirmsPlus"
+			port_from="out"
+			port_to="RepayF"/>
+		<!-- Link interno : RepayF ==> chgDebtFirmsMinus -->
+		<connection component_from="RepayF"
+			component_to="chgDebtFirmsMinus"
+			port_from="out"
+			port_to="RepayF"/>
+		<!-- Link interno : RepayF ==> chgFirmsPlus -->
+		<connection component_from="RepayF"
+			component_to="chgFirmsPlus"
+			port_from="out"
+			port_to="RepayF"/>
+		<!-- Link interno : RepayF ==> chgFirmsMinus -->
+		<connection component_from="RepayF"
+			component_to="chgFirmsMinus"
+			port_from="out"
+			port_to="RepayF"/>
+		<!-- Link interno : ProfitNet ==> ProfitShare -->
+		<connection component_from="ProfitNet"
+			component_to="ProfitShare"
+			port_from="out"
+			port_to="ProfitNet"/>
+		<!-- Link interno : ConsW ==> chgFirmsPlus -->
+		<connection component_from="ConsW"
+			component_to="chgFirmsPlus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgFirmsMinus -->
+		<connection component_from="ConsW"
+			component_to="chgFirmsMinus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgWorkersPlus -->
+		<connection component_from="ConsW"
+			component_to="chgWorkersPlus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgWorkersMinus -->
+		<connection component_from="ConsW"
+			component_to="chgWorkersMinus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : Money ==> velocityOfMoney -->
+		<connection component_from="Money"
+			component_to="velocityOfMoney"
+			port_from="out"
+			port_to="Money"/>
+		<!-- Link interno : LendF ==> chgDebtFirmsPlus -->
+		<connection component_from="LendF"
+			component_to="chgDebtFirmsPlus"
+			port_from="out"
+			port_to="LendF"/>
+		<!-- Link interno : LendF ==> chgDebtFirmsMinus -->
+		<connection component_from="LendF"
+			component_to="chgDebtFirmsMinus"
+			port_from="out"
+			port_to="LendF"/>
+		<!-- Link interno : LendF ==> chgFirmsPlus -->
+		<connection component_from="LendF"
+			component_to="chgFirmsPlus"
+			port_from="out"
+			port_to="LendF"/>
+		<!-- Link interno : LendF ==> chgFirmsMinus -->
+		<connection component_from="LendF"
+			component_to="chgFirmsMinus"
+			port_from="out"
+			port_to="LendF"/>
+		<!-- Link interno : tauBVal ==> ConsB -->
+		<connection component_from="tauBVal"
+			component_to="ConsB"
+			port_from="out"
+			port_to="tauBVal"/>
+		<!-- Link interno : share ==> Wages -->
+		<connection component_from="share"
+			component_to="Wages"
+			port_from="out"
+			port_to="share"/>
+		<!-- Link interno : tauR ==> RepayF -->
+		<connection component_from="tauR"
+			component_to="RepayF"
+			port_from="out"
+			port_to="tauR"/>
+		<!-- Link interno : tauL ==> LendF -->
+		<connection component_from="tauL"
+			component_to="LendF"
+			port_from="out"
+			port_to="tauL"/>
+		<!-- Link interno : ProfitGross ==> ProfitNet -->
+		<connection component_from="ProfitGross"
+			component_to="ProfitNet"
+			port_from="out"
+			port_to="ProfitGross"/>
+		<!-- Link interno : ConsB ==> chgBankPlus -->
+		<connection component_from="ConsB"
+			component_to="chgBankPlus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgBankMinus -->
+		<connection component_from="ConsB"
+			component_to="chgBankMinus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgFirmsPlus -->
+		<connection component_from="ConsB"
+			component_to="chgFirmsPlus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgFirmsMinus -->
+		<connection component_from="ConsB"
+			component_to="chgFirmsMinus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : rateOfInterestOnLoans ==> Interest -->
+		<connection component_from="rateOfInterestOnLoans"
+			component_to="Interest"
+			port_from="out"
+			port_to="rateOfInterestOnLoans"/>
+		<!-- Link interno : Interest ==> chgBankPlus -->
+		<connection component_from="Interest"
+			component_to="chgBankPlus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgBankMinus -->
+		<connection component_from="Interest"
+			component_to="chgBankMinus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgFirmsPlus -->
+		<connection component_from="Interest"
+			component_to="chgFirmsPlus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgFirmsMinus -->
+		<connection component_from="Interest"
+			component_to="chgFirmsMinus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> ProfitNet -->
+		<connection component_from="Interest"
+			component_to="ProfitNet"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> BankShare -->
+		<connection component_from="Interest"
+			component_to="BankShare"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : GDProduct ==> ProfitShare -->
+		<connection component_from="GDProduct"
+			component_to="ProfitShare"
+			port_from="out"
+			port_to="GDProduct"/>
+		<!-- Link interno : GDProduct ==> ProfitGross -->
+		<connection component_from="GDProduct"
+			component_to="ProfitGross"
+			port_from="out"
+			port_to="GDProduct"/>
+		<!-- Link interno : GDProduct ==> Wages -->
+		<connection component_from="GDProduct"
+			component_to="Wages"
+			port_from="out"
+			port_to="GDProduct"/>
+		<!-- Link interno : GDProduct ==> WagesShare -->
+		<connection component_from="GDProduct"
+			component_to="WagesShare"
+			port_from="out"
+			port_to="GDProduct"/>
+		<!-- Link interno : GDProduct ==> velocityOfMoney -->
+		<connection component_from="GDProduct"
+			component_to="velocityOfMoney"
+			port_from="out"
+			port_to="GDProduct"/>
+		<!-- Link interno : GDProduct ==> BankShare -->
+		<connection component_from="GDProduct"
+			component_to="BankShare"
+			port_from="out"
+			port_to="GDProduct"/>
+		<!-- Link interno : Wages ==> chgFirmsPlus -->
+		<connection component_from="Wages"
+			component_to="chgFirmsPlus"
+			port_from="out"
+			port_to="Wages"/>
+		<!-- Link interno : Wages ==> chgFirmsMinus -->
+		<connection component_from="Wages"
+			component_to="chgFirmsMinus"
+			port_from="out"
+			port_to="Wages"/>
+		<!-- Link interno : Wages ==> chgWorkersPlus -->
+		<connection component_from="Wages"
+			component_to="chgWorkersPlus"
+			port_from="out"
+			port_to="Wages"/>
+		<!-- Link interno : Wages ==> chgWorkersMinus -->
+		<connection component_from="Wages"
+			component_to="chgWorkersMinus"
+			port_from="out"
+			port_to="Wages"/>
+		<!-- Link interno : Wages ==> ProfitGross -->
+		<connection component_from="Wages"
+			component_to="ProfitGross"
+			port_from="out"
+			port_to="Wages"/>
+		<!-- Link interno : Wages ==> WagesShare -->
+		<connection component_from="Wages"
+			component_to="WagesShare"
+			port_from="out"
+			port_to="Wages"/>
+	</internal_connections>
+
+	<!-- External Input Connections -->
+	<external_input_connections>
+		
+		<connection port_from="tauWVal"
+			component_to="tauWVal"
+			port_to="inValue"/>
+		<connection port_from="tauT"
+			component_to="tauT"
+			port_to="inValue"/>
+		<connection port_from="tauBVal"
+			component_to="tauBVal"
+			port_to="inValue"/>
+		<connection port_from="share"
+			component_to="share"
+			port_to="inValue"/>
+		<connection port_from="tauR"
+			component_to="tauR"
+			port_to="inValue"/>
+		<connection port_from="tauL"
+			component_to="tauL"
+			port_to="inValue"/>
+		<connection port_from="rateOfInterestOnLoans"
+			component_to="rateOfInterestOnLoans"
+			port_to="inValue"/>
+	</external_input_connections>
+
+	<!-- External Output Connections -->
+	<external_output_connections>
+		
+		<connection component_from="Firms"
+			port_from="out"
+			port_to="Firms"/>
+		<connection component_from="DebtFirms"
+			port_from="out"
+			port_to="DebtFirms"/>
+		<connection component_from="Workers"
+			port_from="out"
+			port_to="Workers"/>
+		<connection component_from="Bank"
+			port_from="out"
+			port_to="Bank"/>
+	</external_output_connections>
+</coupled>

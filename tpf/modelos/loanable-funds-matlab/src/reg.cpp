@@ -1,0 +1,105 @@
+#include "pmodeladm.h"
+#include "register.h"
+
+#include "qss1.h"
+#include "Cte.h"
+#include "PiIG.h"
+#include "ConstantBuy.h"
+#include "Repay.h"
+#include "YCValue.h"
+#include "Interest.h"
+#include "Output.h"
+#include "YIValue.h"
+#include "PiCG.h"
+#include "InvBuy.h"
+#include "Lend.h"
+#include "Money.h"
+#include "ConsW.h"
+#include "WagesI.h"
+#include "ConsB.h"
+#include "IntFee.h"
+#include "WagesC.h"
+#include "Debt.h"
+#include "velocityOfMoney.h"
+#include "chgDepInvPlus.h"
+#include "chgDepInvMinus.h"
+#include "chgDepConsPlus.h"
+#include "chgDepConsMinus.h"
+#include "chgConsNWPlus.h"
+#include "chgConsNWMinus.h"
+#include "chgReservesPlus.h"
+#include "chgReservesMinus.h"
+#include "chgLoansPlus.h"
+#include "chgLoansMinus.h"
+#include "chgWorkersNWPlus.h"
+#include "chgWorkersNWMinus.h"
+#include "chgWorkersPlus.h"
+#include "chgWorkersMinus.h"
+#include "chgInvNWPlus.h"
+#include "chgInvNWMinus.h"
+#include "chgBankersNWPlus.h"
+#include "chgBankersNWMinus.h"
+#include "ConsNWTot.h"
+#include "DepInvTot.h"
+#include "ReservesTot.h"
+#include "WorkersNWTot.h"
+#include "WorkersTot.h"
+#include "DepConsTot.h"
+#include "LoansTot.h"
+#include "InvNWTot.h"
+#include "BankersNWTot.h"
+// Registro modelos atomicos
+void register_atomics_on(ParallelModelAdmin &admin)
+{
+	// Atomicos base
+	admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
+	admin.registerAtomic(NewAtomicFunction<Cte>(), CTE);
+	
+	// Atomicos especificos del modelo
+	admin.registerAtomic(NewAtomicFunction<PiIG>(), PIIG);
+	admin.registerAtomic(NewAtomicFunction<ConstantBuy>(), CONSTANTBUY);
+	admin.registerAtomic(NewAtomicFunction<Repay>(), REPAY);
+	admin.registerAtomic(NewAtomicFunction<YCValue>(), YCVALUE);
+	admin.registerAtomic(NewAtomicFunction<Interest>(), INTEREST);
+	admin.registerAtomic(NewAtomicFunction<Output>(), OUTPUT);
+	admin.registerAtomic(NewAtomicFunction<YIValue>(), YIVALUE);
+	admin.registerAtomic(NewAtomicFunction<PiCG>(), PICG);
+	admin.registerAtomic(NewAtomicFunction<InvBuy>(), INVBUY);
+	admin.registerAtomic(NewAtomicFunction<Lend>(), LEND);
+	admin.registerAtomic(NewAtomicFunction<Money>(), MONEY);
+	admin.registerAtomic(NewAtomicFunction<ConsW>(), CONSW);
+	admin.registerAtomic(NewAtomicFunction<WagesI>(), WAGESI);
+	admin.registerAtomic(NewAtomicFunction<ConsB>(), CONSB);
+	admin.registerAtomic(NewAtomicFunction<IntFee>(), INTFEE);
+	admin.registerAtomic(NewAtomicFunction<WagesC>(), WAGESC);
+	admin.registerAtomic(NewAtomicFunction<Debt>(), DEBT);
+	admin.registerAtomic(NewAtomicFunction<velocityOfMoney>(), VELOCITYOFMONEY);
+	admin.registerAtomic(NewAtomicFunction<chgDepInvPlus>(), CHGDEPINVPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgDepInvMinus>(), CHGDEPINVMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgDepConsPlus>(), CHGDEPCONSPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgDepConsMinus>(), CHGDEPCONSMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgConsNWPlus>(), CHGCONSNWPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgConsNWMinus>(), CHGCONSNWMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgReservesPlus>(), CHGRESERVESPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgReservesMinus>(), CHGRESERVESMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgLoansPlus>(), CHGLOANSPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgLoansMinus>(), CHGLOANSMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgWorkersNWPlus>(), CHGWORKERSNWPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgWorkersNWMinus>(), CHGWORKERSNWMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgWorkersPlus>(), CHGWORKERSPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgWorkersMinus>(), CHGWORKERSMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgInvNWPlus>(), CHGINVNWPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgInvNWMinus>(), CHGINVNWMINUS);
+	admin.registerAtomic(NewAtomicFunction<chgBankersNWPlus>(), CHGBANKERSNWPLUS);
+	admin.registerAtomic(NewAtomicFunction<chgBankersNWMinus>(), CHGBANKERSNWMINUS);
+	admin.registerAtomic(NewAtomicFunction<ConsNWTot>(), CONSNWTOT);
+	admin.registerAtomic(NewAtomicFunction<DepInvTot>(), DEPINVTOT);
+	admin.registerAtomic(NewAtomicFunction<ReservesTot>(), RESERVESTOT);
+	admin.registerAtomic(NewAtomicFunction<WorkersNWTot>(), WORKERSNWTOT);
+	admin.registerAtomic(NewAtomicFunction<WorkersTot>(), WORKERSTOT);
+	admin.registerAtomic(NewAtomicFunction<DepConsTot>(), DEPCONSTOT);
+	admin.registerAtomic(NewAtomicFunction<LoansTot>(), LOANSTOT);
+	admin.registerAtomic(NewAtomicFunction<InvNWTot>(), INVNWTOT);
+	admin.registerAtomic(NewAtomicFunction<BankersNWTot>(), BANKERSNWTOT);
+	//
+}

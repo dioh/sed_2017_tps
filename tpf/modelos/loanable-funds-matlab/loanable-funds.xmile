@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>loanable-funds</name>
+		<uuid>193868c2-0b04-4d3d-b865-0cb31a83d64a</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="1.5" isee:build_number="1277" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:simulation_delay="0.0363333" method="RK4" time_units="Seconds" isee:instantaneous_flows="false">
+		<start>1</start>
+		<stop>30</stop>
+		<dt>0.01</dt>
+	</sim_specs>
+	<isee:prefs show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="map" saved_runs="5" keep="false" rifp="true"/>
+	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" observer_start_page="home_page" enabled="false"/>
+	<model_units/>
+	<model>
+		<variables>
+			<stock name="ConsNW">
+				<eqn>100</eqn>
+				<inflow>chgConsNW</inflow>
+			</stock>
+			<stock name="WorkersNW">
+				<eqn>-0</eqn>
+				<inflow>chgWorkersNW</inflow>
+			</stock>
+			<stock name="Workers">
+				<eqn>-0</eqn>
+				<inflow>chgWorkers</inflow>
+			</stock>
+			<stock name="DepCons">
+				<eqn>100</eqn>
+				<inflow>chgDepCons</inflow>
+			</stock>
+			<stock name="InvNW">
+				<eqn>0</eqn>
+				<inflow>chgInvNW</inflow>
+			</stock>
+			<stock name="BankersNW">
+				<eqn>-0</eqn>
+				<inflow>chgBankersNW</inflow>
+			</stock>
+			<stock name="DepInv">
+				<eqn>-0</eqn>
+				<inflow>chgDepInv</inflow>
+			</stock>
+			<stock name="Reserves">
+				<eqn>100</eqn>
+				<inflow>chgReserves</inflow>
+			</stock>
+			<stock name="Loans">
+				<eqn>0</eqn>
+				<inflow>chgLoans</inflow>
+			</stock>
+			<flow name="chgConsNW">
+				<eqn>((((Interest+InvBuy)+ConsW)+ConsB)-((IntFee+WagesC)+ConstantBuy))</eqn>
+			</flow>
+			<flow name="chgWorkersNW">
+				<eqn>((WagesC+WagesI)-ConsW)</eqn>
+			</flow>
+			<flow name="chgWorkers">
+				<eqn>((WagesC+WagesI)-ConsW)</eqn>
+			</flow>
+			<flow name="chgDepCons">
+				<eqn>(((((Interest+Repay)+InvBuy)+ConsW)+ConsB)-(((Lend+IntFee)+WagesC)+ConstantBuy))</eqn>
+			</flow>
+			<flow name="chgInvNW">
+				<eqn>(ConstantBuy-((Interest+WagesI)+InvBuy))</eqn>
+			</flow>
+			<flow name="chgBankersNW">
+				<eqn>(IntFee-ConsB)</eqn>
+			</flow>
+			<flow name="chgDepInv">
+				<eqn>((Lend+ConstantBuy)-(((Interest+Repay)+WagesI)+InvBuy))</eqn>
+			</flow>
+			<flow name="chgReserves">
+				<eqn>0</eqn>
+			</flow>
+			<flow name="chgLoans">
+				<eqn>(Lend-Repay)</eqn>
+			</flow>
+			<aux name="ConstantBuy">
+				<eqn>(PiCG*CPIValue)</eqn>
+			</aux>
+			<aux name="PiCG">
+				<eqn>(YCValue-WagesC)</eqn>
+			</aux>
+			<aux name="PiIG">
+				<eqn>(YIValue-WagesI)</eqn>
+			</aux>
+			<aux name="ConsW">
+				<eqn>(Workers/tauWC)</eqn>
+			</aux>
+			<aux name="Money">
+				<eqn>(((DepCons+DepInv)+Workers)+BankersNW)</eqn>
+			</aux>
+			<aux name="Lend">
+				<eqn>(DepCons/tauL)</eqn>
+			</aux>
+			<aux name="Repay">
+				<eqn>(Loans/tauR)</eqn>
+			</aux>
+			<aux name="WagesI">
+				<eqn>(YIValue*wSValue)</eqn>
+			</aux>
+			<aux name="ConsB">
+				<eqn>(BankersNW/tauBC)</eqn>
+			</aux>
+			<aux name="IntFee">
+				<eqn>(Interest*bfValue)</eqn>
+			</aux>
+			<aux name="YCValue">
+				<eqn>(DepCons/tauMC)</eqn>
+			</aux>
+			<aux name="Interest">
+				<eqn>(rLValue*Loans)</eqn>
+			</aux>
+			<aux name="WagesC">
+				<eqn>(YCValue*wSValue)</eqn>
+			</aux>
+			<aux name="Output">
+				<eqn>(YCValue+YIValue)</eqn>
+			</aux>
+			<aux name="YIValue">
+				<eqn>(DepInv/tauMI)</eqn>
+			</aux>
+			<aux name="Debt">
+				<eqn>Loans</eqn>
+			</aux>
+			<aux name="velocityOfMoney">
+				<eqn>(Output/Money)</eqn>
+			</aux>
+			<aux name="InvBuy">
+				<eqn>(PiIG*IPCValue)</eqn>
+			</aux>
+			<aux name="wSValue">
+				<eqn>0.7</eqn>
+			</aux>
+			<aux name="tauMC">
+				<eqn>0.5</eqn>
+			</aux>
+			<aux name="tauBC">
+				<eqn>1</eqn>
+			</aux>
+			<aux name="bfValue">
+				<eqn>0.1</eqn>
+			</aux>
+			<aux name="tauMI">
+				<eqn>0.25</eqn>
+			</aux>
+			<aux name="tauL">
+				<eqn>7</eqn>
+			</aux>
+			<aux name="tauWC">
+				<eqn>0.08</eqn>
+			</aux>
+			<aux name="tauR">
+				<eqn>9</eqn>
+			</aux>
+			<aux name="rLValue">
+				<eqn>0.04</eqn>
+			</aux>
+			<aux name="IPCValue">
+				<eqn>0.1</eqn>
+			</aux>
+			<aux name="CPIValue">
+				<eqn>0.5</eqn>
+			</aux>
+			<isee:dependencies>
+				<var name="chgConsNW">
+					<in>Interest</in>
+					<in>InvBuy</in>
+					<in>ConsW</in>
+					<in>ConsB</in>
+					<in>IntFee</in>
+					<in>WagesC</in>
+					<in>ConstantBuy</in>
+				</var>
+				<var name="chgWorkersNW">
+					<in>WagesC</in>
+					<in>WagesI</in>
+					<in>ConsW</in>
+				</var>
+				<var name="chgWorkers">
+					<in>WagesC</in>
+					<in>WagesI</in>
+					<in>ConsW</in>
+				</var>
+				<var name="chgDepCons">
+					<in>Interest</in>
+					<in>Repay</in>
+					<in>InvBuy</in>
+					<in>ConsW</in>
+					<in>ConsB</in>
+					<in>Lend</in>
+					<in>IntFee</in>
+					<in>WagesC</in>
+					<in>ConstantBuy</in>
+				</var>
+				<var name="chgInvNW">
+					<in>ConstantBuy</in>
+					<in>Interest</in>
+					<in>WagesI</in>
+					<in>InvBuy</in>
+				</var>
+				<var name="chgBankersNW">
+					<in>IntFee</in>
+					<in>ConsB</in>
+				</var>
+				<var name="chgDepInv">
+					<in>Lend</in>
+					<in>ConstantBuy</in>
+					<in>Interest</in>
+					<in>Repay</in>
+					<in>WagesI</in>
+					<in>InvBuy</in>
+				</var>
+				<var name="chgLoans">
+					<in>Lend</in>
+					<in>Repay</in>
+				</var>
+				<var name="ConstantBuy">
+					<in>PiCG</in>
+					<in>CPIValue</in>
+				</var>
+				<var name="PiCG">
+					<in>YCValue</in>
+					<in>WagesC</in>
+				</var>
+				<var name="PiIG">
+					<in>YIValue</in>
+					<in>WagesI</in>
+				</var>
+				<var name="ConsW">
+					<in>Workers</in>
+					<in>tauWC</in>
+				</var>
+				<var name="Money">
+					<in>DepCons</in>
+					<in>DepInv</in>
+					<in>Workers</in>
+					<in>BankersNW</in>
+				</var>
+				<var name="Lend">
+					<in>DepCons</in>
+					<in>tauL</in>
+				</var>
+				<var name="Repay">
+					<in>Loans</in>
+					<in>tauR</in>
+				</var>
+				<var name="WagesI">
+					<in>YIValue</in>
+					<in>wSValue</in>
+				</var>
+				<var name="ConsB">
+					<in>BankersNW</in>
+					<in>tauBC</in>
+				</var>
+				<var name="IntFee">
+					<in>Interest</in>
+					<in>bfValue</in>
+				</var>
+				<var name="YCValue">
+					<in>DepCons</in>
+					<in>tauMC</in>
+				</var>
+				<var name="Interest">
+					<in>rLValue</in>
+					<in>Loans</in>
+				</var>
+				<var name="WagesC">
+					<in>YCValue</in>
+					<in>wSValue</in>
+				</var>
+				<var name="Output">
+					<in>YCValue</in>
+					<in>YIValue</in>
+				</var>
+				<var name="YIValue">
+					<in>DepInv</in>
+					<in>tauMI</in>
+				</var>
+				<var name="Debt">
+					<in>Loans</in>
+				</var>
+				<var name="velocityOfMoney">
+					<in>Output</in>
+					<in>Money</in>
+				</var>
+				<var name="InvBuy">
+					<in>PiIG</in>
+					<in>IPCValue</in>
+				</var>
+			</isee:dependencies>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="blue" background="white" font_size="9pt" isee:transparent="false"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false">
+					<isee:series_styles>
+						<isee:series_style color="blue" thickness="1"/>
+						<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF7F00" thickness="1"/>
+						<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF007F" thickness="1"/>
+						<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#C8C8C8" thickness="1"/>
+					</isee:series_styles>
+				</graph>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" isee:flat="false" icon_side="top"/>
+				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" popup_background_color="#FFFECF"/>
+				<slider color="black" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" isee:always_show_hover_tip="false" input_expands="true" input_width="100"/>
+				<isee:pie_input color="black" background="white" font_size="12pt" legend_position="bottom" isee:transparent="false"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" isee:appearance="switch"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="11" show_numeric_value="true"/>
+				<isee:spatial_map color="black" background="white" font_size="12pt"/>
+				<isee:animation_object color="black" background="white" font_size="12pt"/>
+			</style>
+			<view isee:show_pages="false" page_width="1099" page_height="769" isee:popup_graphs_are_comparative="true" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom"/>
+					<module color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="55" height="45"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="9pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<isee:loop_indicator color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="blue" background="white" font_size="9pt" isee:transparent="false"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false">
+						<isee:series_styles>
+							<isee:series_style color="blue" thickness="1"/>
+							<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF7F00" thickness="1"/>
+							<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF007F" thickness="1"/>
+							<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#C8C8C8" thickness="1"/>
+						</isee:series_styles>
+					</graph>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
+				</style>
+				<stacked_container uid="1" x="664" y="221">
+					<graph x="489" y="96" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="fuchsia" pen_style="dotted" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Workers"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stock x="20" y="20" width="20" height="20" name="Loans"/>
+				<flow x="10" y="16.5" width="20" height="20" name="chgLoans">
+					<pts>
+						<pt x="20" y="0"/>
+						<pt x="20" y="20"/>
+					</pts>
+				</flow>
+				<stock x="20" y="20" width="20" height="20" name="BankersNW"/>
+				<flow x="10" y="16.5" width="20" height="20" name="chgBankersNW">
+					<pts>
+						<pt x="20" y="0"/>
+						<pt x="20" y="20"/>
+					</pts>
+				</flow>
+				<stock x="20" y="20" width="20" height="20" name="Workers"/>
+				<flow x="10" y="16.5" width="20" height="20" name="chgWorkers">
+					<pts>
+						<pt x="20" y="0"/>
+						<pt x="20" y="20"/>
+					</pts>
+				</flow>
+				<stacked_container uid="2" x="267" y="478">
+					<graph x="92" y="353" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="BankersNW"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="3" x="819" y="558">
+					<graph x="644" y="433" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Loans"/>
+						</plot>
+					</graph>
+				</stacked_container>
+			</view>
+		</views>
+	</model>
+</xmile>
+
