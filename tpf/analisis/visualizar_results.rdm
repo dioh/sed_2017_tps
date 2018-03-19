@@ -1,0 +1,100 @@
+---
+title: "R Notebook"
+output: 
+  html_notebook: default
+fig_width: 8 
+fig_height: 4 
+---
+
+```{r setup, echo=F, warning=F}
+require(plyr)
+require(tidyr)
+require(ggpubr)
+require(tidyverse)
+require(ggplot2)
+require(data.table)
+knitr::opts_chunk$set(echo = TRUE)
+base.dir = "~/facu/sed_2017/sed_2017_tps/tpf/experimentacion/resultados/"
+
+experimento_b="Model_B/grouped_grid_98_10_10_1_a_45.0_b_45.0_i_10.0_empty.csv"
+experimento_d_shock="Model_D_shock/grouped_grid_10_10_10_1_a_45.0_b_45.0_i_10.0_exp_55677.csv"
+experimento_d_k = "Model_D_k/grouped_grid_96_10_10_1_a_45.0_b_45.0_i_10.0_empty.csv"
+experimento_d = "Model_D/grouped_grid_84_10_10_1_a_45.0_b_45.0_i_10.0_empty.csv"
+experimento_d_k_shock = "Model_D_k_shock/grouped_grid_94_10_10_1_a_45.0_b_45.0_i_10.0_exp_55677.csv"
+
+```
+
+```{r}
+plotear.guardar.experimento = function(experimento) { 
+resultados = paste(base.dir, experimento, sep = "") %>%
+  read.csv(header=T) %>% melt(id.vars='time')
+
+resultados %>% ggplot(aes(x=time, y=value, fill=variable)) + geom_col(width = 1) %>% return()
+#paste(base.dir, str_extract(experimento, "[A-Z_a-z]*"), ".png", sep="")# %>% ggsave(width = 8, height = 4)
+
+}
+plotear.guardar.experimento(experimento_b)
+plotear.guardar.experimento(experimento_d_shock)
+plotear.guardar.experimento(experimento_d_k )
+plotear.guardar.experimento(experimento_d )
+plotear.guardar.experimento(experimento_d_k_shock )
+
+```
+
+```{r}
+files.to.dataframe <- function(files){
+  # Este metodo toma una lista de archivos y para cada uno lo lee, arma un dataframe.
+  # La salida del lapply es una lista de dataframes
+  # bind_rows toma todos los dataframes y crea uno grande con la variable exp
+  # como identificador de cada experimento.
+  bind_rows(lapply(files, function(file.name){
+    con <- file( file.name, open = "r" )
+    on.exit(close(con))
+    experiment = str_extract(file.name, "grid_[0-9]{1,2}")
+    data <- read.csv(con,header = T)
+    data$exp = experiment  
+    data
+  }))
+}
+
+list.all.csvs =function(experiment.dir) {
+  resultados.dir = paste(base.dir, experiment.dir, sep="")
+  resultados.dir %>% list.files(path = ., pattern = "grouped_grid.*.csv") %>%
+    paste(resultados.dir, ., sep="/")
+  
+}
+
+
+model_b_df = "Model_B" %>% list.all.csvs %>% files.to.dataframe
+model_b_sum = model_b_df %>% group_by(time) %>% 
+  summarise(mean.a = mean(A), mean.b = mean(B), 
+            mean.i = mean(I), sd.a = sd(A, na.rm=T),
+            sd.b = sd(B), sd.i = sd(I))
+
+p = gather(model_b_sum, key = "key", val= "val", mean.a:sd.i) %>% 
+  filter(str_detect(key, "mean.*"))  %>% 
+  qplot(data=., x=time, y=val, fill=key, geom='col') 
+
+gather(model_b_sum, key = "key", val= "val", mean.a:sd.i) %>% 
+  filter(str_detect(key, "sd.*"))  %>% 
+  ggplot(data=., aes(x=time, y=val, fill=key)) + geom_col(position= 'dodge')
+
+model_b_df %>% ggplot(data = ., aes(x=as.factor(time), y = A)) + geom_boxplot()
+
+
+model_b_sum %>% ggplot(aes(x=time, y=value, fill=variable)) +
+  geom_col(width = 1) %>% return()
+
+
+```
+
+```{r}
+
+resultados$tipo = cut(resultados$V8, breaks = c(-Inf, -1,1,Inf), labels = c("A", "I", "B"))
+
+
+resultados %>% group_by(V1, tipo) %>% summarise(n=n()) %>% # Ahora ploteo
+  ggplot(data=., aes(x=V1, y=n, fill=tipo)) + geom_col() #+ facet_wrap( ~ tipo, nrow = 3)
+
+resultados %>% ggplot(data=., aes(x=V8)) + geom_histogram()
+```
