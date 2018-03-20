@@ -1,0 +1,77 @@
+<coupled name="PreySubSubModel_coupled_3" model="Coupled" >
+
+<!-- Inputs -->
+<inputs>
+</inputs>
+
+<!-- Outputs -->
+<outputs>
+<port name="PreySubSubModelStock" />
+</outputs>
+
+<!-- Components -->
+<components>
+<!-- Atomico : PreySubSubModelStockTot -->
+<atomicRef name="PreySubSubModelStockTot" model="Ftot">
+<port name="Flow_1Minus" type="in_minus" />
+<port name="out" type="out" />
+</atomicRef>
+
+<!-- Atomico : PreySubSubModelStock -->
+<atomicRef name="PreySubSubModelStock" model="QSS1">
+<port name="in" type="in" />
+<port name="out" type="out" />
+<parameter name="x0" function="1000" />
+<parameter name="dQRel" function="0.0001" />
+<parameter name="dQMin" function="0.0001" />
+</atomicRef>
+
+<!-- Atomico : Flow 1Plus -->
+<atomicRef name="Flow 1Plus" model="Fpm">
+<port name="PreySubSubModelStock" type="in" />
+<port name="out" type="out" />
+<parameter name="function" function="0.05 * PreySubSubModelStock" />
+</atomicRef>
+
+<!-- Atomico : Flow 1Minus -->
+<atomicRef name="Flow 1Minus" model="Fpm">
+<port name="PreySubSubModelStock" type="in" />
+<port name="out" type="out" />
+<parameter name="function" function="0.05 * PreySubSubModelStock" />
+</atomicRef>
+
+</components>
+
+<!-- Internal Connections -->
+<internal_connections>
+
+<!-- Link interno : PreySubSubModelStockTot ==> PreySubSubModelStock -->
+<connection component_from="PreySubSubModelStockTot"
+component_to="PreySubSubModelStock"
+port_from="out"
+port_to="in"/>
+<!-- Link interno : PreySubSubModelStock ==> Flow 1Plus -->
+<connection component_from="PreySubSubModelStock"
+component_to="Flow 1Plus"
+port_from="out"
+port_to="PreySubSubModelStock"/>
+<!-- Link interno : PreySubSubModelStock ==> Flow 1Minus -->
+<connection component_from="PreySubSubModelStock"
+component_to="Flow 1Minus"
+port_from="out"
+port_to="PreySubSubModelStock"/>
+</internal_connections>
+
+<!-- External Input Connections -->
+<external_input_connections>
+
+</external_input_connections>
+
+<!-- External Output Connections -->
+<external_output_connections>
+
+<connection component_from="PreySubSubModelStock"
+port_from="out"
+port_to="PreySubSubModelStock"/>
+</external_output_connections>
+</coupled>

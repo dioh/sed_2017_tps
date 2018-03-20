@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee" uses_submodels=""/>
+		<name>lotka-volterra-nested</name>
+		<uuid>52bb5822-62d8-4b4f-a936-34e522ca9d0e</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="1.5" isee:build_number="1277" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:simulation_delay="0.005" method="RK4" time_units="Months" isee:instantaneous_flows="false">
+		<start>1</start>
+		<stop>400</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<isee:prefs show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" saved_runs="5" keep="false" rifp="true"/>
+	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" observer_start_page="home_page" enabled="false"/>
+	<model_units/>
+	<model>
+		<variables>
+			<module name="PreyModel">
+				<connect to="PreyModel.Predator" from="PredatorModel.Predator"/>
+				<connect to="PreyModel.paramA" from=".paramA"/>
+				<connect to="PreyModel.paramB" from=".paramB"/>
+			</module>
+			<module name="PredatorModel">
+				<connect to="PredatorModel.Prey" from="PreyModel.Prey"/>
+				<connect to="PredatorModel.paramD" from=".paramD"/>
+				<connect to="PredatorModel.paramC" from=".paramC"/>
+			</module>
+			<aux name="paramC" access="input">
+				<eqn>0.3</eqn>
+			</aux>
+			<aux name="paramD" access="input">
+				<eqn>0.01</eqn>
+			</aux>
+			<aux name="paramB" access="input">
+				<eqn>0.02</eqn>
+			</aux>
+			<aux name="paramA" access="input">
+				<eqn>0.1</eqn>
+			</aux>
+			<isee:dependencies>
+				<var name="PreyModel">
+					<in>PredatorModel</in>
+					<in>paramA</in>
+					<in>paramB</in>
+				</var>
+				<var name="PredatorModel">
+					<in>PreyModel</in>
+					<in>paramC</in>
+					<in>paramD</in>
+				</var>
+			</isee:dependencies>
+		</variables>
+	</model>
+	<model name="PredatorModel">
+		<variables>
+			<stock name="Predator" access="output" isee:autocreated="true">
+				<eqn>5</eqn>
+				<inflow>PlusPredator</inflow>
+				<outflow>MinusPredator</outflow>
+			</stock>
+			<flow name="PlusPredator">
+				<eqn>paramD * Predator * Prey</eqn>
+			</flow>
+			<flow name="MinusPredator">
+				<eqn>Predator * paramC</eqn>
+			</flow>
+			<aux name="paramD" access="input">
+				<eqn>0.01</eqn>
+			</aux>
+			<aux name="paramC" access="input">
+				<eqn>0.3</eqn>
+			</aux>
+			<stock name="Prey" access="input">
+				<eqn>100</eqn>
+			</stock>
+			<isee:dependencies>
+				<var name="PlusPredator">
+					<in>Predator</in>
+					<in>paramD</in>
+					<in>Prey</in>
+				</var>
+				<var name="MinusPredator">
+					<in>Predator</in>
+					<in>paramC</in>
+				</var>
+			</isee:dependencies>
+		</variables>
+	</model>
+	<model name="PreyModel">
+		<variables>
+			<stock name="Prey" access="output">
+				<eqn>100</eqn>
+				<inflow>PlusPrey</inflow>
+				<outflow>MinusPrey</outflow>
+			</stock>
+			<flow name="PlusPrey">
+				<eqn>paramA * Prey</eqn>
+			</flow>
+			<flow name="MinusPrey">
+				<eqn>Prey * paramB * Predator</eqn>
+			</flow>
+			<aux name="paramB" access="input">
+				<eqn>0.02</eqn>
+			</aux>
+			<aux name="paramA" access="input">
+				<eqn>0.1</eqn>
+			</aux>
+			<stock name="Predator" access="input">
+				<eqn>5</eqn>
+			</stock>
+			<isee:dependencies>
+				<var name="PlusPrey">
+					<in>Prey</in>
+					<in>paramA</in>
+				</var>
+				<var name="MinusPrey">
+					<in>Prey</in>
+					<in>paramB</in>
+					<in>Predator</in>
+				</var>
+			</isee:dependencies>
+		</variables>
+	</model>
+</xmile>
+

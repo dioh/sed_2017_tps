@@ -1,0 +1,97 @@
+<coupled name="top_atomic_0" model="Coupled" >
+
+<!-- Inputs -->
+<inputs>
+<port name="paramD" />
+<port name="paramC" />
+<port name="paramB" />
+<port name="paramA" />
+</inputs>
+
+<!-- Outputs -->
+<outputs>
+<port name="hunter" />
+</outputs>
+
+<!-- Components -->
+<components>
+<!-- Atomico : paramD -->
+<atomicRef name="paramD" model="Cte">
+<port name="out" type="out" />
+<parameter name="function" function="0.01" />
+</atomicRef>
+
+<!-- Atomico : paramC -->
+<atomicRef name="paramC" model="Cte">
+<port name="out" type="out" />
+<parameter name="function" function="0.3" />
+</atomicRef>
+
+<!-- Atomico : paramB -->
+<atomicRef name="paramB" model="Cte">
+<port name="out" type="out" />
+<parameter name="function" function="0.02" />
+</atomicRef>
+
+<!-- Atomico : paramA -->
+<atomicRef name="paramA" model="Cte">
+<port name="out" type="out" />
+<parameter name="function" function="0.1" />
+</atomicRef>
+
+
+__PLACEHOLDER__lotka-volterra-nested/lvn_PredatorModel_coupled.xml
+
+__PLACEHOLDER__lotka-volterra-nested/lvn_PreyModel_coupled.xml
+</components>
+
+<!-- Internal Connections -->
+<internal_connections>
+
+<!-- Link interno : paramD ==> coupled_level_1 -->
+<connection component_from="paramD"
+component_to="coupled_level_1"
+port_from="paramD"
+port_to="paramD"/>
+<!-- Link interno : paramC ==> coupled_level_1 -->
+<connection component_from="paramC"
+component_to="coupled_level_1"
+port_from="paramC"
+port_to="paramC"/>
+<!-- Link interno : paramB ==> coupled_level_1 -->
+<connection component_from="paramB"
+component_to="coupled_level_1"
+port_from="paramB"
+port_to="paramB"/>
+<!-- Link interno : paramA ==> coupled_level_1 -->
+<connection component_from="paramA"
+component_to="coupled_level_1"
+port_from="paramA"
+port_to="paramA"/>
+</internal_connections>
+
+<!-- External Input Connections -->
+<external_input_connections>
+
+<connection port_from="paramD"
+component_to="paramD"
+port_to="inValue"/>
+<connection port_from="paramC"
+component_to="paramC"
+port_to="inValue"/>
+<connection port_from="paramB"
+component_to="paramB"
+port_to="inValue"/>
+<connection port_from="paramA"
+component_to="paramA"
+port_to="inValue"/>
+</external_input_connections>
+
+<!-- External Output Connections -->
+<external_output_connections>
+
+<connection component_from="coupled_level_1"
+port_from="hunter"
+port_to="hunter"/>
+</external_output_connections>
+</coupled>

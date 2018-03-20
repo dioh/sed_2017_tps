@@ -1,0 +1,73 @@
+<coupled name="PreyModel_atomic_1" model="Coupled" >
+
+<!-- Inputs -->
+<inputs>
+<port name="paramB" />
+<port name="paramA" />
+</inputs>
+
+<!-- Outputs -->
+<outputs>
+<port name="PreySubModelStock" />
+<port name="Prey" />
+<port name="Predator" />
+</outputs>
+
+<!-- Components -->
+<components>
+<!-- Atomico : paramB -->
+<atomicRef name="paramB" model="Cte">
+<port name="out" type="out" />
+<parameter name="function" function="0.02" />
+</atomicRef>
+
+<!-- Atomico : paramA -->
+<atomicRef name="paramA" model="Cte">
+<port name="out" type="out" />
+<parameter name="function" function="0.1" />
+</atomicRef>
+
+
+__PLACEHOLDER__lotka-volterra-nested/lvn_PreySubModel_coupled.xml
+</components>
+
+<!-- Internal Connections -->
+<internal_connections>
+
+<!-- Link interno : paramB ==> coupled_level_2 -->
+<connection component_from="paramB"
+component_to="coupled_level_2"
+port_from="paramB"
+port_to="paramB"/>
+<!-- Link interno : paramA ==> coupled_level_2 -->
+<connection component_from="paramA"
+component_to="coupled_level_2"
+port_from="paramA"
+port_to="paramA"/>
+</internal_connections>
+
+<!-- External Input Connections -->
+<external_input_connections>
+
+<connection port_from="paramB"
+component_to="paramB"
+port_to="inValue"/>
+<connection port_from="paramA"
+component_to="paramA"
+port_to="inValue"/>
+</external_input_connections>
+
+<!-- External Output Connections -->
+<external_output_connections>
+
+<connection component_from="coupled_level_2"
+port_from="PreySubModelStock"
+port_to="PreySubModelStock"/>
+<connection component_from="coupled_level_2"
+port_from="Prey"
+port_to="Prey"/>
+<connection component_from="coupled_level_2"
+port_from="Predator"
+port_to="Predator"/>
+</external_output_connections>
+</coupled>

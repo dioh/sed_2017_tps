@@ -1,0 +1,154 @@
+<coupled name="PreySubModel_coupled_2" model="Coupled" >
+
+<!-- Inputs -->
+<inputs>
+</inputs>
+
+<!-- Outputs -->
+<outputs>
+<port name="PreySubModelStock" />
+<port name="PreySubSubModelStock" />
+<port name="Prey" />
+</outputs>
+
+<!-- Components -->
+<components>
+<!-- Atomico : PreySubModelStockTot -->
+<atomicRef name="PreySubModelStockTot" model="Ftot">
+<port name="preySubFlowMinus" type="in_minus" />
+<port name="out" type="out" />
+</atomicRef>
+
+<!-- Atomico : PreySubModelStock -->
+<atomicRef name="PreySubModelStock" model="QSS1">
+<port name="in" type="in" />
+<port name="out" type="out" />
+<parameter name="x0" function="0" />
+<parameter name="dQRel" function="0.0001" />
+<parameter name="dQMin" function="0.0001" />
+</atomicRef>
+
+<!-- Atomico : PreySubSubModelStockTot -->
+<atomicRef name="PreySubSubModelStockTot" model="Ftot">
+<port name="out" type="out" />
+</atomicRef>
+
+<!-- Atomico : PreySubSubModelStock -->
+<atomicRef name="PreySubSubModelStock" model="QSS1">
+<port name="in" type="in" />
+<port name="out" type="out" />
+<parameter name="x0" function="1000" />
+<parameter name="dQRel" function="0.0001" />
+<parameter name="dQMin" function="0.0001" />
+</atomicRef>
+
+<!-- Atomico : PreyTot -->
+<atomicRef name="PreyTot" model="Ftot">
+<port name="out" type="out" />
+</atomicRef>
+
+<!-- Atomico : Prey -->
+<atomicRef name="Prey" model="QSS1">
+<port name="in" type="in" />
+<port name="out" type="out" />
+<parameter name="x0" function="100" />
+<parameter name="dQRel" function="0.0001" />
+<parameter name="dQMin" function="0.0001" />
+</atomicRef>
+
+<!-- Atomico : preySubFlowPlus -->
+<atomicRef name="preySubFlowPlus" model="Fpm">
+<port name="PreySubModelStock" type="in" />
+<port name="Prey" type="in" />
+<port name="PreySubSubModelStock" type="in" />
+<port name="out" type="out" />
+<parameter name="function" function="0 * PreySubModelStock + 0 *  Prey + 0 * PreySubSubModelStock" />
+</atomicRef>
+
+<!-- Atomico : preySubFlowMinus -->
+<atomicRef name="preySubFlowMinus" model="Fpm">
+<port name="PreySubModelStock" type="in" />
+<port name="Prey" type="in" />
+<port name="PreySubSubModelStock" type="in" />
+<port name="out" type="out" />
+<parameter name="function" function="0 * PreySubModelStock + 0 *  Prey + 0 * PreySubSubModelStock" />
+</atomicRef>
+
+
+__PLACEHOLDER__lotka-volterra-nested/lvn_PreySubSubModel_coupled.xml
+</components>
+
+<!-- Internal Connections -->
+<internal_connections>
+
+<!-- Link interno : PreySubModelStockTot ==> PreySubModelStock -->
+<connection component_from="PreySubModelStockTot"
+component_to="PreySubModelStock"
+port_from="out"
+port_to="in"/>
+<!-- Link interno : PreySubSubModelStockTot ==> PreySubSubModelStock -->
+<connection component_from="PreySubSubModelStockTot"
+component_to="PreySubSubModelStock"
+port_from="out"
+port_to="in"/>
+<!-- Link interno : PreyTot ==> Prey -->
+<connection component_from="PreyTot"
+component_to="Prey"
+port_from="out"
+port_to="in"/>
+<!-- Link interno : preySubFlowMinus ==> PreySubModelStockTot -->
+<connection component_from="preySubFlowMinus"
+component_to="PreySubModelStockTot"
+port_from="out"
+port_to="preySubFlowMinus"/>
+<!-- Link interno : PreySubModelStock ==> preySubFlowPlus -->
+<connection component_from="PreySubModelStock"
+component_to="preySubFlowPlus"
+port_from="out"
+port_to="PreySubModelStock"/>
+<!-- Link interno : PreySubModelStock ==> preySubFlowMinus -->
+<connection component_from="PreySubModelStock"
+component_to="preySubFlowMinus"
+port_from="out"
+port_to="PreySubModelStock"/>
+<!-- Link interno : PreySubSubModelStock ==> preySubFlowPlus -->
+<connection component_from="PreySubSubModelStock"
+component_to="preySubFlowPlus"
+port_from="out"
+port_to="PreySubSubModelStock"/>
+<!-- Link interno : PreySubSubModelStock ==> preySubFlowMinus -->
+<connection component_from="PreySubSubModelStock"
+component_to="preySubFlowMinus"
+port_from="out"
+port_to="PreySubSubModelStock"/>
+<!-- Link interno : Prey ==> preySubFlowPlus -->
+<connection component_from="Prey"
+component_to="preySubFlowPlus"
+port_from="out"
+port_to="Prey"/>
+<!-- Link interno : Prey ==> preySubFlowMinus -->
+<connection component_from="Prey"
+component_to="preySubFlowMinus"
+port_from="out"
+port_to="Prey"/>
+</internal_connections>
+
+<!-- External Input Connections -->
+<external_input_connections>
+
+</external_input_connections>
+
+<!-- External Output Connections -->
+<external_output_connections>
+
+<connection component_from="PreySubModelStock"
+port_from="out"
+port_to="PreySubModelStock"/>
+<connection component_from="PreySubSubModelStock"
+port_from="out"
+port_to="PreySubSubModelStock"/>
+<connection component_from="Prey"
+port_from="out"
+port_to="Prey"/>
+</external_output_connections>
+</coupled>
