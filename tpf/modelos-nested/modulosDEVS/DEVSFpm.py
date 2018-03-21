@@ -65,6 +65,7 @@ class DEVSFminus(DEVSFpm):
         self.input_ports  = self.xmile_flow.getEquationVariables()
         self.output_ports = ['out']
         self.name = self.setName()
+        self.type = 'Fminus'
 
     def __repr__(self):
         return str({
@@ -88,6 +89,9 @@ class DEVSFminus(DEVSFpm):
     def getName(self):
         return self.name
 
+    def getType(self):
+        return self.type
+
 class DEVSFplus(DEVSFpm):
     def __init__(self, xmile_flow, stock_name):
         self.xmile_flow = xmile_flow
@@ -96,6 +100,7 @@ class DEVSFplus(DEVSFpm):
         self.input_ports  = self.xmile_flow.getEquationVariables()
         self.output_ports = ['out']
         self.name = self.setName()
+        self.type = 'Fplus'
 
     def __repr__(self):
         return str({
@@ -118,3 +123,7 @@ class DEVSFplus(DEVSFpm):
 
     def getName(self):
         return self.name
+
+    def getType(self):
+        return self.type
+    

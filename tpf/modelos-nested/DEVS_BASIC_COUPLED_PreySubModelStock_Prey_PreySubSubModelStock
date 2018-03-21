@@ -1,0 +1,51 @@
+<coupled model="Coupled" name="DEVS_BASIC_COUPLED_PreySubModelStock_Prey_PreySubSubModelStock">
+
+
+<inputs>
+</inputs>
+
+
+<outputs>
+</outputs>
+
+
+<components>
+
+<atomicRef name="PreySubModelStock" type="DEVSIntegrator">
+</atomicRef>
+
+<atomicRef name="Prey" type="DEVSIntegrator">
+</atomicRef>
+
+<atomicRef name="PreySubSubModelStock" type="DEVSIntegrator">
+</atomicRef>
+
+<atomicRef name="PreySubModelStock" type="FTot">
+</atomicRef>
+
+<atomicRef name="Prey" type="FTot">
+</atomicRef>
+
+<atomicRef name="PreySubSubModelStock" type="FTot">
+</atomicRef>
+
+<atomicRef name="minus_preySubFlow_PreySubModelStock" type="Fminus">
+</atomicRef>
+</components>
+
+
+<internal_connections>
+
+</internal_connections>
+
+
+<external_input_connections>
+
+</external_input_connections>
+
+
+<external_output_connections>
+
+</external_output_connections>
+
+</coupled>

@@ -18,7 +18,7 @@
 {% endfor -%}
 
 {% for coupled_filename in coupled_filenames -%}
-	__INCLUDE__{{coupled_filename}}
+<include filename="{{coupled_filename}}" />
 {% endfor -%}
 </components>
 

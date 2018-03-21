@@ -7,7 +7,8 @@ class DEVSFtot(object):
         self.equation = xmile_stock.getEquation()
         self.inputs  = ['minus', 'plus']
         self.outputs = ['out']
-        
+        self.type = 'Ftot'
+
     def __repr__(self):
         return str({
             'name' : self.name,
@@ -24,3 +25,8 @@ class DEVSFtot(object):
             'inputs' : self.inputs,
             'outputs' : self.outputs
         })
+
+    def getType(self):
+        return self.type
+    def getName(self):
+        return self.name

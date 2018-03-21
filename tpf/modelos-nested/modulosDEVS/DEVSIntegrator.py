@@ -11,6 +11,8 @@ class DEVSIntegrator(object):
             'dQRel' : '0.001',
             'dQMin' : '0.001'
         }
+        self.type = 'DEVSIntegrator'
+        
     def __repr__(self):
         return str({
             'name' : self.name,
@@ -27,3 +29,16 @@ class DEVSIntegrator(object):
             'integrator_type' : self.integrator_type,
             'integrator_parameters' : self.integrator_parameters
         })
+
+    def getType(self):
+        return self.type
+    def getName(self):
+        return self.name
+    def getAccess(self):
+        return self.access
+    def getEquation(self):
+        return self.equation
+    def getIntegratorType(self):
+        return self.integrator_type
+    def getIntegratorParameters(self):
+        return self.integrator_parameters

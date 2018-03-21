@@ -15,10 +15,10 @@ class DEVSCoupledComponent(object):
                  inputs=None, outputs=None):
         self.xmile_model = xmile_model
         self.root_models = root_models
-        if name is None:
-            self.name = 'DEVS_COUPLED_' + self.xmile_model.getName()
-        else:
+        if name is not None:
             self.name = name
+        else:
+            self.name = 'DEVS_COUPLED_' + self.xmile_model.getName()
         # Atomic components
         if atomic_components is not None:
             self.atomic_components = atomic_components
@@ -219,8 +219,8 @@ class DEVSCoupledComponent(object):
         
         #  (Fpm's)
         devs_fpms = list(map(lambda x : DEVSFpm(x, xmile_stocks), xmile_flows))
-        devs_fps  = list(map(lambda x : x.getFPlus(), devs_fpms))
-        devs_fms  = list(map(lambda x : x.getFMinus(), devs_fpms))
+        devs_fps  = filter(lambda x : x is not None, list(map(lambda x : x.getFPlus(), devs_fpms)))
+        devs_fms  = filter(lambda x : x is not None, list(map(lambda x : x.getFMinus(), devs_fpms)))
         atomic_components = atomic_components + devs_fps + devs_fms
         
         ###########
