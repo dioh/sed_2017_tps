@@ -7,16 +7,12 @@
         <atomicRef name="paramB" type="DEVSConstant"></atomicRef>
         <atomicRef name="paramA" type="DEVSConstant"></atomicRef>
         <atomicRef name="paramE" type="DEVSAux"></atomicRef>
-        <include filename="DEVS_COUPLED_PredatorModel" />
-        <include filename="DEVS_COUPLED_PreyModel" />
-        <include filename="DEVS_BASIC_COUPLED_hunter" />
         <coupled model="Coupled" name="DEVS_COUPLED_PredatorModel">
             <inputs></inputs>
             <outputs></outputs>
             <components>
                 <atomicRef name="paramD" type="DEVSConstant"></atomicRef>
                 <atomicRef name="paramC" type="DEVSConstant"></atomicRef>
-                <include filename="DEVS_BASIC_COUPLED_Predator_Prey_hunter" />
                 <coupled model="Coupled" name="DEVS_BASIC_COUPLED_Predator_Prey_hunter">
                     <inputs></inputs>
                     <outputs></outputs>
@@ -45,19 +41,14 @@
             <components>
                 <atomicRef name="paramB" type="DEVSConstant"></atomicRef>
                 <atomicRef name="paramA" type="DEVSConstant"></atomicRef>
-                <include filename="DEVS_COUPLED_PreySubModel" />
-                <include filename="DEVS_BASIC_COUPLED_Prey_Predator_PreySubModelStock_PreySubSubModelStock" />
                 <coupled model="Coupled" name="DEVS_COUPLED_PreySubModel">
                     <inputs></inputs>
                     <outputs></outputs>
                     <components>
-                        <include filename="DEVS_COUPLED_PreySubSubModel" />
-                        <include filename="DEVS_BASIC_COUPLED_PreySubModelStock_Prey_PreySubSubModelStock" />
                         <coupled model="Coupled" name="DEVS_COUPLED_PreySubSubModel">
                             <inputs></inputs>
                             <outputs></outputs>
                             <components>
-                                <include filename="DEVS_BASIC_COUPLED_PreySubSubModelStock" />
                                 <coupled model="Coupled" name="DEVS_BASIC_COUPLED_PreySubSubModelStock">
                                     <inputs></inputs>
                                     <outputs></outputs>
