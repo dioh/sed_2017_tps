@@ -13,14 +13,25 @@ require(ggpubr)
 require(tidyverse)
 require(ggplot2)
 require(data.table)
+devtools::install_github('Ather-Energy/ggTimeSeries')
+require(ggTimeSeries)
+
 knitr::opts_chunk$set(echo = TRUE)
 base.dir = "~/facu/sed_2017/sed_2017_tps/tpf/experimentacion/resultados/"
+
+dir.experimento_b="Model_B"
+dir.experimento_b_shock="Model_B_shock"
+dir.experimento_d_shock="Model_D_shock"
+dir.experimento_d_k = "Model_D_k"
+dir.experimento_d = "Model_D"
+dir.experimento_d_k_shock = "Model_D_k_shock"
 
 experimento_b="Model_B/grouped_grid_98_10_10_1_a_45.0_b_45.0_i_10.0_empty.csv"
 experimento_d_shock="Model_D_shock/grouped_grid_10_10_10_1_a_45.0_b_45.0_i_10.0_exp_55677.csv"
 experimento_d_k = "Model_D_k/grouped_grid_96_10_10_1_a_45.0_b_45.0_i_10.0_empty.csv"
 experimento_d = "Model_D/grouped_grid_84_10_10_1_a_45.0_b_45.0_i_10.0_empty.csv"
 experimento_d_k_shock = "Model_D_k_shock/grouped_grid_94_10_10_1_a_45.0_b_45.0_i_10.0_exp_55677.csv"
+
 
 ```
 
@@ -53,48 +64,71 @@ files.to.dataframe <- function(files){
     experiment = str_extract(file.name, "grid_[0-9]{1,2}")
     data <- read.csv(con,header = T)
     data$exp = experiment  
-    data
+    
+    print(max(data$time))
+    times = seq(max(data$time) , 300, by=0.1)
+    Aes = rep(NA, length(times))
+    Bes = rep(NA, length(times))
+    Ies = rep(NA, length(times))
+              
+    faltantes = data.frame(time=times, A=Aes, B=Bes, I=Ies)
+    faltantes$exp=experiment
+    data = rbind(data, faltantes)
+    return(fill(data, time, exp, A, I, B, .direction = "down"))
   }))
 }
 
 list.all.csvs =function(experiment.dir) {
+## Acá buscamos todos los CSVs
   resultados.dir = paste(base.dir, experiment.dir, sep="")
   resultados.dir %>% list.files(path = ., pattern = "grouped_grid.*.csv") %>%
     paste(resultados.dir, ., sep="/")
-  
 }
 
 
-model_b_df = "Model_B" %>% list.all.csvs %>% files.to.dataframe
-model_b_sum = model_b_df %>% group_by(time) %>% 
-  summarise(mean.a = mean(A), mean.b = mean(B), 
-            mean.i = mean(I), sd.a = sd(A, na.rm=T),
-            sd.b = sd(B), sd.i = sd(I))
+summarise.files.to.df <- function(model.dir) {
+  # Sumarizamos por tiempo
+    model_df = model.dir %>% list.all.csvs %>% files.to.dataframe
+    model_sum = model_df %>% group_by(time) %>% 
+    summarise(mean.a = mean(A), mean.b = mean(B), 
+              mean.i = mean(I), sd.a = sd(A, na.rm=T),
+              sd.b = sd(B), sd.i = sd(I))
+  return(model_sum)
+}
 
-p = gather(model_b_sum, key = "key", val= "val", mean.a:sd.i) %>% 
-  filter(str_detect(key, "mean.*"))  %>% 
-  qplot(data=., x=time, y=val, fill=key, geom='col') 
-
-gather(model_b_sum, key = "key", val= "val", mean.a:sd.i) %>% 
-  filter(str_detect(key, "sd.*"))  %>% 
-  ggplot(data=., aes(x=time, y=val, fill=key)) + geom_col(position= 'dodge')
-
-model_b_df %>% ggplot(data = ., aes(x=as.factor(time), y = A)) + geom_boxplot()
-
-
-model_b_sum %>% ggplot(aes(x=time, y=value, fill=variable)) +
-  geom_col(width = 1) %>% return()
+sumarizar <- function(model_df) {
+  model_sum = model_df %>% group_by(time) %>% 
+      summarise(mean.a = mean(A), mean.b = mean(B), 
+                mean.i = mean(I), sd.a = sd(A, na.rm=T),
+                sd.b = sd(B), sd.i = sd(I))
+  return(model_sum)
+}
 
 
-```
+graficar.modelo <- function(dir.model) {
+  model_df = dir.model %>% list.all.csvs %>% files.to.dataframe
+  
+  model_df %>% sumarizar %>% gather(key = "key", val= "val", mean.a:sd.i) %>% 
+    filter(str_detect(key, "mean.*"))  %>% filter(time %% 1 == 0) %>% 
+    ggplot(data=., aes(x=time, y=val, fill=toupper(str_replace(key, "mean.", "")))) + 
+    geom_col(width = 1, position= 'stack') +
+    labs(x="T", y="Celdas", fill="Partido") + ggtitle("Evolución temporal de la media de la distribución de celdas por partidos")
+  paste(base.dir, dir.model, "evolucion_media.png", sep="") %>% ggsave(width = 8, height = 4)
+  
+  model_df %>% sumarizar %>%
+    gather(key = "key", val= "val", mean.a:sd.i) %>%
+    filter(str_detect(key, "sd.*"))  %>% filter(time %% 1 == 0) %>% 
+    ggplot(data=., aes(x=time, y=val, fill=toupper(str_replace(key, "sd.", "")))) + geom_col(width = 1, position= 'stack')+
+    labs(x="T", y="Celdas", fill="Partido") + ggtitle("Evolución temporal de la media de la distribución de celdas por partidos")
+  paste(base.dir, dir.model, "evolucion_sd.png", sep="") %>% ggsave(width = 8, height = 4)
+}
 
-```{r}
+graficar.modelo(dir.experimento_b_shock)
+graficar.modelo(dir.experimento_b)
+graficar.modelo(dir.experimento_d)
+graficar.modelo(dir.experimento_d_shock)
+graficar.modelo(dir.experimento_d_k)
+graficar.modelo(dir.experimento_d_k_shock)
 
-resultados$tipo = cut(resultados$V8, breaks = c(-Inf, -1,1,Inf), labels = c("A", "I", "B"))
 
-
-resultados %>% group_by(V1, tipo) %>% summarise(n=n()) %>% # Ahora ploteo
-  ggplot(data=., aes(x=V1, y=n, fill=tipo)) + geom_col() #+ facet_wrap( ~ tipo, nrow = 3)
-
-resultados %>% ggplot(data=., aes(x=V8)) + geom_histogram()
 ```
