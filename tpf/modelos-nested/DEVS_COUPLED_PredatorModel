@@ -1,90 +1,54 @@
 <coupled model="Coupled" name="DEVS_COUPLED_PredatorModel">
-
-
 <inputs>
 </inputs>
-
-
 <outputs>
 </outputs>
-
-
 <components>
-
 <atomicRef name="paramD" type="DEVSConstant">
 </atomicRef>
-
 <atomicRef name="paramC" type="DEVSConstant">
 </atomicRef>
 <include filename="DEVS_BASIC_COUPLED_Predator_Prey_hunter" />
-</components>
-
-
-<internal_connections>
-
-</internal_connections>
-
-
-<external_input_connections>
-
-</external_input_connections>
-
-
-<external_output_connections>
-
-</external_output_connections>
-
 <coupled model="Coupled" name="DEVS_BASIC_COUPLED_Predator_Prey_hunter">
-
-
 <inputs>
 </inputs>
-
-
 <outputs>
 </outputs>
-
-
 <components>
-
 <atomicRef name="Predator" type="DEVSIntegrator">
 </atomicRef>
-
 <atomicRef name="Prey" type="DEVSIntegrator">
 </atomicRef>
-
 <atomicRef name="hunter" type="DEVSIntegrator">
 </atomicRef>
-
-<atomicRef name="Predator" type="FTot">
+<atomicRef name="Predator" type="Ftot">
 </atomicRef>
-
-<atomicRef name="Prey" type="FTot">
+<atomicRef name="Prey" type="Ftot">
 </atomicRef>
-
-<atomicRef name="hunter" type="FTot">
+<atomicRef name="hunter" type="Ftot">
 </atomicRef>
-
 <atomicRef name="plus_PlusPredator_Predator" type="Fplus">
 </atomicRef>
-
 <atomicRef name="minus_MinusPredator_Predator" type="Fminus">
 </atomicRef>
 </components>
-
-
 <internal_connections>
 
 </internal_connections>
-
-
 <external_input_connections>
 
 </external_input_connections>
-
-
 <external_output_connections>
 
 </external_output_connections>
+</coupled></components>
+<internal_connections>
 
-</coupled></coupled>
+</internal_connections>
+<external_input_connections>
+
+</external_input_connections>
+<external_output_connections>
+
+</external_output_connections>
+</coupled>

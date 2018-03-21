@@ -1,46 +1,27 @@
-<!-- Acoplado : {{coupled_name}} -->
 <coupled name="{{coupled_name}}" model="Coupled" >
-
-<!-- Inputs -->
 <inputs>
 </inputs>
-
-<!-- Outputs -->
 <outputs>
 </outputs>
-
-<!-- Components -->
 <components>
 {% for atomic in atomics -%}
-<!-- Atomico : {{atomic['name']}} -->
 <atomicRef name="{{atomic.getName()}}" type="{{atomic.getType()}}">
 </atomicRef>
 {% endfor -%}
-
 {% for coupled_filename in coupled_filenames -%}
 <include filename="{{coupled_filename}}" />
 {% endfor -%}
 </components>
-
-<!-- Internal Connections -->
 <internal_connections>
 {% for internal_connection in internal_connections %}
-<!-- Link interno : }} -->
 {%- endfor %}
 </internal_connections>
-
-<!-- External Input Connections -->
 <external_input_connections>
 {% for external_connection in external_input_connections %}
-<!-- Link externo-input : -->
 {%- endfor %}
 </external_input_connections>
-
-<!-- External Output Connections -->
 <external_output_connections>
 {% for external_connection in external_output_connections %}
-<!-- Link externo-output : -->
 {%- endfor %}
 </external_output_connections>
-
 </coupled>

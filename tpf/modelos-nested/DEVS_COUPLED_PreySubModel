@@ -1,147 +1,86 @@
 <coupled model="Coupled" name="DEVS_COUPLED_PreySubModel">
-
-
 <inputs>
 </inputs>
-
-
 <outputs>
 </outputs>
-
-
 <components>
 <include filename="DEVS_COUPLED_PreySubSubModel" />
 <include filename="DEVS_BASIC_COUPLED_PreySubModelStock_Prey_PreySubSubModelStock" />
-</components>
-
-
-<internal_connections>
-
-</internal_connections>
-
-
-<external_input_connections>
-
-</external_input_connections>
-
-
-<external_output_connections>
-
-</external_output_connections>
-
 <coupled model="Coupled" name="DEVS_COUPLED_PreySubSubModel">
-
-
 <inputs>
 </inputs>
-
-
 <outputs>
 </outputs>
-
-
 <components>
 <include filename="DEVS_BASIC_COUPLED_PreySubSubModelStock" />
-</components>
-
-
-<internal_connections>
-
-</internal_connections>
-
-
-<external_input_connections>
-
-</external_input_connections>
-
-
-<external_output_connections>
-
-</external_output_connections>
-
 <coupled model="Coupled" name="DEVS_BASIC_COUPLED_PreySubSubModelStock">
-
-
 <inputs>
 </inputs>
-
-
 <outputs>
 </outputs>
-
-
 <components>
-
 <atomicRef name="PreySubSubModelStock" type="DEVSIntegrator">
 </atomicRef>
-
-<atomicRef name="PreySubSubModelStock" type="FTot">
+<atomicRef name="PreySubSubModelStock" type="Ftot">
 </atomicRef>
 </components>
-
-
 <internal_connections>
 
 </internal_connections>
-
-
 <external_input_connections>
 
 </external_input_connections>
-
-
 <external_output_connections>
 
 </external_output_connections>
+</coupled></components>
+<internal_connections>
 
-</coupled></coupled><coupled model="Coupled" name="DEVS_BASIC_COUPLED_PreySubModelStock_Prey_PreySubSubModelStock">
+</internal_connections>
+<external_input_connections>
 
+</external_input_connections>
+<external_output_connections>
 
+</external_output_connections>
+</coupled><coupled model="Coupled" name="DEVS_BASIC_COUPLED_PreySubModelStock_Prey_PreySubSubModelStock">
 <inputs>
 </inputs>
-
-
 <outputs>
 </outputs>
-
-
 <components>
-
 <atomicRef name="PreySubModelStock" type="DEVSIntegrator">
 </atomicRef>
-
 <atomicRef name="Prey" type="DEVSIntegrator">
 </atomicRef>
-
 <atomicRef name="PreySubSubModelStock" type="DEVSIntegrator">
 </atomicRef>
-
-<atomicRef name="PreySubModelStock" type="FTot">
+<atomicRef name="PreySubModelStock" type="Ftot">
 </atomicRef>
-
-<atomicRef name="Prey" type="FTot">
+<atomicRef name="Prey" type="Ftot">
 </atomicRef>
-
-<atomicRef name="PreySubSubModelStock" type="FTot">
+<atomicRef name="PreySubSubModelStock" type="Ftot">
 </atomicRef>
-
 <atomicRef name="minus_preySubFlow_PreySubModelStock" type="Fminus">
 </atomicRef>
 </components>
-
-
 <internal_connections>
 
 </internal_connections>
-
-
 <external_input_connections>
 
 </external_input_connections>
-
-
 <external_output_connections>
 
 </external_output_connections>
+</coupled></components>
+<internal_connections>
 
-</coupled></coupled>
+</internal_connections>
+<external_input_connections>
+
+</external_input_connections>
+<external_output_connections>
+
+</external_output_connections>
+</coupled>
