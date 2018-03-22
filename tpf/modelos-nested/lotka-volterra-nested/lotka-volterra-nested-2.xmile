@@ -250,7 +250,7 @@
 				<outflow>MinusPredator</outflow>
 			</stock>
 			<flow name="PlusPredator">
-				<eqn>paramD * Predator * Prey</eqn>
+				<eqn>paramD * Predator * Prey + auxVariable</eqn>
 			</flow>
 			<flow name="MinusPredator">
 				<eqn>Predator * paramC + 0 * hunter</eqn>
@@ -268,11 +268,15 @@
 				<eqn>5</eqn>
 				<non_negative/>
 			</stock>
+			<aux name="auxVariable">
+				<eqn>0</eqn>
+			</aux>
 			<isee:dependencies>
 				<var name="PlusPredator">
 					<in>Predator</in>
 					<in>paramD</in>
 					<in>Prey</in>
+					<in>auxVariable</in>
 				</var>
 				<var name="MinusPredator">
 					<in>Predator</in>
@@ -395,6 +399,11 @@
 				<connector uid="19" angle="85.8151">
 					<from>hunter</from>
 					<to>MinusPredator</to>
+				</connector>
+				<aux x="253" y="252" name="auxVariable"/>
+				<connector uid="20" angle="46.9092">
+					<from>auxVariable</from>
+					<to>PlusPredator</to>
 				</connector>
 			</view>
 		</views>
@@ -537,41 +546,41 @@
 						<pt x="665" y="226"/>
 					</pts>
 				</flow>
-				<connector uid="20" angle="24.1791">
+				<connector uid="21" angle="24.1791">
 					<from>Prey</from>
 					<to>MinusPrey</to>
 				</connector>
-				<connector uid="21" angle="151.144">
+				<connector uid="22" angle="151.144">
 					<from>Prey</from>
 					<to>PlusPrey</to>
 				</connector>
 				<aux font_style="italic" font_weight="bold" x="550" y="109" name="paramB"/>
 				<aux font_style="italic" font_weight="bold" x="318" y="108" name="paramA"/>
-				<connector uid="22" angle="305.707">
+				<connector uid="23" angle="305.707">
 					<from>paramA</from>
 					<to>PlusPrey</to>
 				</connector>
-				<connector uid="23" angle="285.945">
+				<connector uid="24" angle="285.945">
 					<from>paramB</from>
 					<to>MinusPrey</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="559.75" y="373" name="Predator"/>
-				<connector uid="24" angle="74.7449">
+				<connector uid="25" angle="74.7449">
 					<from>Predator</from>
 					<to>MinusPrey</to>
 				</connector>
 				<module x="250" y="380.5" width="136" height="94" name="PreySubModel"/>
-				<connector uid="25" angle="263.109" isee:autocreated="true">
+				<connector uid="26" angle="263.109" isee:autocreated="true">
 					<from>Prey</from>
 					<to>PreySubModel</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="334.75" y="319" name="PreySubModelStock"/>
-				<connector uid="26" angle="90.9992">
+				<connector uid="27" angle="90.9992">
 					<from>PreySubModelStock</from>
 					<to>PlusPrey</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="710" y="373" name="PreySubSubModelStock"/>
-				<connector uid="27" angle="127.304">
+				<connector uid="28" angle="127.304">
 					<from>PreySubSubModelStock</from>
 					<to>MinusPrey</to>
 				</connector>
@@ -686,18 +695,18 @@
 						<pt x="483" y="218"/>
 					</pts>
 				</flow>
-				<connector uid="28" angle="26.5651">
+				<connector uid="29" angle="26.5651">
 					<from>PreySubModelStock</from>
 					<to>preySubFlow</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="396" y="328" name="Prey"/>
-				<connector uid="29" angle="79.4608">
+				<connector uid="30" angle="79.4608">
 					<from>Prey</from>
 					<to>preySubFlow</to>
 				</connector>
 				<module x="582.5" y="165.5" width="282" height="185" name="PreySubSubModel"/>
 				<stock font_style="italic" font_weight="bold" x="504" y="328" name="PreySubSubModelStock"/>
-				<connector uid="30" angle="122.381">
+				<connector uid="31" angle="122.381">
 					<from>PreySubSubModelStock</from>
 					<to>preySubFlow</to>
 				</connector>
@@ -802,7 +811,7 @@
 						<pt x="650" y="266"/>
 					</pts>
 				</flow>
-				<connector uid="31" angle="29.0546">
+				<connector uid="32" angle="29.0546">
 					<from>PreySubSubModelStock</from>
 					<to>Flow_1</to>
 				</connector>

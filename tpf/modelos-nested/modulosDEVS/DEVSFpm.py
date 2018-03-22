@@ -2,7 +2,10 @@
 PLUS_INDEX  = 0
 MINUS_INDEX = 1
 
-class DEVSFpm(object):
+from modulosDEVS.DEVSComponent import *
+from modulosDEVS.DEVSPort import *
+
+class DEVSFpm(DEVSComponent):
     def __init__(self, xmile_flow, xmile_stocks):
         self.xmile_flow   = xmile_flow
         self.xmile_stocks = xmile_stocks
@@ -57,14 +60,15 @@ class DEVSFpm(object):
             return None
         return DEVSFminus(self.xmile_flow, corresponding_stock_name_minus)
 
+###############################################################
 class DEVSFminus(DEVSFpm):
     def __init__(self, xmile_flow, stock_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
         self.equation   = self.xmile_flow.getEquation()
-        self.input_ports  = self.xmile_flow.getEquationVariables()
-        self.output_ports = ['out']
-        self.name = self.setName()
+        self.input_ports  = self.setInputPorts()
+        self.name         = self.setName()
+        self.output_ports = [DEVSPort(self.name, self, 'out')]
         self.type = 'Fminus'
 
     def __repr__(self):
@@ -72,7 +76,8 @@ class DEVSFminus(DEVSFpm):
             'name' : self.name,
             'equation' : self.equation,
             'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports
+            'output_ports' : self.output_ports,
+            'type' : self.type
         })
 
     def __str__(self):
@@ -80,11 +85,19 @@ class DEVSFminus(DEVSFpm):
             'name' : self.name,
             'equation' : self.equation,
             'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports
+            'output_ports' : self.output_ports,
+            'type' : self.type
         })
 
+    def setInputPorts(self):
+        input_ports = []
+        variables = self.xmile_flow.getEquationVariables()
+        for var in variables:
+            input_ports.append(DEVSPort(var, self, 'in'))
+        return input_ports
+
     def setName(self):
-        return 'minus_' + self.xmile_flow.getName() + '_' + self.stock_name
+        return self.xmile_flow.getName() + '_' + self.stock_name
 
     def getName(self):
         return self.name
@@ -92,14 +105,24 @@ class DEVSFminus(DEVSFpm):
     def getType(self):
         return self.type
 
+    def getEquation(self):
+        return self.equation
+
+    def getDEVSInputPorts(self):
+        return self.input_ports
+
+    def getOutputPorts(self):
+        return self.output_ports
+
+###############################################################
 class DEVSFplus(DEVSFpm):
     def __init__(self, xmile_flow, stock_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
         self.equation   = self.xmile_flow.getEquation()
-        self.input_ports  = self.xmile_flow.getEquationVariables()
-        self.output_ports = ['out']
-        self.name = self.setName()
+        self.input_ports  = self.setInputPorts()
+        self.name         = self.setName()
+        self.output_ports = [DEVSPort(self.name, self, 'out')]
         self.type = 'Fplus'
 
     def __repr__(self):
@@ -107,7 +130,8 @@ class DEVSFplus(DEVSFpm):
             'name' : self.name,
             'equation' : self.equation,
             'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports
+            'output_ports' : self.output_ports,
+            'type' : self.type
         })
 
     def __str__(self):
@@ -115,15 +139,32 @@ class DEVSFplus(DEVSFpm):
             'name' : self.name,
             'equation' : self.equation,
             'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports
+            'output_ports' : self.output_ports,
+            'type' : self.type
         })
 
+    def setInputPorts(self):
+        input_ports = []
+        variables = self.xmile_flow.getEquationVariables()
+        for var in variables:
+            input_ports.append(DEVSPort(var, self, 'in'))
+        return input_ports
+
     def setName(self):
-        return 'plus_' + self.xmile_flow.getName() + '_' + self.stock_name
+        return self.xmile_flow.getName() + '_' + self.stock_name
 
     def getName(self):
         return self.name
 
     def getType(self):
         return self.type
+
+    def getEquation(self):
+        return self.equation
+
+    def getDEVSInputPorts(self):
+        return self.input_ports
+
+    def getOutputPorts(self):
+        return self.output_ports
     
