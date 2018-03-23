@@ -111,7 +111,7 @@ class DEVSFminus(DEVSFpm):
     def getDEVSInputPorts(self):
         return self.input_ports
 
-    def getOutputPorts(self):
+    def getDEVSOutputPorts(self):
         return self.output_ports
 
 ###############################################################
@@ -165,6 +165,6 @@ class DEVSFplus(DEVSFpm):
     def getDEVSInputPorts(self):
         return self.input_ports
 
-    def getOutputPorts(self):
+    def getDEVSOutputPorts(self):
         return self.output_ports
     

@@ -18,9 +18,9 @@
 	<model>
 		<variables>
 			<module name="PreyModel">
-				<connect to="PreyModel.Predator" from="PredatorModel.Predator"/>
 				<connect to="PreyModel.paramA" from=".paramA"/>
 				<connect to="PreyModel.paramB" from=".paramB"/>
+				<connect to="PreyModel.Predator" from="PredatorModel.Predator"/>
 				<connect to="PreyModel.PreySubModelStock" from="PreySubModel.PreySubModelStock"/>
 				<connect to="PreySubModel.PreySubSubModelStock" from="PreySubSubModel.PreySubSubModelStock"/>
 				<connect to="PreyModel.PreySubSubModelStock" from="PreySubSubModel.PreySubSubModelStock"/>
@@ -250,7 +250,7 @@
 				<outflow>MinusPredator</outflow>
 			</stock>
 			<flow name="PlusPredator">
-				<eqn>paramD * Predator * Prey + auxVariable</eqn>
+				<eqn>paramD * Predator * Prey + cteVariable</eqn>
 			</flow>
 			<flow name="MinusPredator">
 				<eqn>Predator * paramC + 0 * hunter</eqn>
@@ -268,20 +268,26 @@
 				<eqn>5</eqn>
 				<non_negative/>
 			</stock>
-			<aux name="auxVariable">
+			<aux name="cteVariable">
 				<eqn>0</eqn>
+			</aux>
+			<aux name="auxVariable">
+				<eqn>cteVariable</eqn>
 			</aux>
 			<isee:dependencies>
 				<var name="PlusPredator">
 					<in>Predator</in>
 					<in>paramD</in>
 					<in>Prey</in>
-					<in>auxVariable</in>
+					<in>cteVariable</in>
 				</var>
 				<var name="MinusPredator">
 					<in>Predator</in>
 					<in>paramC</in>
 					<in>hunter</in>
+				</var>
+				<var name="auxVariable">
+					<in>cteVariable</in>
 				</var>
 			</isee:dependencies>
 		</variables>
@@ -400,10 +406,15 @@
 					<from>hunter</from>
 					<to>MinusPredator</to>
 				</connector>
-				<aux x="253" y="252" name="auxVariable"/>
+				<aux x="253" y="252" name="cteVariable"/>
 				<connector uid="20" angle="46.9092">
-					<from>auxVariable</from>
+					<from>cteVariable</from>
 					<to>PlusPredator</to>
+				</connector>
+				<aux x="141" y="182" name="auxVariable"/>
+				<connector uid="21" angle="133.958">
+					<from>cteVariable</from>
+					<to>auxVariable</to>
 				</connector>
 			</view>
 		</views>
@@ -546,41 +557,41 @@
 						<pt x="665" y="226"/>
 					</pts>
 				</flow>
-				<connector uid="21" angle="24.1791">
+				<connector uid="22" angle="24.1791">
 					<from>Prey</from>
 					<to>MinusPrey</to>
 				</connector>
-				<connector uid="22" angle="151.144">
+				<connector uid="23" angle="151.144">
 					<from>Prey</from>
 					<to>PlusPrey</to>
 				</connector>
 				<aux font_style="italic" font_weight="bold" x="550" y="109" name="paramB"/>
 				<aux font_style="italic" font_weight="bold" x="318" y="108" name="paramA"/>
-				<connector uid="23" angle="305.707">
+				<connector uid="24" angle="305.707">
 					<from>paramA</from>
 					<to>PlusPrey</to>
 				</connector>
-				<connector uid="24" angle="285.945">
+				<connector uid="25" angle="285.945">
 					<from>paramB</from>
 					<to>MinusPrey</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="559.75" y="373" name="Predator"/>
-				<connector uid="25" angle="74.7449">
+				<connector uid="26" angle="74.7449">
 					<from>Predator</from>
 					<to>MinusPrey</to>
 				</connector>
 				<module x="250" y="380.5" width="136" height="94" name="PreySubModel"/>
-				<connector uid="26" angle="263.109" isee:autocreated="true">
+				<connector uid="27" angle="263.109" isee:autocreated="true">
 					<from>Prey</from>
 					<to>PreySubModel</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="334.75" y="319" name="PreySubModelStock"/>
-				<connector uid="27" angle="90.9992">
+				<connector uid="28" angle="90.9992">
 					<from>PreySubModelStock</from>
 					<to>PlusPrey</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="710" y="373" name="PreySubSubModelStock"/>
-				<connector uid="28" angle="127.304">
+				<connector uid="29" angle="127.304">
 					<from>PreySubSubModelStock</from>
 					<to>MinusPrey</to>
 				</connector>
@@ -695,18 +706,18 @@
 						<pt x="483" y="218"/>
 					</pts>
 				</flow>
-				<connector uid="29" angle="26.5651">
+				<connector uid="30" angle="26.5651">
 					<from>PreySubModelStock</from>
 					<to>preySubFlow</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="396" y="328" name="Prey"/>
-				<connector uid="30" angle="79.4608">
+				<connector uid="31" angle="79.4608">
 					<from>Prey</from>
 					<to>preySubFlow</to>
 				</connector>
 				<module x="582.5" y="165.5" width="282" height="185" name="PreySubSubModel"/>
-				<stock font_style="italic" font_weight="bold" x="504" y="328" name="PreySubSubModelStock"/>
-				<connector uid="31" angle="122.381">
+				<stock x="504" y="328" name="PreySubSubModelStock"/>
+				<connector uid="32" angle="122.381">
 					<from>PreySubSubModelStock</from>
 					<to>preySubFlow</to>
 				</connector>
@@ -717,15 +728,15 @@
 		<variables>
 			<stock name="PreySubSubModelStock" access="output" isee:autocreated="true">
 				<eqn>1000</eqn>
-				<outflow>Flow_1</outflow>
+				<outflow>Flow1</outflow>
 				<non_negative/>
 			</stock>
-			<flow name="Flow 1">
+			<flow name="Flow1">
 				<eqn>0.05 * PreySubSubModelStock</eqn>
 				<non_negative/>
 			</flow>
 			<isee:dependencies>
-				<var name="Flow_1">
+				<var name="Flow1">
 					<in>PreySubSubModelStock</in>
 				</var>
 			</isee:dependencies>
@@ -805,15 +816,15 @@
 					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
 				</style>
 				<stock x="433" y="263" name="PreySubSubModelStock"/>
-				<flow x="540.75" y="266" name="Flow 1">
+				<flow x="540.75" y="266" name="Flow1">
 					<pts>
 						<pt x="455.5" y="266"/>
 						<pt x="650" y="266"/>
 					</pts>
 				</flow>
-				<connector uid="32" angle="29.0546">
+				<connector uid="33" angle="29.0546">
 					<from>PreySubSubModelStock</from>
-					<to>Flow_1</to>
+					<to>Flow1</to>
 				</connector>
 			</view>
 		</views>

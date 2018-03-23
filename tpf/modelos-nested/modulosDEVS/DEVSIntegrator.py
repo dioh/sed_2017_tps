@@ -47,3 +47,6 @@ class DEVSIntegrator(DEVSComponent):
         return self.integrator_type
     def getIntegratorParameters(self):
         return self.integrator_parameters
+    def getDEVSOutputPorts(self):
+        return self.output_ports
+    

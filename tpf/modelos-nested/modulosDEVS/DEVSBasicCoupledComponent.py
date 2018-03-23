@@ -10,7 +10,7 @@ class DEVSBasicCoupledComponent(DEVSComponent):
                  input_ports=None, output_ports=None):
         self.xmile_model = xmile_model
         self.root_models = root_models
-        self.type = 'DEVSBasicCoupledModel'
+        self.type = 'DEVSBasicCoupledComponent'
         if name is not None:
             self.name = name
         else:
@@ -26,6 +26,16 @@ class DEVSBasicCoupledComponent(DEVSComponent):
             self.coupled_components = coupled_components
         else:
             self.coupled_components = self.setDEVSCoupledComponents()
+        # Output Ports
+        if output_ports is not None:
+            self.output_ports = output_ports
+        else :
+            self.output_ports = self.setOutputPorts()
+        # Input Ports
+        if input_ports is not None:
+            self.input_ports  = input_ports
+        else:
+            self.input_ports = self.setInputPorts()
         # External input connections
         if external_input_connections is not None:
             self.external_input_connections = external_input_connections
@@ -41,16 +51,6 @@ class DEVSBasicCoupledComponent(DEVSComponent):
             self.internal_connections = internal_connections
         else:
             self.internal_connections = self.setInternalConnections()
-        # Input Ports
-        if input_ports is not None:
-            self.input_ports  = input_ports
-        else:
-            self.input_ports = self.setInputPorts()
-        # Output Ports
-        if output_ports is not None:
-            self.output_ports = output_ports
-        else :
-            self.output_ports = self.setOutputPorts()
     ################################################################################
     # Representation functions
     def __repr__(self):

@@ -1,5 +1,5 @@
 <coupledRef name="{{coupled_name}}" model="Coupled" >
-<inputs>{% for input_port in input_ports -%}<input name="{{input_port.getName()}}" component="{{input_port.getComponent().getName()}}" type="{{input_port.getType()}}" />{% endfor %}</inputs>
+<inputs>{% for input_port in input_ports -%}<input name="{{input_port.getName()}}" component="{{input_port.getComponent().getName()}}" type="{{input_port.getType()}}" is_for_constant="{{input_port.get_is_for_constant()}}" />{% endfor %}</inputs>
 <outputs>{% for output_port in output_ports -%}<output name="{{output_port.getName()}}" component="{{output_port.getComponent().getName()}}" type="{{output_port.getType()}}" />{% endfor %}</outputs>
 <components>
 {% for atomic in atomics -%}
@@ -10,10 +10,7 @@
 <include filename="{{coupled_filename}}" />
 {% endfor -%}
 </components>
-<internal_connections>
-{% for internal_connection in internal_connections %}
-{%- endfor %}
-</internal_connections>
-<external_input_connections>{% for ec in external_input_connections %}<connection port_from="{{ec['port_from'].getName()}}" port_to="{{ec['port_to'].getName()}}" component_to="{{ec['component_to']}}" />{%- endfor %}</external_input_connections>
-<external_output_connections>{% for ec in external_output_connections %}<connection port_from="{{ec['port_from'].getName()}}" port_to="{{ec['port_to'].getName()}}" component_from="{{ec['component_from']}}" />{%- endfor %}</external_output_connections>
+<internal_connections>{% for ic in internal_connections %}<connection port_from="{{ic['port_from'].getName()}}" component_from="{{ic['component_from'].getName()}}" port_to="{{ic['port_to'].getName()}}" component_to="{{ic['component_to'].getName()}}"/>{%- endfor %}</internal_connections>
+<external_input_connections>{% for ec in external_input_connections %}<connection port_from="{{ec['port_from'].getName()}}" port_to="{{ec['port_to'].getName()}}" component_to="{{ec['component_to'].getName()}}" />{%- endfor %}</external_input_connections>
+<external_output_connections>{% for ec in external_output_connections %}<connection port_from="{{ec['port_from'].getName()}}" port_to="{{ec['port_to'].getName()}}" component_from="{{ec['component_from'].getName()}}" />{%- endfor %}</external_output_connections>
 </coupledRef>

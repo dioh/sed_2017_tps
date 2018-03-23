@@ -5,12 +5,13 @@ from modulosDEVS.DEVSComponent import *
 class DEVSFtot(DEVSComponent):
     def __init__(self, xmile_stock):
         self.stock = xmile_stock
-        self.name = xmile_stock.getName() # TODO : ver si aca le agrego un 'Tot' al final o no
+        # TODO : con o sin el 'Tot' ?
+        self.name = 'Tot' + xmile_stock.getName()
         self.access = xmile_stock.getAccess()
         self.equation = xmile_stock.getEquation()
         self.input_ports  = [DEVSPort('minus', self, 'in'), DEVSPort('plus', self, 'in')]
         self.output_ports = [DEVSPort(self.name, self, 'out')]
-        self.type = 'Ftot'
+        self.type = 'DEVSFtot'
 
     def __repr__(self):
         return str({
@@ -33,3 +34,7 @@ class DEVSFtot(DEVSComponent):
         return self.type
     def getName(self):
         return self.name
+    def getDEVSInputPorts(self):
+        return self.input_ports
+    def getDEVSOutputPorts(self):
+        return self.output_ports
