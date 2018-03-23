@@ -11,7 +11,7 @@ class DEVSConstant(DEVSComponent):
         self.equation = self.xmile_constant.getEquation()
         self.parent = self.xmile_constant.getParent()
         self.input_ports  = [DEVSPort(self.name, self, 'in')]
-        self.output_ports = self.setOutputPorts()
+        self.output_ports = [DEVSPort(self.getName(), self, 'out')]
         self.type = 'DEVSConstant'
     
     def __repr__(self):
@@ -30,11 +30,6 @@ class DEVSConstant(DEVSComponent):
             'parent' : self.parent,
             'type' : self.type
         })
-
-    def setOutputPorts(self):
-        # TODO 
-        # '*' : el output de Cte podria ir a un DEVSCoupledComponent (si va a flows en xmile) o a un DEVSAux (si va a un aux en xmile), o a ambos
-        return [DEVSPort(self.getName(), self, 'out')]
 
     def getAccess(self):
         return self.access

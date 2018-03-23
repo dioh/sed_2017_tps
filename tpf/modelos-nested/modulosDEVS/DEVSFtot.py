@@ -38,3 +38,5 @@ class DEVSFtot(DEVSComponent):
         return self.input_ports
     def getDEVSOutputPorts(self):
         return self.output_ports
+    def getEquation(self):
+        return self.equation

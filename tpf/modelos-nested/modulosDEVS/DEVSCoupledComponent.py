@@ -273,7 +273,7 @@ class DEVSCoupledComponent(DEVSComponent):
             for output_port in atomic_component_from.getDEVSOutputPorts():
                 for atomic_component_to in self.getDEVSAtomicComponents():
                     for input_port in atomic_component_to.getDEVSInputPorts():
-                        if(output_port.getName() == input_port.getName()):
+                        if output_port.getName() == input_port.getName():
                             atomic_to_atomic_connections.append(
                                 DEVSInternalConnection(output_port, atomic_component_from, input_port, atomic_component_to)
                             ) 
@@ -281,17 +281,41 @@ class DEVSCoupledComponent(DEVSComponent):
         return list(set(atomic_to_atomic_connections))
     
     def setAtomicToCoupledConnections(self):
-        # Cte's a acoplados que tienen un input_port acorde
-        # Aux's a acoplados que tienen un input_port acorde
-        return []
+        atomic_to_coupled_connections = []
+        for atomic_component_from in self.getDEVSAtomicComponents():
+            for output_port in atomic_component_from.getDEVSOutputPorts():
+                for coupled_component_to in self.getDEVSCoupledComponents():
+                    for input_port in coupled_component_to.getDEVSInputPorts():
+                        if output_port.getName() == input_port.getName():
+                            atomic_to_coupled_connections.append(
+                                DEVSInternalConnection(output_port, atomic_component_from, input_port, coupled_component_to)
+                            )
+        return list(set(atomic_to_coupled_connections))
 
     def setCoupledToCoupledConnections(self):
-        # Diferenciar BASIC_COUPLED de COUPLED
-        return []
+        coupled_to_coupled_connections = []
+        for coupled_component_from in self.getDEVSCoupledComponents():
+            for output_port in coupled_component_from.getDEVSOutputPorts():
+                for coupled_component_to in self.getDEVSCoupledComponents():
+                    for input_port in coupled_component_to.getDEVSInputPorts():
+                        if output_port.getName() == input_port.getName():
+                            coupled_to_coupled_connections.append(
+                                DEVSInternalConnection(output_port, coupled_component_from, input_port, coupled_component_to)
+                            )
+        return list(set(coupled_to_coupled_connections))
 
     def setCoupledToAtomicConnections(self):
-        # Unir output's de los acoplados a los inputs que lo reciban
-        return []
+        coupled_to_atomic_connections = []
+        for coupled_component_from in self.getDEVSCoupledComponents():
+            for output_port in coupled_component_from.getDEVSOutputPorts():
+                for atomic_component_to in self.getDEVSAtomicComponents():
+                    for input_port in atomic_component_to.getDEVSInputPorts():
+                        if output_port.getName() == input_port.getName():
+                            coupled_to_atomic_connections.append(
+                                DEVSInternalConnection(output_port, coupled_component_from, input_port, atomic_component_to)
+                            ) 
+
+        return list(set(coupled_to_atomic_connections))
 
     ################################################################################
     # Funciones auxiliares

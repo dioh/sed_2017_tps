@@ -732,7 +732,7 @@
 				<non_negative/>
 			</stock>
 			<flow name="Flow1">
-				<eqn>0.05 * PreySubSubModelStock</eqn>
+				<eqn>0.05 * PreySubSubModelStock * PULSE(10, 10, 50)</eqn>
 				<non_negative/>
 			</flow>
 			<isee:dependencies>
@@ -826,6 +826,13 @@
 					<from>PreySubSubModelStock</from>
 					<to>Flow1</to>
 				</connector>
+				<stacked_container uid="34" x="55" y="325" width="997" height="427">
+					<graph x="55" y="325" width="997" height="427" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+							<entity name="PreySubSubModelStock"/>
+						</plot>
+					</graph>
+				</stacked_container>
 			</view>
 		</views>
 	</model>
