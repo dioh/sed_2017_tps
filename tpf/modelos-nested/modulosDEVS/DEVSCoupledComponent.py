@@ -131,6 +131,14 @@ class DEVSCoupledComponent(DEVSComponent):
                     aux_dependencies = aux_dependencies + dep.getInputs()
             devs_auxs.append(DEVSAux(xmile_aux, xmile_model, aux_dependencies))
         atomic_components = atomic_components + devs_auxs
+
+        ############## !!!!!!!! ACA !!!!!!!!! ############
+        # TODO : agregar los atomicos correspondientes a funciones especiales (ie.: PULSE, RAMP, etc.)
+        #        hay que mirar el atributo 'equation' de los Cte's y Aux's
+        #        * despues tambien hay que agregar las 'internal connections' correspondientes
+        #        * si la funcion toma como input otras variables del modelo, tambien habria que setear EXTERNAL_{INPUT/OUTPUT}_CONNECTIONS
+        ##################################################
+
         return atomic_components
     
     def setDEVSCoupledComponents(self):
@@ -334,8 +342,6 @@ class DEVSCoupledComponent(DEVSComponent):
                 auxiliaries.append(aux)
         return constants, auxiliaries
     
-    # TODO : generar un acoplado por cada Stock! Y cada uno va a tener el nombre del stock
-    # Por ahora, que ande asi con los Puertos de Input y Output y despues de eso mejorar esta parte
     def setBasicStockFlowCoupleds(self, root_models):
         xmile_generic_model = self.xmile_model
 
@@ -357,6 +363,13 @@ class DEVSCoupledComponent(DEVSComponent):
                 # Atomicos : Ftot + Integrador + Fpm's (recordar que los Cte's y Aux's los sacamos afuera)
                 # (Ftot + Integrador)
                 atomic_components = [DEVSIntegrator(stock), DEVSFtot(stock)]
+
+                ############## !!!!!!!! ACA !!!!!!!!! ############
+                # TODO : agregar los atomicos correspondientes a funciones especiales (ie.: PULSE, RAMP, etc.)
+                #        hay que mirar el atributo 'equation' de Fplus's, Fminus's
+                #        * despues tambien hay que agregar las 'internal connections correspondientes'
+                #        * si la funcion toma como input otras variables del modelo, tambien habria que setear EXTERNAL_{INPUT/OUTPUT}_CONNECTIONS
+                ##################################################
                 
                 #  (Fpm's)
                 devs_fpms = list(map(lambda x : DEVSFpm(x, [stock]), xmile_flows))

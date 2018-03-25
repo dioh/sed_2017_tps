@@ -2,7 +2,7 @@
 from modulosDEVS.DEVSPort import *
 from modulosDEVS.DEVSComponent import *
 
-class DEVSFtot(DEVSComponent):
+class DEVSFtot(DEVSAtomicComponent):
     def __init__(self, xmile_stock):
         self.stock = xmile_stock
         # TODO : con o sin el 'Tot' ?

@@ -12,16 +12,14 @@ class DEVSPort(object):
 		return str({
 			'name' : self.name,
 			'type' : self.type,
-			'component' : self.component.getName(),
-			'is_for_constant' : str(self.is_for_constant)
+			'component' : self.component.getName()
 		})
 
 	def __str__(self):
 		return str({
 			'name' : self.name,
 			'type' : self.type,
-			'component' : self.component.getName(),
-			'is_for_constant' : str(self.is_for_constant)
+			'component' : self.component.getName()
 		})
 
 	def __eq__(self, other):

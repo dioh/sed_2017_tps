@@ -5,7 +5,7 @@ MINUS_INDEX = 1
 from modulosDEVS.DEVSComponent import *
 from modulosDEVS.DEVSPort import *
 
-class DEVSFpm(DEVSComponent):
+class DEVSFpm(DEVSAtomicComponent):
     def __init__(self, xmile_flow, xmile_stocks):
         self.xmile_flow   = xmile_flow
         self.xmile_stocks = xmile_stocks

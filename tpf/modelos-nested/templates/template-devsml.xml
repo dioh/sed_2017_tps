@@ -1,8 +1,8 @@
 <coupledRef name="{{coupled_name}}" model="Coupled" >
-<inputs>{% for input_port in input_ports -%}<input name="{{input_port.getName()}}" component="{{input_port.getComponent().getName()}}" type="{{input_port.getType()}}" is_for_constant="{{input_port.get_is_for_constant()}}" />{% endfor %}</inputs>
+<inputs>{% for input_port in input_ports -%}<input name="{{input_port.getName()}}" component="{{input_port.getComponent().getName()}}" type="{{input_port.getType()}}" />{% endfor %}</inputs>
 <outputs>{% for output_port in output_ports -%}<output name="{{output_port.getName()}}" component="{{output_port.getComponent().getName()}}" type="{{output_port.getType()}}" />{% endfor %}</outputs>
 <components>
-{% for atomic in atomics -%}<atomicRef name="{{atomic.getName()}}" type="{{atomic.getType()}}" equation="{{atomic.getEquation().getText()}}"></atomicRef>{% endfor -%}
+{% for atomic in atomics -%}<atomicRef name="{{atomic.getName()}}" type="{{atomic.getType()}}" equation="{{atomic.getEquation().getEquation()}}">{% for input_port in atomic.getDEVSInputPorts() -%}<input name="{{input_port.getName()}}" />{% endfor -%}{% for output_port in atomic.getDEVSOutputPorts() -%}<output name="{{output_port.getName()}}" />{% endfor -%}</atomicRef>{% endfor -%}
 {% for coupled_filename in coupled_filenames -%}
 <include filename="{{coupled_filename}}" />{% endfor -%}
 </components>
