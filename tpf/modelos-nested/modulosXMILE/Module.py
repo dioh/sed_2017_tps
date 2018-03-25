@@ -34,5 +34,5 @@ class Module(object):
         connections = self.module_element.findall(self.source_xmlns + 'connect')
         if len(connections) == 0:
             if self.debug:
-                print 'Alerta: el modelo ' + self.name + ' no tiene niguna conexion'
+                print('Alerta: el modelo ' + self.name + ' no tiene niguna conexion')
         return list(map(lambda x : ModuleConnection(x, self.source_xmlns, self.debug), connections))

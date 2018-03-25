@@ -3,6 +3,7 @@ from modulosXMILE.Equation import *
 from modulosXMILE.Outflow import *
 from modulosXMILE.Inflow import *
 
+
 class Stock(object):
     def __init__(self, stock_element, source_xmlns, parent, debug):
         self.debug = debug
@@ -13,7 +14,7 @@ class Stock(object):
         self.access = self.getAccess()
         self.equation = self.getEquation()
         self.outflows = self.getOutflows()
-        self.inflows  = self.getInflows()
+        self.inflows = self.getInflows()
         self.nonNegative = self.getNonNegative()
         
     def __repr__(self):
@@ -49,7 +50,7 @@ class Stock(object):
         if access is None:
             return None
         if self.debug:
-            print 'El stock ' + self.parent + '.' + self.name + ' es de acceso tipo ' + access
+            print('El stock ' + self.parent + '.' + self.name + ' es de acceso tipo ' + access)
         return access
     
     def getEquation(self):

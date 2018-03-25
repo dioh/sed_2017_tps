@@ -2,11 +2,12 @@
 from modulosXMILE.Module import *
 from modulosXMILE.Stock import *
 from modulosXMILE.Flow import *
-from modulosXMILE.Aux import *
+from modulosXMILE.Auxiliary import Aux
 from modulosXMILE.Dependency import *
 
+
 class Model(object):
-    
+
     def __init__(self, model_element, debug):
         self.source_xmlns      = "{http://docs.oasis-open.org/xmile/ns/XMILE/v1.0}"
         self.source_xmlns_isee = "{http://iseesystems.com/XMILE}"
@@ -39,12 +40,13 @@ class Model(object):
             'flows' : self.flows,
             'dependencies' : self.dependencies
         })
-        
+
     def setName(self):
         name = self.model_element.get('name')
         if name is None:
             return 'top'
         return name
+
     def getName(self):
         return self.name
 
@@ -60,24 +62,28 @@ class Model(object):
     def setModules(self):
         modules = self.variables.findall(self.source_xmlns + 'module')
         return list(map(lambda x : Module(x, self.source_xmlns, self.name, self.debug), modules))
+
     def getModules(self):
         return self.modules
 
     def setAuxs(self):
         auxs = self.variables.findall(self.source_xmlns + 'aux')
         return list(map(lambda x : Aux(x, self.source_xmlns, self.name, self.debug), auxs))
+
     def getAuxs(self):
         return self.auxs
 
     def setStocks(self):
         stocks = self.variables.findall(self.source_xmlns + 'stock')
         return list(map(lambda x : Stock(x, self.source_xmlns, self.name, self.debug), stocks))
+
     def getStocks(self):
         return self.stocks
 
     def setFlows(self):
         flows = self.variables.findall(self.source_xmlns + 'flow')
         return list(map(lambda x : Flow(x, self.source_xmlns, self.name, self.debug), flows))
+    
     def getFlows(self):
         return self.flows
 
@@ -87,5 +93,6 @@ class Model(object):
             return []
         return list(map(lambda x : Dependency(x, self.source_xmlns, self.name, self.debug), 
                         dependencies.findall(self.source_xmlns + 'var')))
+    
     def getDependencies(self):
         return self.dependencies
