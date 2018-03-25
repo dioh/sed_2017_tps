@@ -2,7 +2,7 @@
 from modulosDEVS.DEVSPort import *
 from modulosDEVS.DEVSComponent import *
 
-class DEVSIntegrator(DEVSComponent):
+class DEVSIntegrator(DEVSAtomicComponent):
     def __init__(self, xmile_stock):
         self.stock = xmile_stock
         self.name = xmile_stock.getName()
@@ -47,6 +47,8 @@ class DEVSIntegrator(DEVSComponent):
         return self.integrator_type
     def getIntegratorParameters(self):
         return self.integrator_parameters
+    def getDEVSInputPorts(self):
+        return self.input_ports
     def getDEVSOutputPorts(self):
         return self.output_ports
     

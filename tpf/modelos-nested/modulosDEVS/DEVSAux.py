@@ -2,7 +2,7 @@
 from modulosDEVS.DEVSComponent import *
 from modulosDEVS.DEVSPort import *
 
-class DEVSAux(DEVSComponent):
+class DEVSAux(DEVSAtomicComponent):
     def __init__(self, xmile_aux, xmile_model, xmile_dependencies):
         self.xmile_model = xmile_model
         self.xmile_aux = xmile_aux

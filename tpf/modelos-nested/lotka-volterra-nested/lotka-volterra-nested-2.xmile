@@ -18,9 +18,9 @@
 	<model>
 		<variables>
 			<module name="PreyModel">
+				<connect to="PreyModel.Predator" from="PredatorModel.Predator"/>
 				<connect to="PreyModel.paramA" from=".paramA"/>
 				<connect to="PreyModel.paramB" from=".paramB"/>
-				<connect to="PreyModel.Predator" from="PredatorModel.Predator"/>
 				<connect to="PreyModel.PreySubModelStock" from="PreySubModel.PreySubModelStock"/>
 				<connect to="PreySubModel.PreySubSubModelStock" from="PreySubSubModel.PreySubSubModelStock"/>
 				<connect to="PreyModel.PreySubSubModelStock" from="PreySubSubModel.PreySubSubModelStock"/>

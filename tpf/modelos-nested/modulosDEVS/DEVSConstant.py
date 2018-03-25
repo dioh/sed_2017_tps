@@ -2,7 +2,7 @@
 from modulosDEVS.DEVSComponent import *
 from modulosDEVS.DEVSPort import *
 
-class DEVSConstant(DEVSComponent):
+class DEVSConstant(DEVSAtomicComponent):
     def __init__(self, xmile_aux, xmile_model):
         self.xmile_model = xmile_model
         self.xmile_constant = xmile_aux

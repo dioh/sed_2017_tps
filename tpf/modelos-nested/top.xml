@@ -1,10 +1,10 @@
 <coupledRef model="Coupled" name="DEVS_COUPLED_top">
     <inputs>
-        <input component="DEVS_COUPLED_top" is_for_constant="True" name="paramA" type="in" />
-        <input component="DEVS_COUPLED_top" is_for_constant="True" name="paramC" type="in" />
-        <input component="DEVS_COUPLED_top" is_for_constant="True" name="paramB" type="in" />
-        <input component="DEVS_COUPLED_top" is_for_constant="False" name="cteVariable" type="in" />
-        <input component="DEVS_COUPLED_top" is_for_constant="True" name="paramD" type="in" />
+        <input component="DEVS_COUPLED_top" name="paramA" type="in" />
+        <input component="DEVS_COUPLED_top" name="paramC" type="in" />
+        <input component="DEVS_COUPLED_top" name="paramB" type="in" />
+        <input component="DEVS_COUPLED_top" name="cteVariable" type="in" />
+        <input component="DEVS_COUPLED_top" name="paramD" type="in" />
     </inputs>
     <outputs>
         <output component="DEVS_COUPLED_top" name="auxVariable" type="out" />
@@ -16,49 +16,77 @@
         <output component="DEVS_COUPLED_top" name="PreySubSubModelStock" type="out" />
     </outputs>
     <components>
-        <atomicRef equation="0.3" name="paramC" type="DEVSConstant" />
-        <atomicRef equation="0.01" name="paramD" type="DEVSConstant" />
-        <atomicRef equation="0.02" name="paramB" type="DEVSConstant" />
-        <atomicRef equation="0.1" name="paramA" type="DEVSConstant" />
-        <atomicRef equation="paramA + paramB" name="paramE" type="DEVSAux" />
+        <atomicRef equation="0.3" name="paramC" type="DEVSConstant">
+            <input name="paramC" />
+            <output name="paramC" />
+        </atomicRef>
+        <atomicRef equation="0.01" name="paramD" type="DEVSConstant">
+            <input name="paramD" />
+            <output name="paramD" />
+        </atomicRef>
+        <atomicRef equation="0.02" name="paramB" type="DEVSConstant">
+            <input name="paramB" />
+            <output name="paramB" />
+        </atomicRef>
+        <atomicRef equation="0.1" name="paramA" type="DEVSConstant">
+            <input name="paramA" />
+            <output name="paramA" />
+        </atomicRef>
+        <atomicRef equation="paramA + paramB" name="paramE" type="DEVSAux">
+            <output name="paramE" />
+        </atomicRef>
         <coupledRef model="Coupled" name="DEVS_COUPLED_PredatorModel">
             <inputs>
-                <input component="DEVS_COUPLED_PredatorModel" is_for_constant="True" name="paramD" type="in" />
-                <input component="DEVS_COUPLED_PredatorModel" is_for_constant="True" name="cteVariable" type="in" />
-                <input component="DEVS_COUPLED_PredatorModel" is_for_constant="True" name="paramC" type="in" />
-                <input component="DEVS_COUPLED_PredatorModel" is_for_constant="False" name="Prey" type="in" />
-                <input component="DEVS_COUPLED_PredatorModel" is_for_constant="False" name="hunter" type="in" />
+                <input component="DEVS_COUPLED_PredatorModel" name="paramD" type="in" />
+                <input component="DEVS_COUPLED_PredatorModel" name="cteVariable" type="in" />
+                <input component="DEVS_COUPLED_PredatorModel" name="paramC" type="in" />
             </inputs>
             <outputs>
                 <output component="DEVS_COUPLED_PredatorModel" name="Predator" type="out" />
                 <output component="DEVS_COUPLED_PredatorModel" name="auxVariable" type="out" />
             </outputs>
             <components>
-                <atomicRef equation="0.01" name="paramD" type="DEVSConstant" />
-                <atomicRef equation="0.3" name="paramC" type="DEVSConstant" />
-                <atomicRef equation="0" name="cteVariable" type="DEVSConstant" />
-                <atomicRef equation="cteVariable" name="auxVariable" type="DEVSAux" />
+                <atomicRef equation="0.01" name="paramD" type="DEVSConstant">
+                    <input name="paramD" />
+                    <output name="paramD" />
+                </atomicRef>
+                <atomicRef equation="0.3" name="paramC" type="DEVSConstant">
+                    <input name="paramC" />
+                    <output name="paramC" />
+                </atomicRef>
+                <atomicRef equation="0" name="cteVariable" type="DEVSConstant">
+                    <input name="cteVariable" />
+                    <output name="cteVariable" />
+                </atomicRef>
+                <atomicRef equation="cteVariable" name="auxVariable" type="DEVSAux">
+                    <output name="auxVariable" />
+                </atomicRef>
                 <coupledRef model="Coupled" name="DEVS_BASIC_COUPLED_Predator">
-                    <inputs>
-                        <input component="DEVS_COUPLED_PredatorModel" is_for_constant="False" name="hunter" type="in" />
-                        <input component="DEVS_COUPLED_PredatorModel" is_for_constant="False" name="paramD" type="in" />
-                        <input component="DEVS_COUPLED_PredatorModel" is_for_constant="False" name="cteVariable" type="in" />
-                        <input component="DEVS_COUPLED_PredatorModel" is_for_constant="False" name="Prey" type="in" />
-                        <input component="DEVS_COUPLED_PredatorModel" is_for_constant="False" name="paramC" type="in" />
-                    </inputs>
+                    <inputs />
                     <outputs>
                         <output component="DEVS_COUPLED_PredatorModel" name="Predator" type="out" />
                     </outputs>
                     <components>
-                        <atomicRef equation="5" name="Predator" type="DEVSIntegrator" />
-                        <atomicRef equation="5" name="TotPredator" type="DEVSFtot" />
-                        <atomicRef equation="paramD * Predator * Prey + cteVariable" name="PlusPredator_Predator" type="Fplus" />
-                        <atomicRef equation="Predator * paramC + 0 * hunter" name="MinusPredator_Predator" type="Fminus" />
+                        <atomicRef equation="5" name="Predator" type="DEVSIntegrator">
+                            <input name="Predator" />
+                            <output name="Predator" />
+                        </atomicRef>
+                        <atomicRef equation="5" name="TotPredator" type="DEVSFtot">
+                            <input name="minus" />
+                            <input name="plus" />
+                            <output name="TotPredator" />
+                        </atomicRef>
+                        <atomicRef equation="paramD * Predator * Prey + cteVariable" name="PlusPredator_Predator" type="Fplus">
+                            <output name="PlusPredator_Predator" />
+                        </atomicRef>
+                        <atomicRef equation="Predator * paramC + 0 * hunter" name="MinusPredator_Predator" type="Fminus">
+                            <output name="MinusPredator_Predator" />
+                        </atomicRef>
                     </components>
                     <internal_connections>
                         <connection component_from="TotPredator" component_to="Predator" port_from="TotPredator" port_to="Predator" />
-                        <connection component_from="MinusPredator_Predator" component_to="TotPredator" port_from="MinusPredator_Predator" port_to="minus" />
                         <connection component_from="PlusPredator_Predator" component_to="TotPredator" port_from="PlusPredator_Predator" port_to="plus" />
+                        <connection component_from="MinusPredator_Predator" component_to="TotPredator" port_from="MinusPredator_Predator" port_to="minus" />
                     </internal_connections>
                     <external_input_connections />
                     <external_output_connections>
@@ -70,16 +98,11 @@
                 <connection component_from="paramD" component_to="paramD" port_from="paramD" port_to="paramD" />
                 <connection component_from="paramC" component_to="paramC" port_from="paramC" port_to="paramC" />
                 <connection component_from="cteVariable" component_to="cteVariable" port_from="cteVariable" port_to="cteVariable" />
-                <connection component_from="paramC" component_to="DEVS_BASIC_COUPLED_Predator" port_from="paramC" port_to="paramC" />
-                <connection component_from="paramD" component_to="DEVS_BASIC_COUPLED_Predator" port_from="paramD" port_to="paramD" />
-                <connection component_from="cteVariable" component_to="DEVS_BASIC_COUPLED_Predator" port_from="cteVariable" port_to="cteVariable" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="paramD" port_from="paramD" port_to="paramD" />
                 <connection component_to="cteVariable" port_from="cteVariable" port_to="cteVariable" />
                 <connection component_to="paramC" port_from="paramC" port_to="paramC" />
-                <connection component_to="DEVS_BASIC_COUPLED_Predator" port_from="Prey" port_to="Prey" />
-                <connection component_to="DEVS_BASIC_COUPLED_Predator" port_from="hunter" port_to="hunter" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="auxVariable" port_from="auxVariable" port_to="auxVariable" />
@@ -88,9 +111,9 @@
         </coupledRef>
         <coupledRef model="Coupled" name="DEVS_COUPLED_PreyModel">
             <inputs>
-                <input component="DEVS_COUPLED_PreyModel" is_for_constant="True" name="paramA" type="in" />
-                <input component="DEVS_COUPLED_PreyModel" is_for_constant="True" name="paramB" type="in" />
-                <input component="DEVS_COUPLED_PreyModel" is_for_constant="False" name="Predator" type="in" />
+                <input component="DEVS_COUPLED_PreyModel" name="paramA" type="in" />
+                <input component="DEVS_COUPLED_PreyModel" name="PULSE" type="in" />
+                <input component="DEVS_COUPLED_PreyModel" name="paramB" type="in" />
             </inputs>
             <outputs>
                 <output component="DEVS_COUPLED_PreyModel" name="Prey" type="out" />
@@ -98,11 +121,17 @@
                 <output component="DEVS_COUPLED_PreyModel" name="PreySubModelStock" type="out" />
             </outputs>
             <components>
-                <atomicRef equation="0.02" name="paramB" type="DEVSConstant" />
-                <atomicRef equation="0.1" name="paramA" type="DEVSConstant" />
+                <atomicRef equation="0.02" name="paramB" type="DEVSConstant">
+                    <input name="paramB" />
+                    <output name="paramB" />
+                </atomicRef>
+                <atomicRef equation="0.1" name="paramA" type="DEVSConstant">
+                    <input name="paramA" />
+                    <output name="paramA" />
+                </atomicRef>
                 <coupledRef model="Coupled" name="DEVS_COUPLED_PreySubModel">
                     <inputs>
-                        <input component="DEVS_COUPLED_PreySubModel" is_for_constant="False" name="Prey" type="in" />
+                        <input component="DEVS_COUPLED_PreySubModel" name="PULSE" type="in" />
                     </inputs>
                     <outputs>
                         <output component="DEVS_COUPLED_PreySubModel" name="PreySubSubModelStock" type="out" />
@@ -110,20 +139,34 @@
                     </outputs>
                     <components>
                         <coupledRef model="Coupled" name="DEVS_COUPLED_PreySubSubModel">
-                            <inputs />
+                            <inputs>
+                                <input component="DEVS_COUPLED_PreySubSubModel" name="PULSE" type="in" />
+                            </inputs>
                             <outputs>
                                 <output component="DEVS_COUPLED_PreySubSubModel" name="PreySubSubModelStock" type="out" />
                             </outputs>
                             <components>
                                 <coupledRef model="Coupled" name="DEVS_BASIC_COUPLED_PreySubSubModelStock">
-                                    <inputs />
+                                    <inputs>
+                                        <input component="DEVS_COUPLED_PreySubSubModel" name="PULSE" type="in" />
+                                    </inputs>
                                     <outputs>
                                         <output component="DEVS_COUPLED_PreySubSubModel" name="PreySubSubModelStock" type="out" />
                                     </outputs>
                                     <components>
-                                        <atomicRef equation="1000" name="PreySubSubModelStock" type="DEVSIntegrator" />
-                                        <atomicRef equation="1000" name="TotPreySubSubModelStock" type="DEVSFtot" />
-                                        <atomicRef equation="0.05 * PreySubSubModelStock" name="Flow1_PreySubSubModelStock" type="Fminus" />
+                                        <atomicRef equation="1000" name="PreySubSubModelStock" type="DEVSIntegrator">
+                                            <input name="PreySubSubModelStock" />
+                                            <output name="PreySubSubModelStock" />
+                                        </atomicRef>
+                                        <atomicRef equation="1000" name="TotPreySubSubModelStock" type="DEVSFtot">
+                                            <input name="minus" />
+                                            <input name="plus" />
+                                            <output name="TotPreySubSubModelStock" />
+                                        </atomicRef>
+                                        <atomicRef equation="0.05 * PreySubSubModelStock * PULSE_V_10_FP_0_I_50" name="Flow1_PreySubSubModelStock" type="Fminus">
+                                            <input name="PULSE" />
+                                            <output name="Flow1_PreySubSubModelStock" />
+                                        </atomicRef>
                                     </components>
                                     <internal_connections>
                                         <connection component_from="Flow1_PreySubSubModelStock" component_to="TotPreySubSubModelStock" port_from="Flow1_PreySubSubModelStock" port_to="minus" />
@@ -136,27 +179,35 @@
                                 </coupledRef>
                             </components>
                             <internal_connections />
-                            <external_input_connections />
+                            <external_input_connections>
+                                <connection component_to="DEVS_BASIC_COUPLED_PreySubSubModelStock" port_from="PULSE" port_to="PULSE" />
+                            </external_input_connections>
                             <external_output_connections>
                                 <connection component_from="DEVS_BASIC_COUPLED_PreySubSubModelStock" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
                             </external_output_connections>
                         </coupledRef>
                         <coupledRef model="Coupled" name="DEVS_BASIC_COUPLED_PreySubModelStock">
-                            <inputs>
-                                <input component="DEVS_COUPLED_PreySubModel" is_for_constant="False" name="PreySubSubModelStock" type="in" />
-                                <input component="DEVS_COUPLED_PreySubModel" is_for_constant="False" name="Prey" type="in" />
-                            </inputs>
+                            <inputs />
                             <outputs>
                                 <output component="DEVS_COUPLED_PreySubModel" name="PreySubModelStock" type="out" />
                             </outputs>
                             <components>
-                                <atomicRef equation="0" name="PreySubModelStock" type="DEVSIntegrator" />
-                                <atomicRef equation="0" name="TotPreySubModelStock" type="DEVSFtot" />
-                                <atomicRef equation="0 * PreySubModelStock + 0 *  Prey + 0 * PreySubSubModelStock" name="preySubFlow_PreySubModelStock" type="Fminus" />
+                                <atomicRef equation="0" name="PreySubModelStock" type="DEVSIntegrator">
+                                    <input name="PreySubModelStock" />
+                                    <output name="PreySubModelStock" />
+                                </atomicRef>
+                                <atomicRef equation="0" name="TotPreySubModelStock" type="DEVSFtot">
+                                    <input name="minus" />
+                                    <input name="plus" />
+                                    <output name="TotPreySubModelStock" />
+                                </atomicRef>
+                                <atomicRef equation="0 * PreySubModelStock + 0 *  Prey + 0 * PreySubSubModelStock" name="preySubFlow_PreySubModelStock" type="Fminus">
+                                    <output name="preySubFlow_PreySubModelStock" />
+                                </atomicRef>
                             </components>
                             <internal_connections>
-                                <connection component_from="TotPreySubModelStock" component_to="PreySubModelStock" port_from="TotPreySubModelStock" port_to="PreySubModelStock" />
                                 <connection component_from="preySubFlow_PreySubModelStock" component_to="TotPreySubModelStock" port_from="preySubFlow_PreySubModelStock" port_to="minus" />
+                                <connection component_from="TotPreySubModelStock" component_to="PreySubModelStock" port_from="TotPreySubModelStock" port_to="PreySubModelStock" />
                             </internal_connections>
                             <external_input_connections />
                             <external_output_connections>
@@ -164,11 +215,9 @@
                             </external_output_connections>
                         </coupledRef>
                     </components>
-                    <internal_connections>
-                        <connection component_from="DEVS_COUPLED_PreySubSubModel" component_to="DEVS_BASIC_COUPLED_PreySubModelStock" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
-                    </internal_connections>
+                    <internal_connections />
                     <external_input_connections>
-                        <connection component_to="DEVS_BASIC_COUPLED_PreySubModelStock" port_from="Prey" port_to="Prey" />
+                        <connection component_to="DEVS_COUPLED_PreySubSubModel" port_from="PULSE" port_to="PULSE" />
                     </external_input_connections>
                     <external_output_connections>
                         <connection component_from="DEVS_COUPLED_PreySubSubModel" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
@@ -176,21 +225,26 @@
                     </external_output_connections>
                 </coupledRef>
                 <coupledRef model="Coupled" name="DEVS_BASIC_COUPLED_Prey">
-                    <inputs>
-                        <input component="DEVS_COUPLED_PreyModel" is_for_constant="False" name="paramA" type="in" />
-                        <input component="DEVS_COUPLED_PreyModel" is_for_constant="False" name="paramB" type="in" />
-                        <input component="DEVS_COUPLED_PreyModel" is_for_constant="False" name="Predator" type="in" />
-                        <input component="DEVS_COUPLED_PreyModel" is_for_constant="False" name="PreySubModelStock" type="in" />
-                        <input component="DEVS_COUPLED_PreyModel" is_for_constant="False" name="PreySubSubModelStock" type="in" />
-                    </inputs>
+                    <inputs />
                     <outputs>
                         <output component="DEVS_COUPLED_PreyModel" name="Prey" type="out" />
                     </outputs>
                     <components>
-                        <atomicRef equation="100" name="Prey" type="DEVSIntegrator" />
-                        <atomicRef equation="100" name="TotPrey" type="DEVSFtot" />
-                        <atomicRef equation="paramA * Prey + PreySubModelStock" name="PlusPrey_Prey" type="Fplus" />
-                        <atomicRef equation="Prey * paramB * Predator + 0 * PreySubSubModelStock" name="MinusPrey_Prey" type="Fminus" />
+                        <atomicRef equation="100" name="Prey" type="DEVSIntegrator">
+                            <input name="Prey" />
+                            <output name="Prey" />
+                        </atomicRef>
+                        <atomicRef equation="100" name="TotPrey" type="DEVSFtot">
+                            <input name="minus" />
+                            <input name="plus" />
+                            <output name="TotPrey" />
+                        </atomicRef>
+                        <atomicRef equation="paramA * Prey + PreySubModelStock" name="PlusPrey_Prey" type="Fplus">
+                            <output name="PlusPrey_Prey" />
+                        </atomicRef>
+                        <atomicRef equation="Prey * paramB * Predator + 0 * PreySubSubModelStock" name="MinusPrey_Prey" type="Fminus">
+                            <output name="MinusPrey_Prey" />
+                        </atomicRef>
                     </components>
                     <internal_connections>
                         <connection component_from="TotPrey" component_to="Prey" port_from="TotPrey" port_to="Prey" />
@@ -206,16 +260,11 @@
             <internal_connections>
                 <connection component_from="paramB" component_to="paramB" port_from="paramB" port_to="paramB" />
                 <connection component_from="paramA" component_to="paramA" port_from="paramA" port_to="paramA" />
-                <connection component_from="paramB" component_to="DEVS_BASIC_COUPLED_Prey" port_from="paramB" port_to="paramB" />
-                <connection component_from="paramA" component_to="DEVS_BASIC_COUPLED_Prey" port_from="paramA" port_to="paramA" />
-                <connection component_from="DEVS_BASIC_COUPLED_Prey" component_to="DEVS_COUPLED_PreySubModel" port_from="Prey" port_to="Prey" />
-                <connection component_from="DEVS_COUPLED_PreySubModel" component_to="DEVS_BASIC_COUPLED_Prey" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
-                <connection component_from="DEVS_COUPLED_PreySubModel" component_to="DEVS_BASIC_COUPLED_Prey" port_from="PreySubModelStock" port_to="PreySubModelStock" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="paramA" port_from="paramA" port_to="paramA" />
                 <connection component_to="paramB" port_from="paramB" port_to="paramB" />
-                <connection component_to="DEVS_BASIC_COUPLED_Prey" port_from="Predator" port_to="Predator" />
+                <connection component_to="DEVS_COUPLED_PreySubModel" port_from="PULSE" port_to="PULSE" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="DEVS_COUPLED_PreySubModel" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
@@ -229,10 +278,21 @@
                 <output component="DEVS_COUPLED_top" name="hunter" type="out" />
             </outputs>
             <components>
-                <atomicRef equation="5" name="hunter" type="DEVSIntegrator" />
-                <atomicRef equation="5" name="Tothunter" type="DEVSFtot" />
-                <atomicRef equation="0 * hunter" name="populationGrowth_hunter" type="Fplus" />
-                <atomicRef equation="0.05 * hunter" name="populationDeath_hunter" type="Fminus" />
+                <atomicRef equation="5" name="hunter" type="DEVSIntegrator">
+                    <input name="hunter" />
+                    <output name="hunter" />
+                </atomicRef>
+                <atomicRef equation="5" name="Tothunter" type="DEVSFtot">
+                    <input name="minus" />
+                    <input name="plus" />
+                    <output name="Tothunter" />
+                </atomicRef>
+                <atomicRef equation="0 * hunter" name="populationGrowth_hunter" type="Fplus">
+                    <output name="populationGrowth_hunter" />
+                </atomicRef>
+                <atomicRef equation="0.05 * hunter" name="populationDeath_hunter" type="Fminus">
+                    <output name="populationDeath_hunter" />
+                </atomicRef>
             </components>
             <internal_connections>
                 <connection component_from="Tothunter" component_to="hunter" port_from="Tothunter" port_to="hunter" />
@@ -250,13 +310,10 @@
         <connection component_from="paramD" component_to="paramD" port_from="paramD" port_to="paramD" />
         <connection component_from="paramA" component_to="paramA" port_from="paramA" port_to="paramA" />
         <connection component_from="paramB" component_to="paramB" port_from="paramB" port_to="paramB" />
-        <connection component_from="paramA" component_to="DEVS_COUPLED_PreyModel" port_from="paramA" port_to="paramA" />
-        <connection component_from="paramB" component_to="DEVS_COUPLED_PreyModel" port_from="paramB" port_to="paramB" />
         <connection component_from="paramD" component_to="DEVS_COUPLED_PredatorModel" port_from="paramD" port_to="paramD" />
         <connection component_from="paramC" component_to="DEVS_COUPLED_PredatorModel" port_from="paramC" port_to="paramC" />
-        <connection component_from="DEVS_COUPLED_PreyModel" component_to="DEVS_COUPLED_PredatorModel" port_from="Prey" port_to="Prey" />
-        <connection component_from="DEVS_BASIC_COUPLED_hunter" component_to="DEVS_COUPLED_PredatorModel" port_from="hunter" port_to="hunter" />
-        <connection component_from="DEVS_COUPLED_PredatorModel" component_to="DEVS_COUPLED_PreyModel" port_from="Predator" port_to="Predator" />
+        <connection component_from="paramA" component_to="DEVS_COUPLED_PreyModel" port_from="paramA" port_to="paramA" />
+        <connection component_from="paramB" component_to="DEVS_COUPLED_PreyModel" port_from="paramB" port_to="paramB" />
     </internal_connections>
     <external_input_connections>
         <connection component_to="paramA" port_from="paramA" port_to="paramA" />
