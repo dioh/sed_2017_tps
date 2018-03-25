@@ -1,13 +1,17 @@
 
-class DEVSConstant(object):
-    def __init__(self, xmile_aux):
+from modulosDEVS.DEVSComponent import *
+from modulosDEVS.DEVSPort import *
+
+class DEVSConstant(DEVSComponent):
+    def __init__(self, xmile_aux, xmile_model):
+        self.xmile_model = xmile_model
         self.xmile_constant = xmile_aux
         self.access = self.xmile_constant.getAccess()
         self.name = self.xmile_constant.getName()
         self.equation = self.xmile_constant.getEquation()
         self.parent = self.xmile_constant.getParent()
-        self.input  = self.name
-        self.output = 'out' 
+        self.input_ports  = [DEVSPort(self.name, self, 'in')]
+        self.output_ports = [DEVSPort(self.getName(), self, 'out')]
         self.type = 'DEVSConstant'
     
     def __repr__(self):
@@ -35,7 +39,9 @@ class DEVSConstant(object):
         return self.equation
     def getParent(self):
         return self.parent
-    def getInputs(self):
-        return self.inputs
+    def getDEVSInputPorts(self):
+        return self.input_ports
+    def getDEVSOutputPorts(self):
+        return self.output_ports
     def getType(self):
         return self.type

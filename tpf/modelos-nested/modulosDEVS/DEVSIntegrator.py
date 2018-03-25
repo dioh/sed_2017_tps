@@ -1,5 +1,8 @@
 
-class DEVSIntegrator(object):
+from modulosDEVS.DEVSPort import *
+from modulosDEVS.DEVSComponent import *
+
+class DEVSIntegrator(DEVSComponent):
     def __init__(self, xmile_stock):
         self.stock = xmile_stock
         self.name = xmile_stock.getName()
@@ -12,6 +15,8 @@ class DEVSIntegrator(object):
             'dQMin' : '0.001'
         }
         self.type = 'DEVSIntegrator'
+        self.input_ports  = [DEVSPort(self.name, self, 'in')]
+        self.output_ports = [DEVSPort(self.name, self, 'out')]
         
     def __repr__(self):
         return str({
@@ -42,3 +47,6 @@ class DEVSIntegrator(object):
         return self.integrator_type
     def getIntegratorParameters(self):
         return self.integrator_parameters
+    def getDEVSOutputPorts(self):
+        return self.output_ports
+    
