@@ -31,18 +31,23 @@ def config_logging():
             '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
 
 def get_value_set(value):
     value_as_float = float(value)
+    logger.debug('value_as_float: %f', value_as_float)
     if value_as_float < -1.0 and value_as_float >= -3:
+        logger.debug('value_as_float < -1.0 and value_as_float >= -3 => True')
         return 'A'
     elif value_as_float > 1.0 and value_as_float <= 3:
+        logger.debug('value_as_float > 1.0 and value_as_float <= 3 => True')
         return 'B'
     elif value_as_float >= -1.0 and value_as_float <= 1.0:
+        logger.debug('value_as_float >= -1.0 and value_as_float <= 1.0 => True')
         return 'I'
     else:
+        logger.debug('Not valid value set.')
         return None
 
 
@@ -63,7 +68,10 @@ def get_actual_set(sets, id_value):
 
 
 def update(actual_value, row):
+    logger.debug('actual_value: %s', actual_value)
+    logger.debug('row: %s', row)
     row_set = get_value_set(row['value'])
+    logger.debug('row_set: %s', row_set)
     if row_set is not None:
         actual_set = get_actual_set(actual_value, row['id'])
         if actual_set is not None:
@@ -74,7 +82,8 @@ def update(actual_value, row):
             actual_value[row_set].add(row['id'])
 
         return actual_value
-
+    else:
+        return actual_value
 
 def get_var(time_dict, varname):
     rv = []
@@ -97,9 +106,18 @@ def process_file(filename):
                 continue
             sec = float(row['sec'])
             if sec in time_set_q:
+                # logger.debug('sec = %s', sec)
+                # logger.debug('time_set_q = %s', time_set_q[sec])
+                # logger.debug('row = %s', row)
                 time_set_q[sec] = update(time_set_q[sec], row)
             else:
-                time_set_q[sec] = update(copy.deepcopy(time_set_q[actual_sec]),
+                # logger.debug('actual_sec = %s', actual_sec)
+                # logger.debug('time_set_q = %s', time_set_q[actual_sec])
+                # logger.debug('row = %s', row)
+                new_time_set_q_sec = copy.deepcopy(time_set_q[actual_sec])
+                # logger.debug('new_time_set_q_sec = %s', new_time_set_q_sec)
+                
+                time_set_q[sec] = update(new_time_set_q_sec,
                                          row)
                 actual_sec = sec
     return time_set_q
