@@ -33,6 +33,12 @@ class TestXmileConverterTeacup(unittest.TestCase):
         model = CdppModel.from_devsml_xml(self.devs_ml_model)
         self.assertSetEqual(expected_ports, model.out_ports)
 
+    def test_model_internal_connections(self):
+        expected_conns = set([CdppConnection(CdppPort("paramC", "paramC"),
+                                             CdppPort("paramC", "paramC"))])
+        model = CdppModel.from_devsml_xml(self.devs_ml_model)
+        self.assertSetEqual(expected_conns, model.internal_connections)
+
 
 if __name__ == '__main__':
     unittest.main()

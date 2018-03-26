@@ -1,10 +1,12 @@
 class CdppModel(object):
 
     def __init__(self, **kwargs):
-        allowed_keys = ['name', 'in_ports', 'out_ports']
+        allowed_keys = ['name', 'in_ports', 'out_ports',
+                        'internal_connections']
         self.name = ''
         self.in_ports = set()
         self.out_ports = set()
+        self.internal_connections = set()
         # and update the given keys by their given values
         self.__dict__.update((key, value) for key, value
                              in kwargs.items() if key in allowed_keys)
@@ -16,6 +18,7 @@ class CdppModel(object):
         d['name'] = root.attrib['name']
         d['in_ports'] = cls.extract_in_ports(root, d['name'])
         d['out_ports'] = cls.extract_out_ports(root, d['name'])
+        d['internal_connections'] = cls.extract_internal_connections(root)
         return cls(**d)
 
     @classmethod
@@ -37,3 +40,59 @@ class CdppModel(object):
                 rv.add(out_port.attrib['name'])
 
         return rv
+
+    @classmethod
+    def extract_internal_connections(cls, devsml_xml_root):
+        rv = set()
+        internal_connections_path = './internal_connections/connection'
+        internal_connections = devsml_xml_root.findall(
+            internal_connections_path)
+        for internal_connection in internal_connections:
+            attribs = internal_connection.attrib
+            connection = CdppConnection(CdppPort(attribs['port_from'],
+                                                 attribs['component_from']),
+                                        CdppPort(attribs['port_to'],
+                                                 attribs['component_to']))
+            rv.add(connection)
+
+        return rv
+
+
+class CdppPort(object):
+    def __init__(self, port, component):
+        self.port = port
+        self.component = component
+
+    def __repr__(self):
+        return str({
+            'port': self.port,
+            'component': self.component
+            })
+
+    def __eq__(self, other):
+        return self.port == other.port and \
+                self.component == other.component
+
+    def __hash__(self):
+        return (hash(self.port) ^ hash(self.component))
+
+
+class CdppConnection(object):
+
+    def __init__(self, port_from, port_to):
+        self.port_from = port_from
+        self.port_to = port_to
+
+    def __repr__(self):
+        return str({
+            'port_from': self.port_from.__repr__(),
+            'port_to': self.port_to.__repr__()
+            })
+
+    def __eq__(self, other):
+        return self.port_from == other.port_to and \
+                self.port_from == other.port_to
+
+    def __hash__(self):
+        return (hash(self.port_from) ^ hash(self.port_from))
+
