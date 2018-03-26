@@ -2,11 +2,15 @@ class CdppModel(object):
 
     def __init__(self, **kwargs):
         allowed_keys = ['name', 'in_ports', 'out_ports',
-                        'internal_connections']
+                        'internal_connections',
+                        'external_input_connections',
+                        'external_output_connections']
         self.name = ''
         self.in_ports = set()
         self.out_ports = set()
         self.internal_connections = set()
+        self.external_input_connections = set()
+        self.external_output_connections = set()
         # and update the given keys by their given values
         self.__dict__.update((key, value) for key, value
                              in kwargs.items() if key in allowed_keys)
@@ -14,11 +18,16 @@ class CdppModel(object):
     @classmethod
     def from_devsml_xml(cls, devsml_xml):
         root = devsml_xml.getroot()
-        d = dict()
-        d['name'] = root.attrib['name']
-        d['in_ports'] = cls.extract_in_ports(root, d['name'])
-        d['out_ports'] = cls.extract_out_ports(root, d['name'])
-        d['internal_connections'] = cls.extract_internal_connections(root)
+        model_name = root.attrib['name']
+        d = {'name': root.attrib['name'],
+             'in_ports': cls.extract_in_ports(root, model_name),
+             'out_ports': cls.extract_out_ports(root, model_name),
+             'internal_connections': cls.extract_internal_connections(root),
+             'external_input_connections':
+             cls.extract_external_input_connections(root, model_name),
+             'external_output_connections':
+             cls.extract_external_output_connections(root, model_name)}
+
         return cls(**d)
 
     @classmethod
@@ -57,6 +66,38 @@ class CdppModel(object):
 
         return rv
 
+    @classmethod
+    def extract_external_input_connections(cls, devsml_xml_root, model_name):
+        rv = set()
+        internal_connections_path = './external_input_connections/connection'
+        internal_connections = devsml_xml_root.findall(
+            internal_connections_path)
+        for internal_connection in internal_connections:
+            attribs = internal_connection.attrib
+            connection = CdppConnection(CdppPort(attribs['port_from'],
+                                                 model_name),
+                                        CdppPort(attribs['port_to'],
+                                                 attribs['component_to']))
+            rv.add(connection)
+
+        return rv
+
+    @classmethod
+    def extract_external_output_connections(cls, devsml_xml_root, model_name):
+        rv = set()
+        internal_connections_path = './external_output_connections/connection'
+        internal_connections = devsml_xml_root.findall(
+            internal_connections_path)
+        for internal_connection in internal_connections:
+            attribs = internal_connection.attrib
+            connection = CdppConnection(CdppPort(attribs['port_from'],
+                                                 attribs['component_from']),
+                                        CdppPort(attribs['port_to'],
+                                                 model_name))
+            rv.add(connection)
+        
+        return rv
+
 
 class CdppPort(object):
     def __init__(self, port, component):
@@ -71,7 +112,7 @@ class CdppPort(object):
 
     def __eq__(self, other):
         return self.port == other.port and \
-                self.component == other.component
+               self.component == other.component
 
     def __hash__(self):
         return (hash(self.port) ^ hash(self.component))
@@ -90,9 +131,9 @@ class CdppConnection(object):
             })
 
     def __eq__(self, other):
-        return self.port_from == other.port_to and \
-                self.port_from == other.port_to
+        return self.port_from == other.port_from and \
+               self.port_to == other.port_to
 
     def __hash__(self):
-        return (hash(self.port_from) ^ hash(self.port_from))
+        return (hash(self.port_from) ^ hash(self.port_to))
 
