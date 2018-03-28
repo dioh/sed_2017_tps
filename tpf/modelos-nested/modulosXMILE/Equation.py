@@ -5,23 +5,25 @@ from modulosDEVS.DEVSAtomic.DEVSRamp import *
 from modulosDEVS.DEVSAtomic.DEVSStep import *
 from modulosAuxiliares.SpecialFunctionFinder import *
 
+
 class Equation(object):
     def __init__(self, equation, debug=False):
         self.debug = debug
         self.equation = None
-        self.variables         = []
+        self.variables = []
         self.special_functions = []
-        # Reseteo el equationo para que en lugar de PULSE(a,b,c) tengo PULSE_a_b_c como variable
+        # Reseteo el equationo para que en lugar de PULSE(a,b,c) 
+        # tengo PULSE_a_b_c como variable
         self.setVariablesAndequationAndFunctions(equation)
 
     def __repr__(self):
         return str({
-            'equation' : self.equation
+            'equation': self.equation
         })
     
     def __str__(self):
         return str({
-            'equation' : self.equation
+            'equation': self.equation
         })
 
 
@@ -63,8 +65,10 @@ class Equation(object):
     # Getters
     def getEquation(self):
         return self.equation
+
     def getVariables(self):
         return self.variables
+    
     def getSpecialFunctions(self):
         return self.special_functions
     # TODO

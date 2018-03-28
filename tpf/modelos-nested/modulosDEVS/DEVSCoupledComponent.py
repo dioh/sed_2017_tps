@@ -9,6 +9,7 @@ from modulosDEVS.DEVSIntegrator import *
 from modulosDEVS.DEVSPort import *
 from modulosDEVS.DEVSBasicCoupledComponent import *
 
+
 class DEVSCoupledComponent(DEVSComponent):
     ################################################################################
     def __init__(self, xmile_model, root_models, name=None,
@@ -389,8 +390,8 @@ class DEVSCoupledComponent(DEVSComponent):
                 
                 #  (Fpm's)
                 devs_fpms = list(map(lambda x : DEVSFpm(x, [stock]), xmile_flows))
-                devs_fps  = filter(lambda x : x is not None, list(map(lambda x : x.getFPlus(), devs_fpms)))
-                devs_fms  = filter(lambda x : x is not None, list(map(lambda x : x.getFMinus(), devs_fpms)))
+                devs_fps  = list(filter(lambda x : x is not None, list(map(lambda x : x.getFPlus(), devs_fpms))))
+                devs_fms  = list(filter(lambda x : x is not None, list(map(lambda x : x.getFMinus(), devs_fpms))))
                 atomic_components = atomic_components + devs_fps + devs_fms
 
                 ####
