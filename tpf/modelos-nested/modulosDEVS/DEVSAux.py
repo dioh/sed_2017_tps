@@ -37,7 +37,13 @@ class DEVSAux(DEVSAtomicComponent):
     def setInputPorts(self, xmile_dependencies):
         # Para cada dependencia, buscar en el modelo xmile si es Cte / Aux / Stock
         input_ports = []
-        return input_ports
+        variables = self.equation.getVariables()
+        for var in variables:
+            input_ports.append(DEVSPort(var, self, 'in'))
+        # Agrego inputs correspondientes a funciones especiales
+        for special_func_obj in self.equation.getSpecialFunctions():
+            input_ports.append(DEVSPort(special_func_obj.getName(), self, 'in'))
+        return list(set(input_ports))
 
     def setOutputPorts(self):
         # '*' : el output de Aux podria ir a un DEVSCoupledComponent (si va a flows en xmile) o a un DEVSAux (si va a un aux en xmile), o a ambos

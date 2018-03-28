@@ -27,12 +27,12 @@
 			</module>
 			<module name="PredatorModel">
 				<connect to="PredatorModel.Prey" from="PreyModel.Prey"/>
-				<connect to="PredatorModel.paramC" from=".paramC"/>
+				<connect to="PredatorModel.specialParamC" from=".specialParamC"/>
 				<connect to="PredatorModel.paramD" from=".paramD"/>
 				<connect to="PredatorModel.hunter" from=".hunter"/>
 			</module>
-			<aux name="paramC" access="input">
-				<eqn>0.3</eqn>
+			<aux name="specialParamC" access="input">
+				<eqn>0.3 - 0 * PULSE(2, 2, 2)</eqn>
 			</aux>
 			<aux name="paramD" access="input">
 				<eqn>0.01</eqn>
@@ -50,7 +50,7 @@
 				<non_negative/>
 			</stock>
 			<flow name="populationGrowth">
-				<eqn>0 * hunter</eqn>
+				<eqn>0 * hunter + PULSE(paramPulse, 1, 1)</eqn>
 				<non_negative/>
 			</flow>
 			<flow name="populationDeath">
@@ -58,7 +58,10 @@
 				<non_negative/>
 			</flow>
 			<aux name="paramE">
-				<eqn>paramA + paramB</eqn>
+				<eqn>paramA + paramB + 0 * PULSE(1, 1, 1)</eqn>
+			</aux>
+			<aux name="paramPulse">
+				<eqn>0</eqn>
 			</aux>
 			<isee:dependencies>
 				<var name="PreyModel">
@@ -68,12 +71,13 @@
 				</var>
 				<var name="PredatorModel">
 					<in>PreyModel</in>
-					<in>paramC</in>
+					<in>specialParamC</in>
 					<in>paramD</in>
 					<in>hunter</in>
 				</var>
 				<var name="populationGrowth">
 					<in>hunter</in>
+					<in>paramPulse</in>
 				</var>
 				<var name="populationDeath">
 					<in>hunter</in>
@@ -159,11 +163,11 @@
 					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous"/>
 				</style>
 				<module x="263" y="161" name="PreyModel"/>
-				<module x="259" y="315" name="PredatorModel"/>
-				<aux x="347" y="397" name="paramC"/>
+				<module x="260" y="316" name="PredatorModel"/>
+				<aux x="347" y="397" name="specialParamC"/>
 				<aux x="197" y="397" name="paramD"/>
 				<aux x="312" y="102" name="paramB"/>
-				<aux x="212" y="97" name="paramA"/>
+				<aux x="215" y="97" name="paramA"/>
 				<connector uid="1" isee:thickness="2" angle="222.614">
 					<from>PreyModel</from>
 					<to>PredatorModel</to>
@@ -172,15 +176,15 @@
 					<from>PredatorModel</from>
 					<to>PreyModel</to>
 				</connector>
-				<connector uid="3" angle="138.366">
-					<from>paramC</from>
+				<connector uid="3" angle="137.045">
+					<from>specialParamC</from>
 					<to>PredatorModel</to>
 				</connector>
 				<connector uid="4" angle="72.0721">
 					<from>paramD</from>
 					<to>PredatorModel</to>
 				</connector>
-				<connector uid="5" angle="320.194">
+				<connector uid="5" angle="306.87">
 					<from>paramA</from>
 					<to>PreyModel</to>
 				</connector>
@@ -215,7 +219,7 @@
 					<from>hunter</from>
 					<to>populationDeath</to>
 				</connector>
-				<connector uid="9" angle="204.864">
+				<connector uid="9" angle="201.843">
 					<from>hunter</from>
 					<to>PredatorModel</to>
 				</connector>
@@ -231,13 +235,18 @@
 					<to>populationGrowth</to>
 				</connector>
 				<aux x="272" y="42" name="paramE"/>
-				<connector uid="12" angle="43.0908">
+				<connector uid="12" angle="43.977">
 					<from>paramA</from>
 					<to>paramE</to>
 				</connector>
 				<connector uid="13" angle="96.3402">
 					<from>paramB</from>
 					<to>paramE</to>
+				</connector>
+				<aux x="583" y="87" name="paramPulse"/>
+				<connector uid="14" angle="229.268">
+					<from>paramPulse</from>
+					<to>populationGrowth</to>
 				</connector>
 			</view>
 		</views>
@@ -253,13 +262,10 @@
 				<eqn>paramD * Predator * Prey + cteVariable</eqn>
 			</flow>
 			<flow name="MinusPredator">
-				<eqn>Predator * paramC + 0 * hunter</eqn>
+				<eqn>specialParamC * Predator + 0 * hunter</eqn>
 			</flow>
 			<aux name="paramD" access="input">
 				<eqn>0.01</eqn>
-			</aux>
-			<aux name="paramC" access="input">
-				<eqn>0.3</eqn>
 			</aux>
 			<stock name="Prey" access="input">
 				<eqn>100</eqn>
@@ -274,6 +280,9 @@
 			<aux name="auxVariable">
 				<eqn>cteVariable</eqn>
 			</aux>
+			<aux name="specialParamC" access="input">
+				<eqn>{Enter equation for use when not hooked up to other models}</eqn>
+			</aux>
 			<isee:dependencies>
 				<var name="PlusPredator">
 					<in>Predator</in>
@@ -283,8 +292,8 @@
 				</var>
 				<var name="MinusPredator">
 					<in>Predator</in>
-					<in>paramC</in>
 					<in>hunter</in>
+					<in>specialParamC</in>
 				</var>
 				<var name="auxVariable">
 					<in>cteVariable</in>
@@ -378,20 +387,15 @@
 						<pt x="687" y="168"/>
 					</pts>
 				</flow>
-				<connector uid="14" angle="331.557">
+				<connector uid="15" angle="331.557">
 					<from>Predator</from>
 					<to>MinusPredator</to>
 				</connector>
-				<connector uid="15" angle="152.949">
+				<connector uid="16" angle="152.949">
 					<from>Predator</from>
 					<to>PlusPredator</to>
 				</connector>
 				<aux font_style="italic" font_weight="bold" x="331" y="57" name="paramD"/>
-				<aux font_style="italic" font_weight="bold" x="602" y="61" name="paramC"/>
-				<connector uid="16" angle="295.115">
-					<from>paramC</from>
-					<to>MinusPredator</to>
-				</connector>
 				<connector uid="17" angle="265.914">
 					<from>paramD</from>
 					<to>PlusPredator</to>
@@ -415,6 +419,11 @@
 				<connector uid="21" angle="133.958">
 					<from>cteVariable</from>
 					<to>auxVariable</to>
+				</connector>
+				<aux font_style="italic" font_weight="bold" x="579" y="63" name="specialParamC"/>
+				<connector uid="22" angle="302.005">
+					<from>specialParamC</from>
+					<to>MinusPredator</to>
 				</connector>
 			</view>
 		</views>
@@ -443,6 +452,7 @@
 			</stock>
 			<module name="PreySubModel">
 				<connect to="PreySubModel.Prey" from="PreyModel.Prey"/>
+				<connect to="PreySubSubModel.Prey" from="PreyModel.Prey"/>
 				<connect to="PreySubModel.PreySubSubModelStock" from="PreySubSubModel.PreySubSubModelStock"/>
 			</module>
 			<stock name="PreySubModelStock" access="input">
@@ -557,41 +567,41 @@
 						<pt x="665" y="226"/>
 					</pts>
 				</flow>
-				<connector uid="22" angle="24.1791">
+				<connector uid="23" angle="24.1791">
 					<from>Prey</from>
 					<to>MinusPrey</to>
 				</connector>
-				<connector uid="23" angle="151.144">
+				<connector uid="24" angle="151.144">
 					<from>Prey</from>
 					<to>PlusPrey</to>
 				</connector>
 				<aux font_style="italic" font_weight="bold" x="550" y="109" name="paramB"/>
 				<aux font_style="italic" font_weight="bold" x="318" y="108" name="paramA"/>
-				<connector uid="24" angle="305.707">
+				<connector uid="25" angle="305.707">
 					<from>paramA</from>
 					<to>PlusPrey</to>
 				</connector>
-				<connector uid="25" angle="285.945">
+				<connector uid="26" angle="285.945">
 					<from>paramB</from>
 					<to>MinusPrey</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="559.75" y="373" name="Predator"/>
-				<connector uid="26" angle="74.7449">
+				<connector uid="27" angle="74.7449">
 					<from>Predator</from>
 					<to>MinusPrey</to>
 				</connector>
 				<module x="250" y="380.5" width="136" height="94" name="PreySubModel"/>
-				<connector uid="27" angle="263.109" isee:autocreated="true">
+				<connector uid="28" angle="263.109" isee:autocreated="true">
 					<from>Prey</from>
 					<to>PreySubModel</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="334.75" y="319" name="PreySubModelStock"/>
-				<connector uid="28" angle="90.9992">
+				<connector uid="29" angle="90.9992">
 					<from>PreySubModelStock</from>
 					<to>PlusPrey</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="710" y="373" name="PreySubSubModelStock"/>
-				<connector uid="29" angle="127.304">
+				<connector uid="30" angle="127.304">
 					<from>PreySubSubModelStock</from>
 					<to>MinusPrey</to>
 				</connector>
@@ -706,18 +716,18 @@
 						<pt x="483" y="218"/>
 					</pts>
 				</flow>
-				<connector uid="30" angle="26.5651">
+				<connector uid="31" angle="26.5651">
 					<from>PreySubModelStock</from>
 					<to>preySubFlow</to>
 				</connector>
 				<stock font_style="italic" font_weight="bold" x="396" y="328" name="Prey"/>
-				<connector uid="31" angle="79.4608">
+				<connector uid="32" angle="79.4608">
 					<from>Prey</from>
 					<to>preySubFlow</to>
 				</connector>
 				<module x="582.5" y="165.5" width="282" height="185" name="PreySubSubModel"/>
 				<stock x="504" y="328" name="PreySubSubModelStock"/>
-				<connector uid="32" angle="122.381">
+				<connector uid="33" angle="122.381">
 					<from>PreySubSubModelStock</from>
 					<to>preySubFlow</to>
 				</connector>
@@ -732,12 +742,26 @@
 				<non_negative/>
 			</stock>
 			<flow name="Flow1">
-				<eqn>0.05 * PreySubSubModelStock * PULSE(10, 10, 50)</eqn>
+				<eqn>0.05 * PreySubSubModelStock * PULSE(combiner, 10, 50)</eqn>
 				<non_negative/>
 			</flow>
+			<stock name="Prey" access="input">
+				<eqn>100</eqn>
+			</stock>
+			<aux name="combiner">
+				<eqn>ctePulse + Prey</eqn>
+			</aux>
+			<aux name="ctePulse">
+				<eqn>10000</eqn>
+			</aux>
 			<isee:dependencies>
 				<var name="Flow1">
 					<in>PreySubSubModelStock</in>
+					<in>combiner</in>
+				</var>
+				<var name="combiner">
+					<in>ctePulse</in>
+					<in>Prey</in>
 				</var>
 			</isee:dependencies>
 		</variables>
@@ -822,17 +846,32 @@
 						<pt x="650" y="266"/>
 					</pts>
 				</flow>
-				<connector uid="33" angle="29.0546">
+				<connector uid="34" angle="29.0546">
 					<from>PreySubSubModelStock</from>
 					<to>Flow1</to>
 				</connector>
-				<stacked_container uid="34" x="55" y="325" width="997" height="427">
+				<stacked_container uid="35" x="55" y="325" width="997" height="427">
 					<graph x="55" y="325" width="997" height="427" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
 						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
 							<entity name="PreySubSubModelStock"/>
 						</plot>
 					</graph>
 				</stacked_container>
+				<stock font_style="italic" font_weight="bold" x="572.25" y="109" name="Prey"/>
+				<aux x="531" y="190" name="combiner"/>
+				<aux x="409" y="100" name="ctePulse"/>
+				<connector uid="36" angle="339.624">
+					<from>ctePulse</from>
+					<to>combiner</to>
+				</connector>
+				<connector uid="37" angle="243.012">
+					<from>Prey</from>
+					<to>combiner</to>
+				</connector>
+				<connector uid="38" angle="295.278">
+					<from>combiner</from>
+					<to>Flow1</to>
+				</connector>
 			</view>
 		</views>
 	</model>

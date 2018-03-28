@@ -115,31 +115,39 @@ class DEVSCoupledComponent(DEVSComponent):
         # 1 atomico por cada Aux
         # Eventualmente, 1 atomico por cada funcion rara (PULSE, etc.)
         atomic_components = []
+        devs_auxs = []
+        devs_ctes = []
+        deps = xmile_model.getDependencies()
 
         # Ctes
+        # Nota : los Cte's que tienen SpecialFunctions adentro ( van a ser Aux's )
         xmile_ctes, xmile_auxs = self.setXMILEConstantsAndAuxiliaryComponents()
-        devs_ctes = list(map(lambda x : DEVSConstant(x, xmile_model), xmile_ctes))
-        atomic_components = atomic_components + devs_ctes
-
+        for xmile_cte in xmile_ctes:
+            if len(xmile_cte.getEquation().getSpecialFunctions()) == 0:
+                devs_ctes.append(DEVSConstant(xmile_cte, xmile_model))
+            else:
+                aux_dependencies = []
+                for dep in deps:
+                    if xmile_cte.getName() == dep.getName():
+                        aux_dependencies = aux_dependencies + dep.getInputs()
+                # Genero el Aux (por tener una SpecialFunction)
+                devs_auxs.append(DEVSAux(xmile_cte, xmile_model, []))
         # Auxs
-        devs_auxs = []
-        deps = xmile_model.getDependencies()
         for xmile_aux in xmile_auxs:
             aux_dependencies = []
             for dep in deps:
                 if xmile_aux.getName() == dep.getName():
                     aux_dependencies = aux_dependencies + dep.getInputs()
+            # Genero los Aux's, teniendo en cuenta las variables de las cuales este atomico depende (y que por ende tiene como input)
             devs_auxs.append(DEVSAux(xmile_aux, xmile_model, aux_dependencies))
-        atomic_components = atomic_components + devs_auxs
+        
+        atomic_components = atomic_components + devs_ctes + devs_auxs
+        # Special Functions
+        for atomic_component in atomic_components:
+            special_atomic_components = atomic_component.getEquation().getSpecialFunctions()
+            atomic_components         = atomic_components + special_atomic_components
 
-        ############## !!!!!!!! ACA !!!!!!!!! ############
-        # TODO : agregar los atomicos correspondientes a funciones especiales (ie.: PULSE, RAMP, etc.)
-        #        hay que mirar el atributo 'equation' de los Cte's y Aux's
-        #        * despues tambien hay que agregar las 'internal connections' correspondientes
-        #        * si la funcion toma como input otras variables del modelo, tambien habria que setear EXTERNAL_{INPUT/OUTPUT}_CONNECTIONS
-        ##################################################
-
-        return atomic_components
+        return list(set(atomic_components))
     
     def setDEVSCoupledComponents(self):
         # 1 acoplado por cada modulo
@@ -174,12 +182,17 @@ class DEVSCoupledComponent(DEVSComponent):
     def setInputPorts(self):
         input_ports = []
 
+        # !!!!!!!!!!!!!!!!! ACA !!!!!!!!!!!!!!!!!!!!!
+        # TODO : deshechar los input_ports correspondientes a funciones especiales que estan en este acoplado ( == ZZZ)
+
         # La union de los inputs de los Const's que tengo adentro
         for atomic_component in self.getDEVSAtomicComponents():
             # no sabemos si el input de estos atomicos va a venir de afuera o de algun otra acoplado interno
             if atomic_component.getType() == 'DEVSConstant':
                 for input_port in atomic_component.getDEVSInputPorts():
-                    input_ports.append(DEVSPort(input_port.getName(), self, 'in', True))
+                    # Chequeo que el input no se corresponda a una special function, sino a la Cte propiamente
+                    if input_port.getComponent().getName() == 'DEVSConstant':
+                        input_ports.append(DEVSPort(input_port.getName(), self, 'in', True))
 
         # La union de los inputs de los coupled models adentro mio, que son especificamente para Cte's
         for coupled_component in self.getDEVSCoupledComponents():
@@ -187,22 +200,23 @@ class DEVSCoupledComponent(DEVSComponent):
                 if input_port.get_is_for_constant():
                     input_ports.append(DEVSPort(input_port.getName(), self, 'in'))
 
-        # La union de los inputs provenientes de CoupledModels de los chabones adentro mio que no se corresponden a output's Stocks / Auxs de este DCM
-        if self.getName() != 'DEVS_COUPLED_top':
-            my_internal_output_names = []
-            for atomic_component in self.getDEVSAtomicComponents():
-                if atomic_component.getType() == 'DEVSAux':
-                    atomic_outputs = atomic_component.getDEVSOutputPorts()
-                    my_internal_output_names = my_internal_output_names + list(map(lambda x : x.getName(), atomic_outputs))
-            
-            for basic_coupled in self.getDEVSCoupledComponents():
-                basic_coupled_outputs = basic_coupled.getDEVSOutputPorts()
-                for output_port in basic_coupled_outputs:
-                    my_internal_output_names.append(output_port.getName())
+        # La union de los inputs provenientes de CoupledModels de los chabones adentro mio que no se corresponden a output's Stocks / Auxs / SpecialFunctions de este DCM
+        #if self.getName() != 'DEVS_COUPLED_top': 
 
-            for coupled_component in self.getDEVSCoupledComponents():
-                for input_port in coupled_component.getDEVSInputPorts():
-                    if input_port.getName() not in my_internal_output_names:
+        my_internal_output_names = []
+        for atomic_component in self.getDEVSAtomicComponents():
+            if atomic_component.getType() in ['DEVSAux', 'DEVSPulse']:
+                atomic_outputs = atomic_component.getDEVSOutputPorts()
+                my_internal_output_names = my_internal_output_names + list(map(lambda x : x.getName(), atomic_outputs))
+
+        for coupled_component in self.getDEVSCoupledComponents():
+            basic_coupled_outputs = coupled_component.getDEVSOutputPorts()
+            for output_port in basic_coupled_outputs:
+                my_internal_output_names.append(output_port.getName())
+
+        for coupled_component in self.getDEVSCoupledComponents():
+            for input_port in coupled_component.getDEVSInputPorts():
+                if input_port.getName() not in my_internal_output_names:
                         input_ports.append(DEVSPort(input_port.getName(), self, 'in'))
         
         input_ports = list(set(input_ports))
@@ -213,8 +227,12 @@ class DEVSCoupledComponent(DEVSComponent):
         return self.setExternalInputToAtomicConnections() + self.setExternalInputToCoupledConnections()
 
     def setExternalInputToAtomicConnections(self):
+        flatten = lambda l: [item for sublist in l for item in sublist]
+        # TODO : filtrar las conexiones que van a puertos correspondientes a Cte's / Aux's internas mias (resuelto?)
+        # TODO : si hay un aux que recibe input de una cte, no hay que conectar el input con el Aux, pero si con el Cte
         inputs_atomic_connections = []
-        input_ports = self.getDEVSInputPorts();
+        input_ports = self.getDEVSInputPorts()
+        input_names_used_in_auxs = list(map(lambda z : z.getName(), flatten(map(lambda y : y.getDEVSInputPorts(), filter(lambda x : x.getType() == 'DEVSAux', self.getDEVSAtomicComponents())))))
         for input_port in input_ports:
             port_from = input_port
             for atomic_component in self.getDEVSAtomicComponents():
@@ -222,17 +240,17 @@ class DEVSCoupledComponent(DEVSComponent):
                 for atomic_input_port in atomic_component.getDEVSInputPorts():
                     if atomic_input_port.getName() == input_port.getName():
                         port_to      = atomic_input_port
-                        component_to = atomic_component 
-                        inputs_atomic_connections.append(
-                            DEVSExternalInputConnection(port_from, port_to, component_to)
-                        )
+                        component_to = atomic_component
+                        if not (component_to.getType()=='DEVSAux' and port_to.getName() in input_names_used_in_auxs):
+                            inputs_atomic_connections.append(
+                                DEVSExternalInputConnection(port_from, port_to, component_to)
+                            )
         return inputs_atomic_connections
 
     def setExternalInputToCoupledConnections(self):
         input_coupled_connections = []
 
         cte_aux_names = list(map(lambda x : x.getName(), self.getDEVSAtomicComponents()))
-        # TODO : filtrar las conexiones que van a puertos correspondientes a Cte's / Aux's internas mias
         input_ports = self.getDEVSInputPorts()
         for input_port in input_ports:
             port_from = input_port
@@ -280,11 +298,15 @@ class DEVSCoupledComponent(DEVSComponent):
         for atomic_component_from in self.getDEVSAtomicComponents():
             for output_port in atomic_component_from.getDEVSOutputPorts():
                 for atomic_component_to in self.getDEVSAtomicComponents():
-                    for input_port in atomic_component_to.getDEVSInputPorts():
-                        if output_port.getName() == input_port.getName():
-                            atomic_to_atomic_connections.append(
-                                DEVSInternalConnection(output_port, atomic_component_from, input_port, atomic_component_to)
-                            ) 
+                    # El atomico destino tiene que ser distinto del atomico origen para que haya una conexion de uno al otro
+                    if atomic_component_from != atomic_component_to:
+                        for input_port in atomic_component_to.getDEVSInputPorts():
+                            if output_port.getName() == input_port.getName():
+                                atomic_to_atomic_connections.append(
+                                    DEVSInternalConnection(output_port, atomic_component_from, input_port, atomic_component_to)
+                                )
+        # VERIFICAR : agrega las conexiones correspondientes a : {Cte's, Aux's} => SpecialFunctions
+        # VERIFICAR : agrega conexiones correspondientes a : SpecialFunctions => {Cte's, Aux's}
 
         return list(set(atomic_to_atomic_connections))
     
@@ -305,11 +327,12 @@ class DEVSCoupledComponent(DEVSComponent):
         for coupled_component_from in self.getDEVSCoupledComponents():
             for output_port in coupled_component_from.getDEVSOutputPorts():
                 for coupled_component_to in self.getDEVSCoupledComponents():
-                    for input_port in coupled_component_to.getDEVSInputPorts():
-                        if output_port.getName() == input_port.getName():
-                            coupled_to_coupled_connections.append(
-                                DEVSInternalConnection(output_port, coupled_component_from, input_port, coupled_component_to)
-                            )
+                    if coupled_component_to != coupled_component_from:
+                        for input_port in coupled_component_to.getDEVSInputPorts():
+                            if output_port.getName() == input_port.getName():
+                                coupled_to_coupled_connections.append(
+                                    DEVSInternalConnection(output_port, coupled_component_from, input_port, coupled_component_to)
+                                )
         return list(set(coupled_to_coupled_connections))
 
     def setCoupledToAtomicConnections(self):
@@ -363,34 +386,49 @@ class DEVSCoupledComponent(DEVSComponent):
                 # Atomicos : Ftot + Integrador + Fpm's (recordar que los Cte's y Aux's los sacamos afuera)
                 # (Ftot + Integrador)
                 atomic_components = [DEVSIntegrator(stock), DEVSFtot(stock)]
-
-                ############## !!!!!!!! ACA !!!!!!!!! ############
-                # TODO : agregar los atomicos correspondientes a funciones especiales (ie.: PULSE, RAMP, etc.)
-                #        hay que mirar el atributo 'equation' de Fplus's, Fminus's
-                #        * despues tambien hay que agregar las 'internal connections correspondientes'
-                #        * si la funcion toma como input otras variables del modelo, tambien habria que setear EXTERNAL_{INPUT/OUTPUT}_CONNECTIONS
-                ##################################################
                 
                 #  (Fpm's)
                 devs_fpms = list(map(lambda x : DEVSFpm(x, [stock]), xmile_flows))
                 devs_fps  = filter(lambda x : x is not None, list(map(lambda x : x.getFPlus(), devs_fpms)))
                 devs_fms  = filter(lambda x : x is not None, list(map(lambda x : x.getFMinus(), devs_fpms)))
                 atomic_components = atomic_components + devs_fps + devs_fms
+
+                ####
+                # Special Atomics (correspondientes a Fp's y Fm's)
+                for fp in devs_fps:
+                    special_atomics = fp.getEquation().getSpecialFunctions()
+                    atomic_components = atomic_components + special_atomics
+                for fm in devs_fms:
+                    special_atomics = fm.getEquation().getSpecialFunctions()
+                    atomic_components = atomic_components + special_atomics
                 
                 ###########
                 # Inputs : necesito 1 input para cada variable que usan los flows
                 # Nota : es necesario quitar de esta lista a lo que corresponden a 'stock'
+                # Nota : filtro los inputs correspondientes a funciones especiales (estas quedan ADENTRO del BASIC_) (ZZZ)
                 input_ports = []
                 for devs_fp in devs_fps:
                     input_ports_fp = devs_fp.getDEVSInputPorts()
                     for input_port_fp in input_ports_fp:
-                        if input_port_fp.getName() != stock.getName():
+                        if input_port_fp.getName() != stock.getName() and input_port_fp.getName() not in list(map(lambda x : x.getName(), devs_fp.getEquation().getSpecialFunctions())): 
                             input_ports.append(DEVSPort(input_port_fp.getName(), self, 'in'))
                 for devs_fm in devs_fms:
                     input_ports_fm = devs_fm.getDEVSInputPorts()
                     for input_port_fm in input_ports_fm:
-                        if input_port_fm.getName() != stock.getName():
+                        if input_port_fm.getName() != stock.getName() and input_port_fm.getName() not in list(map(lambda x : x.getName(), devs_fm.getEquation().getSpecialFunctions())):
                             input_ports.append(DEVSPort(input_port_fm.getName(), self, 'in'))
+                # Agrego los inputs correspondientes a las variables que las SpecialFunctions necesitan
+                for devs_fp in devs_fps:
+                    special_functions = devs_fp.getEquation().getSpecialFunctions()
+                    for special_func_obj in special_functions:
+                        for variable_name in special_func_obj.getVariables():
+                            input_ports.append(DEVSPort(variable_name, self, 'in'))
+                for devs_fm in devs_fms:
+                    special_functions = devs_fm.getEquation().getSpecialFunctions()
+                    for special_func_obj in special_functions:
+                        for variable_name in special_func_obj.getVariables():
+                            input_ports.append(DEVSPort(variable_name, self, 'in'))
+
                 # Si un fp y fm reciben el mismo input, solo voy a querer que llegue por un unico puerto
                 input_ports = list(set(input_ports))
 
@@ -402,12 +440,14 @@ class DEVSCoupledComponent(DEVSComponent):
                 # External input connections : conexiones que vienen de 'input_ports', y llegan a algun componente (Fp's y Fm's)
                 external_input_connections = []
                 for atomic_component in atomic_components:
-                    if atomic_component.getType() in ['DEVSFplus', 'DEVSFminus']:
+                    # TODO : esta lista deberia considerar a todas las funciones especiales. Hay que estandarizar esta lista / chequear directamente la clase del atomico
+                    if atomic_component.getType() in ['DEVSFplus', 'DEVSFminus', 'DEVSPulse']:
                         for input_port in atomic_component.getDEVSInputPorts():
                             external_input_connections.append(
                                 DEVSExternalInputConnection(DEVSPort(atomic_component.getName(), self, 'in'), input_port, atomic_component)
                             )
                 external_input_connections = list(set(external_input_connections))
+                # TODO : agregar las conexiones correspondientes a inputs utilizados por las 'SpecialFunctions'
 
                 ###########
                 # External output connections : conexiones que salen de algun componente hacia algun puerto de 'output_ports' (Integradores)
@@ -439,8 +479,29 @@ class DEVSCoupledComponent(DEVSComponent):
                         internal_connections.append(DEVSInternalConnection(
                             output_port, fm, DEVSPort('minus', DEVSFtot(stock), 'in'), DEVSFtot(stock)
                         ))
+                # Nota : las SpecialFunction's las dejo adentro del BASIC
+                # SpecialFunctions => Fm's, Fp's
+                for fp in devs_fps:
+                    for special_func_obj in fp.getEquation().getSpecialFunctions():
+                        # Nota : fp's solo tienen 1 output port
+                        output_ports_fp = fp.getDEVSOutputPorts()
+                        assert(len(output_ports_fp) == 1)
+                        output_port = output_ports_fp[0]
+                        internal_connections.append(DEVSInternalConnection(
+                            output_port, special_func_obj, DEVSPort(special_func_obj.getName(), fp, 'in'), fp
+                        ))
+                for fm in devs_fms:
+                    for special_func_obj in fm.getEquation().getSpecialFunctions():
+                        # Nota : fm's solo tienen 1 output port
+                        output_ports_fm = fm.getDEVSOutputPorts()
+                        assert(len(output_ports_fm) == 1)
+                        output_port = output_ports_fm[0]
+                        internal_connections.append(DEVSInternalConnection(
+                            output_port, special_func_obj, DEVSPort(special_func_obj.getName(), fm, 'in'), fm
+                        ))
                 internal_connections = list(set(internal_connections))
 
+                # Agrego componente 
                 coupleds.append(
                     DEVSBasicCoupledComponent(None, root_models, name,
                         atomic_components, coupled_components, 

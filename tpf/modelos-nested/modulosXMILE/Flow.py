@@ -44,7 +44,3 @@ class Flow(object):
         if nonNegative is None:
             return False
         return True
-
-    # TODO : hacer esto y cuando termino, armar el directorio modulosDEVS
-    def getEquationVariables(self):
-        return self.equation.getVariables()

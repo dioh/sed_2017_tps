@@ -62,9 +62,9 @@ class SpecialFunctionFinder(object):
                         raise Exception('Error : a funcion especial le faltan parametros (pulse)')
                     volume = parameters[0]
                     if len(parameters) > 1:
-                        interval = parameters[1]
+                        first_pulse = parameters[1]
                     if len(parameters) > 2:
-                        interval = parameters[2]
+                        interval    = parameters[2]
                         devs_pulse = DEVSPulse(volume, first_pulse, interval)
             assert(devs_pulse is not None)
             return devs_pulse

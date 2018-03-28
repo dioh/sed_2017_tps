@@ -15,7 +15,7 @@ class DEVSIntegrator(DEVSAtomicComponent):
             'dQMin' : '0.001'
         }
         self.type = 'DEVSIntegrator'
-        self.input_ports  = [DEVSPort(self.name, self, 'in')]
+        self.input_ports  = self.setInputPorts()
         self.output_ports = [DEVSPort(self.name, self, 'out')]
         
     def __repr__(self):
@@ -35,6 +35,19 @@ class DEVSIntegrator(DEVSAtomicComponent):
             'integrator_parameters' : self.integrator_parameters
         })
 
+    # Setters
+    def setInputPorts(self):
+        input_ports = [DEVSPort(self.name, self, 'in')]
+        # TODO : hacer uso de estos puertos (que se consideren los inputs provenientes de special functions tambien en 'Stocks')
+        variables = self.equation.getVariables()
+        for var in variables:
+            input_ports.append(DEVSPort(var, self, 'in'))
+        # Agrego inputs correspondientes a funciones especiales
+        for special_func_obj in self.equation.getSpecialFunctions():
+            input_ports.append(DEVSPort(special_func_obj.getName(), self, 'in'))
+        return list(set(input_ports))
+
+    # Getters
     def getType(self):
         return self.type
     def getName(self):

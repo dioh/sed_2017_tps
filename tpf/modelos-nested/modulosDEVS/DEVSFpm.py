@@ -5,6 +5,7 @@ MINUS_INDEX = 1
 from modulosDEVS.DEVSComponent import *
 from modulosDEVS.DEVSPort import *
 
+###############################################################
 class DEVSFpm(DEVSAtomicComponent):
     def __init__(self, xmile_flow, xmile_stocks):
         self.xmile_flow   = xmile_flow
@@ -13,20 +14,17 @@ class DEVSFpm(DEVSAtomicComponent):
         self.corresponding_stock_names_plus_minus = self.setCorrespondingStocks()
         self.fp = self.setFPlus()
         self.fm = self.setFMinus()
+        self.name = xmile_flow.getName()
 
     def __repr__(self):
         return str({
             'name' : self.name,
-            'equation' : self.equation,
-            'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports
+            'equation' : self.equation
         })
     def __str__(self):
         return str({
             'name' : self.name,
-            'equation' : self.equation,
-            'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports
+            'equation' : self.equation
         })
 
     def getFPlus(self):
@@ -65,9 +63,9 @@ class DEVSFminus(DEVSFpm):
     def __init__(self, xmile_flow, stock_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
+        self.name         = self.setName()
         self.equation   = self.xmile_flow.getEquation()
         self.input_ports  = self.setInputPorts()
-        self.name         = self.setName()
         self.output_ports = [DEVSPort(self.name, self, 'out')]
         self.type = 'Fminus'
 
@@ -91,10 +89,13 @@ class DEVSFminus(DEVSFpm):
 
     def setInputPorts(self):
         input_ports = []
-        variables = self.xmile_flow.getEquationVariables()
+        variables = self.equation.getVariables()
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
-        return input_ports
+        # Agrego inputs correspondientes a funciones especiales
+        for special_func_obj in self.equation.getSpecialFunctions():
+            input_ports.append(DEVSPort(special_func_obj.getName(), self, 'in'))
+        return list(set(input_ports))
 
     def setName(self):
         return self.xmile_flow.getName() + '_' + self.stock_name
@@ -119,9 +120,9 @@ class DEVSFplus(DEVSFpm):
     def __init__(self, xmile_flow, stock_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
+        self.name         = self.setName()
         self.equation   = self.xmile_flow.getEquation()
         self.input_ports  = self.setInputPorts()
-        self.name         = self.setName()
         self.output_ports = [DEVSPort(self.name, self, 'out')]
         self.type = 'Fplus'
 
@@ -145,10 +146,13 @@ class DEVSFplus(DEVSFpm):
 
     def setInputPorts(self):
         input_ports = []
-        variables = self.xmile_flow.getEquationVariables()
+        variables = self.equation.getVariables()
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
-        return input_ports
+        # Agrego inputs correspondientes a funciones especiales
+        for special_func_obj in self.equation.getSpecialFunctions():
+            input_ports.append(DEVSPort(special_func_obj.getName(), self, 'in'))
+        return list(set(input_ports))
 
     def setName(self):
         return self.xmile_flow.getName() + '_' + self.stock_name

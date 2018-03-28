@@ -2,6 +2,7 @@
 
 class DEVSPort(object):
 	def __init__(self, name, component, type_, is_for_constant=False):
+		assert(type_ in ['in', 'out'])
 		self.type = type_
 		self.name = name
 		# TODO : asertar que 'component' es de tipo 'DEVSComponent'
