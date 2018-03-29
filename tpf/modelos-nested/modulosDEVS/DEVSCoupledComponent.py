@@ -231,11 +231,14 @@ class DEVSCoupledComponent(DEVSComponent):
 
     def setExternalInputToAtomicConnections(self):
         flatten = lambda l: [item for sublist in l for item in sublist]
-        # TODO : filtrar las conexiones que van a puertos correspondientes a Cte's / Aux's internas mias (resuelto?)
-        # TODO : si hay un aux que recibe input de una cte, no hay que conectar el input con el Aux, pero si con el Cte
         inputs_atomic_connections = []
         input_ports = self.getDEVSInputPorts()
-        input_names_used_in_auxs = list(map(lambda z : z.getName(), flatten(map(lambda y : y.getDEVSInputPorts(), filter(lambda x : x.getType() == 'DEVSAux', self.getDEVSAtomicComponents())))))
+        # TODO : ver otra forma (esta no funciona) de filtrar las conexiones que ya tienen una componente matcheada
+        input_names_matching_components = []
+        for input_port in input_ports:
+            for atomic_component in self.getDEVSAtomicComponents():
+                if input_port.getName() == atomic_component.getName():
+                    input_names_matching_components.append(input_port.getName())
         for input_port in input_ports:
             port_from = input_port
             for atomic_component in self.getDEVSAtomicComponents():
@@ -244,7 +247,7 @@ class DEVSCoupledComponent(DEVSComponent):
                     if atomic_input_port.getName() == input_port.getName():
                         port_to      = atomic_input_port
                         component_to = atomic_component
-                        if not (component_to.getType()=='DEVSAux' and port_to.getName() in input_names_used_in_auxs):
+                        if not (component_to.getType()=='DEVSAux' and port_to.getName() in input_names_matching_components):
                             inputs_atomic_connections.append(
                                 DEVSExternalInputConnection(port_from, port_to, component_to)
                             )
@@ -489,17 +492,15 @@ class DEVSCoupledComponent(DEVSComponent):
                         ))
                 # Nota : las SpecialFunction's las dejo adentro del BASIC
                 for fp in devs_fps:
-                    output_ports_fp = fp.getDEVSOutputPorts()
-                    assert(len(output_ports_fp) == 1)
-                    output_port = output_ports_fp[0]
-                    # SpecialFunctions => Fp's
-                    for special_func_obj in fp.getEquation().getSpecialFunctions():
-                        internal_connections.append(DEVSInternalConnection(
-                            output_port, special_func_obj, DEVSPort(special_func_obj.getName(), fp, 'in'), fp
-                        ))
-                    # Integrator => Fp's
                     input_ports_fp = fp.getDEVSInputPorts()
                     for input_port in input_ports_fp:
+                        # SpecialFunctions => Fp's
+                        for special_func_obj in fp.getEquation().getSpecialFunctions():
+                            if input_port.getName() == special_func_obj.getName():
+                                internal_connections.append(DEVSInternalConnection(
+                                    DEVSPort(special_func_obj.getName(), special_func_obj, 'out'), special_func_obj, input_port, fp
+                                ))
+                        # Integrator => Fp's
                         if integrator.getName() == input_port.getName():
                             output_port =  integrator.getDEVSOutputPorts()[0] # tiene solo 1 output port
                             internal_connections.append(DEVSInternalConnection(
@@ -507,17 +508,15 @@ class DEVSCoupledComponent(DEVSComponent):
                             ))
 
                 for fm in devs_fms:
-                    output_ports_fm = fm.getDEVSOutputPorts()
-                    assert(len(output_ports_fm) == 1)
-                    output_port = output_ports_fm[0]
-                    # SpecialFunctions => Fm's
-                    for special_func_obj in fm.getEquation().getSpecialFunctions():
-                        internal_connections.append(DEVSInternalConnection(
-                            output_port, special_func_obj, DEVSPort(special_func_obj.getName(), fm, 'in'), fm
-                        ))
-                    # Integrator => Fm's
                     input_ports_fm = fm.getDEVSInputPorts()
                     for input_port in input_ports_fm:
+                        # SpecialFunctions => Fm's
+                        for special_func_obj in fm.getEquation().getSpecialFunctions():
+                            if input_port.getName() == special_func_obj.getName(): 
+                                internal_connections.append(DEVSInternalConnection(
+                                    DEVSPort(special_func_obj.getName(), special_func_obj, 'out'), special_func_obj, input_port, fm
+                                ))
+                        # Integrator => Fm's
                         if integrator.getName() == input_port.getName():
                             output_port =  integrator.getDEVSOutputPorts()[0] # tiene solo 1 output port
                             internal_connections.append(DEVSInternalConnection(
