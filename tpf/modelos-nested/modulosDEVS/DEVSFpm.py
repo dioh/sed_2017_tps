@@ -1,16 +1,16 @@
-
-PLUS_INDEX  = 0
-MINUS_INDEX = 1
-
-from modulosDEVS.DEVSComponent import *
+from modulosDEVS.DEVSComponent import DEVSAtomicComponent
 from modulosDEVS.DEVSPort import *
 
+PLUS_INDEX = 0
+MINUS_INDEX = 1
 ###############################################################
+
+
 class DEVSFpm(DEVSAtomicComponent):
     def __init__(self, xmile_flow, xmile_stocks):
-        self.xmile_flow   = xmile_flow
+        self.xmile_flow = xmile_flow
         self.xmile_stocks = xmile_stocks
-        self.equation     = self.xmile_flow.getEquation()
+        self.equation = self.xmile_flow.getEquation()
         self.corresponding_stock_names_plus_minus = self.setCorrespondingStocks()
         self.fp = self.setFPlus()
         self.fm = self.setFMinus()
@@ -18,30 +18,35 @@ class DEVSFpm(DEVSAtomicComponent):
 
     def __repr__(self):
         return str({
-            'name' : self.name,
-            'equation' : self.equation
+            'name': self.name,
+            'equation': self.equation
         })
+
     def __str__(self):
         return str({
-            'name' : self.name,
-            'equation' : self.equation
+            'name': self.name,
+            'equation': self.equation
         })
 
     def getFPlus(self):
         return self.fp
+
     def getFMinus(self):
         return self.fm
 
     def setCorrespondingStocks(self):
         flow_name = self.xmile_flow.getName()
-        corresponding_stock_name_plus  = None
+        corresponding_stock_name_plus = None
         corresponding_stock_name_minus = None
 
-        # ver si flow_name esta entre los inflows/outflows de algun stock - puede ser inflow/outflow de 0 o 1 stock solamente -
+        # ver si flow_name esta entre los inflows/outflows 
+        # de algun stock - puede ser inflow/outflow de 0 o 1 stock solamente -
         for stock in self.xmile_stocks:
-            if flow_name in list(map(lambda x : x.getName(), stock.getInflows())):
+            if flow_name in list(map(lambda x: x.getName(),
+                                     stock.getInflows())):
                 corresponding_stock_name_plus = stock.getName()
-            if flow_name in list(map(lambda x : x.getName(), stock.getOutflows())):
+            if flow_name in list(map(lambda x: x.getName(),
+                                     stock.getOutflows())):
                 corresponding_stock_name_minus = stock.getName()
 
         return corresponding_stock_name_plus, corresponding_stock_name_minus
@@ -58,33 +63,37 @@ class DEVSFpm(DEVSAtomicComponent):
             return None
         return DEVSFminus(self.xmile_flow, corresponding_stock_name_minus)
 
+    def parameters(self):
+        return {'equation': self.equation.getEquation()}
 ###############################################################
+
+
 class DEVSFminus(DEVSFpm):
     def __init__(self, xmile_flow, stock_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
-        self.name         = self.setName()
-        self.equation   = self.xmile_flow.getEquation()
-        self.input_ports  = self.setInputPorts()
+        self.name = self.setName()
+        self.equation = self.xmile_flow.getEquation()
+        self.input_ports = self.setInputPorts()
         self.output_ports = [DEVSPort(self.name, self, 'out')]
         self.type = 'DEVSFminus'
 
     def __repr__(self):
         return str({
-            'name' : self.name,
-            'equation' : self.equation,
-            'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports,
-            'type' : self.type
+            'name': self.name,
+            'equation': self.equation,
+            'input_ports': self.input_ports,
+            'output_ports': self.output_ports,
+            'type': self.type
         })
 
     def __str__(self):
         return str({
-            'name' : self.name,
-            'equation' : self.equation,
-            'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports,
-            'type' : self.type
+            'name': self.name,
+            'equation': self.equation,
+            'input_ports': self.input_ports,
+            'output_ports': self.output_ports,
+            'type': self.type
         })
 
     def setInputPorts(self):
@@ -94,7 +103,8 @@ class DEVSFminus(DEVSFpm):
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
         for special_func_obj in self.equation.getSpecialFunctions():
-            input_ports.append(DEVSPort(special_func_obj.getName(), self, 'in'))
+            input_ports.append(DEVSPort(special_func_obj.getName(),
+                                        self, 'in'))
         return list(set(input_ports))
 
     def setName(self):
@@ -114,34 +124,35 @@ class DEVSFminus(DEVSFpm):
 
     def getDEVSOutputPorts(self):
         return self.output_ports
-
 ###############################################################
+
+
 class DEVSFplus(DEVSFpm):
     def __init__(self, xmile_flow, stock_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
-        self.name         = self.setName()
-        self.equation   = self.xmile_flow.getEquation()
-        self.input_ports  = self.setInputPorts()
+        self.name = self.setName()
+        self.equation = self.xmile_flow.getEquation()
+        self.input_ports = self.setInputPorts()
         self.output_ports = [DEVSPort(self.name, self, 'out')]
         self.type = 'DEVSFplus'
 
     def __repr__(self):
         return str({
-            'name' : self.name,
-            'equation' : self.equation,
-            'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports,
-            'type' : self.type
+            'name': self.name,
+            'equation': self.equation,
+            'input_ports': self.input_ports,
+            'output_ports': self.output_ports,
+            'type': self.type
         })
 
     def __str__(self):
         return str({
-            'name' : self.name,
-            'equation' : self.equation,
-            'input_ports' : self.input_ports,
-            'output_ports' : self.output_ports,
-            'type' : self.type
+            'name': self.name,
+            'equation': self.equation,
+            'input_ports': self.input_ports,
+            'output_ports': self.output_ports,
+            'type': self.type
         })
 
     def setInputPorts(self):
@@ -151,7 +162,8 @@ class DEVSFplus(DEVSFpm):
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
         for special_func_obj in self.equation.getSpecialFunctions():
-            input_ports.append(DEVSPort(special_func_obj.getName(), self, 'in'))
+            input_ports.append(DEVSPort(special_func_obj.getName(),
+                                        self, 'in'))
         return list(set(input_ports))
 
     def setName(self):
@@ -171,4 +183,3 @@ class DEVSFplus(DEVSFpm):
 
     def getDEVSOutputPorts(self):
         return self.output_ports
-    

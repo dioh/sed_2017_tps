@@ -1,6 +1,7 @@
 
-from modulosDEVS.DEVSComponent import *
+from modulosDEVS.DEVSComponent import DEVSAtomicComponent
 from modulosDEVS.DEVSPort import *
+
 
 class DEVSConstant(DEVSAtomicComponent):
     def __init__(self, xmile_aux, xmile_model):
@@ -10,25 +11,26 @@ class DEVSConstant(DEVSAtomicComponent):
         self.name = self.xmile_constant.getName()
         self.equation = self.xmile_constant.getEquation()
         self.parent = self.xmile_constant.getParent()
-        self.input_ports  = self.setInputPorts()
+        self.input_ports = self.setInputPorts()
         self.output_ports = [DEVSPort(self.getName(), self, 'out')]
         self.type = 'DEVSConstant'
-    
+
     def __repr__(self):
         return str({
-            'access' : self.access,
-            'name' : self.name,
-            'equation' : self.equation,
-            'parent' : self.parent,
-            'type' : self.type
+            'access': self.access,
+            'name': self.name,
+            'equation': self.equation,
+            'parent': self.parent,
+            'type': self.type
         })
+
     def __str__(self):
         return str({
-            'access' : self.access,
-            'name' : self.name,
-            'equation' : self.equation,
-            'parent' : self.parent,
-            'type' : self.type
+            'access': self.access,
+            'name': self.name,
+            'equation': self.equation,
+            'parent': self.parent,
+            'type': self.type
         })
 
     # Setters
@@ -39,21 +41,31 @@ class DEVSConstant(DEVSAtomicComponent):
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
         for special_func_obj in self.equation.getSpecialFunctions():
-            input_ports.append(DEVSPort(special_func_obj.getName(), self, 'in'))
+            input_ports.append(DEVSPort(special_func_obj.getName(), 
+                                        self, 'in'))
         return list(set(input_ports))
 
     # Getters
     def getAccess(self):
         return self.access
+
     def getName(self):
         return self.name
+
     def getEquation(self):
         return self.equation
+
     def getParent(self):
         return self.parent
+
     def getDEVSInputPorts(self):
         return self.input_ports
+
     def getDEVSOutputPorts(self):
         return self.output_ports
+
     def getType(self):
         return self.type
+
+    def parameters(self):
+        return {'value': self.equation.getEquation()}
