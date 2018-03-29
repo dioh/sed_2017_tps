@@ -1,12 +1,12 @@
 class CdppModel(object):
 
     def __init__(self, **kwargs):
-        allowed_keys = ['name', 'model','in_ports', 'out_ports',
+        allowed_keys = ['name', 'model', 'in_ports', 'out_ports',
                         'internal_connections',
                         'external_input_connections',
                         'external_output_connections',
                         'components',
-                        'type']
+                        'type', 'parameters']
         self.name = ''
         self.model = ''
         self.in_ports = set()
@@ -15,6 +15,7 @@ class CdppModel(object):
         self.external_input_connections = set()
         self.external_output_connections = set()
         self.components = set()
+        self.parameters = dict()
         # and update the given keys by their given values
         self.__dict__.update((key, value) for key, value
                              in kwargs.items() if key in allowed_keys)
@@ -30,7 +31,8 @@ class CdppModel(object):
                     self.external_input_connections.__repr__(),
                     'external_output_connections':
                     self.external_output_connections.__repr__(),
-                    'components': self.components.__repr__()})
+                    'components': self.components.__repr__(),
+                    'parameters': self.parameters.__repr__()})
 
     def __eq__(self, other):
         return (self.name == other.name and
@@ -38,9 +40,10 @@ class CdppModel(object):
                 self.in_ports == other.in_ports and
                 self.out_ports == other. out_ports and
                 self.internal_connections == other.internal_connections and
-                self.external_input_connections == other.external_input_connections and 
+                self.external_input_connections == other.external_input_connections and
                 self.external_output_connections == other.external_output_connections and
-                self.components == other.components)
+                self.components == other.components and
+                self.parameters == other.parameters)
 
     def __hash__(self):
         return (hash(self.name) ^ hash(self.model))
@@ -63,7 +66,9 @@ class CdppModel(object):
              'external_input_connections':
              cls.extract_external_input_connections(node, model_name),
              'external_output_connections':
-             cls.extract_external_output_connections(node, model_name)}
+             cls.extract_external_output_connections(node, model_name),
+             'parameters':
+             cls.extract_parameters(node)}
 
         return cls(**d)
 
@@ -150,6 +155,14 @@ class CdppModel(object):
         del rv['model']
         return rv
 
+    @classmethod
+    def extract_parameters(cls, devsml_xml_root):
+        rv = dict()
+        for param in devsml_xml_root.findall('./parameters/parameter'):
+            rv[param.attrib['name']] = param.text
+
+        return rv
+
 
 class CdppPort(object):
     def __init__(self, port, component):
@@ -188,4 +201,3 @@ class CdppConnection(object):
 
     def __hash__(self):
         return (hash(self.port_from) ^ hash(self.port_to))
-
