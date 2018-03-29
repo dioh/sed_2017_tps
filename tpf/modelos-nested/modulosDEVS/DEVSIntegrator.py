@@ -39,7 +39,8 @@ class DEVSIntegrator(DEVSAtomicComponent):
 
     # Setters
     def setInputPorts(self):
-        input_ports = [DEVSPort(self.name, self, 'in')]
+        # Nota : appendeo 'Tot' como sufijo
+        input_ports = [DEVSPort('Tot' + self.name, self, 'in')]
         # TODO : hacer uso de estos puertos (que se consideren los inputs provenientes de special functions tambien en 'Stocks')
         variables = self.equation.getVariables()
         for var in variables:
