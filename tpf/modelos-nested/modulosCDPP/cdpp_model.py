@@ -141,10 +141,13 @@ class CdppModel(object):
     @classmethod
     def extract_components(cls, devsml_xml_root):
         rv = set()
-        atomicsRef_path = './components/atomicRef'
-        atomicsRef = devsml_xml_root.findall(atomicsRef_path)
-        for atomicRef in atomicsRef:
-            rv.add(cls.extract_model_from_node(atomicRef))
+        component_paths = ['./components/atomicRef',
+                           './components/coupledRef']
+
+        for component_path in component_paths:
+            components = devsml_xml_root.findall(component_path)
+            for component in components:
+                rv.add(cls.extract_model_from_node(component))
 
         return rv
 

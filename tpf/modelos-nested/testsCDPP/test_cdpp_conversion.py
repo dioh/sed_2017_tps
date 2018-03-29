@@ -244,6 +244,21 @@ class TestXmileConverterTeacup(unittest.TestCase):
                   'parameters': {}}
         expected_components.add(CdppModel(**params))
 
+        hunter_params = {'name': 'hunter',
+                         'model': 'DEVSIntegrator',
+                         'in_ports': set(['Tothunter']),
+                         'out_ports': set(['hunter']),
+                         'parameters': {'x0': '5', 'dQRel': '0.001',
+                                        'dQMin': '0.001'}}
+
+        params = {'name': 'DEVS_BASIC_COUPLED_hunter',
+                  'model': 'Coupled',
+                  'in_ports': set(['paramPulse']),
+                  'out_ports': set(['hunter']),
+                  'components': set([CdppModel(**hunter_params)])}
+        expected_components.add(CdppModel(**params))
+
+
         model = CdppModel.from_devsml_xml(self.devs_ml_model)
 
         self.assertSetEqual(expected_components, model.components)
