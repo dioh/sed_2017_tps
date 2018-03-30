@@ -1,10 +1,10 @@
 """
-  Pruebas del modulo
+  Pruebas del modulo CDPP.
 """
 import unittest
 import xml.etree.ElementTree as ET
 import os
-from modulosCDPP import *
+from modulosCDPP import CdppConnection, CdppPort, CdppModel
 
 
 class TestXmileConverterTeacup(unittest.TestCase):
@@ -257,7 +257,6 @@ class TestXmileConverterTeacup(unittest.TestCase):
                   'out_ports': set(['hunter']),
                   'components': set([CdppModel(**hunter_params)])}
         expected_components.add(CdppModel(**params))
-
 
         model = CdppModel.from_devsml_xml(self.devs_ml_model)
 

@@ -40,8 +40,10 @@ class CdppModel(object):
                 self.in_ports == other.in_ports and
                 self.out_ports == other. out_ports and
                 self.internal_connections == other.internal_connections and
-                self.external_input_connections == other.external_input_connections and
-                self.external_output_connections == other.external_output_connections and
+                (self.external_input_connections ==
+                 other.external_input_connections) and
+                (self.external_output_connections ==
+                 other.external_output_connections) and
                 self.components == other.components and
                 self.parameters == other.parameters)
 
