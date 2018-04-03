@@ -7,9 +7,10 @@ MINUS_INDEX = 1
 
 
 class DEVSFpm(DEVSAtomicComponent):
-    def __init__(self, xmile_flow, xmile_stocks):
+    def __init__(self, xmile_flow, xmile_stocks, parent_name):
         self.xmile_flow = xmile_flow
         self.xmile_stocks = xmile_stocks
+        self.parent = parent_name
         self.equation = self.xmile_flow.getEquation()
         self.corresponding_stock_names_plus_minus = self.setCorrespondingStocks()
         self.fp = self.setFPlus()
@@ -55,13 +56,13 @@ class DEVSFpm(DEVSAtomicComponent):
         corresponding_stock_name_plus = self.corresponding_stock_names_plus_minus[PLUS_INDEX]
         if corresponding_stock_name_plus is None:
             return None
-        return DEVSFplus(self.xmile_flow, corresponding_stock_name_plus)
+        return DEVSFplus(self.xmile_flow, corresponding_stock_name_plus, self.parent)
 
     def setFMinus(self):
         corresponding_stock_name_minus = self.corresponding_stock_names_plus_minus[MINUS_INDEX]
         if corresponding_stock_name_minus is None:
             return None
-        return DEVSFminus(self.xmile_flow, corresponding_stock_name_minus)
+        return DEVSFminus(self.xmile_flow, corresponding_stock_name_minus, self.parent)
 
     def parameters(self):
         return {'equation': self.equation.getEquation()}
@@ -69,9 +70,10 @@ class DEVSFpm(DEVSAtomicComponent):
 
 
 class DEVSFminus(DEVSFpm):
-    def __init__(self, xmile_flow, stock_name):
+    def __init__(self, xmile_flow, stock_name, parent_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
+        self.parent = parent_name
         self.name = self.setName()
         self.equation = self.xmile_flow.getEquation()
         self.input_ports = self.setInputPorts()
@@ -102,7 +104,7 @@ class DEVSFminus(DEVSFpm):
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions():
+        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
             input_ports.append(DEVSPort(special_func_obj.getName(),
                                         self, 'in'))
         return list(set(input_ports))
@@ -112,6 +114,8 @@ class DEVSFminus(DEVSFpm):
 
     def getName(self):
         return self.name
+    def getParentName(self):
+        return self.parent
 
     def getType(self):
         return self.type
@@ -128,9 +132,10 @@ class DEVSFminus(DEVSFpm):
 
 
 class DEVSFplus(DEVSFpm):
-    def __init__(self, xmile_flow, stock_name):
+    def __init__(self, xmile_flow, stock_name, parent_name):
         self.xmile_flow = xmile_flow
         self.stock_name = stock_name
+        self.parent = parent_name
         self.name = self.setName()
         self.equation = self.xmile_flow.getEquation()
         self.input_ports = self.setInputPorts()
@@ -161,7 +166,7 @@ class DEVSFplus(DEVSFpm):
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions():
+        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
             input_ports.append(DEVSPort(special_func_obj.getName(),
                                         self, 'in'))
         return list(set(input_ports))
@@ -171,6 +176,8 @@ class DEVSFplus(DEVSFpm):
 
     def getName(self):
         return self.name
+    def getParentName(self):
+        return self.parent
 
     def getType(self):
         return self.type

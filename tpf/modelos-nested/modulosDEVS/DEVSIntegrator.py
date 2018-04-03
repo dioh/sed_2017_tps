@@ -4,8 +4,9 @@ from modulosDEVS.DEVSComponent import *
 
 
 class DEVSIntegrator(DEVSAtomicComponent):
-    def __init__(self, xmile_stock):
+    def __init__(self, xmile_stock, parent_name):
         self.stock = xmile_stock
+        self.parent = parent_name
         self.name = xmile_stock.getName()
         self.access = xmile_stock.getAccess()
         self.equation = xmile_stock.getEquation()
@@ -50,12 +51,15 @@ class DEVSIntegrator(DEVSAtomicComponent):
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions():
+        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
             input_ports.append(DEVSPort(special_func_obj.getName(),
                                         self, 'in'))
         return list(set(input_ports))
 
     # Getters
+    def getParentName(self):
+        return self.parent
+
     def getType(self):
         return self.type
 

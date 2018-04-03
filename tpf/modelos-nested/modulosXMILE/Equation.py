@@ -69,8 +69,13 @@ class Equation(object):
     def getVariables(self):
         return self.variables
     
-    def getSpecialFunctions(self):
-        return self.special_functions
+    def getSpecialFunctions(self, parent_name):
+        ans = []
+        for sf in self.special_functions:
+            sf.setParent(parent_name)
+            ans.append(sf)
+        return ans
+        
     # TODO
     def getParameters(self):
         return []

@@ -7,7 +7,7 @@ class DEVSBasicCoupledComponent(DEVSComponent):
                  atomic_components=None, coupled_components=None, 
                  external_input_connections=None, external_output_connections=None, 
                  internal_connections=None,
-                 input_ports=None, output_ports=None):
+                 input_ports=None, output_ports=None, parent_name=None):
         self.xmile_model = xmile_model
         self.root_models = root_models
         self.type = 'DEVSBasicCoupledComponent'
@@ -37,6 +37,9 @@ class DEVSBasicCoupledComponent(DEVSComponent):
         # Internal connections
         if internal_connections is not None:
             self.internal_connections = internal_connections
+        # Parent name
+        if parent_name is not None:
+            self.parent = parent_name
     ################################################################################
     # Representation functions
     def __repr__(self):
@@ -65,6 +68,8 @@ class DEVSBasicCoupledComponent(DEVSComponent):
         })
     ################################################################################ 
     # Setters
+    def setDEVSParent(self, parent_name):
+        self.parent = parent_name
     def setDEVSName(self, name):
         self.name = name
     def setDEVSAtomicComponents(self, atomic_components):
@@ -82,6 +87,8 @@ class DEVSBasicCoupledComponent(DEVSComponent):
     def setDEVSInternalConnections(self, internal_connections):
         self.internal_connections = internal_connections
     # Getters
+    def getParent(self):
+        return self.parent
     def getType(self):
         return self.type
     def getName(self):

@@ -9,7 +9,7 @@ from modulosDEVS.DEVSIntegrator import *
 from modulosDEVS.DEVSPort import *
 from modulosDEVS.DEVSBasicCoupledComponent import *
 
-
+# TODO : buscar una forma de determinar el 'parent' de cada DEVSCoupledComponent. En ppio pareciera no ser necesario para armar los h, cpp y ma
 class DEVSCoupledComponent(DEVSComponent):
     ################################################################################
     def __init__(self, xmile_model, root_models, name=None,
@@ -124,7 +124,7 @@ class DEVSCoupledComponent(DEVSComponent):
         # Nota : los Cte's que tienen SpecialFunctions adentro ( van a ser Aux's )
         xmile_ctes, xmile_auxs = self.setXMILEConstantsAndAuxiliaryComponents()
         for xmile_cte in xmile_ctes:
-            if len(xmile_cte.getEquation().getSpecialFunctions()) == 0:
+            if len(xmile_cte.getEquation().getSpecialFunctions(self.name)) == 0:
                 devs_ctes.append(DEVSConstant(xmile_cte, xmile_model))
             else:
                 aux_dependencies = []
@@ -145,7 +145,7 @@ class DEVSCoupledComponent(DEVSComponent):
         atomic_components = atomic_components + devs_ctes + devs_auxs
         # Special Functions
         for atomic_component in atomic_components:
-            special_atomic_components = atomic_component.getEquation().getSpecialFunctions()
+            special_atomic_components = atomic_component.getEquation().getSpecialFunctions(self.name)
             atomic_components         = atomic_components + special_atomic_components
 
         return list(set(atomic_components))
@@ -393,11 +393,11 @@ class DEVSCoupledComponent(DEVSComponent):
                 ###########
                 # Atomicos : Ftot + Integrador + Fpm's (recordar que los Cte's y Aux's los sacamos afuera)
                 # (Ftot + Integrador)
-                integrator = DEVSIntegrator(stock)
-                atomic_components = [integrator, DEVSFtot(stock)]
+                integrator = DEVSIntegrator(stock, name)
+                atomic_components = [integrator, DEVSFtot(stock, name)]
                 
                 #  (Fpm's)
-                devs_fpms = list(map(lambda x : DEVSFpm(x, [stock]), xmile_flows))
+                devs_fpms = list(map(lambda x : DEVSFpm(x, [stock], name), xmile_flows))
                 devs_fps  = list(filter(lambda x : x is not None, list(map(lambda x : x.getFPlus(), devs_fpms))))
                 devs_fms  = list(filter(lambda x : x is not None, list(map(lambda x : x.getFMinus(), devs_fpms))))
                 atomic_components = atomic_components + devs_fps + devs_fms
@@ -405,10 +405,10 @@ class DEVSCoupledComponent(DEVSComponent):
                 ####
                 # Special Atomics (correspondientes a Fp's y Fm's)
                 for fp in devs_fps:
-                    special_atomics = fp.getEquation().getSpecialFunctions()
+                    special_atomics = fp.getEquation().getSpecialFunctions(name)
                     atomic_components = atomic_components + special_atomics
                 for fm in devs_fms:
-                    special_atomics = fm.getEquation().getSpecialFunctions()
+                    special_atomics = fm.getEquation().getSpecialFunctions(name)
                     atomic_components = atomic_components + special_atomics
                 
                 ###########
@@ -419,21 +419,21 @@ class DEVSCoupledComponent(DEVSComponent):
                 for devs_fp in devs_fps:
                     input_ports_fp = devs_fp.getDEVSInputPorts()
                     for input_port_fp in input_ports_fp:
-                        if input_port_fp.getName() != stock.getName() and input_port_fp.getName() not in list(map(lambda x : x.getName(), devs_fp.getEquation().getSpecialFunctions())): 
+                        if input_port_fp.getName() != stock.getName() and input_port_fp.getName() not in list(map(lambda x : x.getName(), devs_fp.getEquation().getSpecialFunctions(name))): 
                             input_ports.append(DEVSPort(input_port_fp.getName(), self, 'in'))
                 for devs_fm in devs_fms:
                     input_ports_fm = devs_fm.getDEVSInputPorts()
                     for input_port_fm in input_ports_fm:
-                        if input_port_fm.getName() != stock.getName() and input_port_fm.getName() not in list(map(lambda x : x.getName(), devs_fm.getEquation().getSpecialFunctions())):
+                        if input_port_fm.getName() != stock.getName() and input_port_fm.getName() not in list(map(lambda x : x.getName(), devs_fm.getEquation().getSpecialFunctions(name))):
                             input_ports.append(DEVSPort(input_port_fm.getName(), self, 'in'))
                 # Agrego los inputs correspondientes a las variables que las SpecialFunctions necesitan
                 for devs_fp in devs_fps:
-                    special_functions = devs_fp.getEquation().getSpecialFunctions()
+                    special_functions = devs_fp.getEquation().getSpecialFunctions(name)
                     for special_func_obj in special_functions:
                         for variable_name in special_func_obj.getVariables():
                             input_ports.append(DEVSPort(variable_name, self, 'in'))
                 for devs_fm in devs_fms:
-                    special_functions = devs_fm.getEquation().getSpecialFunctions()
+                    special_functions = devs_fm.getEquation().getSpecialFunctions(name)
                     for special_func_obj in special_functions:
                         for variable_name in special_func_obj.getVariables():
                             input_ports.append(DEVSPort(variable_name, self, 'in'))
@@ -475,27 +475,27 @@ class DEVSCoupledComponent(DEVSComponent):
                 internal_connections = []
                 # Ftot => Integrator
                 internal_connections.append(DEVSInternalConnection(
-                        DEVSPort(DEVSFtot(stock).getName(), DEVSFtot(stock), 'out'), DEVSFtot(stock),
+                        DEVSPort(DEVSFtot(stock, name).getName(), DEVSFtot(stock, name), 'out'), DEVSFtot(stock, name),
                         DEVSPort('Tot'+stock.getName(), integrator, 'in'), integrator
                     ))
                 # fp => ftot
                 for fp in devs_fps:
                     for output_port in fp.getDEVSOutputPorts():
                         internal_connections.append(DEVSInternalConnection(
-                            output_port, fp, DEVSPort('plus', DEVSFtot(stock), 'in'), DEVSFtot(stock)
+                            output_port, fp, DEVSPort('plus', DEVSFtot(stock, name), 'in'), DEVSFtot(stock, name)
                         ))
                 # fm => ftot
                 for fm in devs_fms:
                     for output_port in fm.getDEVSOutputPorts():
                         internal_connections.append(DEVSInternalConnection(
-                            output_port, fm, DEVSPort('minus', DEVSFtot(stock), 'in'), DEVSFtot(stock)
+                            output_port, fm, DEVSPort('minus', DEVSFtot(stock, name), 'in'), DEVSFtot(stock, name)
                         ))
                 # Nota : las SpecialFunction's las dejo adentro del BASIC
                 for fp in devs_fps:
                     input_ports_fp = fp.getDEVSInputPorts()
                     for input_port in input_ports_fp:
                         # SpecialFunctions => Fp's
-                        for special_func_obj in fp.getEquation().getSpecialFunctions():
+                        for special_func_obj in fp.getEquation().getSpecialFunctions(name):
                             if input_port.getName() == special_func_obj.getName():
                                 internal_connections.append(DEVSInternalConnection(
                                     DEVSPort(special_func_obj.getName(), special_func_obj, 'out'), special_func_obj, input_port, fp
@@ -511,7 +511,7 @@ class DEVSCoupledComponent(DEVSComponent):
                     input_ports_fm = fm.getDEVSInputPorts()
                     for input_port in input_ports_fm:
                         # SpecialFunctions => Fm's
-                        for special_func_obj in fm.getEquation().getSpecialFunctions():
+                        for special_func_obj in fm.getEquation().getSpecialFunctions(name):
                             if input_port.getName() == special_func_obj.getName(): 
                                 internal_connections.append(DEVSInternalConnection(
                                     DEVSPort(special_func_obj.getName(), special_func_obj, 'out'), special_func_obj, input_port, fm
@@ -525,6 +525,7 @@ class DEVSCoupledComponent(DEVSComponent):
                 internal_connections = list(set(internal_connections))
                 
                 # Agrego componente
+                basic_coupled_now.setDEVSParent(self.name)
                 basic_coupled_now.setDEVSName(name)
                 basic_coupled_now.setDEVSAtomicComponents(atomic_components)
                 basic_coupled_now.setDEVSCoupledComponents(coupled_components)

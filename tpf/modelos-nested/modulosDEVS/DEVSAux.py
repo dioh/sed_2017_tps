@@ -7,10 +7,10 @@ class DEVSAux(DEVSAtomicComponent):
     def __init__(self, xmile_aux, xmile_model, xmile_dependencies):
         self.xmile_model = xmile_model
         self.xmile_aux = xmile_aux
+        self.parent = self.xmile_aux.getParent()
         self.access = self.xmile_aux.getAccess()
         self.name = self.xmile_aux.getName()
         self.equation = self.xmile_aux.getEquation()
-        self.parent = self.xmile_aux.getParent()
         self.input_ports = self.setInputPorts(xmile_dependencies)
         self.output_ports = self.setOutputPorts()
         self.type = "DEVSAux"
@@ -44,7 +44,7 @@ class DEVSAux(DEVSAtomicComponent):
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions():
+        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
             input_ports.append(DEVSPort(special_func_obj.getName(),
                                         self, 'in'))
         return list(set(input_ports))
@@ -65,6 +65,8 @@ class DEVSAux(DEVSAtomicComponent):
         return self.equation
 
     def getParent(self):
+        return self.parent
+    def getParentName(self):
         return self.parent
 
     def getDEVSInputPorts(self):

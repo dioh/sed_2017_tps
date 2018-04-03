@@ -4,8 +4,9 @@ from modulosDEVS.DEVSComponent import DEVSAtomicComponent
 
 
 class DEVSFtot(DEVSAtomicComponent):
-    def __init__(self, xmile_stock):
+    def __init__(self, xmile_stock, parent_name):
         self.stock = xmile_stock
+        self.parent = parent_name
         # TODO : con o sin el 'Tot' ?
         self.name = 'Tot' + xmile_stock.getName()
         self.access = xmile_stock.getAccess()
@@ -38,6 +39,9 @@ class DEVSFtot(DEVSAtomicComponent):
 
     def getName(self):
         return self.name
+        
+    def getParentName(self):
+        return self.parent
 
     def getDEVSInputPorts(self):
         return self.input_ports

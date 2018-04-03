@@ -2,7 +2,7 @@
 <inputs>{% for input_port in input_ports -%}<input name="{{input_port.getName()}}" type="{{input_port.getType()}}" />{% endfor %}</inputs>
 <outputs>{% for output_port in output_ports -%}<output name="{{output_port.getName()}}" type="{{output_port.getType()}}" />{% endfor %}</outputs>
 <components>
-{% for atomic in atomics -%}<atomicRef name="{{atomic.getName()}}" model="{{atomic.getType()}}" ><inputs>{% for input_port in atomic.getDEVSInputPorts() -%}<input name="{{input_port.getName()}}" type="{{input_port.getType()}}"/>{% endfor -%}</inputs><outputs>{% for output_port in atomic.getDEVSOutputPorts() -%}<output name="{{output_port.getName()}}" type="{{output_port.getType()}}"/>{% endfor -%}</outputs><parameters>{% for param, value in atomic.parameters().items() -%}<parameter name="{{param}}">{{value}}</parameter>{% endfor -%}</parameters></atomicRef>{% endfor -%}
+{% for atomic in atomics -%}<atomicRef name="{{atomic.getName()}}" model="{{atomic.getType()}}" parent="{{atomic.getParentName()}}" ><inputs>{% for input_port in atomic.getDEVSInputPorts() -%}<input name="{{input_port.getName()}}" type="{{input_port.getType()}}"/>{% endfor -%}</inputs><outputs>{% for output_port in atomic.getDEVSOutputPorts() -%}<output name="{{output_port.getName()}}" type="{{output_port.getType()}}"/>{% endfor -%}</outputs><parameters>{% for param, value in atomic.parameters().items() -%}<parameter name="{{param}}">{{value}}</parameter>{% endfor -%}</parameters></atomicRef>{% endfor -%}
 {% for coupled_filename in coupled_filenames -%}
 <include filename="{{coupled_filename}}" />
 {% endfor -%}

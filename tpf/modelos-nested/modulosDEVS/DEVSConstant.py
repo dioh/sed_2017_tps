@@ -7,10 +7,10 @@ class DEVSConstant(DEVSAtomicComponent):
     def __init__(self, xmile_aux, xmile_model):
         self.xmile_model = xmile_model
         self.xmile_constant = xmile_aux
+        self.parent = self.xmile_constant.getParent()
         self.access = self.xmile_constant.getAccess()
         self.name = self.xmile_constant.getName()
         self.equation = self.xmile_constant.getEquation()
-        self.parent = self.xmile_constant.getParent()
         self.input_ports = self.setInputPorts()
         self.output_ports = [DEVSPort(self.getName(), self, 'out')]
         self.type = 'DEVSConstant'
@@ -40,7 +40,7 @@ class DEVSConstant(DEVSAtomicComponent):
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions():
+        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
             input_ports.append(DEVSPort(special_func_obj.getName(), 
                                         self, 'in'))
         return list(set(input_ports))
@@ -56,6 +56,8 @@ class DEVSConstant(DEVSAtomicComponent):
         return self.equation
 
     def getParent(self):
+        return self.parent
+    def getParentName(self):
         return self.parent
 
     def getDEVSInputPorts(self):

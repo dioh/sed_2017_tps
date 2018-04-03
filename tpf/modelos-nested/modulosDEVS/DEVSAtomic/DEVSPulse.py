@@ -14,6 +14,7 @@ class DEVSPulse(DEVSAtomicComponent):
 		self.output_ports= self.setOutputPorts()
 		self.equation    = self.setEquation()
 		self.type        = 'DEVSPulse'
+		self.parent 	 = None
 
 
 	def __repr__(self):
@@ -32,6 +33,9 @@ class DEVSPulse(DEVSAtomicComponent):
 		})
 
 	# Setters
+	def setParent(self, parent_name):
+		self.parent = parent_name
+		
 	def setEquation(self):
 		from modulosXMILE.Equation import Equation
 		return Equation(str(self.volume), False)
@@ -70,6 +74,8 @@ class DEVSPulse(DEVSAtomicComponent):
 	# devuelve todo lo que sea numerico (int's, float's)
 	def getName(self):
 		return self.name
+	def getParentName(self):
+		return self.parent
 	def getType(self):
 		return self.type
 	def getEquation(self):
