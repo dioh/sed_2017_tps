@@ -31,21 +31,56 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
         return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
     # DEVSConstant
-    template_cte_cpp = cpp_h_templates_filenames['DEVSConstant.cpp']
-    template_cte_h   = cpp_h_templates_filenames['DEVSConstant.h']
+    template_cte = cpp_h_templates_filenames['DEVSConstant']
     atomic_ctes = filter(lambda x : x.get('model') in ['DEVSConstant'], root.findall('.//atomicRef'))
-    
-    # TODO : abrir template, rellenarlo y guardarlo en alguna carpeta
-    print [ac.get('name') + ' ' + ac.get('parent') for ac in atomic_ctes]
+    # print [ac.get('name') + ' ' + ac.get('parent') for ac in atomic_ctes]
     for ac in atomic_ctes:
-        with open(devsml_cpp_h_directory + ac.get('name') + '.h', 'w+') as f:
-            f.write(render_template('template-Cte.h', {'inVal' : 10}))
+        cte_name = ac.get('name') + ac.get('parent')
+        for extension in ['.h', '.cpp']:
+            with open(devsml_cpp_h_directory + cte_name + extension, 'w+') as f:
+                template_now = template_cte + extension
+                f.write(render_template(template_now, {
+                    'cte_name_lower' : cte_name,
+                    'cte_name_upper' : cte_name.upper(),
+                    'input_ports' : list(map(lambda x : x.get('name'), ac.find('inputs').findall('input'))),
+                    'output_ports': list(map(lambda x : x.get('name'), ac.find('outputs').findall('output')))
+                }))
 
     # DEVSAux
     # DEVSFplus
     # DEVSFminus
+    template_aux = cpp_h_templates_filenames['DEVSAux']
+    atomic_auxs = filter(lambda x : x.get('model') in ['DEVSAux', 'DEVSFplus', 'DEVSFminus'], root.findall('.//atomicRef'))
+    for aa in atomic_auxs:
+        aux_name = aa.get('name') + aa.get('parent')
+        for extension in ['.h', '.cpp']:
+            with open(devsml_cpp_h_directory + aux_name + extension, 'w+') as f:
+                template_now = template_aux + extension
+                f.write(render_template(template_now, {
+                    'aux_name_lower' : aux_name,
+                    'aux_name_upper' : aux_name.upper(),
+                    'input_ports' : list(map(lambda x : x.get('name'), aa.find('inputs').findall('input'))),
+                    'output_ports': list(map(lambda x : x.get('name'), aa.find('outputs').findall('output'))),
+                    'equation'    : aa.find('parameters').find('parameter').text # por ahora el unico parametero posible es 'equation' aca 
+                }))
     # DEVSFtot
+    template_tot = cpp_h_templates_filenames['DEVSFtot']
+    atomic_tots = filter(lambda x : x.get('model') in ['DEVSFtot'], root.findall('.//atomicRef'))
+    for at in atomic_tots:
+        tot_name = at.get('name') + at.get('parent')
+        for extension in ['.h', '.cpp']:
+            with open(devsml_cpp_h_directory + tot_name + extension, 'w+') as f:
+                template_now = template_tot + extension
+                f.write(render_template(template_now,{
+                    'tot_name_lower' : tot_name,
+                    'tot_name_upper' : tot_name.upper(),
+                    'plus_input_ports' : list(map(lambda y : y.get('name'), filter(lambda x : x.get('type') == 'in_plus', at.find('inputs').findall('input')))),
+                    'minus_input_ports' : list(map(lambda y : y.get('name'), filter(lambda x : x.get('type') == 'in_minus', at.find('inputs').findall('input')))),
+                    'output_ports' : list(map(lambda x : x.get('name'), at.find('outputs').findall('output')))
+                }))
     # DEVSFpulse
+    # TODO
+    
     # etc.
     return 0
 

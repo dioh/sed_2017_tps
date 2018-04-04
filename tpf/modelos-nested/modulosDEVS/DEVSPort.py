@@ -2,7 +2,7 @@
 
 class DEVSPort(object):
 	def __init__(self, name, component, type_, is_for_constant=False):
-		assert(type_ in ['in', 'out'])
+		assert(type_ in ['in', 'out', 'in_plus', 'in_minus'])
 		self.type = type_
 		self.name = name
 		# TODO : asertar que 'component' es de tipo 'DEVSComponent'
@@ -33,6 +33,8 @@ class DEVSPort(object):
 		return (hash(self.name) ^ hash(self.component.getName()) ^ hash(self.type))
 
 	# Setters
+	def setType(self, type_):
+		self.type = type_
 
 	# Getters
 	def getType(self):

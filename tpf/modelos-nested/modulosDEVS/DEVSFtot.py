@@ -11,8 +11,7 @@ class DEVSFtot(DEVSAtomicComponent):
         self.name = 'Tot' + xmile_stock.getName()
         self.access = xmile_stock.getAccess()
         self.equation = xmile_stock.getEquation()
-        self.input_ports = [DEVSPort('minus', self, 'in'),
-                            DEVSPort('plus', self, 'in')]
+        self.input_ports = []
         self.output_ports = [DEVSPort(self.name, self, 'out')]
         self.type = 'DEVSFtot'
 
@@ -34,6 +33,18 @@ class DEVSFtot(DEVSAtomicComponent):
             'output_ports': self.output_ports
         })
 
+    # Setters
+    def addPlusPort(self, port_name):
+        new_port = DEVSPort(port_name, self, 'in_plus')
+        self.input_ports.append(new_port)
+        return new_port
+
+    def addMinusPort(self, port_name):
+        new_port = DEVSPort(port_name, self, 'in_minus')
+        self.input_ports.append(new_port)
+        return new_port
+
+    # Getters
     def getType(self):
         return self.type
 
@@ -45,6 +56,8 @@ class DEVSFtot(DEVSAtomicComponent):
 
     def getDEVSInputPorts(self):
         return self.input_ports
+    def getDEVSInputPortsNames(self):
+        return list(map(lambda x : x.getName(), self.input_ports))
 
     def getDEVSOutputPorts(self):
         return self.output_ports

@@ -6,50 +6,52 @@
 #include "real.h"
 #include "tuple_value.h"
 
-#include "{{name}}.h"
+#include "{{tot_name_lower}}.h"
 
 using namespace std;
 
-{{name}}::{{name}}(const string &name) :
+{{tot_name_lower}}::{{tot_name_lower}}(const string &name) :
 	Atomic(name),
-	{% for port_plus in in_ports_plus -%}
-	{{port_plus['name']}}(addInputPort("{{port_plus['name']}}")),
+	{% for port_plus in plus_input_ports -%}
+	{{port_plus}}(addInputPort("{{port_plus}}")),
 	{% endfor -%}
-	{% for port_minus in in_ports_minus -%}
-	{{port_minus['name']}}(addInputPort("{{port_minus['name']}}")),
+	{% for port_minus in minus_input_ports -%}
+	{{port_minus}}(addInputPort("{{port_minus}}")),
 	{% endfor -%}
-	{% for port_plus in in_ports_plus -%}
-	isSet_val_{{port_plus['name']}}(false),
+	{% for port_plus in plus_input_ports -%}
+	isSet_{{port_plus}}(false),
 	{% endfor -%}
-	{% for port_minus in in_ports_minus -%}
-	isSet_val_{{port_minus['name']}}(false),
+	{% for port_minus in minus_input_ports -%}
+	isSet_{{port_minus}}(false),
 	{% endfor -%}
-	out(addOutputPort("out"))
+	{% for port_out in output_ports -%}
+	{{port_out}}(addOutputPort("{{port_out}}"))
+	{% endfor -%}
 {
 }
 
 
-Model &{{name}}::initFunction()
+Model &{{tot_name_lower}}::initFunction()
 {
 	holdIn(AtomicState::passive, VTime::Inf);
 	return *this;
 }
 
 
-Model &{{name}}::externalFunction(const ExternalMessage &msg)
+Model &{{tot_name_lower}}::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	{% for port_plus in in_ports_plus -%}
-	if(msg.port() == {{port_plus['name']}}) {
-		val_{{port_plus['name']}} = x;
-		isSet_val_{{port_plus['name']}} = true;
+	{% for port_plus in plus_input_ports -%}
+	if(msg.port() == {{port_plus}}) {
+		{{port_plus}} = x;
+		isSet_{{port_plus}} = true;
 	}
 	{% endfor -%}
-	{% for port_minus in in_ports_minus -%}
-	if(msg.port() == {{port_minus['name']}}) {
-		val_{{port_minus['name']}} = x;
-		isSet_val_{{port_minus['name']}} = true;
+	{% for port_minus in minus_input_ports -%}
+	if(msg.port() == {{port_minus}}) {
+		{{port_minus}} = x;
+		isSet_{{port_minus}} = true;
 	}
 	{% endfor -%}
 	holdIn(AtomicState::active, VTime::Zero);
@@ -57,38 +59,40 @@ Model &{{name}}::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &{{name}}::internalFunction(const InternalMessage &)
+Model &{{tot_name_lower}}::internalFunction(const InternalMessage &)
 {
 	passivate();
 	return *this ;
 }
 
 
-Model &{{name}}::outputFunction(const CollectMessage &msg)
+Model &{{tot_name_lower}}::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
 	double minus = 0;
-	if({%- for port_plus in in_ports_plus -%} 
-	{%- if loop.index0 == 0 %}isSet_val_{{port_plus['name']}} {%- endif -%}
-	{%- if loop.index0 > 0 %}& isSet_val_{{port_plus['name']}} 
+	if({%- for port_plus in plus_input_ports -%} 
+	{%- if loop.index0 == 0 %}isSet_{{port_plus}} {%- endif -%}
+	{%- if loop.index0 > 0 %}& isSet_{{port_plus}} 
 	{%- endif -%}
 	{%- endfor -%}
-	{%- for port_minus in in_ports_minus -%}
-	{%- if loop.index0 == 0 and in_ports_plus|length == 0 %}isSet_val_{{port_minus['name']}}
+	{%- for port_minus in minus_input_ports -%}
+	{%- if loop.index0 == 0 and plus_input_ports|length == 0 %}isSet_{{port_minus}}
 	{%- endif %}
-	{%- if loop.index0 > 0 or (loop.index0 == 0 and in_ports_plus|length > 0) %} & isSet_val_{{port_minus['name']}}
+	{%- if loop.index0 > 0 or (loop.index0 == 0 and plus_input_ports|length > 0) %} & isSet_{{port_minus}}
 	{%- endif %}
 	{%- endfor -%}
 	) {
-		{% for port_plus in in_ports_plus -%}
-		plus = plus + val_{{port_plus['name']}};
+		{% for port_plus in plus_input_ports -%}
+		plus = plus + {{port_plus}};
 		{% endfor -%}
-		{% for port_minus in in_ports_minus -%}
-		minus = minus + val_{{port_minus['name']}};
+		{% for port_minus in minus_input_ports -%}
+		minus = minus + {{port_minus}};
 		{% endfor -%}
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out, out_value);
+		{% for port_out in output_ports -%}
+		sendOutput(msg.time(), {{port_out}}, out_value);
+		{% endfor -%}
 	}
 
 	return *this ;

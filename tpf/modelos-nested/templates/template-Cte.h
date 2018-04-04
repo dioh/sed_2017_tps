@@ -1,5 +1,5 @@
-#ifndef _Cte_H_
-#define _Cte_H_
+#ifndef _{{cte_name_lower}}_H_
+#define _{{cte_name_lower}}_H_
 
 #include <random>
 
@@ -7,14 +7,14 @@
 #include "VTime.h"
 
 
-#define CTE "Cte"
+#define {{cte_name_upper}} "{{cte_name_lower}}"
 
 
-class Cte : public Atomic {
+class {{cte_name_lower}} : public Atomic {
   public:
     
-    Cte(const string &name = CTE );
-    virtual string className() const {  return CTE ;}
+    {{cte_name_lower}}(const string &name = {{cte_name_upper}} );
+    virtual string className() const {  return {{cte_name_upper}} ;}
   
   protected:
     Model &initFunction();
@@ -23,10 +23,16 @@ class Cte : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &inVal;
-    Port &out;
+    {% for input_port_name in input_ports %}
+    const Port &{{input_port_name}};
+    {% endfor -%}
+    {% for output_port_name in output_ports %}
+    Port &{{output_port_name}};
+    {% endfor -%}
 
-    double val;
+    {% for input_port_name in input_ports %}
+    double {{input_port_name}};
+    {% endfor -%}
 };
 
 #endif

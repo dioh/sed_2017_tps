@@ -10,6 +10,7 @@ from modulosDEVS.DEVSPort import *
 from modulosDEVS.DEVSBasicCoupledComponent import *
 
 # TODO : buscar una forma de determinar el 'parent' de cada DEVSCoupledComponent. En ppio pareciera no ser necesario para armar los h, cpp y ma
+# TODO : que pasa si un PULSE entra en una Cte?
 class DEVSCoupledComponent(DEVSComponent):
     ################################################################################
     def __init__(self, xmile_model, root_models, name=None,
@@ -379,6 +380,7 @@ class DEVSCoupledComponent(DEVSComponent):
         xmile_flows  = xmile_generic_model.getFlows()
         coupleds = []
 
+        # TODO : arreglar problemas de nombres en inputs para Ftot's (minus / plus no alcanzan como nombres de puertos)
         for stock in xmile_stocks:
             # Los stocks que no entran en el if, obtengo/entrego su valor mediante los puertos de input/output
             if stock.getAccess() is None or stock.getAccess() != 'input':
@@ -394,7 +396,8 @@ class DEVSCoupledComponent(DEVSComponent):
                 # Atomicos : Ftot + Integrador + Fpm's (recordar que los Cte's y Aux's los sacamos afuera)
                 # (Ftot + Integrador)
                 integrator = DEVSIntegrator(stock, name)
-                atomic_components = [integrator, DEVSFtot(stock, name)]
+                ftot = DEVSFtot(stock,name)
+                atomic_components = [integrator, ftot]
                 
                 #  (Fpm's)
                 devs_fpms = list(map(lambda x : DEVSFpm(x, [stock], name), xmile_flows))
@@ -475,21 +478,21 @@ class DEVSCoupledComponent(DEVSComponent):
                 internal_connections = []
                 # Ftot => Integrator
                 internal_connections.append(DEVSInternalConnection(
-                        DEVSPort(DEVSFtot(stock, name).getName(), DEVSFtot(stock, name), 'out'), DEVSFtot(stock, name),
+                        DEVSPort(ftot.getName(), ftot, 'out'), ftot,
                         DEVSPort('Tot'+stock.getName(), integrator, 'in'), integrator
                     ))
                 # fp => ftot
+                #print ftot.getDEVSInputPortsNames()
                 for fp in devs_fps:
                     for output_port in fp.getDEVSOutputPorts():
-                        internal_connections.append(DEVSInternalConnection(
-                            output_port, fp, DEVSPort('plus', DEVSFtot(stock, name), 'in'), DEVSFtot(stock, name)
-                        ))
+                        updated_port = ftot.addPlusPort(output_port.getName())
+                        internal_connections.append(DEVSInternalConnection(output_port, fp, updated_port, ftot))
                 # fm => ftot
                 for fm in devs_fms:
                     for output_port in fm.getDEVSOutputPorts():
-                        internal_connections.append(DEVSInternalConnection(
-                            output_port, fm, DEVSPort('minus', DEVSFtot(stock, name), 'in'), DEVSFtot(stock, name)
-                        ))
+                        updated_port = ftot.addMinusPort(output_port.getName())
+                        internal_connections.append(DEVSInternalConnection(output_port, fm, updated_port, ftot))
+
                 # Nota : las SpecialFunction's las dejo adentro del BASIC
                 for fp in devs_fps:
                     input_ports_fp = fp.getDEVSInputPorts()

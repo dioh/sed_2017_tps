@@ -6,38 +6,38 @@
 #include "real.h"
 #include "tuple_value.h"
 
-#include "{{name}}.h"
+#include "{{aux_name_lower}}.h"
 
 using namespace std;
 
-{{name}}::{{name}}(const string &name) :
+{{aux_name_lower}}::{{aux_name_lower}}(const string &name) :
 	Atomic(name),
-	{% for in_port in in_ports -%}
-	{{in_port['name']}}(addInputPort("{{in_port['name']}}")),
-	{% endfor -%}
-	{% for in_port in in_ports -%}
-	isSet_val_{{in_port['name']}}(false),
-	{% endfor -%}
-	out(addOutputPort("out"))
+	{%- for input_port_name in input_ports %}
+    {{input_port_name}}(addInputPort("{{input_port_name}}")),
+    {%- endfor -%}
+	{%- for input_port_name in input_ports %}
+    isSet_{{input_port_name}}(false),
+    {%- endfor %}
+	{{aux_name_lower}}(addOutputPort("{{aux_name_lower}}"))
 {
 }
 
 
-Model &{{name}}::initFunction()
+Model &{{aux_name_lower}}::initFunction()
 {
 	holdIn(AtomicState::passive, VTime::Inf);
 	return *this;
 }
 
 
-Model &{{name}}::externalFunction(const ExternalMessage &msg)
+Model &{{aux_name_lower}}::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	{% for in_port in in_ports -%}
-	if(msg.port() == {{in_port['name']}}) {
-		val_{{in_port['name']}} = x;
-		isSet_val_{{in_port['name']}} = true;
+	{% for input_port_name in input_ports -%}
+	if(msg.port() == {{input_port_name}}) {
+		{{input_port_name}} = x;
+		isSet_{{input_port_name}} = true;
 	}
 	{% endfor -%}
 	holdIn(AtomicState::active, VTime::Zero);
@@ -45,23 +45,22 @@ Model &{{name}}::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &{{name}}::internalFunction(const InternalMessage &)
+Model &{{aux_name_lower}}::internalFunction(const InternalMessage &)
 {
 	passivate();
 	return *this ;
 }
 
 
-Model &{{name}}::outputFunction(const CollectMessage &msg)
+Model &{{aux_name_lower}}::outputFunction(const CollectMessage &msg)
 {
-	{% if in_ports|length > 0 %}
-	if({% for in_port in in_ports -%}
-		{% if loop.index0 == 0 %} isSet_val_{{in_port['name']}} {% endif -%}
-		{% if loop.index0 > 0 %}& isSet_val_{{in_port['name']}} {% endif -%}
+	{% if input_ports|length > 0 %}
+	if({% for input_port_name in input_ports -%}
+		{% if loop.index0 == 0 %} isSet_{{input_port_name}} {% endif -%}
+		{% if loop.index0 > 0 %}& isSet_{{input_port_name}} {% endif -%}
 	{% endfor -%}) {
-		double val = {{parameters[0]['function']}};
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out, out_value);
+	    Tuple<Real> out_value { {{equation}} };
+		sendOutput(msg.time(), {{aux_name_lower}}, out_value);
 	}
 	{% endif %}
 	return *this ;
