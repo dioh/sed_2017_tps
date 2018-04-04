@@ -47,3 +47,5 @@ for model, params in params_traducciones.items():
     generateDEVSML(DIR_XMILE, DEVSML_TEMPLATE_FILENAME, DEVSML_TOP_FILENAME)
     # TODO : Generate ma
     generateHCPP(DEVSML_TOP_FILENAME, DEVSML_CPP_H_DIRECTORY, CPP_H_TEMPLATES_FILENAMES)
+    # TODO : generateREG
+    # TODO : generate events file

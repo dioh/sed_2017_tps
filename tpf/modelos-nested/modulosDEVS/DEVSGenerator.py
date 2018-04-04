@@ -11,6 +11,12 @@ from modulosXMILE.Model import *
 from modulosDEVS.DEVSCoupledComponent import *
 
 ###################################################################################################################
+def geneterateREGFile():
+    pass
+def generateEVENTSFile():
+    pass
+
+###################################################################################################################
 # Tiene que ser compatible con la transformacion de DEVSML => MA
 def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_filenames):
     # atomicos = ['DEVSConstant', 'DEVSAux', 'DEVSFplus', 'DEVSFminus', 'DEVSPulse']
@@ -80,7 +86,7 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
                 }))
     # DEVSFpulse
     # TODO
-    
+
     # etc.
     return 0
 
