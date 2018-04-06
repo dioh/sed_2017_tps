@@ -9,16 +9,16 @@ import xml.etree.ElementTree as etree
 import vkbeautify as vkb
 from modulosXMILE.Model import *
 from modulosDEVS.DEVSCoupledComponent import *
+import re
+import logging
 
 ###################################################################################################################
-def geneterateREGFile():
-    pass
-def generateEVENTSFile():
-    pass
+# Configuraciones
+logging.basicConfig(filename='DEVSGenerator.log',level=logging.DEBUG)
 
 ###################################################################################################################
 # Tiene que ser compatible con la transformacion de DEVSML => MA
-def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_filenames):
+def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_filenames, devsml_events_filename):
     # atomicos = ['DEVSConstant', 'DEVSAux', 'DEVSFplus', 'DEVSFminus', 'DEVSPulse']
     with open(devsml_top_filename, 'r') as xml_file:
         parser = etree.XMLParser(encoding="utf-8")
@@ -36,21 +36,45 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
     def render_template(template_filename, context):
         return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
-    # DEVSConstant
+    # For Reg File
+    atomics_names = []
+
+    # DEVSConstant + Events File
+    ctes_names_values = []
     template_cte = cpp_h_templates_filenames['DEVSConstant']
     atomic_ctes = filter(lambda x : x.get('model') in ['DEVSConstant'], root.findall('.//atomicRef'))
-    # print [ac.get('name') + ' ' + ac.get('parent') for ac in atomic_ctes]
     for ac in atomic_ctes:
-        cte_name = ac.get('name') + ac.get('parent')
+        cte_name = ac.get('name')
+        cte_full_name = cte_name + ac.get('parent')
+        cte_value = filter(lambda x : x.get('name') == 'value', ac.find('parameters').findall('parameter'))[0].text
+        atomics_names.append(cte_full_name)
+        # TODO : ver esto. Son los casos en los que la Cte esta adentro de nn acoplado, y recibe input proveniente de un Aux de mas arriba
+        # Events File
+        def is_numeric(text):
+            try:
+                float(text)
+                return True
+            except ValueError:
+                return False
+        if is_numeric(cte_value):
+            ctes_names_values.append({'cte_name' : cte_name, 'cte_value' : cte_value})
+        # DEVSConstant
         for extension in ['.h', '.cpp']:
-            with open(devsml_cpp_h_directory + cte_name + extension, 'w+') as f:
+            with open(devsml_cpp_h_directory + cte_full_name + extension, 'w+') as f:
                 template_now = template_cte + extension
                 f.write(render_template(template_now, {
-                    'cte_name_lower' : cte_name,
-                    'cte_name_upper' : cte_name.upper(),
+                    'cte_name_lower' : cte_full_name,
+                    'cte_name_upper' : cte_full_name.upper(),
                     'input_ports' : list(map(lambda x : x.get('name'), ac.find('inputs').findall('input'))),
                     'output_ports': list(map(lambda x : x.get('name'), ac.find('outputs').findall('output')))
                 }))
+    # events
+    with open(devsml_events_filename, 'w+') as f:
+        template_now = cpp_h_templates_filenames['events']
+        f.write(render_template(template_now, {
+            # Para no repetir los inputs de Ctes que vienen de afuera y van hacia adentro de los acoplados
+            'ctes_names_values' : [dict(tupleized) for tupleized in set(tuple(item.items()) for item in ctes_names_values)]
+        }))
 
     # DEVSAux
     # DEVSFplus
@@ -69,6 +93,8 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
                     'output_ports': list(map(lambda x : x.get('name'), aa.find('outputs').findall('output'))),
                     'equation'    : aa.find('parameters').find('parameter').text # por ahora el unico parametero posible es 'equation' aca 
                 }))
+        atomics_names.append(aux_name)
+
     # DEVSFtot
     template_tot = cpp_h_templates_filenames['DEVSFtot']
     atomic_tots = filter(lambda x : x.get('model') in ['DEVSFtot'], root.findall('.//atomicRef'))
@@ -84,10 +110,19 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
                     'minus_input_ports' : list(map(lambda y : y.get('name'), filter(lambda x : x.get('type') == 'in_minus', at.find('inputs').findall('input')))),
                     'output_ports' : list(map(lambda x : x.get('name'), at.find('outputs').findall('output')))
                 }))
-    # DEVSFpulse
-    # TODO
+        atomics_names.append(tot_name)
 
+    # TODO
+    # DEVSFpulse
     # etc.
+
+    # Reg File
+    template_reg = cpp_h_templates_filenames['reg']
+    with open(devsml_cpp_h_directory + 'reg.cpp', 'w+') as f:
+        template_now = template_reg
+        f.write(render_template(template_now, {
+            'atomics_names' : atomics_names
+        }));
     return 0
 
 ###################################################################################################################
@@ -101,6 +136,7 @@ def generateDEVSML(dir_xmile, devsml_template_filename, devsml_top_filename):
     PATH_TEMPLATES = 'templates'
 
     ## Auxiliary functions
+    logging.info('PARSING : ' + dir_xmile)
     parser = etree.XMLParser(encoding="utf-8")
     with open(dir_xmile, 'r') as xml_file:
         xml_tree = etree.parse(xml_file, parser=parser)
@@ -117,7 +153,8 @@ def generateDEVSML(dir_xmile, devsml_template_filename, devsml_top_filename):
 
     ## Code
     for model in models_parsed:
-        print model.getName()
+        #print model.getName()
+        logging.info('GENERATE MODEL : ' + model.getName())
     ##
     topModel = models_parsed[0]
     dm = DEVSCoupledComponent(topModel, models_parsed)
