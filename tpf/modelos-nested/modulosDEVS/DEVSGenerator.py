@@ -4,17 +4,15 @@ import os
 cwd = os.getcwd()
 if cwd not in sys.path:
     sys.path.append(cwd)
-from jinja2 import DictLoader, Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader
 import xml.etree.ElementTree as etree
 import vkbeautify as vkb
 from modulosXMILE.Model import *
-from modulosDEVS.DEVSCoupledComponent import *
-import re
+from DEVSCoupledComponent import DEVSCoupledComponent
 import logging
 
 ###################################################################################################################
 # Configuraciones
-logging.basicConfig(filename='DEVSGenerator.log',level=logging.DEBUG)
 
 ###################################################################################################################
 # Tiene que ser compatible con la transformacion de DEVSML => MA
@@ -151,40 +149,39 @@ def generateDEVSML(dir_xmile, devsml_template_filename, devsml_top_filename):
     def render_template(template_filename, context):
         return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
-    ## Code
+    # Code
     for model in models_parsed:
-        #print model.getName()
-        logging.info('GENERATE MODEL : ' + model.getName())
+        logging.info('GENERATE MODEL : ' + model.get_name())
     ##
-    topModel = models_parsed[0]
-    dm = DEVSCoupledComponent(topModel, models_parsed)
+    top_model = models_parsed[0]
+    dm = DEVSCoupledComponent(top_model, models_parsed)
 
     filenames = []
     def traverse(dm):
-        name = dm.getName()
+        name = dm.get_name()
         dst_filename = name
         
         # Acumulo todos los nombres para despues borrarlos
         filenames.append(name)
         
-        ccs = dm.getDEVSCoupledComponents()
+        ccs = dm.get_coupled_components()
         ccs_names = []
         
         # Recursion
         for cc in ccs:
             traverse(cc)
-            ccs_names.append(cc.getName())
+            ccs_names.append(cc.get_name())
 
         # Genero xml
         context = {
-            'coupled_name' : name,
-            'coupled_filenames' : ccs_names,
-            'atomics'           : dm.getDEVSAtomicComponents(),
-            'input_ports'       : dm.getDEVSInputPorts(),
-            'output_ports'      : dm.getDEVSOutputPorts(),
-            'internal_connections'        : dm.getDEVSInternalConnections(),
-            'external_input_connections'  : dm.getDEVSExternalInputConnections(),
-            'external_output_connections' : dm.getDEVSExternalOutputConnections()
+            'coupled_name': name,
+            'coupled_filenames': ccs_names,
+            'atomics': dm.get_atomic_components(),
+            'input_ports': dm.get_input_ports(),
+            'output_ports': dm.get_output_ports(),
+            'internal_connections': dm.get_internal_connections(),
+            'external_input_connections': dm.get_external_input_connections(),
+            'external_output_connections': dm.get_external_output_connections()
         }
         coupled_xml = render_template(devsml_template_filename, context)
             
@@ -220,7 +217,6 @@ def generateDEVSML(dir_xmile, devsml_template_filename, devsml_top_filename):
             if child.tag == 'include':
                 elem.remove(child)
     x = etree.tostring(root)
-    pretty_xml = vkb.xml(x) 
     vkb.xml(x, devsml_top_filename)
 
     # Borro archivos que ya no necesito

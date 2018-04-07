@@ -1,6 +1,7 @@
 
-from modulosDEVS.DEVSComponent import *
+from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
+
 
 class DEVSStep(DEVSAtomicComponent):
-	def __init__(self):
-		self.zzz = 1
+    def __init__(self):
+        self.zzz = 1

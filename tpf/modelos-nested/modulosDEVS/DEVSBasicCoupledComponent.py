@@ -1,5 +1,5 @@
 
-from modulosDEVS.DEVSComponent import *
+from modulosDEVS.DEVSComponent import DEVSComponent
 
 class DEVSBasicCoupledComponent(DEVSComponent):
     ################################################################################
@@ -14,7 +14,7 @@ class DEVSBasicCoupledComponent(DEVSComponent):
         if name is not None:
             self.name = name
         else:
-            self.name = 'DEVS_BASIC_COUPLED_' + self.xmile_model.getName()
+            self.name = 'DEVS_BASIC_COUPLED_' + self.xmile_model.get_name()
         
         # Atomic components
         if atomic_components is not None:
@@ -40,6 +40,7 @@ class DEVSBasicCoupledComponent(DEVSComponent):
         # Parent name
         if parent_name is not None:
             self.parent = parent_name
+
     ################################################################################
     # Representation functions
     def __repr__(self):
@@ -54,6 +55,7 @@ class DEVSBasicCoupledComponent(DEVSComponent):
             'input_ports' : self.input_ports,
             'output_ports' : self.output_ports
         })
+
     def __str__(self):
         return str({
             'name' : self.name,
@@ -66,44 +68,63 @@ class DEVSBasicCoupledComponent(DEVSComponent):
             'input_ports' : self.input_ports,
             'output_ports' : self.output_ports
         })
+
     ################################################################################ 
     # Setters
-    def setDEVSParent(self, parent_name):
+    def set_parent(self, parent_name):
         self.parent = parent_name
-    def setDEVSName(self, name):
+
+    def set_name(self, name):
         self.name = name
-    def setDEVSAtomicComponents(self, atomic_components):
+
+    def set_atomic_components(self, atomic_components):
         self.atomic_components = atomic_components
-    def setDEVSCoupledComponents(self, coupled_components):
+
+    def set_coupled_components(self, coupled_components):
         self.coupled_components = coupled_components
-    def setDEVSOutputPorts(self, output_ports):
+
+    def set_output_ports(self, output_ports):
         self.output_ports = output_ports
-    def setDEVSInputPorts(self, input_ports):
+
+    def set_input_ports(self, input_ports):
         self.input_ports = input_ports
-    def setDEVSExternalInputConnections(self, external_input_connections):
+
+    def set_external_input_connections(self, external_input_connections):
         self.external_input_connections = external_input_connections
-    def setDEVSExternalOutputConnections(self, external_output_connections):
+
+    def set_external_output_connections(self, external_output_connections):
         self.external_output_connections = external_output_connections
-    def setDEVSInternalConnections(self, internal_connections):
+
+    def set_internal_connections(self, internal_connections):
         self.internal_connections = internal_connections
+
     # Getters
-    def getParent(self):
+    def get_parent(self):
         return self.parent
-    def getType(self):
+
+    def get_type(self):
         return self.type
-    def getName(self):
+
+    def get_name(self):
         return self.name
-    def getDEVSAtomicComponents(self):
+
+    def get_atomic_components(self):
         return self.atomic_components
-    def getDEVSCoupledComponents(self):
+
+    def get_coupled_components(self):
         return self.coupled_components
-    def getDEVSExternalInputConnections(self):
+
+    def get_external_input_connections(self):
         return self.external_input_connections
-    def getDEVSExternalOutputConnections(self):
+
+    def get_external_output_connections(self):
         return self.external_output_connections
-    def getDEVSInternalConnections(self):
+
+    def get_internal_connections(self):
         return self.internal_connections
-    def getDEVSInputPorts(self):
+
+    def get_input_ports(self):
         return self.input_ports
-    def getDEVSOutputPorts(self):
+
+    def get_output_ports(self):
         return self.output_ports

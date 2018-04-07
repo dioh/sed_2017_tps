@@ -1,50 +1,40 @@
 
-
 class DEVSPort(object):
-	def __init__(self, name, component, type_, is_for_constant=False):
-		assert(type_ in ['in', 'out', 'in_plus', 'in_minus'])
-		self.type = type_
-		self.name = name
-		# TODO : asertar que 'component' es de tipo 'DEVSComponent'
-		self.component = component
-		self.is_for_constant = is_for_constant
 
-	def __repr__(self):
-		return str({
-			'name' : self.name,
-			'type' : self.type,
-			'component' : self.component.getName()
-		})
+    def __init__(self, name, component, type_, is_for_constant=False):
+        self.type = type_
+        self.name = name
+        # TODO : assert 'component' is of type 'DEVSComponent'
+        self.component = component
+        self.is_for_constant = is_for_constant
 
-	def __str__(self):
-		return str({
-			'name' : self.name,
-			'type' : self.type,
-			'component' : self.component.getName()
-		})
+    def __repr__(self):
+        return str(dict(name=self.name, type=self.type, component=self.component.get_name()))
 
-	def __eq__(self, other):
-		# TODO : hacer esto mismo para DEVSCoupledComonent
-		return self.name == other.getName() and \
-			self.component.getName() == other.getComponent().getName() and \
-			self.type == other.getType()
-	
-	def __hash__(self):
-		return (hash(self.name) ^ hash(self.component.getName()) ^ hash(self.type))
+    def __str__(self):
+        return str(dict(name=self.name, type=self.type, component=self.component.get_name()))
 
-	# Setters
-	def setType(self, type_):
-		self.type = type_
+    def __eq__(self, other):
+        # TODO : same for DEVSCoupledComponent
+        return self.name == other.get_name() and self.component.get_name() == other.get_component().get_name() and \
+               other.get_type() == self.type
 
-	# Getters
-	def getType(self):
-		return self.type
+    def __hash__(self):
+        return hash(self.name) ^ hash(self.component.get_name()) ^ hash(self.type)
 
-	def getName(self):
-		return self.name
+    # Setters
+    def set_type(self, type_):
+        self.type = type_
 
-	def getComponent(self):
-		return self.component
+    # Getters
+    def get_type(self):
+        return self.type
 
-	def get_is_for_constant(self):
-		return self.is_for_constant
+    def get_name(self):
+        return self.name
+
+    def get_component(self):
+        return self.component
+
+    def get_is_for_constant(self):
+        return self.is_for_constant

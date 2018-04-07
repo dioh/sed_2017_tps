@@ -1,73 +1,63 @@
 
-from modulosDEVS.DEVSComponent import DEVSAtomicComponent
-from modulosDEVS.DEVSPort import *
+from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
+from modulosDEVS.DEVSPort import DEVSPort
 
 
 class DEVSConstant(DEVSAtomicComponent):
     def __init__(self, xmile_aux, xmile_model):
         self.xmile_model = xmile_model
         self.xmile_constant = xmile_aux
-        self.parent = self.xmile_constant.getParent()
-        self.access = self.xmile_constant.getAccess()
-        self.name = self.xmile_constant.getName()
-        self.equation = self.xmile_constant.getEquation()
-        self.input_ports = self.setInputPorts()
-        self.output_ports = [DEVSPort(self.getName(), self, 'out')]
+        self.parent = self.xmile_constant.get_parent()
+        self.access = self.xmile_constant.get_access()
+        self.name = self.xmile_constant.get_name()
+        self.equation = self.xmile_constant.get_equation()
+        self.input_ports = self.set_input_ports()
+        self.output_ports = [DEVSPort(self.get_name(), self, 'out')]
         self.type = 'DEVSConstant'
 
     def __repr__(self):
-        return str({
-            'access': self.access,
-            'name': self.name,
-            'equation': self.equation,
-            'parent': self.parent,
-            'type': self.type
-        })
+        return str({'access': self.access, 'name': self.name, 'equation': self.equation, 'parent': self.parent,
+            'type': self.type})
 
     def __str__(self):
-        return str({
-            'access': self.access,
-            'name': self.name,
-            'equation': self.equation,
-            'parent': self.parent,
-            'type': self.type
-        })
+        return str({'access': self.access, 'name': self.name, 'equation': self.equation, 'parent': self.parent,
+            'type': self.type})
 
     # Setters
-    def setInputPorts(self):
+    def set_input_ports(self):
         input_ports = [DEVSPort(self.name, self, 'in')]
-        variables = self.equation.getVariables()
+        variables = self.equation.get_variables()
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
-            input_ports.append(DEVSPort(special_func_obj.getName(), 
-                                        self, 'in'))
+        for special_func_obj in self.equation.get_special_functions(self.parent):
+            input_ports.append(DEVSPort(special_func_obj.get_name(), self, 'in'))
         return list(set(input_ports))
 
     # Getters
-    def getAccess(self):
+    def get_access(self):
         return self.access
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def getEquation(self):
+    def get_equation(self):
         return self.equation
 
-    def getParent(self):
-        return self.parent
-    def getParentName(self):
+    def get_parent(self):
         return self.parent
 
-    def getDEVSInputPorts(self):
+    def get_parent_name(self):
+        return self.parent
+
+    def get_input_ports(self):
         return self.input_ports
 
-    def getDEVSOutputPorts(self):
+    def get_output_ports(self):
         return self.output_ports
 
-    def getType(self):
+    def get_type(self):
         return self.type
 
     def parameters(self):
-        return {'value': self.equation.getEquation()}
+        return {'value': self.equation.get_equation()}

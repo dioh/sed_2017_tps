@@ -1,18 +1,18 @@
 
-from modulosDEVS.DEVSComponent import DEVSAtomicComponent
-from modulosDEVS.DEVSPort import *
+from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
+from modulosDEVS.DEVSPort import DEVSPort
 
 
 class DEVSAux(DEVSAtomicComponent):
     def __init__(self, xmile_aux, xmile_model, xmile_dependencies):
         self.xmile_model = xmile_model
         self.xmile_aux = xmile_aux
-        self.parent = self.xmile_aux.getParent()
-        self.access = self.xmile_aux.getAccess()
-        self.name = self.xmile_aux.getName()
-        self.equation = self.xmile_aux.getEquation()
-        self.input_ports = self.setInputPorts(xmile_dependencies)
-        self.output_ports = self.setOutputPorts()
+        self.parent = self.xmile_aux.get_parent()
+        self.access = self.xmile_aux.get_access()
+        self.name = self.xmile_aux.get_name()
+        self.equation = self.xmile_aux.get_equation()
+        self.input_ports = self.set_input_ports(xmile_dependencies)
+        self.output_ports = self.set_output_ports()
         self.type = "DEVSAux"
 
     def __repr__(self):
@@ -36,47 +36,48 @@ class DEVSAux(DEVSAtomicComponent):
         })
 
     # Un aux puede recibir : Cte's / Aux's / Acoplados (Stock's)
-    def setInputPorts(self, xmile_dependencies):
+    def set_input_ports(self, xmile_dependencies):
         # Para cada dependencia, buscar en el 
         # modelo xmile si es Cte / Aux / Stock
         input_ports = []
-        variables = self.equation.getVariables()
+        variables = self.equation.get_variables()
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
-            input_ports.append(DEVSPort(special_func_obj.getName(),
+        for special_func_obj in self.equation.get_special_functions(self.parent):
+            input_ports.append(DEVSPort(special_func_obj.get_name(),
                                         self, 'in'))
         return list(set(input_ports))
 
-    def setOutputPorts(self):
+    def set_output_ports(self):
         # '*' : el output de Aux podria ir a 
         # un DEVSCoupledComponent (si va a flows en xmile) o 
         # a un DEVSAux (si va a un aux en xmile), o a ambos
-        return [DEVSPort(self.getName(), self, 'out')]
+        return [DEVSPort(self.get_name(), self, 'out')]
 
-    def getAccess(self):
+    def get_access(self):
         return self.access
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def getEquation(self):
+    def get_equation(self):
         return self.equation
 
-    def getParent(self):
-        return self.parent
-    def getParentName(self):
+    def get_parent(self):
         return self.parent
 
-    def getDEVSInputPorts(self):
+    def get_parent_name(self):
+        return self.parent
+
+    def get_input_ports(self):
         return self.input_ports
 
-    def getDEVSOutputPorts(self):
+    def get_output_ports(self):
         return self.output_ports
 
-    def getType(self):
+    def get_type(self):
         return self.type
 
     def parameters(self):
-        return {'equation': self.equation.getEquation()}
+        return {'equation': self.equation.get_equation()}

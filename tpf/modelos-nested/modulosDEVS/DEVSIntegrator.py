@@ -1,25 +1,25 @@
 
-from modulosDEVS.DEVSPort import *
-from modulosDEVS.DEVSComponent import *
+from modulosDEVS.DEVSPort import DEVSPort
+from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
 
 
 class DEVSIntegrator(DEVSAtomicComponent):
     def __init__(self, xmile_stock, parent_name):
         self.stock = xmile_stock
         self.parent = parent_name
-        self.name = xmile_stock.getName()
-        self.access = xmile_stock.getAccess()
-        self.equation = xmile_stock.getEquation()
+        self.name = xmile_stock.get_name()
+        self.access = xmile_stock.get_access()
+        self.equation = xmile_stock.get_equation()
         self.integrator_type = 'QSS1'
         self.integrator_parameters = {
             # TODO : verificar que esto sea un numero 
             # (requiere previa normalizacion)
-            'x0': self.equation.getEquation(),
+            'x0': self.equation.get_equation(),
             'dQRel': '0.001',
             'dQMin': '0.001'
         }
         self.type = 'DEVSIntegrator'
-        self.input_ports = self.setInputPorts()
+        self.input_ports = self.set_input_ports()
         self.output_ports = [DEVSPort(self.name, self, 'out')]
 
     def __repr__(self):
@@ -41,47 +41,47 @@ class DEVSIntegrator(DEVSAtomicComponent):
         })
 
     # Setters
-    def setInputPorts(self):
+    def set_input_ports(self):
         # Nota : appendeo 'Tot' como sufijo
         input_ports = [DEVSPort('Tot' + self.name, self, 'in')]
         # TODO : hacer uso de estos puertos
         # (que se consideren los inputs provenientes de
         #  special functions tambien en 'Stocks')
-        variables = self.equation.getVariables()
+        variables = self.equation.get_variables()
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Agrego inputs correspondientes a funciones especiales
-        for special_func_obj in self.equation.getSpecialFunctions(self.parent):
-            input_ports.append(DEVSPort(special_func_obj.getName(),
+        for special_func_obj in self.equation.get_special_functions(self.parent):
+            input_ports.append(DEVSPort(special_func_obj.get_name(),
                                         self, 'in'))
         return list(set(input_ports))
 
     # Getters
-    def getParentName(self):
+    def get_parent_name(self):
         return self.parent
 
-    def getType(self):
+    def get_type(self):
         return self.type
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def getAccess(self):
+    def get_access(self):
         return self.access
 
-    def getEquation(self):
+    def get_equation(self):
         return self.equation
 
-    def getIntegratorType(self):
+    def get_integrator_type(self):
         return self.integrator_type
 
-    def getIntegratorParameters(self):
+    def get_integrator_parameters(self):
         return self.integrator_parameters
 
-    def getDEVSInputPorts(self):
+    def get_input_ports(self):
         return self.input_ports
 
-    def getDEVSOutputPorts(self):
+    def get_output_ports(self):
         return self.output_ports
 
     def parameters(self):

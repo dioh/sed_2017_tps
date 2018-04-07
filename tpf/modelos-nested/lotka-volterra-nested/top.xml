@@ -48,7 +48,9 @@
             <outputs>
                 <output name="PULSE_V_1_FP_1_I_1" type="out" />
             </outputs>
-            <parameters />
+            <parameters>
+                <parameter name="equation">1</parameter>
+            </parameters>
         </atomicRef>
         <atomicRef model="DEVSConstant" name="paramD" parent="top">
             <inputs>
@@ -99,7 +101,9 @@
             <outputs>
                 <output name="PULSE_V_2_FP_2_I_2" type="out" />
             </outputs>
-            <parameters />
+            <parameters>
+                <parameter name="equation">2</parameter>
+            </parameters>
         </atomicRef>
         <coupledRef model="Coupled" name="DEVS_COUPLED_PredatorModel">
             <inputs>
@@ -234,8 +238,8 @@
                         <connection component_to="MinusPredator_Predator" port_from="hunter" port_to="hunter" />
                         <connection component_to="MinusPredator_Predator" port_from="specialParamC" port_to="specialParamC" />
                         <connection component_to="PlusPredator_Predator" port_from="Prey" port_to="Prey" />
-                        <connection component_to="PlusPredator_Predator" port_from="cteVariable" port_to="cteVariable" />
                         <connection component_to="PlusPredator_Predator" port_from="paramD" port_to="paramD" />
+                        <connection component_to="PlusPredator_Predator" port_from="cteVariable" port_to="cteVariable" />
                     </external_input_connections>
                     <external_output_connections>
                         <connection component_from="Predator" port_from="Predator" port_to="Predator" />
@@ -391,7 +395,9 @@
                                             <outputs>
                                                 <output name="PULSE_V_combiner_FP_10_I_50" type="out" />
                                             </outputs>
-                                            <parameters />
+                                            <parameters>
+                                                <parameter name="equation">combiner</parameter>
+                                            </parameters>
                                         </atomicRef>
                                     </components>
                                     <internal_connections>
@@ -569,8 +575,8 @@
                         <connection component_from="TotPrey" component_to="Prey" port_from="TotPrey" port_to="TotPrey" />
                     </internal_connections>
                     <external_input_connections>
-                        <connection component_to="MinusPrey_Prey" port_from="Predator" port_to="Predator" />
                         <connection component_to="MinusPrey_Prey" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
+                        <connection component_to="MinusPrey_Prey" port_from="Predator" port_to="Predator" />
                         <connection component_to="PlusPrey_Prey" port_from="PreySubModelStock" port_to="PreySubModelStock" />
                         <connection component_to="PlusPrey_Prey" port_from="paramA" port_to="paramA" />
                         <connection component_to="MinusPrey_Prey" port_from="paramB" port_to="paramB" />
@@ -663,7 +669,9 @@
                     <outputs>
                         <output name="PULSE_V_paramPulse_FP_1_I_1" type="out" />
                     </outputs>
-                    <parameters />
+                    <parameters>
+                        <parameter name="equation">paramPulse</parameter>
+                    </parameters>
                 </atomicRef>
             </components>
             <internal_connections>
