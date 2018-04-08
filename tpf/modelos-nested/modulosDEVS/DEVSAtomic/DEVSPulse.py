@@ -1,6 +1,6 @@
 
 from modulosDEVS.DEVSPort import DEVSPort
-from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
+from modulosDEVS.DEVSAtomic.DEVSAtomicComponent import DEVSAtomicComponent
 
 
 class DEVSPulse(DEVSAtomicComponent):

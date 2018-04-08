@@ -1,6 +1,6 @@
 
 from modulosDEVS.DEVSPort import DEVSPort
-from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
+from modulosDEVS.DEVSAtomic.DEVSAtomicComponent import DEVSAtomicComponent
 
 
 class DEVSFtot(DEVSAtomicComponent):
@@ -16,14 +16,22 @@ class DEVSFtot(DEVSAtomicComponent):
         self.type = 'DEVSFtot'
 
     def __repr__(self):
-        return str(
-            {'name': self.name, 'access': self.access, 'equation': self.equation, 'input_ports': self.input_ports,
-                'output_ports': self.output_ports})
+        return str({
+            'name': self.name,
+            'access': self.access,
+            'equation': self.equation,
+            'input_ports': self.input_ports,
+            'output_ports': self.output_ports
+            })
 
     def __str__(self):
-        return str(
-            {'name': self.name, 'access': self.access, 'equation': self.equation, 'input_ports': self.input_ports,
-                'output_ports': self.output_ports})
+        return str({
+            'name': self.name,
+            'access': self.access,
+            'equation': self.equation,
+            'input_ports': self.input_ports,
+            'output_ports': self.output_ports
+            })
 
     # Setters
     def add_plus_port(self, port_name):

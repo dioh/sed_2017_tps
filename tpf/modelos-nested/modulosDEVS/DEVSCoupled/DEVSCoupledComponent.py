@@ -1,13 +1,13 @@
 
-from modulosDEVS.DEVSAux import *
-from modulosDEVS.DEVSBasicCoupledComponent import *
 from modulosDEVS.DEVSConnection import *
-from modulosDEVS.DEVSConstant import *
-from modulosDEVS.DEVSFpm import DEVSFpm
-from modulosDEVS.DEVSFtot import *
-from modulosDEVS.DEVSIntegrator import *
-from modulosDEVS.DEVSPort import *
+from modulosDEVS.DEVSPort import DEVSPort
 from modulosDEVS.DEVSComponent import DEVSComponent
+from modulosDEVS.DEVSCoupled.DEVSBasicCoupledComponent import DEVSBasicCoupledComponent
+from modulosDEVS.DEVSAtomic.DEVSAux import DEVSAux
+from modulosDEVS.DEVSAtomic.DEVSConstant import DEVSConstant
+from modulosDEVS.DEVSAtomic.DEVSFpm import DEVSFpm
+from modulosDEVS.DEVSAtomic.DEVSFtot import DEVSFtot
+from modulosDEVS.DEVSAtomic.DEVSIntegrator import DEVSIntegrator
 
 
 # TODO : buscar una forma de determinar el 'parent' de cada DEVSCoupledComponent. En ppio pareciera no ser necesario para armar los h, cpp y ma

@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 import xml.etree.ElementTree as etree
 import vkbeautify as vkb
 from modulosXMILE.Model import *
-from DEVSCoupledComponent import DEVSCoupledComponent
+from DEVSCoupled.DEVSCoupledComponent import DEVSCoupledComponent
 import logging
 
 ###################################################################################################################

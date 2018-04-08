@@ -1,5 +1,5 @@
 
-from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
+from modulosDEVS.DEVSAtomic.DEVSAtomicComponent import DEVSAtomicComponent
 
 
 class DEVSStep(DEVSAtomicComponent):

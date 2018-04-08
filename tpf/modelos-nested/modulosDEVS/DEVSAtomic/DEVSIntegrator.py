@@ -1,6 +1,6 @@
 
 from modulosDEVS.DEVSPort import DEVSPort
-from modulosDEVS.DEVSAtomicComponent import DEVSAtomicComponent
+from modulosDEVS.DEVSAtomic.DEVSAtomicComponent import DEVSAtomicComponent
 
 
 class DEVSIntegrator(DEVSAtomicComponent):
@@ -11,9 +11,8 @@ class DEVSIntegrator(DEVSAtomicComponent):
         self.access = xmile_stock.get_access()
         self.equation = xmile_stock.get_equation()
         self.integrator_type = 'QSS1'
+        # TODO : verify that 'x0' is set to a numeric value (might require preprocessing)
         self.integrator_parameters = {
-            # TODO : verificar que esto sea un numero 
-            # (requiere previa normalizacion)
             'x0': self.equation.get_equation(),
             'dQRel': '0.001',
             'dQMin': '0.001'
@@ -42,18 +41,14 @@ class DEVSIntegrator(DEVSAtomicComponent):
 
     # Setters
     def set_input_ports(self):
-        # Nota : appendeo 'Tot' como sufijo
+        # Note : appends 'Tot' as suffix
         input_ports = [DEVSPort('Tot' + self.name, self, 'in')]
-        # TODO : hacer uso de estos puertos
-        # (que se consideren los inputs provenientes de
-        #  special functions tambien en 'Stocks')
         variables = self.equation.get_variables()
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
-        # Agrego inputs correspondientes a funciones especiales
+        # Note : appends input ports corresponding to special functions
         for special_func_obj in self.equation.get_special_functions(self.parent):
-            input_ports.append(DEVSPort(special_func_obj.get_name(),
-                                        self, 'in'))
+            input_ports.append(DEVSPort(special_func_obj.get_name(), self, 'in'))
         return list(set(input_ports))
 
     # Getters
