@@ -54,6 +54,7 @@ Model &{{name}}::internalFunction(const InternalMessage &)
 
 Model &{{name}}::outputFunction(const CollectMessage &msg)
 {
+	{% if in_ports|length > 0 %}
 	if({% for in_port in in_ports -%}
 		{% if loop.index0 == 0 %} isSet_val_{{in_port['name']}} {% endif -%}
 		{% if loop.index0 > 0 %}& isSet_val_{{in_port['name']}} {% endif -%}
@@ -62,5 +63,6 @@ Model &{{name}}::outputFunction(const CollectMessage &msg)
 		Tuple<Real> out_value { val };
 		sendOutput(msg.time(), out, out_value);
 	}
+	{% endif %}
 	return *this ;
 }
