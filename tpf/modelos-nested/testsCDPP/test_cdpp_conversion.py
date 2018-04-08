@@ -7,7 +7,7 @@ import os
 from modulosCDPP import CdppConnection, CdppPort, CdppModel
 
 
-class TestXmileConverterTeacup(unittest.TestCase):
+class TestDevsMLToCdppModel(unittest.TestCase):
     '''
     Pruebas del conversor de DEVSML a CDPP
     '''
