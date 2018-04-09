@@ -3,18 +3,18 @@
 
 #include "qss1.h"
 #include "Cte.h"
-#include "paramDtop.h"
 #include "paramPulsetop.h"
 #include "paramBtop.h"
+#include "paramDtop.h"
 #include "paramAtop.h"
 #include "cteVariablePredatorModel.h"
 #include "paramDPredatorModel.h"
 #include "specialParamCPredatorModel.h"
-#include "paramBPreyModel.h"
 #include "paramAPreyModel.h"
+#include "paramBPreyModel.h"
 #include "ctePulsePreySubSubModel.h"
-#include "specialParamCtop.h"
 #include "paramEtop.h"
+#include "specialParamCtop.h"
 #include "auxVariablePredatorModel.h"
 #include "PlusPredator_PredatorDEVS_BASIC_COUPLED_Predator.h"
 #include "MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator.h"
@@ -37,18 +37,18 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
 	
 	// Atomicos especificos del modelo
-	admin.registerAtomic(NewAtomicFunction<paramDtop>(), PARAMDTOP);
 	admin.registerAtomic(NewAtomicFunction<paramPulsetop>(), PARAMPULSETOP);
 	admin.registerAtomic(NewAtomicFunction<paramBtop>(), PARAMBTOP);
+	admin.registerAtomic(NewAtomicFunction<paramDtop>(), PARAMDTOP);
 	admin.registerAtomic(NewAtomicFunction<paramAtop>(), PARAMATOP);
 	admin.registerAtomic(NewAtomicFunction<cteVariablePredatorModel>(), CTEVARIABLEPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramDPredatorModel>(), PARAMDPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<specialParamCPredatorModel>(), SPECIALPARAMCPREDATORMODEL);
-	admin.registerAtomic(NewAtomicFunction<paramBPreyModel>(), PARAMBPREYMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramAPreyModel>(), PARAMAPREYMODEL);
+	admin.registerAtomic(NewAtomicFunction<paramBPreyModel>(), PARAMBPREYMODEL);
 	admin.registerAtomic(NewAtomicFunction<ctePulsePreySubSubModel>(), CTEPULSEPREYSUBSUBMODEL);
-	admin.registerAtomic(NewAtomicFunction<specialParamCtop>(), SPECIALPARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramEtop>(), PARAMETOP);
+	admin.registerAtomic(NewAtomicFunction<specialParamCtop>(), SPECIALPARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<auxVariablePredatorModel>(), AUXVARIABLEPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<PlusPredator_PredatorDEVS_BASIC_COUPLED_Predator>(), PLUSPREDATOR_PREDATORDEVS_BASIC_COUPLED_PREDATOR);
 	admin.registerAtomic(NewAtomicFunction<MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator>(), MINUSPREDATOR_PREDATORDEVS_BASIC_COUPLED_PREDATOR);
