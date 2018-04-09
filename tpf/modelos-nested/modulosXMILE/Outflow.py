@@ -1,8 +1,10 @@
+
+
 class Outflow(object):
     def __init__(self, outflow_element, source_xmlns, debug):
         self.outflow_element = outflow_element
         self.source_xmlns = source_xmlns
-        self.name = self.setName()
+        self.name = self.set_name()
         self.debug = debug
         
     def __repr__(self):
@@ -15,8 +17,8 @@ class Outflow(object):
             'name' : self.name
         })
         
-    def setName(self):
+    def set_name(self):
         return self.outflow_element.text
 
-    def getName(self):
+    def get_name(self):
         return self.name

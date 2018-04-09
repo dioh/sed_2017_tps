@@ -1,8 +1,9 @@
+
 class Inflow(object):
     def __init__(self, inflow_element, source_xmlns, debug):
         self.inflow_element = inflow_element
         self.source_xmlns = source_xmlns
-        self.name = self.setName()
+        self.name = self.set_name()
         self.debug = debug
         
     def __repr__(self):
@@ -15,8 +16,8 @@ class Inflow(object):
             'name' : self.name
         })
         
-    def setName(self):
+    def set_name(self):
         return self.inflow_element.text
 
-    def getName(self):
+    def get_name(self):
         return self.name

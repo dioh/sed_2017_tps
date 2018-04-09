@@ -14,7 +14,7 @@ class Equation(object):
         self.special_functions = []
         # Reseteo el equationo para que en lugar de PULSE(a,b,c) 
         # tengo PULSE_a_b_c como variable
-        self.setVariablesAndequationAndFunctions(equation)
+        self.set_variables_and_equation_and_functions(equation)
 
     def __repr__(self):
         return str({
@@ -34,7 +34,7 @@ class Equation(object):
         return True
 
     # Setters
-    def setVariablesAndequationAndFunctions(self, equation):
+    def set_variables_and_equation_and_functions(self, equation):
         if self.preprocess(equation):
             parser = Parser()
             finder = SpecialFunctionFinder()
@@ -49,7 +49,7 @@ class Equation(object):
                 obj_func = finder.parseFunctionWithParameters(func_with_params)
                 special_functions.append(obj_func)
                 # Defino nombre que va a tener la variable correspondiente al output de esta funcion ; Redefino el equationo de 'equation'
-                equation = equation.replace(func_with_params, obj_func.getName())
+                equation = equation.replace(func_with_params, obj_func.get_name())
                 
             # variables => lista de variables que utiliza la ecuacion
             # Nota : es importante que esto corra sobre 'equation' ya modificada
@@ -63,14 +63,19 @@ class Equation(object):
         return 
 
     # Getters
-    def getEquation(self):
+    def get_equation(self):
         return self.equation
 
-    def getVariables(self):
+    def get_variables(self):
         return self.variables
     
-    def getSpecialFunctions(self):
-        return self.special_functions
+    def get_special_functions(self, parent_name):
+        ans = []
+        for sf in self.special_functions:
+            sf.set_parent(parent_name)
+            ans.append(sf)
+        return ans
+        
     # TODO
-    def getParameters(self):
+    def get_paramters(self):
         return []

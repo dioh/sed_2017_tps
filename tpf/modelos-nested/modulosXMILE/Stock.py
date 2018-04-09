@@ -10,12 +10,12 @@ class Stock(object):
         self.parent = parent
         self.source_xmlns = source_xmlns
         self.stock_element = stock_element
-        self.name = self.getName()
-        self.access = self.getAccess()
-        self.equation = self.getEquation()
-        self.outflows = self.getOutflows()
-        self.inflows = self.getInflows()
-        self.nonNegative = self.getNonNegative()
+        self.name = self.get_name()
+        self.access = self.get_access()
+        self.equation = self.get_equation()
+        self.outflows = self.get_outflows()
+        self.inflows = self.get_inflows()
+        self.nonNegative = self.get_non_negative()
         
     def __repr__(self):
         return str({
@@ -39,13 +39,13 @@ class Stock(object):
             'nonNegative' : self.nonNegative
         })
         
-    def getName(self):
+    def get_name(self):
         name = self.stock_element.get('name')
         if name is None:
             raise Exception('Error: todos los stocks deben tener nombre')
         return name
     
-    def getAccess(self):
+    def get_access(self):
         access = self.stock_element.get('access')
         if access is None:
             return None
@@ -53,25 +53,25 @@ class Stock(object):
             print('El stock ' + self.parent + '.' + self.name + ' es de acceso tipo ' + access)
         return access
     
-    def getEquation(self):
+    def get_equation(self):
         equation = self.stock_element.find(self.source_xmlns + 'eqn').text
         if equation == '':
             raise Exception('Error: hay una ecuacion definida sin ningun simbolo (invalida) en' + self.name)
         return Equation(equation, self.debug)
     
-    def getOutflows(self):
+    def get_outflows(self):
         outflows = self.stock_element.findall(self.source_xmlns + 'outflow')
         return list(map(lambda x : Outflow(x, self.source_xmlns, self.debug), outflows))
     
-    def getInflows(self):
+    def get_inflows(self):
         inflows = self.stock_element.findall(self.source_xmlns + 'inflow')
         return list(map(lambda x : Inflow(x, self.source_xmlns, self.debug), inflows))
     
-    def getNonNegative(self):
+    def get_non_negative(self):
         nonNegative = self.stock_element.find('non_negative')
         if nonNegative is None:
             return False
         return True
 
-    def getEquationVariables(self):
-        return self.equation.getVariables()
+    def get_equation_variables(self):
+        return self.equation.get_variables()

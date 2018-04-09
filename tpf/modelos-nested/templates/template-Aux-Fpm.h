@@ -1,5 +1,5 @@
-#ifndef _{{name}}_H_
-#define _{{name}}_H_
+#ifndef _{{aux_name_lower}}_H_
+#define _{{aux_name_lower}}_H_
 
 #include <random>
 
@@ -7,14 +7,14 @@
 #include "VTime.h"
 
 
-#define {{name.upper()}} "{{name}}"
+#define {{aux_name_upper}} "{{aux_name_lower}}"
 
 
-class {{name}} : public Atomic {
+class {{aux_name_lower}} : public Atomic {
   public:
     
-    {{name}}(const string &name = {{name.upper()}} );
-    virtual string className() const {  return {{name.upper()}} ;}
+    {{aux_name_lower}}(const string &name = {{aux_name_upper}} );
+    virtual string className() const {  return {{aux_name_upper}} ;}
   
   protected:
     Model &initFunction();
@@ -23,20 +23,18 @@ class {{name}} : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    {% for in_port in in_ports -%}
-    const Port &{{in_port['name']}};
+    {% for input_port_name in input_ports %}
+    const Port &{{input_port_name}};
+    {%- endfor -%}
+    {% for output_port_name in output_ports %}
+    Port &{{output_port_name}};
     {% endfor -%}
-    {% for out_port in out_ports -%}
-    Port &{{out_port['name']}};
-    {% endfor %}
-
-    {% for in_port in in_ports -%}
-    double val_{{in_port['name']}};
-    {% endfor -%}
-
-    {% for in_port in in_ports -%}
-    bool isSet_val_{{in_port['name']}};
-    {% endfor %}
+    {%- for input_port_name in input_ports %}
+    double {{input_port_name}};
+    {%- endfor -%}
+    {%- for input_port_name in input_ports %}
+    bool isSet_{{input_port_name}};
+    {%- endfor %}
 };
 
 #endif

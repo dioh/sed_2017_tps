@@ -1,13 +1,19 @@
 <coupledRef name="{{coupled_name}}" model="Coupled" >
-<inputs>{% for input_port in input_ports -%}<input name="{{input_port.getName()}}" type="{{input_port.getType()}}" />{% endfor %}</inputs>
-<outputs>{% for output_port in output_ports -%}<output name="{{output_port.getName()}}" type="{{output_port.getType()}}" />{% endfor %}</outputs>
+<inputs>{% for input_port in input_ports -%}<input name="{{input_port.get_name()}}" type="{{input_port.get_type()}}" />{% endfor %}</inputs>
+<outputs>{% for output_port in output_ports -%}<output name="{{output_port.get_name()}}" type="{{output_port.get_type()}}" />{% endfor %}</outputs>
 <components>
-{% for atomic in atomics -%}<atomicRef name="{{atomic.getName()}}" model="{{atomic.getType()}}" ><inputs>{% for input_port in atomic.getDEVSInputPorts() -%}<input name="{{input_port.getName()}}" type="{{input_port.getType()}}"/>{% endfor -%}</inputs><outputs>{% for output_port in atomic.getDEVSOutputPorts() -%}<output name="{{output_port.getName()}}" type="{{output_port.getType()}}"/>{% endfor -%}</outputs><parameters>{% for param, value in atomic.parameters().items() -%}<parameter name="{{param}}">{{value}}</parameter>{% endfor -%}</parameters></atomicRef>{% endfor -%}
+{% for atomic in atomics -%}
+<atomicRef name="{{atomic.get_name()}}" model="{{atomic.get_type()}}" parent="{{atomic.get_parent_name()}}" >
+    <inputs>{% for input_port in atomic.get_input_ports() -%}<input name="{{input_port.get_name()}}" type="{{input_port.get_type()}}"/>{% endfor -%}</inputs>
+    <outputs>{% for output_port in atomic.get_output_ports() -%}<output name="{{output_port.get_name()}}" type="{{output_port.get_type()}}"/>{% endfor -%}</outputs>
+    <parameters>{% for param, value in atomic.parameters().items() -%}<parameter name="{{param}}">{{value}}</parameter>{% endfor -%}</parameters>
+</atomicRef>
+    {% endfor -%}
 {% for coupled_filename in coupled_filenames -%}
 <include filename="{{coupled_filename}}" />
 {% endfor -%}
 </components>
-<internal_connections>{% for ic in internal_connections %}<connection port_from="{{ic['port_from'].getName()}}" component_from="{{ic['component_from'].getName()}}" port_to="{{ic['port_to'].getName()}}" component_to="{{ic['component_to'].getName()}}"/>{%- endfor %}</internal_connections>
-<external_input_connections>{% for ec in external_input_connections %}<connection port_from="{{ec['port_from'].getName()}}" port_to="{{ec['port_to'].getName()}}" component_to="{{ec['component_to'].getName()}}" />{%- endfor %}</external_input_connections>
-<external_output_connections>{% for ec in external_output_connections %}<connection port_from="{{ec['port_from'].getName()}}" port_to="{{ec['port_to'].getName()}}" component_from="{{ec['component_from'].getName()}}" />{%- endfor %}</external_output_connections>
+<internal_connections>{% for ic in internal_connections %}<connection port_from="{{ic['port_from'].get_name()}}" component_from="{{ic['component_from'].get_name()}}" port_to="{{ic['port_to'].get_name()}}" component_to="{{ic['component_to'].get_name()}}"/>{%- endfor %}</internal_connections>
+<external_input_connections>{% for ec in external_input_connections %}<connection port_from="{{ec['port_from'].get_name()}}" port_to="{{ec['port_to'].get_name()}}" component_to="{{ec['component_to'].get_name()}}" />{%- endfor %}</external_input_connections>
+<external_output_connections>{% for ec in external_output_connections %}<connection port_from="{{ec['port_from'].get_name()}}" port_to="{{ec['port_to'].get_name()}}" component_from="{{ec['component_from'].get_name()}}" />{%- endfor %}</external_output_connections>
 </coupledRef>

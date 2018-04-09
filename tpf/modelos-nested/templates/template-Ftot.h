@@ -1,18 +1,18 @@
-#ifndef _{{name}}_H_
-#define _{{name}}_H_
+#ifndef _{{tot_name_lower}}_H_
+#define _{{tot_name_lower}}_H_
 
 #include <random>
 
 #include "atomic.h"
 #include "VTime.h"
 
-#define {{name.upper()}} "{{name}}"
+#define {{tot_name_upper}} "{{tot_name_lower}}"
 
-class {{name}} : public Atomic {
+class {{tot_name_lower}} : public Atomic {
   public:
     
-    {{name}}(const string &name = {{name.upper()}} );
-    virtual string className() const {  return {{name.upper()}} ;}
+    {{tot_name_lower}}(const string &name = {{tot_name_upper}} );
+    virtual string className() const {  return {{tot_name_upper}} ;}
   
   protected:
     Model &initFunction();
@@ -21,33 +21,29 @@ class {{name}} : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    {% for in_port in in_ports_plus -%}
-    {% if in_port['type'] == 'in_plus' %}
-    const Port &{{in_port['name']}};
-    {% endif -%}
+    {% for input_port_name in plus_input_ports -%}
+    const Port &{{input_port_name}};
     {% endfor -%}
-    {% for in_port in in_ports_minus -%}
-    {% if in_port['type'] == 'in_minus' %}
-    const Port &{{in_port['name']}};
-    {% endif -%}
+    {% for input_port_name in minus_input_ports -%}
+    const Port &{{input_port_name}};
     {% endfor -%}
 
     {% for out_port in out_ports -%}
-    Port &{{out_port['name']}};
+    Port &{{out_port}};
     {% endfor %}
 
-    {% for in_port in in_ports_plus -%}
-    double val_{{in_port['name']}};
+    {% for input_port_name in plus_input_ports -%}
+    double {{input_port_name}};
     {% endfor -%}
-    {% for in_port in in_ports_minus -%}
-    double val_{{in_port['name']}};
+    {% for input_port_name in minus_input_ports -%}
+    double {{input_port_name}};
     {% endfor -%}
 
-    {% for in_port in in_ports_plus -%}
-    bool isSet_val_{{in_port['name']}};
+    {% for input_port_name in plus_input_ports -%}
+    bool isSet_{{input_port_name}};
     {% endfor %}
-    {% for in_port in in_ports_minus -%}
-    bool isSet_val_{{in_port['name']}};
+    {% for input_port_name in minus_input_ports -%}
+    bool isSet_{{input_port_name}};
     {% endfor %}
 };
 

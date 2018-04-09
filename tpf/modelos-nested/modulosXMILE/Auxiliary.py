@@ -7,9 +7,9 @@ class Aux(object):
         self.parent = parent
         self.source_xmlns = source_xmlns
         self.aux_element = aux_element
-        self.name = self.setName()
-        self.equation = self.setEquation()
-        self.access = self.setAccess()
+        self.name = self.set_name()
+        self.equation = self.set_equation()
+        self.access = self.set_access()
 
     def __repr__(self):
         return str({
@@ -27,19 +27,19 @@ class Aux(object):
             'access': self.access
         })
 
-    def getParent(self):
+    def get_parent(self):
         return self.parent
 
-    def setName(self):
+    def set_name(self):
         name = self.aux_element.get('name')
         if name is None:
             raise Exception('Error: todos los auxs deben tener nombre')
         return name
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def setAccess(self):
+    def set_access(self):
         access = self.aux_element.get('access')
         if access is None:
             return None
@@ -47,10 +47,10 @@ class Aux(object):
             print('El aux ' + self.parent + '.' + self.name + ' es de acceso tipo ' + access)
         return access
 
-    def getAccess(self):
+    def get_access(self):
         return self.access
 
-    def setEquation(self):
+    def set_equation(self):
         try:
             equation = self.aux_element.find(self.source_xmlns + 'eqn').text
             if equation == '':
@@ -60,8 +60,8 @@ class Aux(object):
             print('equation: {0}'.format(equation))
         return Equation(equation, self.debug)
 
-    def getEquation(self):
+    def get_equation(self):
         return self.equation
 
-    def getEquationVariables(self):
-        return self.equation.getVariables()
+    def get_equation_variables(self):
+        return self.equation.get_variables()

@@ -13,13 +13,13 @@ class Model(object):
         self.source_xmlns_isee = "{http://iseesystems.com/XMILE}"
         self.debug = debug
         self.model_element = model_element
-        self.name      = self.setName()
-        self.variables = self.setVariables()
-        self.modules   = self.setModules()
-        self.auxs      = self.setAuxs()
-        self.stocks    = self.setStocks()
-        self.flows     = self.setFlows()
-        self.dependencies = self.setDependencies()
+        self.name      = self.set_name()
+        self.variables = self.set_variables()
+        self.modules   = self.set_modules()
+        self.auxs      = self.set_auxs()
+        self.stocks    = self.set_stocks()
+        self.flows     = self.set_flows()
+        self.dependencies = self.set_dependencies()
 
     def __repr__(self):
         return str({
@@ -41,16 +41,16 @@ class Model(object):
             'dependencies' : self.dependencies
         })
 
-    def setName(self):
+    def set_name(self):
         name = self.model_element.get('name')
         if name is None:
             return 'top'
         return name
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def setVariables(self):
+    def set_variables(self):
         variables = self.model_element.find(self.source_xmlns + 'variables')
         if variables is None:
             raise Exception('Error: hay un modelo que no contiene ninguna variable')
@@ -59,40 +59,40 @@ class Model(object):
             raise Exception('Error: estamos asumiendo que solo puede haber 1 elemento de variables por modelo')
         return variables
     
-    def setModules(self):
+    def set_modules(self):
         modules = self.variables.findall(self.source_xmlns + 'module')
         return list(map(lambda x : Module(x, self.source_xmlns, self.name, self.debug), modules))
 
-    def getModules(self):
+    def get_modules(self):
         return self.modules
 
-    def setAuxs(self):
+    def set_auxs(self):
         auxs = self.variables.findall(self.source_xmlns + 'aux')
         return list(map(lambda x : Aux(x, self.source_xmlns, self.name, self.debug), auxs))
 
-    def getAuxs(self):
+    def get_auxs(self):
         return self.auxs
 
-    def setStocks(self):
+    def set_stocks(self):
         stocks = self.variables.findall(self.source_xmlns + 'stock')
         return list(map(lambda x : Stock(x, self.source_xmlns, self.name, self.debug), stocks))
 
-    def getStocks(self):
+    def get_stocks(self):
         return self.stocks
 
-    def setFlows(self):
+    def set_flows(self):
         flows = self.variables.findall(self.source_xmlns + 'flow')
         return list(map(lambda x : Flow(x, self.source_xmlns, self.name, self.debug), flows))
     
-    def getFlows(self):
+    def get_flows(self):
         return self.flows
 
-    def setDependencies(self):
+    def set_dependencies(self):
         dependencies    = self.variables.find(self.source_xmlns_isee + 'dependencies')
         if dependencies is None:
             return []
         return list(map(lambda x : Dependency(x, self.source_xmlns, self.name, self.debug), 
                         dependencies.findall(self.source_xmlns + 'var')))
     
-    def getDependencies(self):
+    def get_dependencies(self):
         return self.dependencies

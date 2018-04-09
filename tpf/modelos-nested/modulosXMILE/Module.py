@@ -1,14 +1,15 @@
 
 from modulosXMILE.ModuleConnection import *
 
+
 class Module(object):
     def __init__(self, module_element, source_xmlns, parent, debug):
         self.debug = debug
         self.parent = parent
         self.source_xmlns = source_xmlns
         self.module_element = module_element
-        self.name = self.getName()
-        self.connections = self.getConnections()
+        self.name = self.get_name()
+        self.connections = self.get_connections()
         
     def __repr__(self):
         return str({
@@ -24,13 +25,13 @@ class Module(object):
             'connections' : self.connections
         })
         
-    def getName(self):
+    def get_name(self):
         name = self.module_element.get('name')
         if name is None:
             raise Exception('Error: los modulos deben tener nombre')
         return name
     
-    def getConnections(self):
+    def get_connections(self):
         connections = self.module_element.findall(self.source_xmlns + 'connect')
         if len(connections) == 0:
             if self.debug:
