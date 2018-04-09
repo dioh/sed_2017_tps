@@ -5,8 +5,7 @@ class CdppModel(object):
                         'internal_connections',
                         'external_input_connections',
                         'external_output_connections',
-                        'components',
-                        'type', 'parameters']
+                        'components', 'parameters']
         self.name = ''
         self.model = ''
         self.in_ports = set()
@@ -184,6 +183,11 @@ class CdppPort(object):
         return self.port == other.port and \
                self.component == other.component
 
+    def __lt__(self, other):
+        return self.component < other.component or \
+               (self.component == other.component and
+                self.port < other.port)
+
     def __hash__(self):
         return (hash(self.port) ^ hash(self.component))
 
@@ -203,6 +207,11 @@ class CdppConnection(object):
     def __eq__(self, other):
         return self.port_from == other.port_from and \
                self.port_to == other.port_to
+
+    def __lt__(self, other):
+        return self.port_to < other.port_to or \
+               (self.port_to == other.port_to and
+                self.port_from < other.port_from)
 
     def __hash__(self):
         return (hash(self.port_from) ^ hash(self.port_to))

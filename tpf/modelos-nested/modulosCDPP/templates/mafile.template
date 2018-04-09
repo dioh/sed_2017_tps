@@ -1,0 +1,35 @@
+{%- for model in models recursive %}[{{model.model_name()}}]
+{% if model.model_type() == 'Coupled' -%}
+%Coupled model
+{% if model.components()|length > 0 -%}
+components: {%- for component in model.components() %} {{component.model_name()}}@{{component.model_type()}} {%- endfor %}
+{% endif %}
+% In ports
+in: {%- for input in model.model_in_ports() %} {{input}} {%- endfor %}
+% Out ports
+out: {%- for output in model.model_out_ports() %} {{output}} {%- endfor %}
+
+% Input connections
+{%- for connection in model.model_external_input_connections() %}
+link: {{ connection.port_from.port }} {{connection.port_to.port}}@{{connection.port_to.component}}
+{%- endfor %}
+
+% Output connections
+{%- for connection in model.model_external_output_connections() %}
+link: {{ connection.port_from.port}}@{{connection.port_from.component}} {{connection.port_to.port}}
+{%- endfor %}
+
+% Internal connections
+{%- for connection in model.model_internal_connections() %}
+link: {{ connection.port_from.port}}@{{connection.port_from.component}} {{connection.port_to.port}}@{{connection.port_to.component}}
+{%- endfor %}
+
+% Model components
+{{loop(model.components())}}
+{%- else -%}
+% Atomic model {{model.model_type()}}
+{% for name, value in model.model_parameters().items() -%}
+{{name}}: {{value}}
+{% endfor %}
+{% endif -%}
+{%- endfor %}
