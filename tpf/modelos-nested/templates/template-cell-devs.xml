@@ -25,5 +25,7 @@
 </transitions>
 <inputs></inputs>
 <outputs></outputs>
+<inputs-links></inputs-links>
+<outputs-links></outputs-links>
 <portsInTransition></portsInTransition>
 </atomicRef>
