@@ -12,15 +12,15 @@
 #include "tuple_value.h"
 #include "value.h"
 
-#include "qss1.h"
+#include "DebtDEVS_BASIC_COUPLED_Debt.h"
 
 using namespace std;
 
 
-QSS1::QSS1(const string &name) :
+DebtDEVS_BASIC_COUPLED_Debt::DebtDEVS_BASIC_COUPLED_Debt(const string &name) :
     Atomic(name),
-    in(addInputPort("in")),
-    out(addOutputPort("out"))
+    in_port_TotDebt(addInputPort("in_port_TotDebt")),
+    out_port_Debt(addOutputPort("out_port_Debt"))
 {
     dQRel = get_param("dQRel");
     dQMin = get_param("dQMin");
@@ -38,13 +38,13 @@ QSS1::QSS1(const string &name) :
     if(gain == 0)
         gain = 1;
 
-#ifdef QSS_LOG_OUTPUT
-    log_output = true;
+#ifdef DEBTDEVS_BASIC_COUPLED_DEBT_LOG_OUTPUT
+    log_output_Debt = true;
 #else
-    log_output = false;
+    log_output_Debt = false;
 #endif
 
-    if(log_output)
+    if(log_output_Debt)
     {
         // delete file from previous run
         ofstream outf(description(), std::ofstream::out);
@@ -52,8 +52,33 @@ QSS1::QSS1(const string &name) :
     }
 }
 
+VTime DebtDEVS_BASIC_COUPLED_Debt::minposroot(double *coeff)
+{
+    float mpr;
+    VTime ret;
 
-Model &QSS1::initFunction()
+    if(coeff[1] == 0)
+        ret = VTime::Inf;
+    else
+    {
+        mpr = -coeff[0]/coeff[1];
+        ret = VTime(mpr);
+
+        // check for negative values and overflows in VTime.asMsecs() (VTime.asMsecs() is used to advance time)
+        if(mpr < 0 || ret.asMsecs() < 0 || ret.asMsecs() >= VTime::Inf.asMsecs())
+            ret = VTime::Inf;
+    }
+
+    return ret;
+}
+
+double DebtDEVS_BASIC_COUPLED_Debt::to_seconds(const VTime &vt)
+{
+    return vt.asMsecs() / 1000.;
+}
+
+
+Model &DebtDEVS_BASIC_COUPLED_Debt::initFunction()
 {
     sigma = VTime::Zero;
     holdIn(AtomicState::active, sigma);
@@ -62,7 +87,7 @@ Model &QSS1::initFunction()
 }
 
 
-Model &QSS1::externalFunction(const ExternalMessage &msg)
+Model &DebtDEVS_BASIC_COUPLED_Debt::externalFunction(const ExternalMessage &msg)
 {
     double diffxq[2];
 
@@ -71,20 +96,20 @@ Model &QSS1::externalFunction(const ExternalMessage &msg)
 
     VTime e = msg.time() - lastChange();
 
-    if(msg.port() == in)
+    if(msg.port() == in_port_TotDebt)
     {
-        x[0] = x[0] + x[1] * to_seconds(e);
+        x[0] = x[0] + x[1] * this->to_seconds(e);
         x[1] = derx.value();
         if(sigma.asMsecs() > 0)
         {
             // inferior delta crossing
             diffxq[1] = -x[1];
             diffxq[0] = q - x[0] -dQ;
-            sigma = minposroot(diffxq);
+            sigma = this->minposroot(diffxq);
 
             // superior delta difference
             diffxq[0] = q - x[0] + dQ;
-            VTime sigma_up = minposroot(diffxq);
+            VTime sigma_up = this->minposroot(diffxq);
 
             // keep the smallest one
             if(sigma_up < sigma)
@@ -106,9 +131,9 @@ Model &QSS1::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &QSS1::internalFunction(const InternalMessage &msg)
+Model &DebtDEVS_BASIC_COUPLED_Debt::internalFunction(const InternalMessage &msg)
 {
-    x[0] = x[0] + x[1] * to_seconds(sigma);
+    x[0] = x[0] + x[1] * this->to_seconds(sigma);
     q = x[0];    
 
     dQ = max(dQRel * fabs(x[0]), dQMin);
@@ -128,28 +153,28 @@ Model &QSS1::internalFunction(const InternalMessage &msg)
 }
 
 
-Model &QSS1::outputFunction(const CollectMessage &msg)
+Model &DebtDEVS_BASIC_COUPLED_Debt::outputFunction(const CollectMessage &msg)
 {
     double y[2] = {x[0], x[1]};
 
-    y[0] = y[0] + y[1] * to_seconds(sigma);
+    y[0] = y[0] + y[1] * this->to_seconds(sigma);
     y[1] = 0;     
 
-    if(log_output)
+    if(log_output_Debt)
     {
         // send output to file
         ofstream outf(description(), std::ofstream::out | std::ofstream::app);
-        outf << to_seconds(msg.time()) << "," << y[0] << endl;
+        outf << this->to_seconds(msg.time()) << "," << y[0] << endl;
         outf.close();
     }
 
     Tuple<Real> out_value{y[0]};
-    sendOutput(msg.time(), out, out_value);
+    sendOutput(msg.time(), out_port_Debt, out_value);
 
     return *this ;
 }
 
-double QSS1::get_param(const string &name)
+double DebtDEVS_BASIC_COUPLED_Debt::get_param(const string &name)
 {
     double value = 0;
 
@@ -164,29 +189,4 @@ double QSS1::get_param(const string &name)
     {}
 
     return value;
-}
-
-VTime minposroot(double *coeff)
-{
-    float mpr;
-    VTime ret;
-
-    if(coeff[1] == 0)
-        ret = VTime::Inf;
-    else
-    {
-        mpr = -coeff[0]/coeff[1];
-        ret = VTime(mpr);
-
-        // check for negative values and overflows in VTime.asMsecs() (VTime.asMsecs() is used to advance time)
-        if(mpr < 0 || ret.asMsecs() < 0 || ret.asMsecs() >= VTime::Inf.asMsecs())
-            ret = VTime::Inf;
-    }
-
-    return ret;
-}
-
-double to_seconds(const VTime &vt)
-{
-    return vt.asMsecs() / 1000.;
 }

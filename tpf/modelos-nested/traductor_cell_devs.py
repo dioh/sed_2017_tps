@@ -12,7 +12,7 @@ from modulosDEVS.DEVSAtomic.CellDevs import Cell
 
 ###################################################################################################################
 # Configuraciones
-logging.basicConfig(filename='traductor_cell_devs.log', filemode='w', level=logging.DEBUG)
+logging.basicConfig(filename='logs/traductor_cell_devs.log', filemode='w', level=logging.DEBUG)
 # Jinja2
 PATH = './'
 PATH_TEMPLATES = 'templates'

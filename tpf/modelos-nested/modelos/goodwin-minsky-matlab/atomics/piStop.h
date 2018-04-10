@@ -1,5 +1,5 @@
-#ifndef _Cte_H_
-#define _Cte_H_
+#ifndef _piStop_H_
+#define _piStop_H_
 
 #include <random>
 
@@ -7,14 +7,14 @@
 #include "VTime.h"
 
 
-#define CTE "Cte"
+#define PISTOP "piStop"
 
 
-class Cte : public Atomic {
+class piStop : public Atomic {
   public:
     
-    Cte(const string &name = CTE );
-    virtual string className() const {  return CTE ;}
+    piStop(const string &name = PISTOP );
+    virtual string className() const {  return PISTOP ;}
   
   protected:
     Model &initFunction();
@@ -23,10 +23,12 @@ class Cte : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &inValue;
-    Port &out;
-
-    double value;
-};
+    
+    const Port &in_port_piS;
+    
+    Port &out_port_piS;
+    
+    double piS;
+    };
 
 #endif

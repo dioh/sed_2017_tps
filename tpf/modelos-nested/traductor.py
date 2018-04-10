@@ -11,7 +11,7 @@ import logging
 
 ###################################################################################################################
 # Configuraciones
-logging.basicConfig(filename='DEVSGenerator.log', filemode='w', level=logging.DEBUG)
+logging.basicConfig(filename='logs/traductor.log', filemode='w', level=logging.DEBUG)
 
 ###################################################################################################################
 
@@ -37,26 +37,40 @@ params_traducciones = {
     #    'DEVSML_TOP_FILENAME': 'modelos/lotka-volterra-nested/top.xml',
     #    'DEVSML_MA_FILENAME': 'modelos/lotka-volterra-nested/mafile.ma'
     #},
-    'teacup' : {
+    'teacup': {
         'DIR_XMILE': 'modelos/teacup/teacup.xmile',
         'DEVSML_CPP_H_DIRECTORY': 'modelos/teacup/atomics/',
         'DEVSML_EVENTS_FILENAME': 'modelos/teacup/events.ev',
         'DEVSML_TOP_FILENAME': 'modelos/teacup/top.xml',
         'DEVSML_MA_FILENAME': 'modelos/teacup/mafile.ma'
     },
-    'lotka-volterra-2' : {
-        'DIR_XMILE': 'modelos/lotka-volterra/lotka-volterra.xmile',
-        'DEVSML_CPP_H_DIRECTORY': 'modelos/lotka-volterra/atomics/',
-        'DEVSML_EVENTS_FILENAME': 'modelos/lotka-volterra/events.ev',
-        'DEVSML_TOP_FILENAME': 'modelos/lotka-volterra/top.xml',
-        'DEVSML_MA_FILENAME': 'modelos/lotka-volterra/mafile.ma'
-    },
-    'lotka-volterra-1' : {
+    #'lotka-volterra-2': {
+    #    'DIR_XMILE': 'modelos/lotka-volterra/lotka-volterra.xmile',
+    #    'DEVSML_CPP_H_DIRECTORY': 'modelos/lotka-volterra/atomics/',
+    #    'DEVSML_EVENTS_FILENAME': 'modelos/lotka-volterra/events.ev',
+    #    'DEVSML_TOP_FILENAME': 'modelos/lotka-volterra/top.xml',
+    #    'DEVSML_MA_FILENAME': 'modelos/lotka-volterra/mafile.ma'
+    #},
+    'lotka-volterra-1': {
         'DIR_XMILE': 'modelos/lotka-volterra-nested-1/lotka-volterra-nested-1.xmile',
         'DEVSML_CPP_H_DIRECTORY': 'modelos/lotka-volterra-nested-1/atomics/',
         'DEVSML_EVENTS_FILENAME': 'modelos/lotka-volterra-nested-1/events.ev',
         'DEVSML_TOP_FILENAME': 'modelos/lotka-volterra-nested-1/top.xml',
         'DEVSML_MA_FILENAME': 'modelos/lotka-volterra-nested-1/mafile.ma'
+    },
+    'loanable-funds': {
+        'DIR_XMILE': 'modelos/loanable-funds-matlab/loanable-funds.xmile',
+        'DEVSML_CPP_H_DIRECTORY': 'modelos/loanable-funds-matlab/atomics/',
+        'DEVSML_EVENTS_FILENAME': 'modelos/loanable-funds-matlab/events.ev',
+        'DEVSML_TOP_FILENAME': 'modelos/loanable-funds-matlab/top.xml',
+        'DEVSML_MA_FILENAME': 'modelos/loanable-funds-matlab/mafile.ma'
+    },
+    'goodwin-minsky-with-names': {
+        'DIR_XMILE': 'modelos/goodwin-minsky-matlab/goodwin-minsky-with-names.xmile',
+        'DEVSML_CPP_H_DIRECTORY': 'modelos/goodwin-minsky-matlab/atomics/',
+        'DEVSML_EVENTS_FILENAME': 'modelos/goodwin-minsky-matlab/events.ev',
+        'DEVSML_TOP_FILENAME': 'modelos/goodwin-minsky-matlab/top.xml',
+        'DEVSML_MA_FILENAME': 'modelos/goodwin-minsky-matlab/mafile.ma'
     }
 }
 
