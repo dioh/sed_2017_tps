@@ -85,8 +85,6 @@ class CdppModel(object):
         rv = set()
         for in_port in devsml_xml_root.findall('./inputs/input'):
             if (in_port.attrib['type'].lower() == port_type):
-                if port_type == 'in_minus':
-                    print 'OK'
                 rv.add(in_port.attrib['name'])
         return rv
 

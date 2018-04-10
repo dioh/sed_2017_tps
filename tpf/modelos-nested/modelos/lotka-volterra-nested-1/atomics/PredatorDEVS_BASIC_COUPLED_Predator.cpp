@@ -12,15 +12,15 @@
 #include "tuple_value.h"
 #include "value.h"
 
-#include "{{name_full}}.h"
+#include "PredatorDEVS_BASIC_COUPLED_Predator.h"
 
 using namespace std;
 
 
-{{name_full}}::{{name_full}}(const string &name) :
+PredatorDEVS_BASIC_COUPLED_Predator::PredatorDEVS_BASIC_COUPLED_Predator(const string &name) :
     Atomic(name),
-    in_port_Tot{{name}}(addInputPort("in_port_Tot{{name}}")),
-    out_port_{{name}}(addOutputPort("out_port_{{name}}"))
+    in_port_TotPredator(addInputPort("in_port_TotPredator")),
+    out_port_Predator(addOutputPort("out_port_Predator"))
 {
     dQRel = get_param("dQRel");
     dQMin = get_param("dQMin");
@@ -38,13 +38,13 @@ using namespace std;
     if(gain == 0)
         gain = 1;
 
-#ifdef {{name_full_upper}}_LOG_OUTPUT
-    log_output_{{name}} = true;
+#ifdef PREDATORDEVS_BASIC_COUPLED_PREDATOR_LOG_OUTPUT
+    log_output_Predator = true;
 #else
-    log_output_{{name}} = false;
+    log_output_Predator = false;
 #endif
 
-    if(log_output_{{name}})
+    if(log_output_Predator)
     {
         // delete file from previous run
         ofstream outf(description(), std::ofstream::out);
@@ -52,7 +52,7 @@ using namespace std;
     }
 }
 
-VTime {{name_full}}::minposroot(double *coeff)
+VTime PredatorDEVS_BASIC_COUPLED_Predator::minposroot(double *coeff)
 {
     float mpr;
     VTime ret;
@@ -72,13 +72,13 @@ VTime {{name_full}}::minposroot(double *coeff)
     return ret;
 }
 
-double {{name_full}}::to_seconds(const VTime &vt)
+double PredatorDEVS_BASIC_COUPLED_Predator::to_seconds(const VTime &vt)
 {
     return vt.asMsecs() / 1000.;
 }
 
 
-Model &{{name_full}}::initFunction()
+Model &PredatorDEVS_BASIC_COUPLED_Predator::initFunction()
 {
     sigma = VTime::Zero;
     holdIn(AtomicState::active, sigma);
@@ -87,7 +87,7 @@ Model &{{name_full}}::initFunction()
 }
 
 
-Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
+Model &PredatorDEVS_BASIC_COUPLED_Predator::externalFunction(const ExternalMessage &msg)
 {
     double diffxq[2];
 
@@ -96,7 +96,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
 
     VTime e = msg.time() - lastChange();
 
-    if(msg.port() == in_port_Tot{{name}})
+    if(msg.port() == in_port_TotPredator)
     {
         x[0] = x[0] + x[1] * this->to_seconds(e);
         x[1] = derx.value();
@@ -131,7 +131,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &{{name_full}}::internalFunction(const InternalMessage &msg)
+Model &PredatorDEVS_BASIC_COUPLED_Predator::internalFunction(const InternalMessage &msg)
 {
     x[0] = x[0] + x[1] * this->to_seconds(sigma);
     q = x[0];    
@@ -153,14 +153,14 @@ Model &{{name_full}}::internalFunction(const InternalMessage &msg)
 }
 
 
-Model &{{name_full}}::outputFunction(const CollectMessage &msg)
+Model &PredatorDEVS_BASIC_COUPLED_Predator::outputFunction(const CollectMessage &msg)
 {
     double y[2] = {x[0], x[1]};
 
     y[0] = y[0] + y[1] * this->to_seconds(sigma);
     y[1] = 0;     
 
-    if(log_output_{{name}})
+    if(log_output_Predator)
     {
         // send output to file
         ofstream outf(description(), std::ofstream::out | std::ofstream::app);
@@ -169,12 +169,12 @@ Model &{{name_full}}::outputFunction(const CollectMessage &msg)
     }
 
     Tuple<Real> out_value{y[0]};
-    sendOutput(msg.time(), out_port_{{name}}, out_value);
+    sendOutput(msg.time(), out_port_Predator, out_value);
 
     return *this ;
 }
 
-double {{name_full}}::get_param(const string &name)
+double PredatorDEVS_BASIC_COUPLED_Predator::get_param(const string &name)
 {
     double value = 0;
 

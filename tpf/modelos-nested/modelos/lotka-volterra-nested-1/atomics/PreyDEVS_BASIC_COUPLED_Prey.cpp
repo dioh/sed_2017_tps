@@ -12,15 +12,15 @@
 #include "tuple_value.h"
 #include "value.h"
 
-#include "{{name_full}}.h"
+#include "PreyDEVS_BASIC_COUPLED_Prey.h"
 
 using namespace std;
 
 
-{{name_full}}::{{name_full}}(const string &name) :
+PreyDEVS_BASIC_COUPLED_Prey::PreyDEVS_BASIC_COUPLED_Prey(const string &name) :
     Atomic(name),
-    in_port_Tot{{name}}(addInputPort("in_port_Tot{{name}}")),
-    out_port_{{name}}(addOutputPort("out_port_{{name}}"))
+    in_port_TotPrey(addInputPort("in_port_TotPrey")),
+    out_port_Prey(addOutputPort("out_port_Prey"))
 {
     dQRel = get_param("dQRel");
     dQMin = get_param("dQMin");
@@ -38,13 +38,13 @@ using namespace std;
     if(gain == 0)
         gain = 1;
 
-#ifdef {{name_full_upper}}_LOG_OUTPUT
-    log_output_{{name}} = true;
+#ifdef PREYDEVS_BASIC_COUPLED_PREY_LOG_OUTPUT
+    log_output_Prey = true;
 #else
-    log_output_{{name}} = false;
+    log_output_Prey = false;
 #endif
 
-    if(log_output_{{name}})
+    if(log_output_Prey)
     {
         // delete file from previous run
         ofstream outf(description(), std::ofstream::out);
@@ -52,7 +52,7 @@ using namespace std;
     }
 }
 
-VTime {{name_full}}::minposroot(double *coeff)
+VTime PreyDEVS_BASIC_COUPLED_Prey::minposroot(double *coeff)
 {
     float mpr;
     VTime ret;
@@ -72,13 +72,13 @@ VTime {{name_full}}::minposroot(double *coeff)
     return ret;
 }
 
-double {{name_full}}::to_seconds(const VTime &vt)
+double PreyDEVS_BASIC_COUPLED_Prey::to_seconds(const VTime &vt)
 {
     return vt.asMsecs() / 1000.;
 }
 
 
-Model &{{name_full}}::initFunction()
+Model &PreyDEVS_BASIC_COUPLED_Prey::initFunction()
 {
     sigma = VTime::Zero;
     holdIn(AtomicState::active, sigma);
@@ -87,7 +87,7 @@ Model &{{name_full}}::initFunction()
 }
 
 
-Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
+Model &PreyDEVS_BASIC_COUPLED_Prey::externalFunction(const ExternalMessage &msg)
 {
     double diffxq[2];
 
@@ -96,7 +96,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
 
     VTime e = msg.time() - lastChange();
 
-    if(msg.port() == in_port_Tot{{name}})
+    if(msg.port() == in_port_TotPrey)
     {
         x[0] = x[0] + x[1] * this->to_seconds(e);
         x[1] = derx.value();
@@ -131,7 +131,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &{{name_full}}::internalFunction(const InternalMessage &msg)
+Model &PreyDEVS_BASIC_COUPLED_Prey::internalFunction(const InternalMessage &msg)
 {
     x[0] = x[0] + x[1] * this->to_seconds(sigma);
     q = x[0];    
@@ -153,14 +153,14 @@ Model &{{name_full}}::internalFunction(const InternalMessage &msg)
 }
 
 
-Model &{{name_full}}::outputFunction(const CollectMessage &msg)
+Model &PreyDEVS_BASIC_COUPLED_Prey::outputFunction(const CollectMessage &msg)
 {
     double y[2] = {x[0], x[1]};
 
     y[0] = y[0] + y[1] * this->to_seconds(sigma);
     y[1] = 0;     
 
-    if(log_output_{{name}})
+    if(log_output_Prey)
     {
         // send output to file
         ofstream outf(description(), std::ofstream::out | std::ofstream::app);
@@ -169,12 +169,12 @@ Model &{{name_full}}::outputFunction(const CollectMessage &msg)
     }
 
     Tuple<Real> out_value{y[0]};
-    sendOutput(msg.time(), out_port_{{name}}, out_value);
+    sendOutput(msg.time(), out_port_Prey, out_value);
 
     return *this ;
 }
 
-double {{name_full}}::get_param(const string &name)
+double PreyDEVS_BASIC_COUPLED_Prey::get_param(const string &name)
 {
     double value = 0;
 

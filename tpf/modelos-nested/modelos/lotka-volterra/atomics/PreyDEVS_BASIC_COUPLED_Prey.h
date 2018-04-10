@@ -1,18 +1,18 @@
-#ifndef _{{name_full}}_H_
-#define _{{name_full}}_H_
+#ifndef _PreyDEVS_BASIC_COUPLED_Prey_H_
+#define _PreyDEVS_BASIC_COUPLED_Prey_H_
 
 #include <string> 
 
 #include "atomic.h"
 
-#define {{name_full_upper}} "{{name_full}}"
+#define PREYDEVS_BASIC_COUPLED_PREY "PreyDEVS_BASIC_COUPLED_Prey"
 
 
-class {{name_full}} : public Atomic {
+class PreyDEVS_BASIC_COUPLED_Prey : public Atomic {
   public:
     
-    {{name_full}}(const string &name = {{name_full_upper}} );
-    virtual string className() const {  return {{name_full_upper}} ;}
+    PreyDEVS_BASIC_COUPLED_Prey(const string &name = PREYDEVS_BASIC_COUPLED_PREY );
+    virtual string className() const {  return PREYDEVS_BASIC_COUPLED_PREY ;}
   
   protected:
     Model &initFunction();
@@ -21,15 +21,15 @@ class {{name_full}} : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in_port_Tot{{name}};
-    Port &out_port_{{name}};
+    const Port &in_port_TotPrey;
+    Port &out_port_Prey;
 
     double dQ, dQMin, dQRel;
     double x[2], q;
     double gain;
     VTime sigma; // track last change
 
-    bool log_output_{{name}};
+    bool log_output_Prey;
 
     double get_param(const string &);
 

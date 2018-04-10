@@ -38,18 +38,43 @@ TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::TemperatureValueDEVS_BASIC_
     if(gain == 0)
         gain = 1;
 
-#ifdef QSS_LOG_OUTPUT
-    log_output = true;
+#ifdef TEMPERATUREVALUEDEVS_BASIC_COUPLED_TEMPERATUREVALUE_LOG_OUTPUT
+    log_output_TemperatureValue = true;
 #else
-    log_output = false;
+    log_output_TemperatureValue = false;
 #endif
 
-    if(log_output)
+    if(log_output_TemperatureValue)
     {
         // delete file from previous run
         ofstream outf(description(), std::ofstream::out);
         outf.close();
     }
+}
+
+VTime TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::minposroot(double *coeff)
+{
+    float mpr;
+    VTime ret;
+
+    if(coeff[1] == 0)
+        ret = VTime::Inf;
+    else
+    {
+        mpr = -coeff[0]/coeff[1];
+        ret = VTime(mpr);
+
+        // check for negative values and overflows in VTime.asMsecs() (VTime.asMsecs() is used to advance time)
+        if(mpr < 0 || ret.asMsecs() < 0 || ret.asMsecs() >= VTime::Inf.asMsecs())
+            ret = VTime::Inf;
+    }
+
+    return ret;
+}
+
+double TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::to_seconds(const VTime &vt)
+{
+    return vt.asMsecs() / 1000.;
 }
 
 
@@ -73,18 +98,18 @@ Model &TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::externalFunction(con
 
     if(msg.port() == in_port_TotTemperatureValue)
     {
-        x[0] = x[0] + x[1] * to_seconds(e);
+        x[0] = x[0] + x[1] * this->to_seconds(e);
         x[1] = derx.value();
         if(sigma.asMsecs() > 0)
         {
             // inferior delta crossing
             diffxq[1] = -x[1];
             diffxq[0] = q - x[0] -dQ;
-            sigma = minposroot(diffxq);
+            sigma = this->minposroot(diffxq);
 
             // superior delta difference
             diffxq[0] = q - x[0] + dQ;
-            VTime sigma_up = minposroot(diffxq);
+            VTime sigma_up = this->minposroot(diffxq);
 
             // keep the smallest one
             if(sigma_up < sigma)
@@ -108,7 +133,7 @@ Model &TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::externalFunction(con
 
 Model &TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::internalFunction(const InternalMessage &msg)
 {
-    x[0] = x[0] + x[1] * to_seconds(sigma);
+    x[0] = x[0] + x[1] * this->to_seconds(sigma);
     q = x[0];    
 
     dQ = max(dQRel * fabs(x[0]), dQMin);
@@ -132,14 +157,14 @@ Model &TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::outputFunction(const
 {
     double y[2] = {x[0], x[1]};
 
-    y[0] = y[0] + y[1] * to_seconds(sigma);
+    y[0] = y[0] + y[1] * this->to_seconds(sigma);
     y[1] = 0;     
 
-    if(log_output)
+    if(log_output_TemperatureValue)
     {
         // send output to file
         ofstream outf(description(), std::ofstream::out | std::ofstream::app);
-        outf << to_seconds(msg.time()) << "," << y[0] << endl;
+        outf << this->to_seconds(msg.time()) << "," << y[0] << endl;
         outf.close();
     }
 
@@ -164,29 +189,4 @@ double TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::get_param(const stri
     {}
 
     return value;
-}
-
-VTime minposroot(double *coeff)
-{
-    float mpr;
-    VTime ret;
-
-    if(coeff[1] == 0)
-        ret = VTime::Inf;
-    else
-    {
-        mpr = -coeff[0]/coeff[1];
-        ret = VTime(mpr);
-
-        // check for negative values and overflows in VTime.asMsecs() (VTime.asMsecs() is used to advance time)
-        if(mpr < 0 || ret.asMsecs() < 0 || ret.asMsecs() >= VTime::Inf.asMsecs())
-            ret = VTime::Inf;
-    }
-
-    return ret;
-}
-
-double to_seconds(const VTime &vt)
-{
-    return vt.asMsecs() / 1000.;
 }

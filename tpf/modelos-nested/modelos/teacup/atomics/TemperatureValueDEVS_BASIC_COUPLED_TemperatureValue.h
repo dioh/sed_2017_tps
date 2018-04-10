@@ -1,16 +1,11 @@
-#ifndef _QSS_H_
-#define _QSS_H_
+#ifndef _TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue_H_
+#define _TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue_H_
 
 #include <string> 
 
 #include "atomic.h"
 
 #define TEMPERATUREVALUEDEVS_BASIC_COUPLED_TEMPERATUREVALUE "TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue"
-
-
-VTime minposroot(double *coeff);
-
-double to_seconds(const VTime &);
 
 
 class TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue : public Atomic {
@@ -34,9 +29,14 @@ class TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue : public Atomic {
     double gain;
     VTime sigma; // track last change
 
-    bool log_output;
+    bool log_output_TemperatureValue;
 
     double get_param(const string &);
+
+    VTime minposroot(double *coeff);
+
+    double to_seconds(const VTime &);
+
 };
 
 #endif
