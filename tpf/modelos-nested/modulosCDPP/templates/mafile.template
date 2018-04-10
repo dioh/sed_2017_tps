@@ -3,10 +3,13 @@
 [{{model.model_name()}}]
 %Coupled model
 {% if model.components()|length > 0 -%}
-components: {%- for component in model.components() %} {{component.model_name()}} {%- endfor %}
+components: {%- for component in model.components() %} {% if component.model_type() in ['DEVSCoupledComponent', 'DEVSBasicCoupledComponent'] %} {{component.model_name()}} {%- else -%} {{component.model_name()}}@{{component.model_name()}}{{component.model_parent()}} {%- endif -%} {%- endfor %}
 {% endif %}
 % In ports
+{% if model.model_in_ports()|length > 0 -%}
 in: {%- for input in model.model_in_ports() %} in_port_{{input}} {%- endfor %}
+{% endif %}
+
 % Out ports
 out: {%- for output in model.model_out_ports() %} out_port_{{output}} {%- endfor %}
 
@@ -22,7 +25,7 @@ link: out_port_{{ connection.port_from.port}}@{{connection.port_from.component}}
 
 % Internal connections
 {%- for connection in model.model_internal_connections() %}
-link: out_port_{{ connection.port_from.port}}@{{connection.port_from.component}} in_port_{{connection.port_to.port}}@{{connection.port_to.component}}
+link: out_port_{{ connection.port_from.port}}@{{connection.port_from.component}} {{connection.type}}_port_{{connection.port_to.port}}@{{connection.port_to.component}}
 {%- endfor %}
 
 % Model components

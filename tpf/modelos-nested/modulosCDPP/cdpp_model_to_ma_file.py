@@ -28,7 +28,10 @@ class Mafile(object):
         if self.model.name == 'DEVS_COUPLED_top':
             return 'top'
         else:
-            return self.model.name #+ self.model.parent
+            return self.model.name
+
+    def model_parent(self):
+        return self.model.parent
 
     #def model_parent(self):
     #    return self.parent
@@ -38,6 +41,12 @@ class Mafile(object):
 
     def model_in_ports(self):
         return sorted(self.model.in_ports)
+    
+    def model_in_minus_ports(self):
+        return sorted(self.model.in_minus_ports)
+    
+    def model_in_plus_ports(self):
+        return sorted(self.model.in_plus_ports)
 
     def model_out_ports(self):
         return sorted(self.model.out_ports)

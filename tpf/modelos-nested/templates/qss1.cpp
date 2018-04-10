@@ -12,15 +12,15 @@
 #include "tuple_value.h"
 #include "value.h"
 
-#include "qss1.h"
+#include "{{name_full}}.h"
 
 using namespace std;
 
 
-QSS1::QSS1(const string &name) :
+{{name_full}}::{{name_full}}(const string &name) :
     Atomic(name),
-    in(addInputPort("in")),
-    out(addOutputPort("out"))
+    in_port_Tot{{name}}(addInputPort("in_port_Tot{{name}}")),
+    out_port_{{name}}(addOutputPort("out_port_{{name}}"))
 {
     dQRel = get_param("dQRel");
     dQMin = get_param("dQMin");
@@ -53,7 +53,7 @@ QSS1::QSS1(const string &name) :
 }
 
 
-Model &QSS1::initFunction()
+Model &{{name_full}}::initFunction()
 {
     sigma = VTime::Zero;
     holdIn(AtomicState::active, sigma);
@@ -62,7 +62,7 @@ Model &QSS1::initFunction()
 }
 
 
-Model &QSS1::externalFunction(const ExternalMessage &msg)
+Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
 {
     double diffxq[2];
 
@@ -71,7 +71,7 @@ Model &QSS1::externalFunction(const ExternalMessage &msg)
 
     VTime e = msg.time() - lastChange();
 
-    if(msg.port() == in)
+    if(msg.port() == in_port_Tot{{name}})
     {
         x[0] = x[0] + x[1] * to_seconds(e);
         x[1] = derx.value();
@@ -106,7 +106,7 @@ Model &QSS1::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &QSS1::internalFunction(const InternalMessage &msg)
+Model &{{name_full}}::internalFunction(const InternalMessage &msg)
 {
     x[0] = x[0] + x[1] * to_seconds(sigma);
     q = x[0];    
@@ -128,7 +128,7 @@ Model &QSS1::internalFunction(const InternalMessage &msg)
 }
 
 
-Model &QSS1::outputFunction(const CollectMessage &msg)
+Model &{{name_full}}::outputFunction(const CollectMessage &msg)
 {
     double y[2] = {x[0], x[1]};
 
@@ -144,12 +144,12 @@ Model &QSS1::outputFunction(const CollectMessage &msg)
     }
 
     Tuple<Real> out_value{y[0]};
-    sendOutput(msg.time(), out, out_value);
+    sendOutput(msg.time(), out_port_{{name}}, out_value);
 
     return *this ;
 }
 
-double QSS1::get_param(const string &name)
+double {{name_full}}::get_param(const string &name)
 {
     double value = 0;
 

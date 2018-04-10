@@ -475,9 +475,9 @@
                                 </atomicRef>
                             </components>
                             <internal_connections>
-                                <connection component_from="TotPreySubModelStock" component_to="PreySubModelStock" port_from="TotPreySubModelStock" port_to="TotPreySubModelStock" />
-                                <connection component_from="PreySubModelStock" component_to="preySubFlow_PreySubModelStock" port_from="PreySubModelStock" port_to="PreySubModelStock" />
                                 <connection component_from="preySubFlow_PreySubModelStock" component_to="TotPreySubModelStock" port_from="preySubFlow_PreySubModelStock" port_to="preySubFlow_PreySubModelStock" />
+                                <connection component_from="PreySubModelStock" component_to="preySubFlow_PreySubModelStock" port_from="PreySubModelStock" port_to="PreySubModelStock" />
+                                <connection component_from="TotPreySubModelStock" component_to="PreySubModelStock" port_from="TotPreySubModelStock" port_to="TotPreySubModelStock" />
                             </internal_connections>
                             <external_input_connections>
                                 <connection component_to="preySubFlow_PreySubModelStock" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
@@ -577,8 +577,8 @@
                     <external_input_connections>
                         <connection component_to="MinusPrey_Prey" port_from="Predator" port_to="Predator" />
                         <connection component_to="PlusPrey_Prey" port_from="paramA" port_to="paramA" />
-                        <connection component_to="PlusPrey_Prey" port_from="PreySubModelStock" port_to="PreySubModelStock" />
                         <connection component_to="MinusPrey_Prey" port_from="PreySubSubModelStock" port_to="PreySubSubModelStock" />
+                        <connection component_to="PlusPrey_Prey" port_from="PreySubModelStock" port_to="PreySubModelStock" />
                         <connection component_to="MinusPrey_Prey" port_from="paramB" port_to="paramB" />
                     </external_input_connections>
                     <external_output_connections>

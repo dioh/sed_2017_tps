@@ -122,6 +122,20 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
                            at.find('outputs').findall('output')))}))
         atomics_names.append(tot_name)
 
+    template_integrator = cpp_h_templates_filenames['DEVSIntegrator']
+    atomic_integrators = filter(lambda x : x.get('model') in ['DEVSIntegrator'], root.findall('.//atomicRef'))
+    for ai in atomic_integrators:
+        integrator_name = ai.get('name') + ai.get('parent')
+        for extension in ['.h', '.cpp']:
+            with open(devsml_cpp_h_directory + integrator_name + extension, 'w+') as f:
+                template_now = template_integrator + extension
+                f.write(render_template(template_now, {
+                    'name_full': integrator_name,
+                    'name_full_upper': integrator_name.upper(),
+                    'name': ai.get('name')
+                }))
+        atomics_names.append(integrator_name)
+
     # TODO
     # DEVSFpulse
     # etc.

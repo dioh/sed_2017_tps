@@ -13,10 +13,10 @@ using namespace std;
 {{tot_name_lower}}::{{tot_name_lower}}(const string &name) :
 	Atomic(name),
 	{% for port_plus in plus_input_ports -%}
-	in_port_plus_{{port_plus}}(addInputPort("in_port_plus_{{port_plus}}")),
+	in_plus_port_{{port_plus}}(addInputPort("in_plus_port_{{port_plus}}")),
 	{% endfor -%}
 	{% for port_minus in minus_input_ports -%}
-	in_port_minus_{{port_minus}}(addInputPort("in_port_minus_{{port_minus}}")),
+	in_minus_port_{{port_minus}}(addInputPort("in_minus_port_{{port_minus}}")),
 	{% endfor -%}
 	{% for port_plus in plus_input_ports -%}
 	isSet_{{port_plus}}(false),
@@ -43,13 +43,13 @@ Model &{{tot_name_lower}}::externalFunction(const ExternalMessage &msg)
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
 	{% for port_plus in plus_input_ports -%}
-	if(msg.port() == in_port_plus_{{port_plus}}) {
+	if(msg.port() == in_plus_port_{{port_plus}}) {
 		{{port_plus}} = x;
 		isSet_{{port_plus}} = true;
 	}
 	{% endfor -%}
 	{% for port_minus in minus_input_ports -%}
-	if(msg.port() == in_port_minus_{{port_minus}}) {
+	if(msg.port() == in_minus_port_{{port_minus}}) {
 		{{port_minus}} = x;
 		isSet_{{port_minus}} = true;
 	}

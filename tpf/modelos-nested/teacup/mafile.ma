@@ -1,10 +1,12 @@
 
 [top]
 %Coupled model
-components: DEVS_BASIC_COUPLED_TemperatureValue CharacteristicTime RoomTemperature
+components:  DEVS_BASIC_COUPLED_TemperatureValue CharacteristicTime@CharacteristicTimetop RoomTemperature@RoomTemperaturetop
 
 % In ports
 in: in_port_CharacteristicTime in_port_RoomTemperature
+
+
 % Out ports
 out: out_port_TemperatureValue
 
@@ -24,10 +26,12 @@ link: out_port_RoomTemperature@RoomTemperature in_port_RoomTemperature@DEVS_BASI
 
 [DEVS_BASIC_COUPLED_TemperatureValue]
 %Coupled model
-components: HeatLossToRoom_TemperatureValue TotTemperatureValue TemperatureValue
+components: HeatLossToRoom_TemperatureValue@HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue TotTemperatureValue@TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue TemperatureValue@TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue
 
 % In ports
 in: in_port_CharacteristicTime in_port_RoomTemperature
+
+
 % Out ports
 out: out_port_TemperatureValue
 
@@ -41,7 +45,7 @@ link: out_port_TemperatureValue@TemperatureValue out_port_TemperatureValue
 % Internal connections
 link: out_port_TemperatureValue@TemperatureValue in_port_TemperatureValue@HeatLossToRoom_TemperatureValue
 link: out_port_TotTemperatureValue@TotTemperatureValue in_port_TotTemperatureValue@TemperatureValue
-link: out_port_HeatLossToRoom_TemperatureValue@HeatLossToRoom_TemperatureValue in_port_HeatLossToRoom_TemperatureValue@TotTemperatureValue
+link: out_port_HeatLossToRoom_TemperatureValue@HeatLossToRoom_TemperatureValue in_minus_port_HeatLossToRoom_TemperatureValue@TotTemperatureValue
 
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')

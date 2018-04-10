@@ -30,13 +30,13 @@ CPP_H_TEMPLATES_FILENAMES = {
 }
 
 params_traducciones = {
-    'lotka-volterra-nested' : {
-        'DIR_XMILE': 'lotka-volterra-nested/lotka-volterra-nested-2.xmile',
-        'DEVSML_CPP_H_DIRECTORY': 'lotka-volterra-nested/atomics/',
-        'DEVSML_EVENTS_FILENAME': 'lotka-volterra-nested/events.ev',
-        'DEVSML_TOP_FILENAME': 'lotka-volterra-nested/top.xml',
-        'DEVSML_MA_FILENAME': 'lotka-volterra-nested/mafile.ma'
-    },
+    #'lotka-volterra-nested' : {
+    #    'DIR_XMILE': 'lotka-volterra-nested/lotka-volterra-nested-2.xmile',
+    #    'DEVSML_CPP_H_DIRECTORY': 'lotka-volterra-nested/atomics/',
+    #    'DEVSML_EVENTS_FILENAME': 'lotka-volterra-nested/events.ev',
+    #    'DEVSML_TOP_FILENAME': 'lotka-volterra-nested/top.xml',
+    #    'DEVSML_MA_FILENAME': 'lotka-volterra-nested/mafile.ma'
+    #},
     'teacup' : {
         'DIR_XMILE': 'teacup/teacup.xmile',
         'DEVSML_CPP_H_DIRECTORY': 'teacup/atomics/',
@@ -59,8 +59,8 @@ for model, params in params_traducciones.items():
     except Exception:
         os.makedirs(DEVSML_CPP_H_DIRECTORY)
     shutil.copyfile('templates/Makefile', DEVSML_CPP_H_DIRECTORY + '/Makefile')
-    shutil.copyfile('templates/qss1.h', DEVSML_CPP_H_DIRECTORY + '/qss1.h')
-    shutil.copyfile('templates/qss1.cpp', DEVSML_CPP_H_DIRECTORY + '/qss1.cpp')
+    #shutil.copyfile('templates/qss1.h', DEVSML_CPP_H_DIRECTORY + '/qss1.h')
+    #shutil.copyfile('templates/qss1.cpp', DEVSML_CPP_H_DIRECTORY + '/qss1.cpp')
 
     # Generate .devsml file
     generateDEVSML(DIR_XMILE, DEVSML_TEMPLATE_FILENAME, DEVSML_TOP_FILENAME)

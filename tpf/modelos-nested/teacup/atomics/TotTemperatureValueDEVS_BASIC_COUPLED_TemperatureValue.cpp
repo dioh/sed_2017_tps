@@ -12,7 +12,7 @@ using namespace std;
 
 TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue(const string &name) :
 	Atomic(name),
-	in_port_minus_HeatLossToRoom_TemperatureValue(addInputPort("in_port_minus_HeatLossToRoom_TemperatureValue")),
+	in_minus_port_HeatLossToRoom_TemperatureValue(addInputPort("in_minus_port_HeatLossToRoom_TemperatureValue")),
 	isSet_HeatLossToRoom_TemperatureValue(false),
 	out_port_TotTemperatureValue(addOutputPort("out_port_TotTemperatureValue"))
 	{
@@ -30,7 +30,7 @@ Model &TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::externalFunction(
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == in_port_minus_HeatLossToRoom_TemperatureValue) {
+	if(msg.port() == in_minus_port_HeatLossToRoom_TemperatureValue) {
 		HeatLossToRoom_TemperatureValue = x;
 		isSet_HeatLossToRoom_TemperatureValue = true;
 	}

@@ -21,7 +21,7 @@ class TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in_port_minus_HeatLossToRoom_TemperatureValue;
+    const Port &in_minus_port_HeatLossToRoom_TemperatureValue;
     
     Port &out_port_TotTemperatureValue;
 

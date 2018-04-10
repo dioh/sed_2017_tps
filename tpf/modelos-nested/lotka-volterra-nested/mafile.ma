@@ -5,6 +5,9 @@ components: paramE specialParamC DEVS_BASIC_COUPLED_hunter paramA paramB paramD 
 
 % In ports
 in: in_port_ctePulse in_port_cteVariable in_port_paramA in_port_paramB in_port_paramD in_port_paramPulse
+
+
+
 % Out ports
 out: out_port_Predator out_port_Prey out_port_PreySubModelStock out_port_PreySubSubModelStock out_port_auxVariable out_port_combiner out_port_hunter out_port_paramE out_port_specialParamC
 
@@ -54,6 +57,9 @@ components: populationDeath_hunter populationGrowth_hunter Tothunter hunter PULS
 
 % In ports
 in: in_port_paramPulse
+
+
+
 % Out ports
 out: out_port_hunter
 
@@ -105,6 +111,9 @@ components: auxVariable DEVS_BASIC_COUPLED_Predator cteVariable paramD specialPa
 
 % In ports
 in: in_port_Prey in_port_cteVariable in_port_hunter in_port_paramD in_port_specialParamC
+
+
+
 % Out ports
 out: out_port_Predator out_port_auxVariable
 
@@ -136,6 +145,9 @@ components: MinusPredator_Predator PlusPredator_Predator TotPredator Predator
 
 % In ports
 in: in_port_Prey in_port_cteVariable in_port_hunter in_port_paramD in_port_specialParamC
+
+
+
 % Out ports
 out: out_port_Predator
 
@@ -186,6 +198,9 @@ components: DEVS_BASIC_COUPLED_Prey paramA paramB DEVS_COUPLED_PreySubModel
 
 % In ports
 in: in_port_Predator in_port_ctePulse in_port_paramA in_port_paramB
+
+
+
 % Out ports
 out: out_port_Prey out_port_PreySubModelStock out_port_PreySubSubModelStock out_port_combiner
 
@@ -217,6 +232,9 @@ components: MinusPrey_Prey PlusPrey_Prey TotPrey Prey
 
 % In ports
 in: in_port_Predator in_port_PreySubModelStock in_port_PreySubSubModelStock in_port_paramA in_port_paramB
+
+
+
 % Out ports
 out: out_port_Prey
 
@@ -265,6 +283,9 @@ components: DEVS_BASIC_COUPLED_PreySubModelStock DEVS_COUPLED_PreySubSubModel
 
 % In ports
 in: in_port_Prey in_port_ctePulse
+
+
+
 % Out ports
 out: out_port_PreySubModelStock out_port_PreySubSubModelStock out_port_combiner
 
@@ -290,6 +311,9 @@ components: preySubFlow_PreySubModelStock TotPreySubModelStock PreySubModelStock
 
 % In ports
 in: in_port_Prey in_port_PreySubSubModelStock
+
+
+
 % Out ports
 out: out_port_PreySubModelStock
 
@@ -327,6 +351,9 @@ components: combiner DEVS_BASIC_COUPLED_PreySubSubModelStock ctePulse
 
 % In ports
 in: in_port_Prey in_port_ctePulse
+
+
+
 % Out ports
 out: out_port_PreySubSubModelStock out_port_combiner
 
@@ -353,6 +380,9 @@ components: Flow1_PreySubSubModelStock TotPreySubSubModelStock PreySubSubModelSt
 
 % In ports
 in: in_port_combiner
+
+
+
 % Out ports
 out: out_port_PreySubSubModelStock
 

@@ -5,7 +5,7 @@
 
 #include "atomic.h"
 
-#define QSS_MODEL_NAME "QSS1"
+#define TEMPERATUREVALUEDEVS_BASIC_COUPLED_TEMPERATUREVALUE "TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue"
 
 
 VTime minposroot(double *coeff);
@@ -13,11 +13,11 @@ VTime minposroot(double *coeff);
 double to_seconds(const VTime &);
 
 
-class QSS1 : public Atomic {
+class TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue : public Atomic {
   public:
     
-    QSS1(const string &name = QSS_MODEL_NAME );
-    virtual string className() const {  return QSS_MODEL_NAME ;}
+    TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue(const string &name = TEMPERATUREVALUEDEVS_BASIC_COUPLED_TEMPERATUREVALUE );
+    virtual string className() const {  return TEMPERATUREVALUEDEVS_BASIC_COUPLED_TEMPERATUREVALUE ;}
   
   protected:
     Model &initFunction();
@@ -26,8 +26,8 @@ class QSS1 : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in;
-    Port &out;
+    const Port &in_port_TotTemperatureValue;
+    Port &out_port_TemperatureValue;
 
     double dQ, dQMin, dQRel;
     double x[2], q;
