@@ -24,9 +24,9 @@ class paramDPredatorModel : public Atomic {
 
   private:
     
-    const Port &paramD;
+    const Port &in_port_paramD;
     
-    Port &paramD;
+    Port &out_port_paramD;
     
     double paramD;
     };

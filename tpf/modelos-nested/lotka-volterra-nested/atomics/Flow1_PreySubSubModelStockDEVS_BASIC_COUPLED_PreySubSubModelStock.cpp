@@ -12,11 +12,11 @@ using namespace std;
 
 Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock::Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock(const string &name) :
 	Atomic(name),
-    PULSE_V_combiner_FP_10_I_50(addInputPort("PULSE_V_combiner_FP_10_I_50")),
-    PreySubSubModelStock(addInputPort("PreySubSubModelStock")),
+    in_port_PULSE_V_combiner_FP_10_I_50(addInputPort("in_port_PULSE_V_combiner_FP_10_I_50")),
+    in_port_PreySubSubModelStock(addInputPort("in_port_PreySubSubModelStock")),
     isSet_PULSE_V_combiner_FP_10_I_50(false),
     isSet_PreySubSubModelStock(false),
-	Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock(addOutputPort("Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock"))
+	out_port_Flow1_PreySubSubModelStock(addOutputPort("out_port_Flow1_PreySubSubModelStock"))
 {
 }
 
@@ -32,11 +32,11 @@ Model &Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock::extern
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == PULSE_V_combiner_FP_10_I_50) {
+	if(msg.port() == in_port_PULSE_V_combiner_FP_10_I_50) {
 		PULSE_V_combiner_FP_10_I_50 = x;
 		isSet_PULSE_V_combiner_FP_10_I_50 = true;
 	}
-	if(msg.port() == PreySubSubModelStock) {
+	if(msg.port() == in_port_PreySubSubModelStock) {
 		PreySubSubModelStock = x;
 		isSet_PreySubSubModelStock = true;
 	}
@@ -57,7 +57,7 @@ Model &Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock::output
 	
 	if( isSet_PULSE_V_combiner_FP_10_I_50 & isSet_PreySubSubModelStock ) {
 	    Tuple<Real> out_value { 0.05 * PreySubSubModelStock * PULSE_V_combiner_FP_10_I_50 };
-		sendOutput(msg.time(), Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock, out_value);
+		sendOutput(msg.time(), out_port_Flow1_PreySubSubModelStock, out_value);
 	}
 	
 	return *this ;

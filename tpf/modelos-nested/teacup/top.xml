@@ -1,4 +1,4 @@
-<coupledRef model="Coupled" name="DEVS_COUPLED_top">
+<coupledRef model="DEVSCoupledComponent" name="DEVS_COUPLED_top" parent="">
     <inputs>
         <input name="CharacteristicTime" type="in" />
         <input name="RoomTemperature" type="in" />
@@ -29,7 +29,7 @@
                 <parameter name="value">0.8</parameter>
             </parameters>
         </atomicRef>
-        <coupledRef model="Coupled" name="DEVS_BASIC_COUPLED_TemperatureValue">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_TemperatureValue" parent="">
             <inputs>
                 <input name="CharacteristicTime" type="in" />
                 <input name="RoomTemperature" type="in" />

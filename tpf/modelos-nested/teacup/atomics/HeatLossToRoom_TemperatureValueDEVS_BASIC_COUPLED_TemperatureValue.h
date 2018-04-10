@@ -24,10 +24,10 @@ class HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue : publi
 
   private:
     
-    const Port &TemperatureValue;
-    const Port &RoomTemperature;
-    const Port &CharacteristicTime;
-    Port &HeatLossToRoom_TemperatureValue;
+    const Port &in_port_TemperatureValue;
+    const Port &in_port_RoomTemperature;
+    const Port &in_port_CharacteristicTime;
+    Port &out_port_HeatLossToRoom_TemperatureValue;
     
     double TemperatureValue;
     double RoomTemperature;

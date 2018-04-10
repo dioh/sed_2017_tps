@@ -12,8 +12,7 @@ class CdppModelToMaConverter(object):
     @classmethod
     def templates_enviroment(cls):
         PATH = './'
-        file_loader = FileSystemLoader(path.join(PATH,
-                                                 './modulosCDPP/templates'))
+        file_loader = FileSystemLoader(path.join(PATH, './modulosCDPP/templates'))
         return Environment(autoescape=False,
                            loader=file_loader,
                            trim_blocks=False)
@@ -29,7 +28,10 @@ class Mafile(object):
         if self.model.name == 'DEVS_COUPLED_top':
             return 'top'
         else:
-            return self.model.name
+            return self.model.name #+ self.model.parent
+
+    #def model_parent(self):
+    #    return self.parent
 
     def model_type(self):
         return self.model.model
@@ -53,14 +55,15 @@ class Mafile(object):
         return self.model.parameters
 
     def components(self):
-        return sorted([Mafile(component, self.templates_enviroment)
-                       for component in self.model.components],
-                      key=lambda x: (x.model_type(), x.model_name()) )
+        return sorted(
+            [Mafile(component, self.templates_enviroment) for component in self.model.components],
+            key=lambda x: (x.model_type(), x.model_name()) 
+        )
 
     def context(self):
         return {'models': [self]}
 
     def __str__(self):
         return (self.templates_enviroment
-                .get_template('mafile.template')
-                .render(self.context()))
+            .get_template('mafile.template')
+            .render(self.context()))

@@ -24,9 +24,9 @@ class CharacteristicTimetop : public Atomic {
 
   private:
     
-    const Port &CharacteristicTime;
+    const Port &in_port_CharacteristicTime;
     
-    Port &CharacteristicTime;
+    Port &out_port_CharacteristicTime;
     
     double CharacteristicTime;
     };

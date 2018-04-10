@@ -24,9 +24,9 @@ class RoomTemperaturetop : public Atomic {
 
   private:
     
-    const Port &RoomTemperature;
+    const Port &in_port_RoomTemperature;
     
-    Port &RoomTemperature;
+    Port &out_port_RoomTemperature;
     
     double RoomTemperature;
     };

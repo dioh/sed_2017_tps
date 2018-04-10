@@ -24,9 +24,9 @@ class cteVariablePredatorModel : public Atomic {
 
   private:
     
-    const Port &cteVariable;
+    const Port &in_port_cteVariable;
     
-    Port &cteVariable;
+    Port &out_port_cteVariable;
     
     double cteVariable;
     };

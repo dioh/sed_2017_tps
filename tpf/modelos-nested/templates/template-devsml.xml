@@ -1,4 +1,4 @@
-<coupledRef name="{{coupled_name}}" model="Coupled" >
+<coupledRef name="{{coupled_name}}" model="{{type}}" parent="{{parent}}">
 <inputs>{% for input_port in input_ports -%}<input name="{{input_port.get_name()}}" type="{{input_port.get_type()}}" />{% endfor %}</inputs>
 <outputs>{% for output_port in output_ports -%}<output name="{{output_port.get_name()}}" type="{{output_port.get_type()}}" />{% endfor %}</outputs>
 <components>

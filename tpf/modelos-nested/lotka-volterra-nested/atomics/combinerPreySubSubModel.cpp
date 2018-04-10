@@ -12,11 +12,11 @@ using namespace std;
 
 combinerPreySubSubModel::combinerPreySubSubModel(const string &name) :
 	Atomic(name),
-    Prey(addInputPort("Prey")),
-    ctePulse(addInputPort("ctePulse")),
+    in_port_Prey(addInputPort("in_port_Prey")),
+    in_port_ctePulse(addInputPort("in_port_ctePulse")),
     isSet_Prey(false),
     isSet_ctePulse(false),
-	combinerPreySubSubModel(addOutputPort("combinerPreySubSubModel"))
+	out_port_combiner(addOutputPort("out_port_combiner"))
 {
 }
 
@@ -32,11 +32,11 @@ Model &combinerPreySubSubModel::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == Prey) {
+	if(msg.port() == in_port_Prey) {
 		Prey = x;
 		isSet_Prey = true;
 	}
-	if(msg.port() == ctePulse) {
+	if(msg.port() == in_port_ctePulse) {
 		ctePulse = x;
 		isSet_ctePulse = true;
 	}
@@ -57,7 +57,7 @@ Model &combinerPreySubSubModel::outputFunction(const CollectMessage &msg)
 	
 	if( isSet_Prey & isSet_ctePulse ) {
 	    Tuple<Real> out_value { ctePulse + Prey };
-		sendOutput(msg.time(), combinerPreySubSubModel, out_value);
+		sendOutput(msg.time(), out_port_combiner, out_value);
 	}
 	
 	return *this ;

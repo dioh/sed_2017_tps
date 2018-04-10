@@ -24,9 +24,9 @@ class specialParamCPredatorModel : public Atomic {
 
   private:
     
-    const Port &specialParamC;
+    const Port &in_port_specialParamC;
     
-    Port &specialParamC;
+    Port &out_port_specialParamC;
     
     double specialParamC;
     };

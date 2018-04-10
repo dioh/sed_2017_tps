@@ -12,11 +12,11 @@ using namespace std;
 
 TotPreyDEVS_BASIC_COUPLED_Prey::TotPreyDEVS_BASIC_COUPLED_Prey(const string &name) :
 	Atomic(name),
-	PlusPrey_Prey(addInputPort("PlusPrey_Prey")),
-	MinusPrey_Prey(addInputPort("MinusPrey_Prey")),
+	in_port_plus_PlusPrey_Prey(addInputPort("in_port_plus_PlusPrey_Prey")),
+	in_port_minus_MinusPrey_Prey(addInputPort("in_port_minus_MinusPrey_Prey")),
 	isSet_PlusPrey_Prey(false),
 	isSet_MinusPrey_Prey(false),
-	TotPrey(addOutputPort("TotPrey"))
+	out_port_TotPrey(addOutputPort("out_port_TotPrey"))
 	{
 }
 
@@ -32,11 +32,11 @@ Model &TotPreyDEVS_BASIC_COUPLED_Prey::externalFunction(const ExternalMessage &m
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == PlusPrey_Prey) {
+	if(msg.port() == in_port_plus_PlusPrey_Prey) {
 		PlusPrey_Prey = x;
 		isSet_PlusPrey_Prey = true;
 	}
-	if(msg.port() == MinusPrey_Prey) {
+	if(msg.port() == in_port_minus_MinusPrey_Prey) {
 		MinusPrey_Prey = x;
 		isSet_MinusPrey_Prey = true;
 	}
@@ -61,7 +61,7 @@ Model &TotPreyDEVS_BASIC_COUPLED_Prey::outputFunction(const CollectMessage &msg)
 		minus = minus + MinusPrey_Prey;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), TotPrey, out_value);
+		sendOutput(msg.time(), out_port_TotPrey, out_value);
 		}
 
 	return *this ;

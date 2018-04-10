@@ -12,15 +12,15 @@ using namespace std;
 
 MinusPrey_PreyDEVS_BASIC_COUPLED_Prey::MinusPrey_PreyDEVS_BASIC_COUPLED_Prey(const string &name) :
 	Atomic(name),
-    Predator(addInputPort("Predator")),
-    Prey(addInputPort("Prey")),
-    paramB(addInputPort("paramB")),
-    PreySubSubModelStock(addInputPort("PreySubSubModelStock")),
+    in_port_Predator(addInputPort("in_port_Predator")),
+    in_port_Prey(addInputPort("in_port_Prey")),
+    in_port_paramB(addInputPort("in_port_paramB")),
+    in_port_PreySubSubModelStock(addInputPort("in_port_PreySubSubModelStock")),
     isSet_Predator(false),
     isSet_Prey(false),
     isSet_paramB(false),
     isSet_PreySubSubModelStock(false),
-	MinusPrey_PreyDEVS_BASIC_COUPLED_Prey(addOutputPort("MinusPrey_PreyDEVS_BASIC_COUPLED_Prey"))
+	out_port_MinusPrey_Prey(addOutputPort("out_port_MinusPrey_Prey"))
 {
 }
 
@@ -36,19 +36,19 @@ Model &MinusPrey_PreyDEVS_BASIC_COUPLED_Prey::externalFunction(const ExternalMes
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == Predator) {
+	if(msg.port() == in_port_Predator) {
 		Predator = x;
 		isSet_Predator = true;
 	}
-	if(msg.port() == Prey) {
+	if(msg.port() == in_port_Prey) {
 		Prey = x;
 		isSet_Prey = true;
 	}
-	if(msg.port() == paramB) {
+	if(msg.port() == in_port_paramB) {
 		paramB = x;
 		isSet_paramB = true;
 	}
-	if(msg.port() == PreySubSubModelStock) {
+	if(msg.port() == in_port_PreySubSubModelStock) {
 		PreySubSubModelStock = x;
 		isSet_PreySubSubModelStock = true;
 	}
@@ -69,7 +69,7 @@ Model &MinusPrey_PreyDEVS_BASIC_COUPLED_Prey::outputFunction(const CollectMessag
 	
 	if( isSet_Predator & isSet_Prey & isSet_paramB & isSet_PreySubSubModelStock ) {
 	    Tuple<Real> out_value { Prey * paramB * Predator + 0 * PreySubSubModelStock };
-		sendOutput(msg.time(), MinusPrey_PreyDEVS_BASIC_COUPLED_Prey, out_value);
+		sendOutput(msg.time(), out_port_MinusPrey_Prey, out_value);
 	}
 	
 	return *this ;

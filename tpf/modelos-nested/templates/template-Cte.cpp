@@ -12,9 +12,9 @@ using namespace std;
 
 {{cte_name_lower}}::{{cte_name_lower}}(const string &name) :
 	{%- for input_port_name in input_ports %}
-    {{input_port_name}}(addInputPort("{{input_port_name}}")),
+   	in_port_{{input_port_name}}(addInputPort("in_port_{{input_port_name}}")),
     {%- endfor %}
-    {{cte_name_lower}}(addOutputPort("{{cte_name_lower}}")),
+    out_port_{{cte_name}}(addOutputPort("out_port_{{cte_name}}")),
 	{%- for input_port_name in input_ports %}
     {{input_port_name}}(-1),
     {% endfor -%}
@@ -34,7 +34,7 @@ Model &{{cte_name_lower}}::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
 	{%- for input_port_name in input_ports %}
-    if(msg.port() == {{input_port_name}}) {
+    if(msg.port() == in_port_{{input_port_name}}) {
     	{{input_port_name}} = x;
     }
     {% endfor -%}
@@ -54,7 +54,7 @@ Model &{{cte_name_lower}}::outputFunction(const CollectMessage &msg)
 {
 	{%- for input_port_name in input_ports %}
     Tuple<Real> out_value { {{input_port_name}} };
-	sendOutput(msg.time(),  {{cte_name_lower}}, out_value);
+	sendOutput(msg.time(),  out_port_{{input_port_name}}, out_value);
     {% endfor -%}
 	return *this ;
 }

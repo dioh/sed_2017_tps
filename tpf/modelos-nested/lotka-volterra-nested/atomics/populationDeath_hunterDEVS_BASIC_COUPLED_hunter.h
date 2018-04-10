@@ -24,8 +24,8 @@ class populationDeath_hunterDEVS_BASIC_COUPLED_hunter : public Atomic {
 
   private:
     
-    const Port &hunter;
-    Port &populationDeath_hunter;
+    const Port &in_port_hunter;
+    Port &out_port_populationDeath_hunter;
     
     double hunter;
     bool isSet_hunter;

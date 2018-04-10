@@ -24,10 +24,10 @@ class preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock : public
 
   private:
     
-    const Port &PreySubModelStock;
-    const Port &PreySubSubModelStock;
-    const Port &Prey;
-    Port &preySubFlow_PreySubModelStock;
+    const Port &in_port_PreySubModelStock;
+    const Port &in_port_PreySubSubModelStock;
+    const Port &in_port_Prey;
+    Port &out_port_preySubFlow_PreySubModelStock;
     
     double PreySubModelStock;
     double PreySubSubModelStock;

@@ -24,10 +24,10 @@ class MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator : public Atomic {
 
   private:
     
-    const Port &hunter;
-    const Port &Predator;
-    const Port &specialParamC;
-    Port &MinusPredator_Predator;
+    const Port &in_port_hunter;
+    const Port &in_port_Predator;
+    const Port &in_port_specialParamC;
+    Port &out_port_MinusPredator_Predator;
     
     double hunter;
     double Predator;

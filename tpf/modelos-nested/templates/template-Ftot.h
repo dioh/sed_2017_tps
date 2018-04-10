@@ -22,15 +22,16 @@ class {{tot_name_lower}} : public Atomic {
 
   private:
     {% for input_port_name in plus_input_ports -%}
-    const Port &{{input_port_name}};
+    const Port &in_port_plus_{{input_port_name}};
     {% endfor -%}
     {% for input_port_name in minus_input_ports -%}
-    const Port &{{input_port_name}};
+    const Port &in_port_minus_{{input_port_name}};
     {% endfor -%}
 
     {% for out_port in out_ports -%}
-    Port &{{out_port}};
+    Port &out_port_{{out_port}};
     {% endfor %}
+    Port &out_port_{{tot_name}};
 
     {% for input_port_name in plus_input_ports -%}
     double {{input_port_name}};

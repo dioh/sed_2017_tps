@@ -1,2 +1,2 @@
-00:00:00:000 CharacteristicTime [0.8]
-00:00:00:000 RoomTemperature [27]
+00:00:00:000 in_port_CharacteristicTime [0.8]
+00:00:00:000 in_port_RoomTemperature [27]

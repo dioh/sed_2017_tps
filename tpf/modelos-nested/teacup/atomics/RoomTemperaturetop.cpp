@@ -11,8 +11,8 @@
 using namespace std;
 
 RoomTemperaturetop::RoomTemperaturetop(const string &name) :
-    RoomTemperature(addInputPort("RoomTemperature")),
-    RoomTemperaturetop(addOutputPort("RoomTemperaturetop")),
+   	in_port_RoomTemperature(addInputPort("in_port_RoomTemperature")),
+    out_port_RoomTemperature(addOutputPort("out_port_RoomTemperature")),
     RoomTemperature(-1),
     Atomic(name)
 {
@@ -29,7 +29,7 @@ Model &RoomTemperaturetop::initFunction()
 Model &RoomTemperaturetop::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
-    if(msg.port() == RoomTemperature) {
+    if(msg.port() == in_port_RoomTemperature) {
     	RoomTemperature = x;
     }
     holdIn(AtomicState::active, VTime::Zero);
@@ -47,6 +47,6 @@ Model &RoomTemperaturetop::internalFunction(const InternalMessage &)
 Model &RoomTemperaturetop::outputFunction(const CollectMessage &msg)
 {
     Tuple<Real> out_value { RoomTemperature };
-	sendOutput(msg.time(),  RoomTemperaturetop, out_value);
+	sendOutput(msg.time(),  out_port_RoomTemperature, out_value);
     return *this ;
 }

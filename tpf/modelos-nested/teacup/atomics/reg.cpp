@@ -2,7 +2,6 @@
 #include "register.h"
 
 #include "qss1.h"
-#include "Cte.h"
 #include "RoomTemperaturetop.h"
 #include "CharacteristicTimetop.h"
 #include "HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue.h"

@@ -21,9 +21,10 @@ class TotPreyDEVS_BASIC_COUPLED_Prey : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &PlusPrey_Prey;
-    const Port &MinusPrey_Prey;
+    const Port &in_port_plus_PlusPrey_Prey;
+    const Port &in_port_minus_MinusPrey_Prey;
     
+    Port &out_port_TotPrey;
 
     double PlusPrey_Prey;
     double MinusPrey_Prey;

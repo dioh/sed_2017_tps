@@ -11,8 +11,8 @@
 using namespace std;
 
 paramPulsetop::paramPulsetop(const string &name) :
-    paramPulse(addInputPort("paramPulse")),
-    paramPulsetop(addOutputPort("paramPulsetop")),
+   	in_port_paramPulse(addInputPort("in_port_paramPulse")),
+    out_port_paramPulse(addOutputPort("out_port_paramPulse")),
     paramPulse(-1),
     Atomic(name)
 {
@@ -29,7 +29,7 @@ Model &paramPulsetop::initFunction()
 Model &paramPulsetop::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
-    if(msg.port() == paramPulse) {
+    if(msg.port() == in_port_paramPulse) {
     	paramPulse = x;
     }
     holdIn(AtomicState::active, VTime::Zero);
@@ -47,6 +47,6 @@ Model &paramPulsetop::internalFunction(const InternalMessage &)
 Model &paramPulsetop::outputFunction(const CollectMessage &msg)
 {
     Tuple<Real> out_value { paramPulse };
-	sendOutput(msg.time(),  paramPulsetop, out_value);
+	sendOutput(msg.time(),  out_port_paramPulse, out_value);
     return *this ;
 }

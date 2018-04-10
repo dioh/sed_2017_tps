@@ -24,9 +24,9 @@ class combinerPreySubSubModel : public Atomic {
 
   private:
     
-    const Port &Prey;
-    const Port &ctePulse;
-    Port &combiner;
+    const Port &in_port_Prey;
+    const Port &in_port_ctePulse;
+    Port &out_port_combiner;
     
     double Prey;
     double ctePulse;

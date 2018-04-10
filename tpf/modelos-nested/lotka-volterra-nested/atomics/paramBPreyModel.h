@@ -24,9 +24,9 @@ class paramBPreyModel : public Atomic {
 
   private:
     
-    const Port &paramB;
+    const Port &in_port_paramB;
     
-    Port &paramB;
+    Port &out_port_paramB;
     
     double paramB;
     };

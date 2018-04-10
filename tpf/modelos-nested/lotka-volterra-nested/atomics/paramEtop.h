@@ -24,10 +24,10 @@ class paramEtop : public Atomic {
 
   private:
     
-    const Port &paramB;
-    const Port &PULSE_V_1_FP_1_I_1;
-    const Port &paramA;
-    Port &paramE;
+    const Port &in_port_paramB;
+    const Port &in_port_PULSE_V_1_FP_1_I_1;
+    const Port &in_port_paramA;
+    Port &out_port_paramE;
     
     double paramB;
     double PULSE_V_1_FP_1_I_1;

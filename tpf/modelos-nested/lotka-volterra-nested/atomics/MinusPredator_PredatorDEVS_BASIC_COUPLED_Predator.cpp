@@ -12,13 +12,13 @@ using namespace std;
 
 MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator::MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator(const string &name) :
 	Atomic(name),
-    hunter(addInputPort("hunter")),
-    Predator(addInputPort("Predator")),
-    specialParamC(addInputPort("specialParamC")),
+    in_port_hunter(addInputPort("in_port_hunter")),
+    in_port_Predator(addInputPort("in_port_Predator")),
+    in_port_specialParamC(addInputPort("in_port_specialParamC")),
     isSet_hunter(false),
     isSet_Predator(false),
     isSet_specialParamC(false),
-	MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator(addOutputPort("MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator"))
+	out_port_MinusPredator_Predator(addOutputPort("out_port_MinusPredator_Predator"))
 {
 }
 
@@ -34,15 +34,15 @@ Model &MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator::externalFunction(const
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == hunter) {
+	if(msg.port() == in_port_hunter) {
 		hunter = x;
 		isSet_hunter = true;
 	}
-	if(msg.port() == Predator) {
+	if(msg.port() == in_port_Predator) {
 		Predator = x;
 		isSet_Predator = true;
 	}
-	if(msg.port() == specialParamC) {
+	if(msg.port() == in_port_specialParamC) {
 		specialParamC = x;
 		isSet_specialParamC = true;
 	}
@@ -63,7 +63,7 @@ Model &MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator::outputFunction(const C
 	
 	if( isSet_hunter & isSet_Predator & isSet_specialParamC ) {
 	    Tuple<Real> out_value { specialParamC * Predator + 0 * hunter };
-		sendOutput(msg.time(), MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator, out_value);
+		sendOutput(msg.time(), out_port_MinusPredator_Predator, out_value);
 	}
 	
 	return *this ;

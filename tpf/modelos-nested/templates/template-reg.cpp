@@ -2,7 +2,6 @@
 #include "register.h"
 
 #include "qss1.h"
-#include "Cte.h"
 {% for atomic_name in atomics_names -%}
 #include "{{atomic_name}}.h"
 {% endfor -%}

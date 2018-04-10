@@ -24,9 +24,9 @@ class Flow1_PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock : public
 
   private:
     
-    const Port &PULSE_V_combiner_FP_10_I_50;
-    const Port &PreySubSubModelStock;
-    Port &Flow1_PreySubSubModelStock;
+    const Port &in_port_PULSE_V_combiner_FP_10_I_50;
+    const Port &in_port_PreySubSubModelStock;
+    Port &out_port_Flow1_PreySubSubModelStock;
     
     double PULSE_V_combiner_FP_10_I_50;
     double PreySubSubModelStock;

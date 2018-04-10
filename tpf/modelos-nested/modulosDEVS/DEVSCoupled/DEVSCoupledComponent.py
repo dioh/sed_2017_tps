@@ -22,6 +22,8 @@ class DEVSCoupledComponent(DEVSComponent):
         self.xmile_model = xmile_model
         self.root_models = root_models
         self.type = 'DEVSCoupledComponent'
+        # TODO : setear este parent bien ... donde? (en la funcion que recorre?)
+        self.parent = ''
         
         if name is not None:
             self.name = name

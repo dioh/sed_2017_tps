@@ -11,8 +11,8 @@
 using namespace std;
 
 paramDtop::paramDtop(const string &name) :
-    paramD(addInputPort("paramD")),
-    paramDtop(addOutputPort("paramDtop")),
+   	in_port_paramD(addInputPort("in_port_paramD")),
+    out_port_paramD(addOutputPort("out_port_paramD")),
     paramD(-1),
     Atomic(name)
 {
@@ -29,7 +29,7 @@ Model &paramDtop::initFunction()
 Model &paramDtop::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
-    if(msg.port() == paramD) {
+    if(msg.port() == in_port_paramD) {
     	paramD = x;
     }
     holdIn(AtomicState::active, VTime::Zero);
@@ -47,6 +47,6 @@ Model &paramDtop::internalFunction(const InternalMessage &)
 Model &paramDtop::outputFunction(const CollectMessage &msg)
 {
     Tuple<Real> out_value { paramD };
-	sendOutput(msg.time(),  paramDtop, out_value);
+	sendOutput(msg.time(),  out_port_paramD, out_value);
     return *this ;
 }

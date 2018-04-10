@@ -11,8 +11,8 @@
 using namespace std;
 
 cteVariablePredatorModel::cteVariablePredatorModel(const string &name) :
-    cteVariable(addInputPort("cteVariable")),
-    cteVariablePredatorModel(addOutputPort("cteVariablePredatorModel")),
+   	in_port_cteVariable(addInputPort("in_port_cteVariable")),
+    out_port_cteVariable(addOutputPort("out_port_cteVariable")),
     cteVariable(-1),
     Atomic(name)
 {
@@ -29,7 +29,7 @@ Model &cteVariablePredatorModel::initFunction()
 Model &cteVariablePredatorModel::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
-    if(msg.port() == cteVariable) {
+    if(msg.port() == in_port_cteVariable) {
     	cteVariable = x;
     }
     holdIn(AtomicState::active, VTime::Zero);
@@ -47,6 +47,6 @@ Model &cteVariablePredatorModel::internalFunction(const InternalMessage &)
 Model &cteVariablePredatorModel::outputFunction(const CollectMessage &msg)
 {
     Tuple<Real> out_value { cteVariable };
-	sendOutput(msg.time(),  cteVariablePredatorModel, out_value);
+	sendOutput(msg.time(),  out_port_cteVariable, out_value);
     return *this ;
 }

@@ -24,9 +24,9 @@ class paramPulsetop : public Atomic {
 
   private:
     
-    const Port &paramPulse;
+    const Port &in_port_paramPulse;
     
-    Port &paramPulse;
+    Port &out_port_paramPulse;
     
     double paramPulse;
     };

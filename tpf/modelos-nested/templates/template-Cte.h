@@ -24,10 +24,10 @@ class {{cte_name_lower}} : public Atomic {
 
   private:
     {% for input_port_name in input_ports %}
-    const Port &{{input_port_name}};
+    const Port &in_port_{{input_port_name}};
     {% endfor -%}
     {% for output_port_name in output_ports %}
-    Port &{{output_port_name}};
+    Port &out_port_{{output_port_name}};
     {% endfor -%}
 
     {% for input_port_name in input_ports %}

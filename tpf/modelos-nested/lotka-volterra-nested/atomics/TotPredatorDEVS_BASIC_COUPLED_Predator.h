@@ -21,9 +21,10 @@ class TotPredatorDEVS_BASIC_COUPLED_Predator : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &PlusPredator_Predator;
-    const Port &MinusPredator_Predator;
+    const Port &in_port_plus_PlusPredator_Predator;
+    const Port &in_port_minus_MinusPredator_Predator;
     
+    Port &out_port_TotPredator;
 
     double PlusPredator_Predator;
     double MinusPredator_Predator;

@@ -12,9 +12,9 @@ using namespace std;
 
 populationDeath_hunterDEVS_BASIC_COUPLED_hunter::populationDeath_hunterDEVS_BASIC_COUPLED_hunter(const string &name) :
 	Atomic(name),
-    hunter(addInputPort("hunter")),
+    in_port_hunter(addInputPort("in_port_hunter")),
     isSet_hunter(false),
-	populationDeath_hunterDEVS_BASIC_COUPLED_hunter(addOutputPort("populationDeath_hunterDEVS_BASIC_COUPLED_hunter"))
+	out_port_populationDeath_hunter(addOutputPort("out_port_populationDeath_hunter"))
 {
 }
 
@@ -30,7 +30,7 @@ Model &populationDeath_hunterDEVS_BASIC_COUPLED_hunter::externalFunction(const E
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == hunter) {
+	if(msg.port() == in_port_hunter) {
 		hunter = x;
 		isSet_hunter = true;
 	}
@@ -51,7 +51,7 @@ Model &populationDeath_hunterDEVS_BASIC_COUPLED_hunter::outputFunction(const Col
 	
 	if( isSet_hunter ) {
 	    Tuple<Real> out_value { 0.05 * hunter };
-		sendOutput(msg.time(), populationDeath_hunterDEVS_BASIC_COUPLED_hunter, out_value);
+		sendOutput(msg.time(), out_port_populationDeath_hunter, out_value);
 	}
 	
 	return *this ;

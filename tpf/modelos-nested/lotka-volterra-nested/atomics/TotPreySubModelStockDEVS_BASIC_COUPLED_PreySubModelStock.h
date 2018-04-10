@@ -21,8 +21,9 @@ class TotPreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &preySubFlow_PreySubModelStock;
+    const Port &in_port_minus_preySubFlow_PreySubModelStock;
     
+    Port &out_port_TotPreySubModelStock;
 
     double preySubFlow_PreySubModelStock;
     

@@ -11,8 +11,8 @@
 using namespace std;
 
 paramAtop::paramAtop(const string &name) :
-    paramA(addInputPort("paramA")),
-    paramAtop(addOutputPort("paramAtop")),
+   	in_port_paramA(addInputPort("in_port_paramA")),
+    out_port_paramA(addOutputPort("out_port_paramA")),
     paramA(-1),
     Atomic(name)
 {
@@ -29,7 +29,7 @@ Model &paramAtop::initFunction()
 Model &paramAtop::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
-    if(msg.port() == paramA) {
+    if(msg.port() == in_port_paramA) {
     	paramA = x;
     }
     holdIn(AtomicState::active, VTime::Zero);
@@ -47,6 +47,6 @@ Model &paramAtop::internalFunction(const InternalMessage &)
 Model &paramAtop::outputFunction(const CollectMessage &msg)
 {
     Tuple<Real> out_value { paramA };
-	sendOutput(msg.time(),  paramAtop, out_value);
+	sendOutput(msg.time(),  out_port_paramA, out_value);
     return *this ;
 }

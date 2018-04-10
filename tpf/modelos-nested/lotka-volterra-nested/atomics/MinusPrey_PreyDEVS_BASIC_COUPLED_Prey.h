@@ -24,11 +24,11 @@ class MinusPrey_PreyDEVS_BASIC_COUPLED_Prey : public Atomic {
 
   private:
     
-    const Port &Predator;
-    const Port &Prey;
-    const Port &paramB;
-    const Port &PreySubSubModelStock;
-    Port &MinusPrey_Prey;
+    const Port &in_port_Predator;
+    const Port &in_port_Prey;
+    const Port &in_port_paramB;
+    const Port &in_port_PreySubSubModelStock;
+    Port &out_port_MinusPrey_Prey;
     
     double Predator;
     double Prey;

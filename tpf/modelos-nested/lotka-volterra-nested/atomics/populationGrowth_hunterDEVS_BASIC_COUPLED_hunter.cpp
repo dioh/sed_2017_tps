@@ -12,11 +12,11 @@ using namespace std;
 
 populationGrowth_hunterDEVS_BASIC_COUPLED_hunter::populationGrowth_hunterDEVS_BASIC_COUPLED_hunter(const string &name) :
 	Atomic(name),
-    PULSE_V_paramPulse_FP_1_I_1(addInputPort("PULSE_V_paramPulse_FP_1_I_1")),
-    hunter(addInputPort("hunter")),
+    in_port_PULSE_V_paramPulse_FP_1_I_1(addInputPort("in_port_PULSE_V_paramPulse_FP_1_I_1")),
+    in_port_hunter(addInputPort("in_port_hunter")),
     isSet_PULSE_V_paramPulse_FP_1_I_1(false),
     isSet_hunter(false),
-	populationGrowth_hunterDEVS_BASIC_COUPLED_hunter(addOutputPort("populationGrowth_hunterDEVS_BASIC_COUPLED_hunter"))
+	out_port_populationGrowth_hunter(addOutputPort("out_port_populationGrowth_hunter"))
 {
 }
 
@@ -32,11 +32,11 @@ Model &populationGrowth_hunterDEVS_BASIC_COUPLED_hunter::externalFunction(const 
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == PULSE_V_paramPulse_FP_1_I_1) {
+	if(msg.port() == in_port_PULSE_V_paramPulse_FP_1_I_1) {
 		PULSE_V_paramPulse_FP_1_I_1 = x;
 		isSet_PULSE_V_paramPulse_FP_1_I_1 = true;
 	}
-	if(msg.port() == hunter) {
+	if(msg.port() == in_port_hunter) {
 		hunter = x;
 		isSet_hunter = true;
 	}
@@ -57,7 +57,7 @@ Model &populationGrowth_hunterDEVS_BASIC_COUPLED_hunter::outputFunction(const Co
 	
 	if( isSet_PULSE_V_paramPulse_FP_1_I_1 & isSet_hunter ) {
 	    Tuple<Real> out_value { 0 * hunter + PULSE_V_paramPulse_FP_1_I_1 };
-		sendOutput(msg.time(), populationGrowth_hunterDEVS_BASIC_COUPLED_hunter, out_value);
+		sendOutput(msg.time(), out_port_populationGrowth_hunter, out_value);
 	}
 	
 	return *this ;

@@ -11,8 +11,8 @@
 using namespace std;
 
 specialParamCPredatorModel::specialParamCPredatorModel(const string &name) :
-    specialParamC(addInputPort("specialParamC")),
-    specialParamCPredatorModel(addOutputPort("specialParamCPredatorModel")),
+   	in_port_specialParamC(addInputPort("in_port_specialParamC")),
+    out_port_specialParamC(addOutputPort("out_port_specialParamC")),
     specialParamC(-1),
     Atomic(name)
 {
@@ -29,7 +29,7 @@ Model &specialParamCPredatorModel::initFunction()
 Model &specialParamCPredatorModel::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
-    if(msg.port() == specialParamC) {
+    if(msg.port() == in_port_specialParamC) {
     	specialParamC = x;
     }
     holdIn(AtomicState::active, VTime::Zero);
@@ -47,6 +47,6 @@ Model &specialParamCPredatorModel::internalFunction(const InternalMessage &)
 Model &specialParamCPredatorModel::outputFunction(const CollectMessage &msg)
 {
     Tuple<Real> out_value { specialParamC };
-	sendOutput(msg.time(),  specialParamCPredatorModel, out_value);
+	sendOutput(msg.time(),  out_port_specialParamC, out_value);
     return *this ;
 }

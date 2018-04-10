@@ -24,8 +24,8 @@ class auxVariablePredatorModel : public Atomic {
 
   private:
     
-    const Port &cteVariable;
-    Port &auxVariable;
+    const Port &in_port_cteVariable;
+    Port &out_port_auxVariable;
     
     double cteVariable;
     bool isSet_cteVariable;

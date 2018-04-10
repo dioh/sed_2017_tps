@@ -57,7 +57,9 @@ class CdppModel(object):
     @classmethod
     def extract_model_from_node(cls, node):
         model_name = node.attrib['name']
+        #model_parent = node.attrib['parent']
         d = {'name': model_name,
+             #'parent': model_parent,
              'model': node.attrib['model'],
              'params': cls.extract_params(node.attrib),
              'in_ports': cls.extract_in_ports(node, model_name),

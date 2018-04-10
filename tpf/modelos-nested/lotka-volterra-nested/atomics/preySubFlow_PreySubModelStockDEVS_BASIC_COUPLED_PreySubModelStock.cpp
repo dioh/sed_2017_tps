@@ -12,13 +12,13 @@ using namespace std;
 
 preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock::preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock(const string &name) :
 	Atomic(name),
-    PreySubModelStock(addInputPort("PreySubModelStock")),
-    PreySubSubModelStock(addInputPort("PreySubSubModelStock")),
-    Prey(addInputPort("Prey")),
+    in_port_PreySubModelStock(addInputPort("in_port_PreySubModelStock")),
+    in_port_PreySubSubModelStock(addInputPort("in_port_PreySubSubModelStock")),
+    in_port_Prey(addInputPort("in_port_Prey")),
     isSet_PreySubModelStock(false),
     isSet_PreySubSubModelStock(false),
     isSet_Prey(false),
-	preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock(addOutputPort("preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock"))
+	out_port_preySubFlow_PreySubModelStock(addOutputPort("out_port_preySubFlow_PreySubModelStock"))
 {
 }
 
@@ -34,15 +34,15 @@ Model &preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock::extern
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == PreySubModelStock) {
+	if(msg.port() == in_port_PreySubModelStock) {
 		PreySubModelStock = x;
 		isSet_PreySubModelStock = true;
 	}
-	if(msg.port() == PreySubSubModelStock) {
+	if(msg.port() == in_port_PreySubSubModelStock) {
 		PreySubSubModelStock = x;
 		isSet_PreySubSubModelStock = true;
 	}
-	if(msg.port() == Prey) {
+	if(msg.port() == in_port_Prey) {
 		Prey = x;
 		isSet_Prey = true;
 	}
@@ -63,7 +63,7 @@ Model &preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock::output
 	
 	if( isSet_PreySubModelStock & isSet_PreySubSubModelStock & isSet_Prey ) {
 	    Tuple<Real> out_value { 0 * PreySubModelStock + 0 *  Prey + 0 * PreySubSubModelStock };
-		sendOutput(msg.time(), preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock, out_value);
+		sendOutput(msg.time(), out_port_preySubFlow_PreySubModelStock, out_value);
 	}
 	
 	return *this ;

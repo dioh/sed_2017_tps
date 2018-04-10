@@ -24,11 +24,11 @@ class PlusPredator_PredatorDEVS_BASIC_COUPLED_Predator : public Atomic {
 
   private:
     
-    const Port &Predator;
-    const Port &Prey;
-    const Port &paramD;
-    const Port &cteVariable;
-    Port &PlusPredator_Predator;
+    const Port &in_port_Predator;
+    const Port &in_port_Prey;
+    const Port &in_port_paramD;
+    const Port &in_port_cteVariable;
+    Port &out_port_PlusPredator_Predator;
     
     double Predator;
     double Prey;

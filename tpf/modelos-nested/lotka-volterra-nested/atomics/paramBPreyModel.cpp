@@ -11,8 +11,8 @@
 using namespace std;
 
 paramBPreyModel::paramBPreyModel(const string &name) :
-    paramB(addInputPort("paramB")),
-    paramBPreyModel(addOutputPort("paramBPreyModel")),
+   	in_port_paramB(addInputPort("in_port_paramB")),
+    out_port_paramB(addOutputPort("out_port_paramB")),
     paramB(-1),
     Atomic(name)
 {
@@ -29,7 +29,7 @@ Model &paramBPreyModel::initFunction()
 Model &paramBPreyModel::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].	value();
-    if(msg.port() == paramB) {
+    if(msg.port() == in_port_paramB) {
     	paramB = x;
     }
     holdIn(AtomicState::active, VTime::Zero);
@@ -47,6 +47,6 @@ Model &paramBPreyModel::internalFunction(const InternalMessage &)
 Model &paramBPreyModel::outputFunction(const CollectMessage &msg)
 {
     Tuple<Real> out_value { paramB };
-	sendOutput(msg.time(),  paramBPreyModel, out_value);
+	sendOutput(msg.time(),  out_port_paramB, out_value);
     return *this ;
 }

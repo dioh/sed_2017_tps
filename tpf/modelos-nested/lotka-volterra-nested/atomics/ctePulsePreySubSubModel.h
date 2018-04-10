@@ -24,9 +24,9 @@ class ctePulsePreySubSubModel : public Atomic {
 
   private:
     
-    const Port &ctePulse;
+    const Port &in_port_ctePulse;
     
-    Port &ctePulse;
+    Port &out_port_ctePulse;
     
     double ctePulse;
     };

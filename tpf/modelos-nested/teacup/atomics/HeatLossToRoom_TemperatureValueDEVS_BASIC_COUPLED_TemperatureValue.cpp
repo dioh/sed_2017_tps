@@ -12,13 +12,13 @@ using namespace std;
 
 HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue(const string &name) :
 	Atomic(name),
-    TemperatureValue(addInputPort("TemperatureValue")),
-    RoomTemperature(addInputPort("RoomTemperature")),
-    CharacteristicTime(addInputPort("CharacteristicTime")),
+    in_port_TemperatureValue(addInputPort("in_port_TemperatureValue")),
+    in_port_RoomTemperature(addInputPort("in_port_RoomTemperature")),
+    in_port_CharacteristicTime(addInputPort("in_port_CharacteristicTime")),
     isSet_TemperatureValue(false),
     isSet_RoomTemperature(false),
     isSet_CharacteristicTime(false),
-	HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue(addOutputPort("HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue"))
+	out_port_HeatLossToRoom_TemperatureValue(addOutputPort("out_port_HeatLossToRoom_TemperatureValue"))
 {
 }
 
@@ -34,15 +34,15 @@ Model &HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::exter
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == TemperatureValue) {
+	if(msg.port() == in_port_TemperatureValue) {
 		TemperatureValue = x;
 		isSet_TemperatureValue = true;
 	}
-	if(msg.port() == RoomTemperature) {
+	if(msg.port() == in_port_RoomTemperature) {
 		RoomTemperature = x;
 		isSet_RoomTemperature = true;
 	}
-	if(msg.port() == CharacteristicTime) {
+	if(msg.port() == in_port_CharacteristicTime) {
 		CharacteristicTime = x;
 		isSet_CharacteristicTime = true;
 	}
@@ -63,7 +63,7 @@ Model &HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::outpu
 	
 	if( isSet_TemperatureValue & isSet_RoomTemperature & isSet_CharacteristicTime ) {
 	    Tuple<Real> out_value { (TemperatureValue - RoomTemperature) / CharacteristicTime };
-		sendOutput(msg.time(), HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue, out_value);
+		sendOutput(msg.time(), out_port_HeatLossToRoom_TemperatureValue, out_value);
 	}
 	
 	return *this ;

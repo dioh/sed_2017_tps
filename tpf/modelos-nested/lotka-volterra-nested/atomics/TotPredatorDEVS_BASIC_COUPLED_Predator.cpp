@@ -12,11 +12,11 @@ using namespace std;
 
 TotPredatorDEVS_BASIC_COUPLED_Predator::TotPredatorDEVS_BASIC_COUPLED_Predator(const string &name) :
 	Atomic(name),
-	PlusPredator_Predator(addInputPort("PlusPredator_Predator")),
-	MinusPredator_Predator(addInputPort("MinusPredator_Predator")),
+	in_port_plus_PlusPredator_Predator(addInputPort("in_port_plus_PlusPredator_Predator")),
+	in_port_minus_MinusPredator_Predator(addInputPort("in_port_minus_MinusPredator_Predator")),
 	isSet_PlusPredator_Predator(false),
 	isSet_MinusPredator_Predator(false),
-	TotPredator(addOutputPort("TotPredator"))
+	out_port_TotPredator(addOutputPort("out_port_TotPredator"))
 	{
 }
 
@@ -32,11 +32,11 @@ Model &TotPredatorDEVS_BASIC_COUPLED_Predator::externalFunction(const ExternalMe
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == PlusPredator_Predator) {
+	if(msg.port() == in_port_plus_PlusPredator_Predator) {
 		PlusPredator_Predator = x;
 		isSet_PlusPredator_Predator = true;
 	}
-	if(msg.port() == MinusPredator_Predator) {
+	if(msg.port() == in_port_minus_MinusPredator_Predator) {
 		MinusPredator_Predator = x;
 		isSet_MinusPredator_Predator = true;
 	}
@@ -61,7 +61,7 @@ Model &TotPredatorDEVS_BASIC_COUPLED_Predator::outputFunction(const CollectMessa
 		minus = minus + MinusPredator_Predator;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), TotPredator, out_value);
+		sendOutput(msg.time(), out_port_TotPredator, out_value);
 		}
 
 	return *this ;

@@ -12,9 +12,9 @@ using namespace std;
 
 TotPreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock::TotPreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock(const string &name) :
 	Atomic(name),
-	Flow1_PreySubSubModelStock(addInputPort("Flow1_PreySubSubModelStock")),
+	in_port_minus_Flow1_PreySubSubModelStock(addInputPort("in_port_minus_Flow1_PreySubSubModelStock")),
 	isSet_Flow1_PreySubSubModelStock(false),
-	TotPreySubSubModelStock(addOutputPort("TotPreySubSubModelStock"))
+	out_port_TotPreySubSubModelStock(addOutputPort("out_port_TotPreySubSubModelStock"))
 	{
 }
 
@@ -30,7 +30,7 @@ Model &TotPreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock::externalF
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == Flow1_PreySubSubModelStock) {
+	if(msg.port() == in_port_minus_Flow1_PreySubSubModelStock) {
 		Flow1_PreySubSubModelStock = x;
 		isSet_Flow1_PreySubSubModelStock = true;
 	}
@@ -54,7 +54,7 @@ Model &TotPreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock::outputFun
 		minus = minus + Flow1_PreySubSubModelStock;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), TotPreySubSubModelStock, out_value);
+		sendOutput(msg.time(), out_port_TotPreySubSubModelStock, out_value);
 		}
 
 	return *this ;

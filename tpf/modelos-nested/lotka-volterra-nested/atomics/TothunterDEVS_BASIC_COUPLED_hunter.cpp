@@ -12,11 +12,11 @@ using namespace std;
 
 TothunterDEVS_BASIC_COUPLED_hunter::TothunterDEVS_BASIC_COUPLED_hunter(const string &name) :
 	Atomic(name),
-	populationGrowth_hunter(addInputPort("populationGrowth_hunter")),
-	populationDeath_hunter(addInputPort("populationDeath_hunter")),
+	in_port_plus_populationGrowth_hunter(addInputPort("in_port_plus_populationGrowth_hunter")),
+	in_port_minus_populationDeath_hunter(addInputPort("in_port_minus_populationDeath_hunter")),
 	isSet_populationGrowth_hunter(false),
 	isSet_populationDeath_hunter(false),
-	Tothunter(addOutputPort("Tothunter"))
+	out_port_Tothunter(addOutputPort("out_port_Tothunter"))
 	{
 }
 
@@ -32,11 +32,11 @@ Model &TothunterDEVS_BASIC_COUPLED_hunter::externalFunction(const ExternalMessag
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == populationGrowth_hunter) {
+	if(msg.port() == in_port_plus_populationGrowth_hunter) {
 		populationGrowth_hunter = x;
 		isSet_populationGrowth_hunter = true;
 	}
-	if(msg.port() == populationDeath_hunter) {
+	if(msg.port() == in_port_minus_populationDeath_hunter) {
 		populationDeath_hunter = x;
 		isSet_populationDeath_hunter = true;
 	}
@@ -61,7 +61,7 @@ Model &TothunterDEVS_BASIC_COUPLED_hunter::outputFunction(const CollectMessage &
 		minus = minus + populationDeath_hunter;
 		double val = plus - minus;
 		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), Tothunter, out_value);
+		sendOutput(msg.time(), out_port_Tothunter, out_value);
 		}
 
 	return *this ;

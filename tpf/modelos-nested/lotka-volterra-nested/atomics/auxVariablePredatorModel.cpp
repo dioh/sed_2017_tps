@@ -12,9 +12,9 @@ using namespace std;
 
 auxVariablePredatorModel::auxVariablePredatorModel(const string &name) :
 	Atomic(name),
-    cteVariable(addInputPort("cteVariable")),
+    in_port_cteVariable(addInputPort("in_port_cteVariable")),
     isSet_cteVariable(false),
-	auxVariablePredatorModel(addOutputPort("auxVariablePredatorModel"))
+	out_port_auxVariable(addOutputPort("out_port_auxVariable"))
 {
 }
 
@@ -30,7 +30,7 @@ Model &auxVariablePredatorModel::externalFunction(const ExternalMessage &msg)
 {
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
-	if(msg.port() == cteVariable) {
+	if(msg.port() == in_port_cteVariable) {
 		cteVariable = x;
 		isSet_cteVariable = true;
 	}
@@ -51,7 +51,7 @@ Model &auxVariablePredatorModel::outputFunction(const CollectMessage &msg)
 	
 	if( isSet_cteVariable ) {
 	    Tuple<Real> out_value { cteVariable };
-		sendOutput(msg.time(), auxVariablePredatorModel, out_value);
+		sendOutput(msg.time(), out_port_auxVariable, out_value);
 	}
 	
 	return *this ;
