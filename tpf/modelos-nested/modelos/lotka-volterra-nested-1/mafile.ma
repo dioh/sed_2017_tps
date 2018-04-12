@@ -23,20 +23,20 @@ link: out_port_paramB@paramB in_port_paramB@DEVS_COUPLED_PreyModel
 
 [DEVS_COUPLED_PredatorModel]
 %Coupled model
-components:  DEVS_BASIC_COUPLED_Predator paramC@paramCPredatorModel paramD@paramDPredatorModel
+components:  DEVS_BASIC_COUPLED_Predator paramC1@paramCPredatorModel paramD1@paramDPredatorModel
 % In ports
 in: in_port_Prey in_port_paramC in_port_paramD
 % Out ports
 out: out_port_Predator
 % Input connections
 link: in_port_Prey in_port_Prey@DEVS_BASIC_COUPLED_Predator
-link: in_port_paramC in_port_paramC@paramC
-link: in_port_paramD in_port_paramD@paramD
+link: in_port_paramC in_port_paramC@paramC1
+link: in_port_paramD in_port_paramD@paramD1
 % Output connections
 link: out_port_Predator@DEVS_BASIC_COUPLED_Predator out_port_Predator
 % Internal connections
-link: out_port_paramC@paramC in_port_paramC@DEVS_BASIC_COUPLED_Predator
-link: out_port_paramD@paramD in_port_paramD@DEVS_BASIC_COUPLED_Predator
+link: out_port_paramC@paramC1 in_port_paramC@DEVS_BASIC_COUPLED_Predator
+link: out_port_paramD@paramD1 in_port_paramD@DEVS_BASIC_COUPLED_Predator
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
 [DEVS_BASIC_COUPLED_Predator]
@@ -66,20 +66,20 @@ dQRel: 0.001
 
 [DEVS_COUPLED_PreyModel]
 %Coupled model
-components:  DEVS_BASIC_COUPLED_Prey paramA@paramAPreyModel paramB@paramBPreyModel
+components:  DEVS_BASIC_COUPLED_Prey paramA1@paramAPreyModel paramB1@paramBPreyModel
 % In ports
 in: in_port_Predator in_port_paramA in_port_paramB
 % Out ports
 out: out_port_Prey
 % Input connections
 link: in_port_Predator in_port_Predator@DEVS_BASIC_COUPLED_Prey
-link: in_port_paramA in_port_paramA@paramA
-link: in_port_paramB in_port_paramB@paramB
+link: in_port_paramA in_port_paramA@paramA1
+link: in_port_paramB in_port_paramB@paramB1
 % Output connections
 link: out_port_Prey@DEVS_BASIC_COUPLED_Prey out_port_Prey
 % Internal connections
-link: out_port_paramA@paramA in_port_paramA@DEVS_BASIC_COUPLED_Prey
-link: out_port_paramB@paramB in_port_paramB@DEVS_BASIC_COUPLED_Prey
+link: out_port_paramA@paramA1 in_port_paramA@DEVS_BASIC_COUPLED_Prey
+link: out_port_paramB@paramB1 in_port_paramB@DEVS_BASIC_COUPLED_Prey
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
 [DEVS_BASIC_COUPLED_Prey]
