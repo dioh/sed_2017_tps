@@ -1,23 +1,18 @@
-#ifndef _QSS_H_
-#define _QSS_H_
+#ifndef _{{name_full}}_H_
+#define _{{name_full}}_H_
 
 #include <string> 
 
 #include "atomic.h"
 
-#define QSS_MODEL_NAME "QSS1"
+#define {{name_full_upper}} "{{name_full}}"
 
 
-VTime minposroot(double *coeff);
-
-double to_seconds(const VTime &);
-
-
-class QSS1 : public Atomic {
+class {{name_full}} : public Atomic {
   public:
     
-    QSS1(const string &name = QSS_MODEL_NAME );
-    virtual string className() const {  return QSS_MODEL_NAME ;}
+    {{name_full}}(const string &name = {{name_full_upper}} );
+    virtual string className() const {  return {{name_full_upper}} ;}
   
   protected:
     Model &initFunction();
@@ -26,17 +21,22 @@ class QSS1 : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in;
-    Port &out;
+    const Port &in_port_Tot{{name}};
+    Port &out_port_{{name}};
 
     double dQ, dQMin, dQRel;
     double x[2], q;
     double gain;
     VTime sigma; // track last change
 
-    bool log_output;
+    bool log_output_{{name}};
 
     double get_param(const string &);
+
+    VTime minposroot(double *coeff);
+
+    double to_seconds(const VTime &);
+
 };
 
 #endif

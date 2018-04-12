@@ -13,12 +13,12 @@ using namespace std;
 {{aux_name_lower}}::{{aux_name_lower}}(const string &name) :
 	Atomic(name),
 	{%- for input_port_name in input_ports %}
-    {{input_port_name}}(addInputPort("{{input_port_name}}")),
+    in_port_{{input_port_name}}(addInputPort("in_port_{{input_port_name}}")),
     {%- endfor -%}
 	{%- for input_port_name in input_ports %}
     isSet_{{input_port_name}}(false),
     {%- endfor %}
-	{{aux_name_lower}}(addOutputPort("{{aux_name_lower}}"))
+	out_port_{{aux_name}}(addOutputPort("out_port_{{aux_name}}"))
 {
 }
 
@@ -35,7 +35,7 @@ Model &{{aux_name_lower}}::externalFunction(const ExternalMessage &msg)
 	double x = Tuple<Real>::from_value(msg.value())[0].value();
 
 	{% for input_port_name in input_ports -%}
-	if(msg.port() == {{input_port_name}}) {
+	if(msg.port() == in_port_{{input_port_name}}) {
 		{{input_port_name}} = x;
 		isSet_{{input_port_name}} = true;
 	}
@@ -60,7 +60,7 @@ Model &{{aux_name_lower}}::outputFunction(const CollectMessage &msg)
 		{% if loop.index0 > 0 %}& isSet_{{input_port_name}} {% endif -%}
 	{% endfor -%}) {
 	    Tuple<Real> out_value { {{equation}} };
-		sendOutput(msg.time(), {{aux_name_lower}}, out_value);
+		sendOutput(msg.time(), out_port_{{aux_name}}, out_value);
 	}
 	{% endif %}
 	return *this ;

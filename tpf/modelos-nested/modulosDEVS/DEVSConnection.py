@@ -10,6 +10,7 @@ class DEVSInternalConnection(DEVSConnection):
         self.component_from = component_from
         self.port_to = port_to
         self.component_to = component_to
+        self.type = port_to.get_type()
 
     def __repr__(self):
         return str({
@@ -47,6 +48,9 @@ class DEVSInternalConnection(DEVSConnection):
 
     def get_component_to(self):
         return self.component_to
+
+    def get_type(self):
+        return self.type
 
 
 ######

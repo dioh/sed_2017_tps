@@ -1,13 +1,13 @@
 class CdppModel(object):
 
     def __init__(self, **kwargs):
-        allowed_keys = ['name', 'model', 'in_ports', 'out_ports',
+        allowed_keys = ['name', 'parent', 'model', 'in_ports', 'out_ports',
                         'internal_connections',
                         'external_input_connections',
                         'external_output_connections',
-                        'components',
-                        'type', 'parameters']
+                        'components', 'parameters']
         self.name = ''
+        self.parent = ''
         self.model = ''
         self.in_ports = set()
         self.out_ports = set()
@@ -22,6 +22,7 @@ class CdppModel(object):
 
     def __repr__(self):
         return str({'name': self.name,
+                    'parent': self.parent,
                     'model': self.model,
                     'in_ports': self.in_ports.__repr__(),
                     'out_ports': self.out_ports.__repr__(),
@@ -36,6 +37,7 @@ class CdppModel(object):
 
     def __eq__(self, other):
         return (self.name == other.name and
+                self.parent == other.parent and
                 self.model == other.model and
                 self.in_ports == other.in_ports and
                 self.out_ports == other. out_ports and
@@ -58,10 +60,14 @@ class CdppModel(object):
     @classmethod
     def extract_model_from_node(cls, node):
         model_name = node.attrib['name']
+        model_parent = node.attrib['parent']
         d = {'name': model_name,
+             'parent': model_parent,
              'model': node.attrib['model'],
              'params': cls.extract_params(node.attrib),
-             'in_ports': cls.extract_in_ports(node, model_name),
+             'in_ports': cls.extract_in_ports(node, model_name, 'in'),
+             'in_minus_ports': cls.extract_in_ports(node, model_name, 'in_minus'),
+             'in_plus_ports': cls.extract_in_ports(node, model_name, 'in_plus'),
              'out_ports': cls.extract_out_ports(node, model_name),
              'components': cls.extract_components(node),
              'internal_connections': cls.extract_internal_connections(node),
@@ -75,12 +81,11 @@ class CdppModel(object):
         return cls(**d)
 
     @classmethod
-    def extract_in_ports(cls, devsml_xml_root, component_name):
+    def extract_in_ports(cls, devsml_xml_root, component_name, port_type):
         rv = set()
         for in_port in devsml_xml_root.findall('./inputs/input'):
-            if (in_port.attrib['type'].lower() == 'in'):
+            if (in_port.attrib['type'].lower() == port_type):
                 rv.add(in_port.attrib['name'])
-
         return rv
 
     @classmethod
@@ -103,7 +108,8 @@ class CdppModel(object):
             connection = CdppConnection(CdppPort(attribs['port_from'],
                                                  attribs['component_from']),
                                         CdppPort(attribs['port_to'],
-                                                 attribs['component_to']))
+                                                 attribs['component_to']),
+                                        attribs['type'])
             rv.add(connection)
 
         return rv
@@ -119,7 +125,8 @@ class CdppModel(object):
             connection = CdppConnection(CdppPort(attribs['port_from'],
                                                  model_name),
                                         CdppPort(attribs['port_to'],
-                                                 attribs['component_to']))
+                                                 attribs['component_to']),
+                                        'in')
             rv.add(connection)
 
         return rv
@@ -135,7 +142,8 @@ class CdppModel(object):
             connection = CdppConnection(CdppPort(attribs['port_from'],
                                                  attribs['component_from']),
                                         CdppPort(attribs['port_to'],
-                                                 model_name))
+                                                 model_name),
+                                        'in')
             rv.add(connection)
 
         return rv
@@ -184,25 +192,39 @@ class CdppPort(object):
         return self.port == other.port and \
                self.component == other.component
 
+    def __lt__(self, other):
+        return self.component < other.component or \
+               (self.component == other.component and
+                self.port < other.port)
+
     def __hash__(self):
         return (hash(self.port) ^ hash(self.component))
 
 
 class CdppConnection(object):
 
-    def __init__(self, port_from, port_to):
+    def __init__(self, port_from, port_to, type_):
         self.port_from = port_from
         self.port_to = port_to
+        self.type = type_
 
     def __repr__(self):
         return str({
             'port_from': self.port_from.__repr__(),
-            'port_to': self.port_to.__repr__()
+            'port_to': self.port_to.__repr__(),
+            'type': self.type.__repr__()
             })
 
     def __eq__(self, other):
         return self.port_from == other.port_from and \
-               self.port_to == other.port_to
+               self.port_to == other.port_to and \
+               self.type == other.type
+
+    # TODO : ver si agregar o no 'type' en __lt__ y __hash__
+    def __lt__(self, other):
+        return self.port_to < other.port_to or \
+               (self.port_to == other.port_to and
+                self.port_from < other.port_from)
 
     def __hash__(self):
         return (hash(self.port_from) ^ hash(self.port_to))

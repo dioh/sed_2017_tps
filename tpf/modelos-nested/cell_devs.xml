@@ -1,0 +1,28 @@
+<atomicRef name="opinion" model="CellDEVS">
+<parameters>
+	<parameter macros="macros.inc"></parameter>
+	<parameter type="cell"></parameter>
+	<parameter dim="(3, 3, 3)"></parameter>
+	<parameter delay="4.3"></parameter>
+	<parameter default_delay_time="5.0"></parameter>
+	<parameter border_type="unwrapped"></parameter>
+	<parameter initial_value="0"></parameter>
+	<parameter local_transition="zzz-rule"></parameter>
+</parameters>
+<neighbors>
+<neighbor>(0, 0, -1)</neighbor>
+<neighbor>(0, 0, 1)</neighbor>
+<neighbor>(0, -1, 0)</neighbor>
+<neighbor>(0, 1, 0)</neighbor>
+</neighbors>
+<transitions>
+<transition name="zzz-rule">
+<rule value="{ t } 0 100"></rule>
+</transition>
+</transitions>
+<inputs></inputs>
+<outputs></outputs>
+<inputs-links></inputs-links>
+<outputs-links></outputs-links>
+<portsInTransition></portsInTransition>
+</atomicRef>

@@ -1,0 +1,124 @@
+#include "pmodeladm.h"
+#include "register.h"
+
+#include "tauMCtop.h"
+#include "tauBCtop.h"
+#include "tauMItop.h"
+#include "bfValuetop.h"
+#include "tauLtop.h"
+#include "wSValuetop.h"
+#include "tauWCtop.h"
+#include "tauRtop.h"
+#include "rLValuetop.h"
+#include "IPCValuetop.h"
+#include "CPIValuetop.h"
+#include "ConsBtop.h"
+#include "PiCGtop.h"
+#include "InvBuytop.h"
+#include "Outputtop.h"
+#include "IntFeetop.h"
+#include "PiIGtop.h"
+#include "velocityOfMoneytop.h"
+#include "ConsWtop.h"
+#include "Interesttop.h"
+#include "Moneytop.h"
+#include "WagesCtop.h"
+#include "Lendtop.h"
+#include "Repaytop.h"
+#include "YIValuetop.h"
+#include "WagesItop.h"
+#include "YCValuetop.h"
+#include "Debttop.h"
+#include "ConstantBuytop.h"
+#include "chgConsNW_ConsNWDEVS_BASIC_COUPLED_ConsNW.h"
+#include "chgWorkersNW_WorkersNWDEVS_BASIC_COUPLED_WorkersNW.h"
+#include "chgWorkers_WorkersDEVS_BASIC_COUPLED_Workers.h"
+#include "chgDepCons_DepConsDEVS_BASIC_COUPLED_DepCons.h"
+#include "chgInvNW_InvNWDEVS_BASIC_COUPLED_InvNW.h"
+#include "chgBankersNW_BankersNWDEVS_BASIC_COUPLED_BankersNW.h"
+#include "chgDepInv_DepInvDEVS_BASIC_COUPLED_DepInv.h"
+#include "chgReserves_ReservesDEVS_BASIC_COUPLED_Reserves.h"
+#include "chgLoans_LoansDEVS_BASIC_COUPLED_Loans.h"
+#include "TotConsNWDEVS_BASIC_COUPLED_ConsNW.h"
+#include "TotWorkersNWDEVS_BASIC_COUPLED_WorkersNW.h"
+#include "TotWorkersDEVS_BASIC_COUPLED_Workers.h"
+#include "TotDepConsDEVS_BASIC_COUPLED_DepCons.h"
+#include "TotInvNWDEVS_BASIC_COUPLED_InvNW.h"
+#include "TotBankersNWDEVS_BASIC_COUPLED_BankersNW.h"
+#include "TotDepInvDEVS_BASIC_COUPLED_DepInv.h"
+#include "TotReservesDEVS_BASIC_COUPLED_Reserves.h"
+#include "TotLoansDEVS_BASIC_COUPLED_Loans.h"
+#include "ConsNWDEVS_BASIC_COUPLED_ConsNW.h"
+#include "WorkersNWDEVS_BASIC_COUPLED_WorkersNW.h"
+#include "WorkersDEVS_BASIC_COUPLED_Workers.h"
+#include "DepConsDEVS_BASIC_COUPLED_DepCons.h"
+#include "InvNWDEVS_BASIC_COUPLED_InvNW.h"
+#include "BankersNWDEVS_BASIC_COUPLED_BankersNW.h"
+#include "DepInvDEVS_BASIC_COUPLED_DepInv.h"
+#include "ReservesDEVS_BASIC_COUPLED_Reserves.h"
+#include "LoansDEVS_BASIC_COUPLED_Loans.h"
+// Registro modelos atomicos
+void register_atomics_on(ParallelModelAdmin &admin)
+{
+	// Atomicos base
+	//admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
+	
+	// Atomicos especificos del modelo
+	admin.registerAtomic(NewAtomicFunction<tauMCtop>(), TAUMCTOP);
+	admin.registerAtomic(NewAtomicFunction<tauBCtop>(), TAUBCTOP);
+	admin.registerAtomic(NewAtomicFunction<tauMItop>(), TAUMITOP);
+	admin.registerAtomic(NewAtomicFunction<bfValuetop>(), BFVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<tauLtop>(), TAULTOP);
+	admin.registerAtomic(NewAtomicFunction<wSValuetop>(), WSVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<tauWCtop>(), TAUWCTOP);
+	admin.registerAtomic(NewAtomicFunction<tauRtop>(), TAURTOP);
+	admin.registerAtomic(NewAtomicFunction<rLValuetop>(), RLVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<IPCValuetop>(), IPCVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<CPIValuetop>(), CPIVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<ConsBtop>(), CONSBTOP);
+	admin.registerAtomic(NewAtomicFunction<PiCGtop>(), PICGTOP);
+	admin.registerAtomic(NewAtomicFunction<InvBuytop>(), INVBUYTOP);
+	admin.registerAtomic(NewAtomicFunction<Outputtop>(), OUTPUTTOP);
+	admin.registerAtomic(NewAtomicFunction<IntFeetop>(), INTFEETOP);
+	admin.registerAtomic(NewAtomicFunction<PiIGtop>(), PIIGTOP);
+	admin.registerAtomic(NewAtomicFunction<velocityOfMoneytop>(), VELOCITYOFMONEYTOP);
+	admin.registerAtomic(NewAtomicFunction<ConsWtop>(), CONSWTOP);
+	admin.registerAtomic(NewAtomicFunction<Interesttop>(), INTERESTTOP);
+	admin.registerAtomic(NewAtomicFunction<Moneytop>(), MONEYTOP);
+	admin.registerAtomic(NewAtomicFunction<WagesCtop>(), WAGESCTOP);
+	admin.registerAtomic(NewAtomicFunction<Lendtop>(), LENDTOP);
+	admin.registerAtomic(NewAtomicFunction<Repaytop>(), REPAYTOP);
+	admin.registerAtomic(NewAtomicFunction<YIValuetop>(), YIVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<WagesItop>(), WAGESITOP);
+	admin.registerAtomic(NewAtomicFunction<YCValuetop>(), YCVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<Debttop>(), DEBTTOP);
+	admin.registerAtomic(NewAtomicFunction<ConstantBuytop>(), CONSTANTBUYTOP);
+	admin.registerAtomic(NewAtomicFunction<chgConsNW_ConsNWDEVS_BASIC_COUPLED_ConsNW>(), CHGCONSNW_CONSNWDEVS_BASIC_COUPLED_CONSNW);
+	admin.registerAtomic(NewAtomicFunction<chgWorkersNW_WorkersNWDEVS_BASIC_COUPLED_WorkersNW>(), CHGWORKERSNW_WORKERSNWDEVS_BASIC_COUPLED_WORKERSNW);
+	admin.registerAtomic(NewAtomicFunction<chgWorkers_WorkersDEVS_BASIC_COUPLED_Workers>(), CHGWORKERS_WORKERSDEVS_BASIC_COUPLED_WORKERS);
+	admin.registerAtomic(NewAtomicFunction<chgDepCons_DepConsDEVS_BASIC_COUPLED_DepCons>(), CHGDEPCONS_DEPCONSDEVS_BASIC_COUPLED_DEPCONS);
+	admin.registerAtomic(NewAtomicFunction<chgInvNW_InvNWDEVS_BASIC_COUPLED_InvNW>(), CHGINVNW_INVNWDEVS_BASIC_COUPLED_INVNW);
+	admin.registerAtomic(NewAtomicFunction<chgBankersNW_BankersNWDEVS_BASIC_COUPLED_BankersNW>(), CHGBANKERSNW_BANKERSNWDEVS_BASIC_COUPLED_BANKERSNW);
+	admin.registerAtomic(NewAtomicFunction<chgDepInv_DepInvDEVS_BASIC_COUPLED_DepInv>(), CHGDEPINV_DEPINVDEVS_BASIC_COUPLED_DEPINV);
+	admin.registerAtomic(NewAtomicFunction<chgReserves_ReservesDEVS_BASIC_COUPLED_Reserves>(), CHGRESERVES_RESERVESDEVS_BASIC_COUPLED_RESERVES);
+	admin.registerAtomic(NewAtomicFunction<chgLoans_LoansDEVS_BASIC_COUPLED_Loans>(), CHGLOANS_LOANSDEVS_BASIC_COUPLED_LOANS);
+	admin.registerAtomic(NewAtomicFunction<TotConsNWDEVS_BASIC_COUPLED_ConsNW>(), TOTCONSNWDEVS_BASIC_COUPLED_CONSNW);
+	admin.registerAtomic(NewAtomicFunction<TotWorkersNWDEVS_BASIC_COUPLED_WorkersNW>(), TOTWORKERSNWDEVS_BASIC_COUPLED_WORKERSNW);
+	admin.registerAtomic(NewAtomicFunction<TotWorkersDEVS_BASIC_COUPLED_Workers>(), TOTWORKERSDEVS_BASIC_COUPLED_WORKERS);
+	admin.registerAtomic(NewAtomicFunction<TotDepConsDEVS_BASIC_COUPLED_DepCons>(), TOTDEPCONSDEVS_BASIC_COUPLED_DEPCONS);
+	admin.registerAtomic(NewAtomicFunction<TotInvNWDEVS_BASIC_COUPLED_InvNW>(), TOTINVNWDEVS_BASIC_COUPLED_INVNW);
+	admin.registerAtomic(NewAtomicFunction<TotBankersNWDEVS_BASIC_COUPLED_BankersNW>(), TOTBANKERSNWDEVS_BASIC_COUPLED_BANKERSNW);
+	admin.registerAtomic(NewAtomicFunction<TotDepInvDEVS_BASIC_COUPLED_DepInv>(), TOTDEPINVDEVS_BASIC_COUPLED_DEPINV);
+	admin.registerAtomic(NewAtomicFunction<TotReservesDEVS_BASIC_COUPLED_Reserves>(), TOTRESERVESDEVS_BASIC_COUPLED_RESERVES);
+	admin.registerAtomic(NewAtomicFunction<TotLoansDEVS_BASIC_COUPLED_Loans>(), TOTLOANSDEVS_BASIC_COUPLED_LOANS);
+	admin.registerAtomic(NewAtomicFunction<ConsNWDEVS_BASIC_COUPLED_ConsNW>(), CONSNWDEVS_BASIC_COUPLED_CONSNW);
+	admin.registerAtomic(NewAtomicFunction<WorkersNWDEVS_BASIC_COUPLED_WorkersNW>(), WORKERSNWDEVS_BASIC_COUPLED_WORKERSNW);
+	admin.registerAtomic(NewAtomicFunction<WorkersDEVS_BASIC_COUPLED_Workers>(), WORKERSDEVS_BASIC_COUPLED_WORKERS);
+	admin.registerAtomic(NewAtomicFunction<DepConsDEVS_BASIC_COUPLED_DepCons>(), DEPCONSDEVS_BASIC_COUPLED_DEPCONS);
+	admin.registerAtomic(NewAtomicFunction<InvNWDEVS_BASIC_COUPLED_InvNW>(), INVNWDEVS_BASIC_COUPLED_INVNW);
+	admin.registerAtomic(NewAtomicFunction<BankersNWDEVS_BASIC_COUPLED_BankersNW>(), BANKERSNWDEVS_BASIC_COUPLED_BANKERSNW);
+	admin.registerAtomic(NewAtomicFunction<DepInvDEVS_BASIC_COUPLED_DepInv>(), DEPINVDEVS_BASIC_COUPLED_DEPINV);
+	admin.registerAtomic(NewAtomicFunction<ReservesDEVS_BASIC_COUPLED_Reserves>(), RESERVESDEVS_BASIC_COUPLED_RESERVES);
+	admin.registerAtomic(NewAtomicFunction<LoansDEVS_BASIC_COUPLED_Loans>(), LOANSDEVS_BASIC_COUPLED_LOANS);
+	
+}

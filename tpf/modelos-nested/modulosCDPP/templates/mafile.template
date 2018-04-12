@@ -1,0 +1,43 @@
+{%- for model in models recursive %}
+{% if model.model_type() in ['DEVSCoupledComponent', 'DEVSBasicCoupledComponent'] -%}
+[{{model.model_name()}}]
+%Coupled model
+{% if model.components()|length > 0 -%}
+components: {%- for component in model.components() %} {% if component.model_type() in ['DEVSCoupledComponent', 'DEVSBasicCoupledComponent'] %} {{component.model_name()}} {%- else -%} {{component.model_name()}}@{{component.model_name()}}{{component.model_parent()}} {%- endif -%} {%- endfor %}
+{% endif %}
+% In ports
+{% if model.model_in_ports()|length > 0 -%}
+in: {%- for input in model.model_in_ports() %} in_port_{{input}} {%- endfor %}
+{% endif %}
+
+% Out ports
+out: {%- for output in model.model_out_ports() %} out_port_{{output}} {%- endfor %}
+
+% Input connections
+{%- for connection in model.model_external_input_connections() %}
+link: in_port_{{ connection.port_from.port }} in_port_{{connection.port_to.port}}@{{connection.port_to.component}}
+{%- endfor %}
+
+% Output connections
+{%- for connection in model.model_external_output_connections() %}
+link: out_port_{{ connection.port_from.port}}@{{connection.port_from.component}} out_port_{{connection.port_to.port}}
+{%- endfor %}
+
+% Internal connections
+{%- for connection in model.model_internal_connections() %}
+link: out_port_{{ connection.port_from.port}}@{{connection.port_from.component}} {{connection.type}}_port_{{connection.port_to.port}}@{{connection.port_to.component}}
+{%- endfor %}
+
+% Model components
+% No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
+{{loop(model.components())}}
+{%- else -%}
+{%- if model.model_type() in ['DEVSIntegrator'] %}
+[{{model.model_name()}}]
+% Atomic model {{model.model_type()}}
+{% for name, value in model.model_parameters().items() -%}
+{{name}}: {{value}}
+{% endfor %}
+{% endif %}
+{% endif -%}
+{%- endfor %}

@@ -1,0 +1,31 @@
+<atomicRef name="{{name}}" model="CellDEVS">
+<parameters>
+	<parameter macros="{{macro}}"></parameter>
+	<parameter type="{{type}}"></parameter>
+	<parameter dim="{{dim}}"></parameter>
+	<parameter delay="{{delay}}"></parameter>
+	<parameter default_delay_time="{{default_delay_time}}"></parameter>
+	<parameter border_type="{{border_type}}"></parameter>
+	<parameter initial_value="{{initial_value}}"></parameter>
+	<parameter local_transition="{{local_transition}}"></parameter>
+</parameters>
+<neighbors>
+{%- for neighbor in neighbors %}
+<neighbor>{{neighbor}}</neighbor>
+{%- endfor %}
+</neighbors>
+<transitions>
+{% for transition_name, transition_name_rules in rules.iteritems() -%}
+<transition name="{{transition_name}}">
+{%- for rule_value in transition_name_rules %}
+<rule value="{{rule_value}}"></rule>
+{% endfor -%}
+{% endfor -%}
+</transition>
+</transitions>
+<inputs></inputs>
+<outputs></outputs>
+<inputs-links></inputs-links>
+<outputs-links></outputs-links>
+<portsInTransition></portsInTransition>
+</atomicRef>

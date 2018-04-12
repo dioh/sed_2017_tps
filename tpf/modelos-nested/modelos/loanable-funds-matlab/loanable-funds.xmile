@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>"test"</name>
+		<uuid>193868c2-0b04-4d3d-b865-0cb31a83d64a</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="1.5" isee:build_number="1277" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:simulation_delay="0.0909091" method="RK4" time_units="Seconds" isee:instantaneous_flows="false">
+		<start>1</start>
+		<stop></stop>
+		<dt>0.01</dt>
+	</sim_specs>
+	<model_units/>
+	<model>
+		<variables>
+			<stock name="ConsNW">
+				<eqn>100</eqn>
+				<inflow>chgConsNW</inflow>
+			</stock>
+			<stock name="WorkersNW">
+				<eqn>-0</eqn>
+				<inflow>chgWorkersNW</inflow>
+			</stock>
+			<stock name="Workers">
+				<eqn>-0</eqn>
+				<inflow>chgWorkers</inflow>
+			</stock>
+			<stock name="DepCons">
+				<eqn>100</eqn>
+				<inflow>chgDepCons</inflow>
+			</stock>
+			<stock name="InvNW">
+				<eqn>0</eqn>
+				<inflow>chgInvNW</inflow>
+			</stock>
+			<stock name="BankersNW">
+				<eqn>-0</eqn>
+				<inflow>chgBankersNW</inflow>
+			</stock>
+			<stock name="DepInv">
+				<eqn>-0</eqn>
+				<inflow>chgDepInv</inflow>
+			</stock>
+			<stock name="Reserves">
+				<eqn>100</eqn>
+				<inflow>chgReserves</inflow>
+			</stock>
+			<stock name="Loans">
+				<eqn>0</eqn>
+				<inflow>chgLoans</inflow>
+			</stock>
+			
+
+			<flow name="chgConsNW">
+				<eqn>((((Interest+InvBuy)+ConsW)+ConsB)-((IntFee+WagesC)+ConstantBuy))</eqn>
+			</flow>
+			<flow name="chgWorkersNW">
+				<eqn>((WagesC+WagesI)-ConsW)</eqn>
+			</flow>
+			<flow name="chgWorkers">
+				<eqn>((WagesC+WagesI)-ConsW)</eqn>
+			</flow>
+			<flow name="chgDepCons">
+				<eqn>(((((Interest+Repay)+InvBuy)+ConsW)+ConsB)-(((Lend+IntFee)+WagesC)+ConstantBuy))</eqn>
+			</flow>
+			<flow name="chgInvNW">
+				<eqn>(ConstantBuy-((Interest+WagesI)+InvBuy))</eqn>
+			</flow>
+			<flow name="chgBankersNW">
+				<eqn>(IntFee-ConsB)</eqn>
+			</flow>
+			<flow name="chgDepInv">
+				<eqn>((Lend+ConstantBuy)-(((Interest+Repay)+WagesI)+InvBuy))</eqn>
+			</flow>
+			<flow name="chgReserves">
+				<eqn>0</eqn>
+			</flow>
+			<flow name="chgLoans">
+				<eqn>(Lend-Repay)</eqn>
+			</flow>
+			
+
+			<aux name="ConstantBuy">
+				<eqn>(PiCG*CPIValue)</eqn>
+			</aux>
+			<aux name="PiCG">
+				<eqn>(YCValue-WagesC)</eqn>
+			</aux>
+			<aux name="PiIG">
+				<eqn>(YIValue-WagesI)</eqn>
+			</aux>
+			<aux name="ConsW">
+				<eqn>(Workers/tauWC)</eqn>
+			</aux>
+			<aux name="Money">
+				<eqn>(((DepCons+DepInv)+Workers)+BankersNW)</eqn>
+			</aux>
+			<aux name="Lend">
+				<eqn>(DepCons/tauL)</eqn>
+			</aux>
+			<aux name="Repay">
+				<eqn>(Loans/tauR)</eqn>
+			</aux>
+			<aux name="WagesI">
+				<eqn>(YIValue*wSValue)</eqn>
+			</aux>
+			<aux name="ConsB">
+				<eqn>(BankersNW/tauBC)</eqn>
+			</aux>
+			<aux name="IntFee">
+				<eqn>(Interest*bfValue)</eqn>
+			</aux>
+			<aux name="YCValue">
+				<eqn>(DepCons/tauMC)</eqn>
+			</aux>
+			<aux name="Interest">
+				<eqn>(rLValue*Loans)</eqn>
+			</aux>
+			<aux name="WagesC">
+				<eqn>(YCValue*wSValue)</eqn>
+			</aux>
+			<aux name="Output">
+				<eqn>(YCValue+YIValue)</eqn>
+			</aux>
+			<aux name="YIValue">
+				<eqn>(DepInv/tauMI)</eqn>
+			</aux>
+			<aux name="Debt">
+				<eqn>Loans</eqn>
+			</aux>
+			<aux name="velocityOfMoney">
+				<eqn>(Output/Money)</eqn>
+			</aux>
+			<aux name="InvBuy">
+				<eqn>(PiIG*IPCValue)</eqn>
+			</aux>
+			<aux name="wSValue">
+				<eqn>0.7</eqn>
+			</aux>
+			<aux name="tauMC">
+				<eqn>0.5</eqn>
+			</aux>
+			<aux name="tauBC">
+				<eqn>1</eqn>
+			</aux>
+			<aux name="bfValue">
+				<eqn>0.1</eqn>
+			</aux>
+			<aux name="tauMI">
+				<eqn>0.25</eqn>
+			</aux>
+			<aux name="tauL">
+				<eqn>7</eqn>
+			</aux>
+			<aux name="tauWC">
+				<eqn>0.08</eqn>
+			</aux>
+			<aux name="tauR">
+				<eqn>9</eqn>
+			</aux>
+			<aux name="rLValue">
+				<eqn>0.04</eqn>
+			</aux>
+			<aux name="IPCValue">
+				<eqn>0.1</eqn>
+			</aux>
+			<aux name="CPIValue">
+				<eqn>0.5</eqn>
+			</aux>
+			
+
+			<isee:dependencies>
+			
+				<var name="chgConsNW">
+					<in>Interest</in>
+					<in>InvBuy</in>
+					<in>ConsW</in>
+					<in>ConsB</in>
+					<in>IntFee</in>
+					<in>WagesC</in>
+					<in>ConstantBuy</in>
+					
+				</var>
+			
+				<var name="chgWorkersNW">
+					<in>WagesC</in>
+					<in>WagesI</in>
+					<in>ConsW</in>
+					
+				</var>
+			
+				<var name="chgWorkers">
+					<in>WagesC</in>
+					<in>WagesI</in>
+					<in>ConsW</in>
+					
+				</var>
+			
+				<var name="chgDepCons">
+					<in>Interest</in>
+					<in>Repay</in>
+					<in>InvBuy</in>
+					<in>ConsW</in>
+					<in>ConsB</in>
+					<in>Lend</in>
+					<in>IntFee</in>
+					<in>WagesC</in>
+					<in>ConstantBuy</in>
+					
+				</var>
+			
+				<var name="chgInvNW">
+					<in>ConstantBuy</in>
+					<in>Interest</in>
+					<in>WagesI</in>
+					<in>InvBuy</in>
+					
+				</var>
+			
+				<var name="chgBankersNW">
+					<in>IntFee</in>
+					<in>ConsB</in>
+					
+				</var>
+			
+				<var name="chgDepInv">
+					<in>Lend</in>
+					<in>ConstantBuy</in>
+					<in>Interest</in>
+					<in>Repay</in>
+					<in>WagesI</in>
+					<in>InvBuy</in>
+					
+				</var>
+			
+				<var name="chgReserves">
+					
+				</var>
+			
+				<var name="chgLoans">
+					<in>Lend</in>
+					<in>Repay</in>
+					
+				</var>
+			
+				<var name="ConstantBuy">
+					<in>PiCG</in>
+					<in>CPIValue</in>
+					
+				</var>
+			
+				<var name="PiCG">
+					<in>YCValue</in>
+					<in>WagesC</in>
+					
+				</var>
+			
+				<var name="PiIG">
+					<in>YIValue</in>
+					<in>WagesI</in>
+					
+				</var>
+			
+				<var name="ConsW">
+					<in>Workers</in>
+					<in>tauWC</in>
+					
+				</var>
+			
+				<var name="Money">
+					<in>DepCons</in>
+					<in>DepInv</in>
+					<in>Workers</in>
+					<in>BankersNW</in>
+					
+				</var>
+			
+				<var name="Lend">
+					<in>DepCons</in>
+					<in>tauL</in>
+					
+				</var>
+			
+				<var name="Repay">
+					<in>Loans</in>
+					<in>tauR</in>
+					
+				</var>
+			
+				<var name="WagesI">
+					<in>YIValue</in>
+					<in>wSValue</in>
+					
+				</var>
+			
+				<var name="ConsB">
+					<in>BankersNW</in>
+					<in>tauBC</in>
+					
+				</var>
+			
+				<var name="IntFee">
+					<in>Interest</in>
+					<in>bfValue</in>
+					
+				</var>
+			
+				<var name="YCValue">
+					<in>DepCons</in>
+					<in>tauMC</in>
+					
+				</var>
+			
+				<var name="Interest">
+					<in>rLValue</in>
+					<in>Loans</in>
+					
+				</var>
+			
+				<var name="WagesC">
+					<in>YCValue</in>
+					<in>wSValue</in>
+					
+				</var>
+			
+				<var name="Output">
+					<in>YCValue</in>
+					<in>YIValue</in>
+					
+				</var>
+			
+				<var name="YIValue">
+					<in>DepInv</in>
+					<in>tauMI</in>
+					
+				</var>
+			
+				<var name="Debt">
+					<in>Loans</in>
+					
+				</var>
+			
+				<var name="velocityOfMoney">
+					<in>Output</in>
+					<in>Money</in>
+					
+				</var>
+			
+				<var name="InvBuy">
+					<in>PiIG</in>
+					<in>IPCValue</in>
+					
+				</var>
+			
+			</isee:dependencies>
+		</variables>
+	</model>
+</xmile>

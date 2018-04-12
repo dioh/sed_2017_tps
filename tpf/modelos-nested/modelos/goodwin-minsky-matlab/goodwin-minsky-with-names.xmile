@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>"test"</name>
+		<uuid>193868c2-0b04-4d3d-b865-0cb31a83d64a</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="1.5" isee:build_number="1277" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:simulation_delay="0.0909091" method="RK4" time_units="Seconds" isee:instantaneous_flows="false">
+		<start>1</start>
+		<stop></stop>
+		<dt>0.01</dt>
+	</sim_specs>
+	<model_units/>
+	<model>
+		<variables>
+			<stock name="LaborProductivity">
+				<eqn>1</eqn>
+				<inflow>chgLaborProductivity</inflow>
+			</stock>
+			<stock name="wageRate">
+				<eqn>0.8</eqn>
+				<inflow>chgwageRate</inflow>
+			</stock>
+			<stock name="Debt">
+				<eqn>0</eqn>
+				<inflow>chgDebt</inflow>
+			</stock>
+			<stock name="Population">
+				<eqn>150</eqn>
+				<inflow>chgPopulation</inflow>
+			</stock>
+			<stock name="Capital">
+				<eqn>300</eqn>
+				<inflow>chgCapital</inflow>
+			</stock>
+			
+
+			<flow name="chgLaborProductivity">
+				<eqn>(Alphaa*LaborProductivity)</eqn>
+			</flow>
+			<flow name="chgwageRate">
+				<eqn>(wageFunction*wageRate)</eqn>
+			</flow>
+			<flow name="chgDebt">
+				<eqn>InvestmentGross</eqn>
+			</flow>
+			<flow name="chgPopulation">
+				<eqn>(Population*Betaa)</eqn>
+			</flow>
+			<flow name="chgCapital">
+				<eqn>InvestmentNetReal</eqn>
+			</flow>
+			
+
+			<aux name="wageFunction">
+				<eqn>(employmentRateStable*(employmentRateValue-employmentRateZero))</eqn>
+			</aux>
+			<aux name="InvestmentGross">
+				<eqn>(InvestmentFunctionReal*Output)</eqn>
+			</aux>
+			<aux name="ProfitNet">
+				<eqn>(ProfitGrossReal-Interest)</eqn>
+			</aux>
+			<aux name="employmentRateValue">
+				<eqn>(Labor/Population)</eqn>
+			</aux>
+			<aux name="InvestmentFunctionReal">
+				<eqn>((piR-piZ)*piS)</eqn>
+			</aux>
+			<aux name="Labor">
+				<eqn>(Output/LaborProductivity)</eqn>
+			</aux>
+			<aux name="ProfitGrossReal">
+				<eqn>(Output-Wages)</eqn>
+			</aux>
+			<aux name="Interest">
+				<eqn>(rateInterestOnLoans*Debt)</eqn>
+			</aux>
+			<aux name="Output">
+				<eqn>(Capital/velocityOfMoney)</eqn>
+			</aux>
+			<aux name="Wages">
+				<eqn>(wageRate*Labor)</eqn>
+			</aux>
+			<aux name="omega">
+				<eqn>(Wages/Output)</eqn>
+			</aux>
+			<aux name="piR">
+				<eqn>(ProfitNet/Capital)</eqn>
+			</aux>
+			<aux name="InvestmentNetReal">
+				<eqn>(InvestmentGross-(Capital*deltaKReal))</eqn>
+			</aux>
+			<aux name="piS">
+				<eqn>10</eqn>
+			</aux>
+			<aux name="Betaa">
+				<eqn>0.015</eqn>
+			</aux>
+			<aux name="rateInterestOnLoans">
+				<eqn>0.04</eqn>
+			</aux>
+			<aux name="piZ">
+				<eqn>0.04</eqn>
+			</aux>
+			<aux name="Alphaa">
+				<eqn>0.025</eqn>
+			</aux>
+			<aux name="employmentRateZero">
+				<eqn>0.6</eqn>
+			</aux>
+			<aux name="employmentRateStable">
+				<eqn>10</eqn>
+			</aux>
+			<aux name="deltaKReal">
+				<eqn>0.05</eqn>
+			</aux>
+			<aux name="velocityOfMoney">
+				<eqn>3</eqn>
+			</aux>
+			
+
+			<isee:dependencies>
+			
+				<var name="chgLaborProductivity">
+					<in>Alphaa</in>
+					<in>LaborProductivity</in>
+					
+				</var>
+			
+				<var name="chgwageRate">
+					<in>wageFunction</in>
+					<in>wageRate</in>
+					
+				</var>
+			
+				<var name="chgDebt">
+					<in>InvestmentGross</in>
+					
+				</var>
+			
+				<var name="chgPopulation">
+					<in>Population</in>
+					<in>Betaa</in>
+					
+				</var>
+			
+				<var name="chgCapital">
+					<in>InvestmentNetReal</in>
+					
+				</var>
+			
+				<var name="wageFunction">
+					<in>employmentRateStable</in>
+					<in>employmentRateValue</in>
+					<in>employmentRateZero</in>
+					
+				</var>
+			
+				<var name="InvestmentGross">
+					<in>InvestmentFunctionReal</in>
+					<in>Output</in>
+					
+				</var>
+			
+				<var name="ProfitNet">
+					<in>ProfitGrossReal</in>
+					<in>Interest</in>
+					
+				</var>
+			
+				<var name="employmentRateValue">
+					<in>Labor</in>
+					<in>Population</in>
+					
+				</var>
+			
+				<var name="InvestmentFunctionReal">
+					<in>piR</in>
+					<in>piZ</in>
+					<in>piS</in>
+					
+				</var>
+			
+				<var name="Labor">
+					<in>Output</in>
+					<in>LaborProductivity</in>
+					
+				</var>
+			
+				<var name="ProfitGrossReal">
+					<in>Output</in>
+					<in>Wages</in>
+					
+				</var>
+			
+				<var name="Interest">
+					<in>rateInterestOnLoans</in>
+					<in>Debt</in>
+					
+				</var>
+			
+				<var name="Output">
+					<in>Capital</in>
+					<in>velocityOfMoney</in>
+					
+				</var>
+			
+				<var name="Wages">
+					<in>wageRate</in>
+					<in>Labor</in>
+					
+				</var>
+			
+				<var name="omega">
+					<in>Wages</in>
+					<in>Output</in>
+					
+				</var>
+			
+				<var name="piR">
+					<in>ProfitNet</in>
+					<in>Capital</in>
+					
+				</var>
+			
+				<var name="InvestmentNetReal">
+					<in>InvestmentGross</in>
+					<in>Capital</in>
+					<in>deltaKReal</in>
+					
+				</var>
+			
+			</isee:dependencies>
+		</variables>
+	</model>
+</xmile>
