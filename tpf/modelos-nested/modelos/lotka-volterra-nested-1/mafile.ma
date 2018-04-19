@@ -11,10 +11,10 @@ in: in_port_paramA in_port_paramB in_port_paramC in_port_paramD
 out: out_port_Predator out_port_Prey
 
 % Input connections
-link: in_port_paramA in_port_paramA@paramA
-link: in_port_paramB in_port_paramB@paramB
-link: in_port_paramC in_port_paramC@paramC
-link: in_port_paramD in_port_paramD@paramD
+link: in_port_paramA in_port_paramA@paramA0
+link: in_port_paramB in_port_paramB@paramB0
+link: in_port_paramC in_port_paramC@paramC0
+link: in_port_paramD in_port_paramD@paramD0
 
 % Output connections
 link: out_port_Predator@DEVS_COUPLED_PredatorModel out_port_Predator
@@ -22,11 +22,11 @@ link: out_port_Prey@DEVS_COUPLED_PreyModel out_port_Prey
 
 % Internal connections
 link: out_port_Prey@DEVS_COUPLED_PreyModel in_port_Prey@DEVS_COUPLED_PredatorModel
-link: out_port_paramC@paramC in_port_paramC@DEVS_COUPLED_PredatorModel
-link: out_port_paramD@paramD in_port_paramD@DEVS_COUPLED_PredatorModel
+link: out_port_paramC@paramC0 in_port_paramC@DEVS_COUPLED_PredatorModel
+link: out_port_paramD@paramD0 in_port_paramD@DEVS_COUPLED_PredatorModel
 link: out_port_Predator@DEVS_COUPLED_PredatorModel in_port_Predator@DEVS_COUPLED_PreyModel
-link: out_port_paramA@paramA in_port_paramA@DEVS_COUPLED_PreyModel
-link: out_port_paramB@paramB in_port_paramB@DEVS_COUPLED_PreyModel
+link: out_port_paramA@paramA0 in_port_paramA@DEVS_COUPLED_PreyModel
+link: out_port_paramB@paramB0 in_port_paramB@DEVS_COUPLED_PreyModel
 
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
@@ -52,15 +52,15 @@ out: out_port_Predator
 
 % Input connections
 link: in_port_Prey in_port_Prey@DEVS_BASIC_COUPLED_Predator
-link: in_port_paramC in_port_paramC@paramC0
-link: in_port_paramD in_port_paramD@paramD0
+link: in_port_paramC in_port_paramC@paramC1
+link: in_port_paramD in_port_paramD@paramD1
 
 % Output connections
 link: out_port_Predator@DEVS_BASIC_COUPLED_Predator out_port_Predator
 
 % Internal connections
-link: out_port_paramC@paramC0 in_port_paramC@DEVS_BASIC_COUPLED_Predator
-link: out_port_paramD@paramD0 in_port_paramD@DEVS_BASIC_COUPLED_Predator
+link: out_port_paramC@paramC1 in_port_paramC@DEVS_BASIC_COUPLED_Predator
+link: out_port_paramD@paramD1 in_port_paramD@DEVS_BASIC_COUPLED_Predator
 
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
@@ -77,19 +77,19 @@ in: in_port_Prey in_port_paramC in_port_paramD
 out: out_port_Predator
 
 % Input connections
-link: in_port_paramC in_port_paramC@MinusPredator_Predator
-link: in_port_Prey in_port_Prey@PlusPredator_Predator
-link: in_port_paramD in_port_paramD@PlusPredator_Predator
+link: in_port_paramC in_port_paramC@MinusPredator_Predator2
+link: in_port_Prey in_port_Prey@PlusPredator_Predator2
+link: in_port_paramD in_port_paramD@PlusPredator_Predator2
 
 % Output connections
-link: out_port_Predator@Predator out_port_Predator
+link: out_port_Predator@Predator2 out_port_Predator
 
 % Internal connections
-link: out_port_Predator@Predator in_port_Predator@MinusPredator_Predator
-link: out_port_Predator@Predator in_port_Predator@PlusPredator_Predator
-link: out_port_TotPredator@TotPredator in_port_TotPredator@Predator
-link: out_port_MinusPredator_Predator@MinusPredator_Predator in_minus_port_MinusPredator_Predator@TotPredator
-link: out_port_PlusPredator_Predator@PlusPredator_Predator in_plus_port_PlusPredator_Predator@TotPredator
+link: out_port_Predator@Predator2 in_port_Predator@MinusPredator_Predator2
+link: out_port_Predator@Predator2 in_port_Predator@PlusPredator_Predator2
+link: out_port_TotPredator@TotPredator2 in_port_TotPredator@Predator2
+link: out_port_MinusPredator_Predator@MinusPredator_Predator2 in_minus_port_MinusPredator_Predator@TotPredator2
+link: out_port_PlusPredator_Predator@PlusPredator_Predator2 in_plus_port_PlusPredator_Predator@TotPredator2
 
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
@@ -101,7 +101,7 @@ link: out_port_PlusPredator_Predator@PlusPredator_Predator in_plus_port_PlusPred
 
 
 
-[Predator]
+[Predator2]
 % Atomic model DEVSIntegrator
 x0: 5
 dQMin: 0.001
@@ -126,15 +126,15 @@ out: out_port_Prey
 
 % Input connections
 link: in_port_Predator in_port_Predator@DEVS_BASIC_COUPLED_Prey
-link: in_port_paramA in_port_paramA@paramA0
-link: in_port_paramB in_port_paramB@paramB0
+link: in_port_paramA in_port_paramA@paramA1
+link: in_port_paramB in_port_paramB@paramB1
 
 % Output connections
 link: out_port_Prey@DEVS_BASIC_COUPLED_Prey out_port_Prey
 
 % Internal connections
-link: out_port_paramA@paramA0 in_port_paramA@DEVS_BASIC_COUPLED_Prey
-link: out_port_paramB@paramB0 in_port_paramB@DEVS_BASIC_COUPLED_Prey
+link: out_port_paramA@paramA1 in_port_paramA@DEVS_BASIC_COUPLED_Prey
+link: out_port_paramB@paramB1 in_port_paramB@DEVS_BASIC_COUPLED_Prey
 
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
@@ -151,19 +151,19 @@ in: in_port_Predator in_port_paramA in_port_paramB
 out: out_port_Prey
 
 % Input connections
-link: in_port_Predator in_port_Predator@MinusPrey_Prey
-link: in_port_paramB in_port_paramB@MinusPrey_Prey
-link: in_port_paramA in_port_paramA@PlusPrey_Prey
+link: in_port_Predator in_port_Predator@MinusPrey_Prey2
+link: in_port_paramB in_port_paramB@MinusPrey_Prey2
+link: in_port_paramA in_port_paramA@PlusPrey_Prey2
 
 % Output connections
-link: out_port_Prey@Prey out_port_Prey
+link: out_port_Prey@Prey2 out_port_Prey
 
 % Internal connections
-link: out_port_Prey@Prey in_port_Prey@MinusPrey_Prey
-link: out_port_Prey@Prey in_port_Prey@PlusPrey_Prey
-link: out_port_TotPrey@TotPrey in_port_TotPrey@Prey
-link: out_port_MinusPrey_Prey@MinusPrey_Prey in_minus_port_MinusPrey_Prey@TotPrey
-link: out_port_PlusPrey_Prey@PlusPrey_Prey in_plus_port_PlusPrey_Prey@TotPrey
+link: out_port_Prey@Prey2 in_port_Prey@MinusPrey_Prey2
+link: out_port_Prey@Prey2 in_port_Prey@PlusPrey_Prey2
+link: out_port_TotPrey@TotPrey2 in_port_TotPrey@Prey2
+link: out_port_MinusPrey_Prey@MinusPrey_Prey2 in_minus_port_MinusPrey_Prey@TotPrey2
+link: out_port_PlusPrey_Prey@PlusPrey_Prey2 in_plus_port_PlusPrey_Prey@TotPrey2
 
 % Model components
 % No hay que mostrar los atomicos (se declaran directo en la seccion 'components:')
@@ -175,7 +175,7 @@ link: out_port_PlusPrey_Prey@PlusPrey_Prey in_plus_port_PlusPrey_Prey@TotPrey
 
 
 
-[Prey]
+[Prey2]
 % Atomic model DEVSIntegrator
 x0: 100
 dQMin: 0.001

@@ -33,7 +33,7 @@ link: out_port_{{ connection.port_from.port}}@{{connection.port_from.component}}
 {{loop(model.components())}}
 {%- else -%}
 {%- if model.model_type() in ['DEVSIntegrator'] %}
-[{{model.model_name()}}]
+[{{model.model_name_level()}}]
 % Atomic model {{model.model_type()}}
 {% for name, value in model.model_parameters().items() -%}
 {{name}}: {{value}}

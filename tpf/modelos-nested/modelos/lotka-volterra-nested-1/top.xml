@@ -10,6 +10,17 @@
         <output name="Predator" type="out" />
     </outputs>
     <components>
+        <atomicRef model="DEVSConstant" name="paramB" name_level="xx" parent="top">
+            <inputs>
+                <input name="paramB" type="in" />
+            </inputs>
+            <outputs>
+                <output name="paramB" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.02</parameter>
+            </parameters>
+        </atomicRef>
         <atomicRef model="DEVSConstant" name="paramC" name_level="xx" parent="top">
             <inputs>
                 <input name="paramC" type="in" />
@@ -30,17 +41,6 @@
             </outputs>
             <parameters>
                 <parameter name="value">0.01</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="paramB" name_level="xx" parent="top">
-            <inputs>
-                <input name="paramB" type="in" />
-            </inputs>
-            <outputs>
-                <output name="paramB" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.02</parameter>
             </parameters>
         </atomicRef>
         <atomicRef model="DEVSConstant" name="paramA" name_level="xx" parent="top">
@@ -64,17 +64,6 @@
                 <output name="Predator" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSConstant" name="paramC" name_level="xx" parent="PredatorModel">
-                    <inputs>
-                        <input name="paramC" type="in" />
-                    </inputs>
-                    <outputs>
-                        <output name="paramC" type="out" />
-                    </outputs>
-                    <parameters>
-                        <parameter name="value">0.3</parameter>
-                    </parameters>
-                </atomicRef>
                 <atomicRef model="DEVSConstant" name="paramD" name_level="xx" parent="PredatorModel">
                     <inputs>
                         <input name="paramD" type="in" />
@@ -84,6 +73,17 @@
                     </outputs>
                     <parameters>
                         <parameter name="value">0.01</parameter>
+                    </parameters>
+                </atomicRef>
+                <atomicRef model="DEVSConstant" name="paramC" name_level="xx" parent="PredatorModel">
+                    <inputs>
+                        <input name="paramC" type="in" />
+                    </inputs>
+                    <outputs>
+                        <output name="paramC" type="out" />
+                    </outputs>
+                    <parameters>
+                        <parameter name="value">0.3</parameter>
                     </parameters>
                 </atomicRef>
                 <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Predator" name_level="xx" parent="">
@@ -155,9 +155,9 @@
                         <connection component_from="Predator" component_to="MinusPredator_Predator" port_from="Predator" port_to="Predator" type="in" />
                     </internal_connections>
                     <external_input_connections>
+                        <connection component_to="PlusPredator_Predator" port_from="Prey" port_to="Prey" />
                         <connection component_to="MinusPredator_Predator" port_from="paramC" port_to="paramC" />
                         <connection component_to="PlusPredator_Predator" port_from="paramD" port_to="paramD" />
-                        <connection component_to="PlusPredator_Predator" port_from="Prey" port_to="Prey" />
                     </external_input_connections>
                     <external_output_connections>
                         <connection component_from="Predator" port_from="Predator" port_to="Predator" />
@@ -187,17 +187,6 @@
                 <output name="Prey" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSConstant" name="paramA" name_level="xx" parent="PreyModel">
-                    <inputs>
-                        <input name="paramA" type="in" />
-                    </inputs>
-                    <outputs>
-                        <output name="paramA" type="out" />
-                    </outputs>
-                    <parameters>
-                        <parameter name="value">0.1</parameter>
-                    </parameters>
-                </atomicRef>
                 <atomicRef model="DEVSConstant" name="paramB" name_level="xx" parent="PreyModel">
                     <inputs>
                         <input name="paramB" type="in" />
@@ -207,6 +196,17 @@
                     </outputs>
                     <parameters>
                         <parameter name="value">0.02</parameter>
+                    </parameters>
+                </atomicRef>
+                <atomicRef model="DEVSConstant" name="paramA" name_level="xx" parent="PreyModel">
+                    <inputs>
+                        <input name="paramA" type="in" />
+                    </inputs>
+                    <outputs>
+                        <output name="paramA" type="out" />
+                    </outputs>
+                    <parameters>
+                        <parameter name="value">0.1</parameter>
                     </parameters>
                 </atomicRef>
                 <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Prey" name_level="xx" parent="">
@@ -278,8 +278,8 @@
                         <connection component_from="Prey" component_to="MinusPrey_Prey" port_from="Prey" port_to="Prey" type="in" />
                     </internal_connections>
                     <external_input_connections>
-                        <connection component_to="PlusPrey_Prey" port_from="paramA" port_to="paramA" />
                         <connection component_to="MinusPrey_Prey" port_from="Predator" port_to="Predator" />
+                        <connection component_to="PlusPrey_Prey" port_from="paramA" port_to="paramA" />
                         <connection component_to="MinusPrey_Prey" port_from="paramB" port_to="paramB" />
                     </external_input_connections>
                     <external_output_connections>
