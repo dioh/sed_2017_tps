@@ -30,6 +30,9 @@ class Mafile(object):
         else:
             return self.model.name
 
+    def model_name_level(self):
+        return self.model.name_level
+
     def model_parent(self):
         return self.model.parent
 

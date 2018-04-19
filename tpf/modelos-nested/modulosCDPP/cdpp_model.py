@@ -1,12 +1,13 @@
 class CdppModel(object):
 
     def __init__(self, **kwargs):
-        allowed_keys = ['name', 'parent', 'model', 'in_ports', 'out_ports',
+        allowed_keys = ['name', 'name_level', 'parent', 'model', 'in_ports', 'out_ports',
                         'internal_connections',
                         'external_input_connections',
                         'external_output_connections',
                         'components', 'parameters']
         self.name = ''
+        self.name_level = ''
         self.parent = ''
         self.model = ''
         self.in_ports = set()
@@ -22,6 +23,7 @@ class CdppModel(object):
 
     def __repr__(self):
         return str({'name': self.name,
+                    'name_level': self.name_level,
                     'parent': self.parent,
                     'model': self.model,
                     'in_ports': self.in_ports.__repr__(),
@@ -37,6 +39,7 @@ class CdppModel(object):
 
     def __eq__(self, other):
         return (self.name == other.name and
+                self.name_level == other.name_level and
                 self.parent == other.parent and
                 self.model == other.model and
                 self.in_ports == other.in_ports and
@@ -60,8 +63,10 @@ class CdppModel(object):
     @classmethod
     def extract_model_from_node(cls, node):
         model_name = node.attrib['name']
+        model_name_level = node.attrib['name_level']
         model_parent = node.attrib['parent']
         d = {'name': model_name,
+             'name_level': model_name_level,
              'parent': model_parent,
              'model': node.attrib['model'],
              'params': cls.extract_params(node.attrib),

@@ -3,7 +3,7 @@
 [{{model.model_name()}}]
 %Coupled model
 {% if model.components()|length > 0 -%}
-components: {%- for component in model.components() %} {% if component.model_type() in ['DEVSCoupledComponent', 'DEVSBasicCoupledComponent'] %} {{component.model_name()}} {%- else -%} {{component.model_name()}}@{{component.model_name()}}{{component.model_parent()}} {%- endif -%} {%- endfor %}
+components: {%- for component in model.components() %} {% if component.model_type() in ['DEVSCoupledComponent', 'DEVSBasicCoupledComponent'] %} {{component.model_name()}} {%- else -%} {{component.model_name_level()}}@{{component.model_name()}}{{component.model_parent()}} {%- endif -%} {%- endfor %}
 {% endif %}
 % In ports
 {% if model.model_in_ports()|length > 0 -%}
