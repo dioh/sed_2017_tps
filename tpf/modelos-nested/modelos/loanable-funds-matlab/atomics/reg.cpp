@@ -2,33 +2,33 @@
 #include "register.h"
 
 #include "tauMCtop.h"
-#include "tauBCtop.h"
-#include "tauMItop.h"
 #include "bfValuetop.h"
+#include "tauMItop.h"
 #include "tauLtop.h"
-#include "wSValuetop.h"
 #include "tauWCtop.h"
 #include "tauRtop.h"
+#include "tauBCtop.h"
 #include "rLValuetop.h"
 #include "IPCValuetop.h"
 #include "CPIValuetop.h"
-#include "ConsBtop.h"
+#include "wSValuetop.h"
 #include "PiCGtop.h"
-#include "InvBuytop.h"
-#include "Outputtop.h"
-#include "IntFeetop.h"
-#include "PiIGtop.h"
-#include "velocityOfMoneytop.h"
-#include "ConsWtop.h"
-#include "Interesttop.h"
 #include "Moneytop.h"
 #include "WagesCtop.h"
+#include "PiIGtop.h"
+#include "WagesItop.h"
+#include "YIValuetop.h"
+#include "Outputtop.h"
+#include "ConsBtop.h"
+#include "velocityOfMoneytop.h"
+#include "ConsWtop.h"
+#include "Debttop.h"
+#include "IntFeetop.h"
+#include "Interesttop.h"
+#include "InvBuytop.h"
 #include "Lendtop.h"
 #include "Repaytop.h"
-#include "YIValuetop.h"
-#include "WagesItop.h"
 #include "YCValuetop.h"
-#include "Debttop.h"
 #include "ConstantBuytop.h"
 #include "chgConsNW_ConsNWDEVS_BASIC_COUPLED_ConsNW.h"
 #include "chgWorkersNW_WorkersNWDEVS_BASIC_COUPLED_WorkersNW.h"
@@ -65,33 +65,33 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	
 	// Atomicos especificos del modelo
 	admin.registerAtomic(NewAtomicFunction<tauMCtop>(), TAUMCTOP);
-	admin.registerAtomic(NewAtomicFunction<tauBCtop>(), TAUBCTOP);
-	admin.registerAtomic(NewAtomicFunction<tauMItop>(), TAUMITOP);
 	admin.registerAtomic(NewAtomicFunction<bfValuetop>(), BFVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<tauMItop>(), TAUMITOP);
 	admin.registerAtomic(NewAtomicFunction<tauLtop>(), TAULTOP);
-	admin.registerAtomic(NewAtomicFunction<wSValuetop>(), WSVALUETOP);
 	admin.registerAtomic(NewAtomicFunction<tauWCtop>(), TAUWCTOP);
 	admin.registerAtomic(NewAtomicFunction<tauRtop>(), TAURTOP);
+	admin.registerAtomic(NewAtomicFunction<tauBCtop>(), TAUBCTOP);
 	admin.registerAtomic(NewAtomicFunction<rLValuetop>(), RLVALUETOP);
 	admin.registerAtomic(NewAtomicFunction<IPCValuetop>(), IPCVALUETOP);
 	admin.registerAtomic(NewAtomicFunction<CPIValuetop>(), CPIVALUETOP);
-	admin.registerAtomic(NewAtomicFunction<ConsBtop>(), CONSBTOP);
+	admin.registerAtomic(NewAtomicFunction<wSValuetop>(), WSVALUETOP);
 	admin.registerAtomic(NewAtomicFunction<PiCGtop>(), PICGTOP);
-	admin.registerAtomic(NewAtomicFunction<InvBuytop>(), INVBUYTOP);
-	admin.registerAtomic(NewAtomicFunction<Outputtop>(), OUTPUTTOP);
-	admin.registerAtomic(NewAtomicFunction<IntFeetop>(), INTFEETOP);
-	admin.registerAtomic(NewAtomicFunction<PiIGtop>(), PIIGTOP);
-	admin.registerAtomic(NewAtomicFunction<velocityOfMoneytop>(), VELOCITYOFMONEYTOP);
-	admin.registerAtomic(NewAtomicFunction<ConsWtop>(), CONSWTOP);
-	admin.registerAtomic(NewAtomicFunction<Interesttop>(), INTERESTTOP);
 	admin.registerAtomic(NewAtomicFunction<Moneytop>(), MONEYTOP);
 	admin.registerAtomic(NewAtomicFunction<WagesCtop>(), WAGESCTOP);
+	admin.registerAtomic(NewAtomicFunction<PiIGtop>(), PIIGTOP);
+	admin.registerAtomic(NewAtomicFunction<WagesItop>(), WAGESITOP);
+	admin.registerAtomic(NewAtomicFunction<YIValuetop>(), YIVALUETOP);
+	admin.registerAtomic(NewAtomicFunction<Outputtop>(), OUTPUTTOP);
+	admin.registerAtomic(NewAtomicFunction<ConsBtop>(), CONSBTOP);
+	admin.registerAtomic(NewAtomicFunction<velocityOfMoneytop>(), VELOCITYOFMONEYTOP);
+	admin.registerAtomic(NewAtomicFunction<ConsWtop>(), CONSWTOP);
+	admin.registerAtomic(NewAtomicFunction<Debttop>(), DEBTTOP);
+	admin.registerAtomic(NewAtomicFunction<IntFeetop>(), INTFEETOP);
+	admin.registerAtomic(NewAtomicFunction<Interesttop>(), INTERESTTOP);
+	admin.registerAtomic(NewAtomicFunction<InvBuytop>(), INVBUYTOP);
 	admin.registerAtomic(NewAtomicFunction<Lendtop>(), LENDTOP);
 	admin.registerAtomic(NewAtomicFunction<Repaytop>(), REPAYTOP);
-	admin.registerAtomic(NewAtomicFunction<YIValuetop>(), YIVALUETOP);
-	admin.registerAtomic(NewAtomicFunction<WagesItop>(), WAGESITOP);
 	admin.registerAtomic(NewAtomicFunction<YCValuetop>(), YCVALUETOP);
-	admin.registerAtomic(NewAtomicFunction<Debttop>(), DEBTTOP);
 	admin.registerAtomic(NewAtomicFunction<ConstantBuytop>(), CONSTANTBUYTOP);
 	admin.registerAtomic(NewAtomicFunction<chgConsNW_ConsNWDEVS_BASIC_COUPLED_ConsNW>(), CHGCONSNW_CONSNWDEVS_BASIC_COUPLED_CONSNW);
 	admin.registerAtomic(NewAtomicFunction<chgWorkersNW_WorkersNWDEVS_BASIC_COUPLED_WorkersNW>(), CHGWORKERSNW_WORKERSNWDEVS_BASIC_COUPLED_WORKERSNW);

@@ -2,8 +2,8 @@
 #include "register.h"
 
 #include "paramBtop.h"
-#include "paramCtop.h"
 #include "paramDtop.h"
+#include "paramCtop.h"
 #include "paramAtop.h"
 #include "paramDPredatorModel.h"
 #include "paramCPredatorModel.h"
@@ -25,8 +25,8 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	
 	// Atomicos especificos del modelo
 	admin.registerAtomic(NewAtomicFunction<paramBtop>(), PARAMBTOP);
-	admin.registerAtomic(NewAtomicFunction<paramCtop>(), PARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramDtop>(), PARAMDTOP);
+	admin.registerAtomic(NewAtomicFunction<paramCtop>(), PARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramAtop>(), PARAMATOP);
 	admin.registerAtomic(NewAtomicFunction<paramDPredatorModel>(), PARAMDPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramCPredatorModel>(), PARAMCPREDATORMODEL);

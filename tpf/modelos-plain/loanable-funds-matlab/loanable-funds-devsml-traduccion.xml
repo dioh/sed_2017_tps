@@ -1,0 +1,1270 @@
+<coupled name="top" model="Coupled" >
+
+	<!-- Inputs -->
+	<inputs>
+		<port name="CPIValue" />
+		<port name="tauBC" />
+		<port name="bfValue" />
+		<port name="wSValue" />
+		<port name="tauMI" />
+		<port name="tauR" />
+		<port name="tauL" />
+		<port name="rLValue" />
+		<port name="IPCValue" />
+		<port name="tauWC" />
+		<port name="tauMC" />
+	</inputs>
+
+	<!-- Outputs -->
+	<outputs>
+		<port name="ConsNW" />
+		<port name="DepInv" />
+		<port name="Reserves" />
+		<port name="WorkersNW" />
+		<port name="Workers" />
+		<port name="DepCons" />
+		<port name="Loans" />
+		<port name="InvNW" />
+		<port name="BankersNW" />
+	</outputs>
+
+	<!-- Components -->
+	<components>
+		<!-- Atomico : ConsNWTot -->
+		<atomicRef name="ConsNWTot" model="Ftot">
+			<port name="chgConsNWPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : ConsNW -->
+		<atomicRef name="ConsNW" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="100" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : DepInvTot -->
+		<atomicRef name="DepInvTot" model="Ftot">
+			<port name="chgDepInvPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : DepInv -->
+		<atomicRef name="DepInv" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="-0" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : ReservesTot -->
+		<atomicRef name="ReservesTot" model="Ftot">
+			<port name="chgReservesPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Reserves -->
+		<atomicRef name="Reserves" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="100" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : WorkersNWTot -->
+		<atomicRef name="WorkersNWTot" model="Ftot">
+			<port name="chgWorkersNWPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : WorkersNW -->
+		<atomicRef name="WorkersNW" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="-0" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : WorkersTot -->
+		<atomicRef name="WorkersTot" model="Ftot">
+			<port name="chgWorkersPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Workers -->
+		<atomicRef name="Workers" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="-0" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : DepConsTot -->
+		<atomicRef name="DepConsTot" model="Ftot">
+			<port name="chgDepConsPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : DepCons -->
+		<atomicRef name="DepCons" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="100" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : LoansTot -->
+		<atomicRef name="LoansTot" model="Ftot">
+			<port name="chgLoansPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : Loans -->
+		<atomicRef name="Loans" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="0" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : InvNWTot -->
+		<atomicRef name="InvNWTot" model="Ftot">
+			<port name="chgInvNWPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : InvNW -->
+		<atomicRef name="InvNW" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="0" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : BankersNWTot -->
+		<atomicRef name="BankersNWTot" model="Ftot">
+			<port name="chgBankersNWPlus" type="in_plus" />
+			<port name="out" type="out" />
+		</atomicRef>
+
+		<!-- Atomico : BankersNW -->
+		<atomicRef name="BankersNW" model="QSS1">
+			<port name="in" type="in" />
+			<port name="out" type="out" />
+			<parameter name="x0" function="-0" />
+			<parameter name="dQRel" function="0.0001" />
+			<parameter name="dQMin" function="0.0001" />
+		</atomicRef>
+
+		<!-- Atomico : PiIG -->
+		<atomicRef name="PiIG" model="Aux">
+			<port name="YIValue" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(YIValue-WagesI)" />
+		</atomicRef>
+
+		<!-- Atomico : CPIValue -->
+		<atomicRef name="CPIValue" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.5" />
+		</atomicRef>
+
+		<!-- Atomico : ConstantBuy -->
+		<atomicRef name="ConstantBuy" model="Aux">
+			<port name="PiCG" type="in" />
+			<port name="CPIValue" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(PiCG*CPIValue)" />
+		</atomicRef>
+
+		<!-- Atomico : tauBC -->
+		<atomicRef name="tauBC" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="1" />
+		</atomicRef>
+
+		<!-- Atomico : bfValue -->
+		<atomicRef name="bfValue" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.1" />
+		</atomicRef>
+
+		<!-- Atomico : wSValue -->
+		<atomicRef name="wSValue" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.7" />
+		</atomicRef>
+
+		<!-- Atomico : tauMI -->
+		<atomicRef name="tauMI" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.25" />
+		</atomicRef>
+
+		<!-- Atomico : tauR -->
+		<atomicRef name="tauR" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="9" />
+		</atomicRef>
+
+		<!-- Atomico : Repay -->
+		<atomicRef name="Repay" model="Aux">
+			<port name="Loans" type="in" />
+			<port name="tauR" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Loans/tauR)" />
+		</atomicRef>
+
+		<!-- Atomico : YCValue -->
+		<atomicRef name="YCValue" model="Aux">
+			<port name="DepCons" type="in" />
+			<port name="tauMC" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(DepCons/tauMC)" />
+		</atomicRef>
+
+		<!-- Atomico : tauL -->
+		<atomicRef name="tauL" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="7" />
+		</atomicRef>
+
+		<!-- Atomico : Interest -->
+		<atomicRef name="Interest" model="Aux">
+			<port name="rLValue" type="in" />
+			<port name="Loans" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(rLValue*Loans)" />
+		</atomicRef>
+
+		<!-- Atomico : Output -->
+		<atomicRef name="Output" model="Aux">
+			<port name="YCValue" type="in" />
+			<port name="YIValue" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(YCValue+YIValue)" />
+		</atomicRef>
+
+		<!-- Atomico : YIValue -->
+		<atomicRef name="YIValue" model="Aux">
+			<port name="DepInv" type="in" />
+			<port name="tauMI" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(DepInv/tauMI)" />
+		</atomicRef>
+
+		<!-- Atomico : PiCG -->
+		<atomicRef name="PiCG" model="Aux">
+			<port name="YCValue" type="in" />
+			<port name="WagesC" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(YCValue-WagesC)" />
+		</atomicRef>
+
+		<!-- Atomico : rLValue -->
+		<atomicRef name="rLValue" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.04" />
+		</atomicRef>
+
+		<!-- Atomico : IPCValue -->
+		<atomicRef name="IPCValue" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.1" />
+		</atomicRef>
+
+		<!-- Atomico : InvBuy -->
+		<atomicRef name="InvBuy" model="Aux">
+			<port name="PiIG" type="in" />
+			<port name="IPCValue" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(PiIG*IPCValue)" />
+		</atomicRef>
+
+		<!-- Atomico : Lend -->
+		<atomicRef name="Lend" model="Aux">
+			<port name="DepCons" type="in" />
+			<port name="tauL" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(DepCons/tauL)" />
+		</atomicRef>
+
+		<!-- Atomico : Money -->
+		<atomicRef name="Money" model="Aux">
+			<port name="DepCons" type="in" />
+			<port name="DepInv" type="in" />
+			<port name="Workers" type="in" />
+			<port name="BankersNW" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(((DepCons+DepInv)+Workers)+BankersNW)" />
+		</atomicRef>
+
+		<!-- Atomico : ConsW -->
+		<atomicRef name="ConsW" model="Aux">
+			<port name="Workers" type="in" />
+			<port name="tauWC" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Workers/tauWC)" />
+		</atomicRef>
+
+		<!-- Atomico : WagesI -->
+		<atomicRef name="WagesI" model="Aux">
+			<port name="YIValue" type="in" />
+			<port name="wSValue" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(YIValue*wSValue)" />
+		</atomicRef>
+
+		<!-- Atomico : ConsB -->
+		<atomicRef name="ConsB" model="Aux">
+			<port name="BankersNW" type="in" />
+			<port name="tauBC" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(BankersNW/tauBC)" />
+		</atomicRef>
+
+		<!-- Atomico : IntFee -->
+		<atomicRef name="IntFee" model="Aux">
+			<port name="Interest" type="in" />
+			<port name="bfValue" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Interest*bfValue)" />
+		</atomicRef>
+
+		<!-- Atomico : tauWC -->
+		<atomicRef name="tauWC" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.08" />
+		</atomicRef>
+
+		<!-- Atomico : WagesC -->
+		<atomicRef name="WagesC" model="Aux">
+			<port name="YCValue" type="in" />
+			<port name="wSValue" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(YCValue*wSValue)" />
+		</atomicRef>
+
+		<!-- Atomico : Debt -->
+		<atomicRef name="Debt" model="Aux">
+			<port name="Loans" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="Loans" />
+		</atomicRef>
+
+		<!-- Atomico : velocityOfMoney -->
+		<atomicRef name="velocityOfMoney" model="Aux">
+			<port name="Output" type="in" />
+			<port name="Money" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Output/Money)" />
+		</atomicRef>
+
+		<!-- Atomico : tauMC -->
+		<atomicRef name="tauMC" model="Cte">
+			<port name="out" type="out" />
+			<parameter name="function" function="0.5" />
+		</atomicRef>
+
+		<!-- Atomico : chgDepInvPlus -->
+		<atomicRef name="chgDepInvPlus" model="Fpm">
+			<port name="Lend" type="in" />
+			<port name="ConstantBuy" type="in" />
+			<port name="Interest" type="in" />
+			<port name="Repay" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((Lend+ConstantBuy)-(((Interest+Repay)+WagesI)+InvBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgDepInvMinus -->
+		<atomicRef name="chgDepInvMinus" model="Fpm">
+			<port name="Lend" type="in" />
+			<port name="ConstantBuy" type="in" />
+			<port name="Interest" type="in" />
+			<port name="Repay" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((Lend+ConstantBuy)-(((Interest+Repay)+WagesI)+InvBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgDepConsPlus -->
+		<atomicRef name="chgDepConsPlus" model="Fpm">
+			<port name="Interest" type="in" />
+			<port name="Repay" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="Lend" type="in" />
+			<port name="IntFee" type="in" />
+			<port name="WagesC" type="in" />
+			<port name="ConstantBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(((((Interest+Repay)+InvBuy)+ConsW)+ConsB)-(((Lend+IntFee)+WagesC)+ConstantBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgDepConsMinus -->
+		<atomicRef name="chgDepConsMinus" model="Fpm">
+			<port name="Interest" type="in" />
+			<port name="Repay" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="Lend" type="in" />
+			<port name="IntFee" type="in" />
+			<port name="WagesC" type="in" />
+			<port name="ConstantBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(((((Interest+Repay)+InvBuy)+ConsW)+ConsB)-(((Lend+IntFee)+WagesC)+ConstantBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgConsNWPlus -->
+		<atomicRef name="chgConsNWPlus" model="Fpm">
+			<port name="Interest" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="IntFee" type="in" />
+			<port name="WagesC" type="in" />
+			<port name="ConstantBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((((Interest+InvBuy)+ConsW)+ConsB)-((IntFee+WagesC)+ConstantBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgConsNWMinus -->
+		<atomicRef name="chgConsNWMinus" model="Fpm">
+			<port name="Interest" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="IntFee" type="in" />
+			<port name="WagesC" type="in" />
+			<port name="ConstantBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((((Interest+InvBuy)+ConsW)+ConsB)-((IntFee+WagesC)+ConstantBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgReservesPlus -->
+		<atomicRef name="chgReservesPlus" model="Fpm">
+			<port name="out" type="out" />
+			<parameter name="function" function="0" />
+		</atomicRef>
+
+		<!-- Atomico : chgReservesMinus -->
+		<atomicRef name="chgReservesMinus" model="Fpm">
+			<port name="out" type="out" />
+			<parameter name="function" function="0" />
+		</atomicRef>
+
+		<!-- Atomico : chgLoansPlus -->
+		<atomicRef name="chgLoansPlus" model="Fpm">
+			<port name="Lend" type="in" />
+			<port name="Repay" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Lend-Repay)" />
+		</atomicRef>
+
+		<!-- Atomico : chgLoansMinus -->
+		<atomicRef name="chgLoansMinus" model="Fpm">
+			<port name="Lend" type="in" />
+			<port name="Repay" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(Lend-Repay)" />
+		</atomicRef>
+
+		<!-- Atomico : chgWorkersNWPlus -->
+		<atomicRef name="chgWorkersNWPlus" model="Fpm">
+			<port name="WagesC" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((WagesC+WagesI)-ConsW)" />
+		</atomicRef>
+
+		<!-- Atomico : chgWorkersNWMinus -->
+		<atomicRef name="chgWorkersNWMinus" model="Fpm">
+			<port name="WagesC" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((WagesC+WagesI)-ConsW)" />
+		</atomicRef>
+
+		<!-- Atomico : chgWorkersPlus -->
+		<atomicRef name="chgWorkersPlus" model="Fpm">
+			<port name="WagesC" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((WagesC+WagesI)-ConsW)" />
+		</atomicRef>
+
+		<!-- Atomico : chgWorkersMinus -->
+		<atomicRef name="chgWorkersMinus" model="Fpm">
+			<port name="WagesC" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="ConsW" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="((WagesC+WagesI)-ConsW)" />
+		</atomicRef>
+
+		<!-- Atomico : chgInvNWPlus -->
+		<atomicRef name="chgInvNWPlus" model="Fpm">
+			<port name="ConstantBuy" type="in" />
+			<port name="Interest" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(ConstantBuy-((Interest+WagesI)+InvBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgInvNWMinus -->
+		<atomicRef name="chgInvNWMinus" model="Fpm">
+			<port name="ConstantBuy" type="in" />
+			<port name="Interest" type="in" />
+			<port name="WagesI" type="in" />
+			<port name="InvBuy" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(ConstantBuy-((Interest+WagesI)+InvBuy))" />
+		</atomicRef>
+
+		<!-- Atomico : chgBankersNWPlus -->
+		<atomicRef name="chgBankersNWPlus" model="Fpm">
+			<port name="IntFee" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(IntFee-ConsB)" />
+		</atomicRef>
+
+		<!-- Atomico : chgBankersNWMinus -->
+		<atomicRef name="chgBankersNWMinus" model="Fpm">
+			<port name="IntFee" type="in" />
+			<port name="ConsB" type="in" />
+			<port name="out" type="out" />
+			<parameter name="function" function="(IntFee-ConsB)" />
+		</atomicRef>
+
+		</components>
+
+	<!-- Internal Connections -->
+	<internal_connections>
+		
+		<!-- Link interno : ConsNWTot ==> ConsNW -->
+		<connection component_from="ConsNWTot"
+			component_to="ConsNW"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : DepInvTot ==> DepInv -->
+		<connection component_from="DepInvTot"
+			component_to="DepInv"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : ReservesTot ==> Reserves -->
+		<connection component_from="ReservesTot"
+			component_to="Reserves"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : WorkersNWTot ==> WorkersNW -->
+		<connection component_from="WorkersNWTot"
+			component_to="WorkersNW"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : WorkersTot ==> Workers -->
+		<connection component_from="WorkersTot"
+			component_to="Workers"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : DepConsTot ==> DepCons -->
+		<connection component_from="DepConsTot"
+			component_to="DepCons"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : LoansTot ==> Loans -->
+		<connection component_from="LoansTot"
+			component_to="Loans"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : InvNWTot ==> InvNW -->
+		<connection component_from="InvNWTot"
+			component_to="InvNW"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : BankersNWTot ==> BankersNW -->
+		<connection component_from="BankersNWTot"
+			component_to="BankersNW"
+			port_from="out"
+			port_to="in"/>
+		<!-- Link interno : chgDepInvPlus ==> DepInvTot -->
+		<connection component_from="chgDepInvPlus"
+			component_to="DepInvTot"
+			port_from="out"
+			port_to="chgDepInvPlus"/>
+		<!-- Link interno : chgDepConsPlus ==> DepConsTot -->
+		<connection component_from="chgDepConsPlus"
+			component_to="DepConsTot"
+			port_from="out"
+			port_to="chgDepConsPlus"/>
+		<!-- Link interno : chgConsNWPlus ==> ConsNWTot -->
+		<connection component_from="chgConsNWPlus"
+			component_to="ConsNWTot"
+			port_from="out"
+			port_to="chgConsNWPlus"/>
+		<!-- Link interno : chgReservesPlus ==> ReservesTot -->
+		<connection component_from="chgReservesPlus"
+			component_to="ReservesTot"
+			port_from="out"
+			port_to="chgReservesPlus"/>
+		<!-- Link interno : chgLoansPlus ==> LoansTot -->
+		<connection component_from="chgLoansPlus"
+			component_to="LoansTot"
+			port_from="out"
+			port_to="chgLoansPlus"/>
+		<!-- Link interno : chgWorkersNWPlus ==> WorkersNWTot -->
+		<connection component_from="chgWorkersNWPlus"
+			component_to="WorkersNWTot"
+			port_from="out"
+			port_to="chgWorkersNWPlus"/>
+		<!-- Link interno : chgWorkersPlus ==> WorkersTot -->
+		<connection component_from="chgWorkersPlus"
+			component_to="WorkersTot"
+			port_from="out"
+			port_to="chgWorkersPlus"/>
+		<!-- Link interno : chgInvNWPlus ==> InvNWTot -->
+		<connection component_from="chgInvNWPlus"
+			component_to="InvNWTot"
+			port_from="out"
+			port_to="chgInvNWPlus"/>
+		<!-- Link interno : chgBankersNWPlus ==> BankersNWTot -->
+		<connection component_from="chgBankersNWPlus"
+			component_to="BankersNWTot"
+			port_from="out"
+			port_to="chgBankersNWPlus"/>
+		<!-- Link interno : DepInv ==> YIValue -->
+		<connection component_from="DepInv"
+			component_to="YIValue"
+			port_from="out"
+			port_to="DepInv"/>
+		<!-- Link interno : DepInv ==> Money -->
+		<connection component_from="DepInv"
+			component_to="Money"
+			port_from="out"
+			port_to="DepInv"/>
+		<!-- Link interno : Workers ==> Money -->
+		<connection component_from="Workers"
+			component_to="Money"
+			port_from="out"
+			port_to="Workers"/>
+		<!-- Link interno : Workers ==> ConsW -->
+		<connection component_from="Workers"
+			component_to="ConsW"
+			port_from="out"
+			port_to="Workers"/>
+		<!-- Link interno : DepCons ==> YCValue -->
+		<connection component_from="DepCons"
+			component_to="YCValue"
+			port_from="out"
+			port_to="DepCons"/>
+		<!-- Link interno : DepCons ==> Lend -->
+		<connection component_from="DepCons"
+			component_to="Lend"
+			port_from="out"
+			port_to="DepCons"/>
+		<!-- Link interno : DepCons ==> Money -->
+		<connection component_from="DepCons"
+			component_to="Money"
+			port_from="out"
+			port_to="DepCons"/>
+		<!-- Link interno : Loans ==> Repay -->
+		<connection component_from="Loans"
+			component_to="Repay"
+			port_from="out"
+			port_to="Loans"/>
+		<!-- Link interno : Loans ==> Interest -->
+		<connection component_from="Loans"
+			component_to="Interest"
+			port_from="out"
+			port_to="Loans"/>
+		<!-- Link interno : Loans ==> Debt -->
+		<connection component_from="Loans"
+			component_to="Debt"
+			port_from="out"
+			port_to="Loans"/>
+		<!-- Link interno : BankersNW ==> Money -->
+		<connection component_from="BankersNW"
+			component_to="Money"
+			port_from="out"
+			port_to="BankersNW"/>
+		<!-- Link interno : BankersNW ==> ConsB -->
+		<connection component_from="BankersNW"
+			component_to="ConsB"
+			port_from="out"
+			port_to="BankersNW"/>
+		<!-- Link interno : PiIG ==> InvBuy -->
+		<connection component_from="PiIG"
+			component_to="InvBuy"
+			port_from="out"
+			port_to="PiIG"/>
+		<!-- Link interno : CPIValue ==> ConstantBuy -->
+		<connection component_from="CPIValue"
+			component_to="ConstantBuy"
+			port_from="out"
+			port_to="CPIValue"/>
+		<!-- Link interno : ConstantBuy ==> chgDepInvPlus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgDepInvPlus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : ConstantBuy ==> chgDepInvMinus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgDepInvMinus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : ConstantBuy ==> chgDepConsPlus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : ConstantBuy ==> chgDepConsMinus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : ConstantBuy ==> chgConsNWPlus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgConsNWPlus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : ConstantBuy ==> chgConsNWMinus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgConsNWMinus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : ConstantBuy ==> chgInvNWPlus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgInvNWPlus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : ConstantBuy ==> chgInvNWMinus -->
+		<connection component_from="ConstantBuy"
+			component_to="chgInvNWMinus"
+			port_from="out"
+			port_to="ConstantBuy"/>
+		<!-- Link interno : tauBC ==> ConsB -->
+		<connection component_from="tauBC"
+			component_to="ConsB"
+			port_from="out"
+			port_to="tauBC"/>
+		<!-- Link interno : bfValue ==> IntFee -->
+		<connection component_from="bfValue"
+			component_to="IntFee"
+			port_from="out"
+			port_to="bfValue"/>
+		<!-- Link interno : wSValue ==> WagesI -->
+		<connection component_from="wSValue"
+			component_to="WagesI"
+			port_from="out"
+			port_to="wSValue"/>
+		<!-- Link interno : wSValue ==> WagesC -->
+		<connection component_from="wSValue"
+			component_to="WagesC"
+			port_from="out"
+			port_to="wSValue"/>
+		<!-- Link interno : tauMI ==> YIValue -->
+		<connection component_from="tauMI"
+			component_to="YIValue"
+			port_from="out"
+			port_to="tauMI"/>
+		<!-- Link interno : tauR ==> Repay -->
+		<connection component_from="tauR"
+			component_to="Repay"
+			port_from="out"
+			port_to="tauR"/>
+		<!-- Link interno : Repay ==> chgDepInvPlus -->
+		<connection component_from="Repay"
+			component_to="chgDepInvPlus"
+			port_from="out"
+			port_to="Repay"/>
+		<!-- Link interno : Repay ==> chgDepInvMinus -->
+		<connection component_from="Repay"
+			component_to="chgDepInvMinus"
+			port_from="out"
+			port_to="Repay"/>
+		<!-- Link interno : Repay ==> chgDepConsPlus -->
+		<connection component_from="Repay"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="Repay"/>
+		<!-- Link interno : Repay ==> chgDepConsMinus -->
+		<connection component_from="Repay"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="Repay"/>
+		<!-- Link interno : Repay ==> chgLoansPlus -->
+		<connection component_from="Repay"
+			component_to="chgLoansPlus"
+			port_from="out"
+			port_to="Repay"/>
+		<!-- Link interno : Repay ==> chgLoansMinus -->
+		<connection component_from="Repay"
+			component_to="chgLoansMinus"
+			port_from="out"
+			port_to="Repay"/>
+		<!-- Link interno : YCValue ==> Output -->
+		<connection component_from="YCValue"
+			component_to="Output"
+			port_from="out"
+			port_to="YCValue"/>
+		<!-- Link interno : YCValue ==> PiCG -->
+		<connection component_from="YCValue"
+			component_to="PiCG"
+			port_from="out"
+			port_to="YCValue"/>
+		<!-- Link interno : YCValue ==> WagesC -->
+		<connection component_from="YCValue"
+			component_to="WagesC"
+			port_from="out"
+			port_to="YCValue"/>
+		<!-- Link interno : tauL ==> Lend -->
+		<connection component_from="tauL"
+			component_to="Lend"
+			port_from="out"
+			port_to="tauL"/>
+		<!-- Link interno : Interest ==> chgDepInvPlus -->
+		<connection component_from="Interest"
+			component_to="chgDepInvPlus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgDepInvMinus -->
+		<connection component_from="Interest"
+			component_to="chgDepInvMinus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgDepConsPlus -->
+		<connection component_from="Interest"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgDepConsMinus -->
+		<connection component_from="Interest"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgConsNWPlus -->
+		<connection component_from="Interest"
+			component_to="chgConsNWPlus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgConsNWMinus -->
+		<connection component_from="Interest"
+			component_to="chgConsNWMinus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgInvNWPlus -->
+		<connection component_from="Interest"
+			component_to="chgInvNWPlus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> chgInvNWMinus -->
+		<connection component_from="Interest"
+			component_to="chgInvNWMinus"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Interest ==> IntFee -->
+		<connection component_from="Interest"
+			component_to="IntFee"
+			port_from="out"
+			port_to="Interest"/>
+		<!-- Link interno : Output ==> velocityOfMoney -->
+		<connection component_from="Output"
+			component_to="velocityOfMoney"
+			port_from="out"
+			port_to="Output"/>
+		<!-- Link interno : YIValue ==> PiIG -->
+		<connection component_from="YIValue"
+			component_to="PiIG"
+			port_from="out"
+			port_to="YIValue"/>
+		<!-- Link interno : YIValue ==> Output -->
+		<connection component_from="YIValue"
+			component_to="Output"
+			port_from="out"
+			port_to="YIValue"/>
+		<!-- Link interno : YIValue ==> WagesI -->
+		<connection component_from="YIValue"
+			component_to="WagesI"
+			port_from="out"
+			port_to="YIValue"/>
+		<!-- Link interno : PiCG ==> ConstantBuy -->
+		<connection component_from="PiCG"
+			component_to="ConstantBuy"
+			port_from="out"
+			port_to="PiCG"/>
+		<!-- Link interno : rLValue ==> Interest -->
+		<connection component_from="rLValue"
+			component_to="Interest"
+			port_from="out"
+			port_to="rLValue"/>
+		<!-- Link interno : IPCValue ==> InvBuy -->
+		<connection component_from="IPCValue"
+			component_to="InvBuy"
+			port_from="out"
+			port_to="IPCValue"/>
+		<!-- Link interno : InvBuy ==> chgDepInvPlus -->
+		<connection component_from="InvBuy"
+			component_to="chgDepInvPlus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : InvBuy ==> chgDepInvMinus -->
+		<connection component_from="InvBuy"
+			component_to="chgDepInvMinus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : InvBuy ==> chgDepConsPlus -->
+		<connection component_from="InvBuy"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : InvBuy ==> chgDepConsMinus -->
+		<connection component_from="InvBuy"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : InvBuy ==> chgConsNWPlus -->
+		<connection component_from="InvBuy"
+			component_to="chgConsNWPlus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : InvBuy ==> chgConsNWMinus -->
+		<connection component_from="InvBuy"
+			component_to="chgConsNWMinus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : InvBuy ==> chgInvNWPlus -->
+		<connection component_from="InvBuy"
+			component_to="chgInvNWPlus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : InvBuy ==> chgInvNWMinus -->
+		<connection component_from="InvBuy"
+			component_to="chgInvNWMinus"
+			port_from="out"
+			port_to="InvBuy"/>
+		<!-- Link interno : Lend ==> chgDepInvPlus -->
+		<connection component_from="Lend"
+			component_to="chgDepInvPlus"
+			port_from="out"
+			port_to="Lend"/>
+		<!-- Link interno : Lend ==> chgDepInvMinus -->
+		<connection component_from="Lend"
+			component_to="chgDepInvMinus"
+			port_from="out"
+			port_to="Lend"/>
+		<!-- Link interno : Lend ==> chgDepConsPlus -->
+		<connection component_from="Lend"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="Lend"/>
+		<!-- Link interno : Lend ==> chgDepConsMinus -->
+		<connection component_from="Lend"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="Lend"/>
+		<!-- Link interno : Lend ==> chgLoansPlus -->
+		<connection component_from="Lend"
+			component_to="chgLoansPlus"
+			port_from="out"
+			port_to="Lend"/>
+		<!-- Link interno : Lend ==> chgLoansMinus -->
+		<connection component_from="Lend"
+			component_to="chgLoansMinus"
+			port_from="out"
+			port_to="Lend"/>
+		<!-- Link interno : Money ==> velocityOfMoney -->
+		<connection component_from="Money"
+			component_to="velocityOfMoney"
+			port_from="out"
+			port_to="Money"/>
+		<!-- Link interno : ConsW ==> chgDepConsPlus -->
+		<connection component_from="ConsW"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgDepConsMinus -->
+		<connection component_from="ConsW"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgConsNWPlus -->
+		<connection component_from="ConsW"
+			component_to="chgConsNWPlus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgConsNWMinus -->
+		<connection component_from="ConsW"
+			component_to="chgConsNWMinus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgWorkersNWPlus -->
+		<connection component_from="ConsW"
+			component_to="chgWorkersNWPlus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgWorkersNWMinus -->
+		<connection component_from="ConsW"
+			component_to="chgWorkersNWMinus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgWorkersPlus -->
+		<connection component_from="ConsW"
+			component_to="chgWorkersPlus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : ConsW ==> chgWorkersMinus -->
+		<connection component_from="ConsW"
+			component_to="chgWorkersMinus"
+			port_from="out"
+			port_to="ConsW"/>
+		<!-- Link interno : WagesI ==> chgDepInvPlus -->
+		<connection component_from="WagesI"
+			component_to="chgDepInvPlus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> chgDepInvMinus -->
+		<connection component_from="WagesI"
+			component_to="chgDepInvMinus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> chgWorkersNWPlus -->
+		<connection component_from="WagesI"
+			component_to="chgWorkersNWPlus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> chgWorkersNWMinus -->
+		<connection component_from="WagesI"
+			component_to="chgWorkersNWMinus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> chgWorkersPlus -->
+		<connection component_from="WagesI"
+			component_to="chgWorkersPlus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> chgWorkersMinus -->
+		<connection component_from="WagesI"
+			component_to="chgWorkersMinus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> chgInvNWPlus -->
+		<connection component_from="WagesI"
+			component_to="chgInvNWPlus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> chgInvNWMinus -->
+		<connection component_from="WagesI"
+			component_to="chgInvNWMinus"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : WagesI ==> PiIG -->
+		<connection component_from="WagesI"
+			component_to="PiIG"
+			port_from="out"
+			port_to="WagesI"/>
+		<!-- Link interno : ConsB ==> chgDepConsPlus -->
+		<connection component_from="ConsB"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgDepConsMinus -->
+		<connection component_from="ConsB"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgConsNWPlus -->
+		<connection component_from="ConsB"
+			component_to="chgConsNWPlus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgConsNWMinus -->
+		<connection component_from="ConsB"
+			component_to="chgConsNWMinus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgBankersNWPlus -->
+		<connection component_from="ConsB"
+			component_to="chgBankersNWPlus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : ConsB ==> chgBankersNWMinus -->
+		<connection component_from="ConsB"
+			component_to="chgBankersNWMinus"
+			port_from="out"
+			port_to="ConsB"/>
+		<!-- Link interno : IntFee ==> chgDepConsPlus -->
+		<connection component_from="IntFee"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="IntFee"/>
+		<!-- Link interno : IntFee ==> chgDepConsMinus -->
+		<connection component_from="IntFee"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="IntFee"/>
+		<!-- Link interno : IntFee ==> chgConsNWPlus -->
+		<connection component_from="IntFee"
+			component_to="chgConsNWPlus"
+			port_from="out"
+			port_to="IntFee"/>
+		<!-- Link interno : IntFee ==> chgConsNWMinus -->
+		<connection component_from="IntFee"
+			component_to="chgConsNWMinus"
+			port_from="out"
+			port_to="IntFee"/>
+		<!-- Link interno : IntFee ==> chgBankersNWPlus -->
+		<connection component_from="IntFee"
+			component_to="chgBankersNWPlus"
+			port_from="out"
+			port_to="IntFee"/>
+		<!-- Link interno : IntFee ==> chgBankersNWMinus -->
+		<connection component_from="IntFee"
+			component_to="chgBankersNWMinus"
+			port_from="out"
+			port_to="IntFee"/>
+		<!-- Link interno : tauWC ==> ConsW -->
+		<connection component_from="tauWC"
+			component_to="ConsW"
+			port_from="out"
+			port_to="tauWC"/>
+		<!-- Link interno : WagesC ==> chgDepConsPlus -->
+		<connection component_from="WagesC"
+			component_to="chgDepConsPlus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> chgDepConsMinus -->
+		<connection component_from="WagesC"
+			component_to="chgDepConsMinus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> chgConsNWPlus -->
+		<connection component_from="WagesC"
+			component_to="chgConsNWPlus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> chgConsNWMinus -->
+		<connection component_from="WagesC"
+			component_to="chgConsNWMinus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> chgWorkersNWPlus -->
+		<connection component_from="WagesC"
+			component_to="chgWorkersNWPlus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> chgWorkersNWMinus -->
+		<connection component_from="WagesC"
+			component_to="chgWorkersNWMinus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> chgWorkersPlus -->
+		<connection component_from="WagesC"
+			component_to="chgWorkersPlus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> chgWorkersMinus -->
+		<connection component_from="WagesC"
+			component_to="chgWorkersMinus"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : WagesC ==> PiCG -->
+		<connection component_from="WagesC"
+			component_to="PiCG"
+			port_from="out"
+			port_to="WagesC"/>
+		<!-- Link interno : tauMC ==> YCValue -->
+		<connection component_from="tauMC"
+			component_to="YCValue"
+			port_from="out"
+			port_to="tauMC"/>
+	</internal_connections>
+
+	<!-- External Input Connections -->
+	<external_input_connections>
+		
+		<connection port_from="CPIValue"
+			component_to="CPIValue"
+			port_to="inValue"/>
+		<connection port_from="tauBC"
+			component_to="tauBC"
+			port_to="inValue"/>
+		<connection port_from="bfValue"
+			component_to="bfValue"
+			port_to="inValue"/>
+		<connection port_from="wSValue"
+			component_to="wSValue"
+			port_to="inValue"/>
+		<connection port_from="tauMI"
+			component_to="tauMI"
+			port_to="inValue"/>
+		<connection port_from="tauR"
+			component_to="tauR"
+			port_to="inValue"/>
+		<connection port_from="tauL"
+			component_to="tauL"
+			port_to="inValue"/>
+		<connection port_from="rLValue"
+			component_to="rLValue"
+			port_to="inValue"/>
+		<connection port_from="IPCValue"
+			component_to="IPCValue"
+			port_to="inValue"/>
+		<connection port_from="tauWC"
+			component_to="tauWC"
+			port_to="inValue"/>
+		<connection port_from="tauMC"
+			component_to="tauMC"
+			port_to="inValue"/>
+	</external_input_connections>
+
+	<!-- External Output Connections -->
+	<external_output_connections>
+		
+		<connection component_from="ConsNW"
+			port_from="out"
+			port_to="ConsNW"/>
+		<connection component_from="DepInv"
+			port_from="out"
+			port_to="DepInv"/>
+		<connection component_from="Reserves"
+			port_from="out"
+			port_to="Reserves"/>
+		<connection component_from="WorkersNW"
+			port_from="out"
+			port_to="WorkersNW"/>
+		<connection component_from="Workers"
+			port_from="out"
+			port_to="Workers"/>
+		<connection component_from="DepCons"
+			port_from="out"
+			port_to="DepCons"/>
+		<connection component_from="Loans"
+			port_from="out"
+			port_to="Loans"/>
+		<connection component_from="InvNW"
+			port_from="out"
+			port_to="InvNW"/>
+		<connection component_from="BankersNW"
+			port_from="out"
+			port_to="BankersNW"/>
+	</external_output_connections>
+</coupled>
