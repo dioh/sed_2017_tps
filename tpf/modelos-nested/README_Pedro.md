@@ -2,7 +2,6 @@
 Restricciones
 	* en las funciones especiales, no se pueden utilizar dentro de la funcion simbolos +,-,*,/,etc. En
 	lugar de eso, hay que crear una Aux que haga esa cuenta, y meterle como input esa variable a la funcion
-	*
 
 Update:
 	* agrego el atributo 'parent' a todos los atomicos (es necesario porque puede que tengamos el mismo atomico 
@@ -14,6 +13,4 @@ Update:
 	funciones especiales que pueden haber en la 'equation' de la Cte
 
 Pendientes:
-	* arrancar la generacion de los .h y .cpp (voy a empezar con los DEVSConstant)
-	* reestructurar el codigo un toque... usar clases / subclases ... esto puede esperar unas semanitas, al menos hasta que
-	ande lo que hay ahora
+	* reestructurar el codigo un toque... usar clases / subclases
