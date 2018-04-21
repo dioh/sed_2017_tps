@@ -1,13 +1,13 @@
-<coupledRef model="DEVSCoupledComponent" name="DEVS_COUPLED_top" parent="">
+<coupledRef model="DEVSCoupledComponent" name="DEVS_COUPLED_top" name_level="xx" parent="">
     <inputs>
-        <input name="tauL" type="in" />
         <input name="wSValue" type="in" />
+        <input name="tauL" type="in" />
         <input name="bfValue" type="in" />
-        <input name="IPCValue" type="in" />
+        <input name="tauMI" type="in" />
         <input name="tauBC" type="in" />
         <input name="tauMC" type="in" />
+        <input name="IPCValue" type="in" />
         <input name="CPIValue" type="in" />
-        <input name="tauMI" type="in" />
         <input name="tauWC" type="in" />
         <input name="rLValue" type="in" />
         <input name="tauR" type="in" />
@@ -42,7 +42,7 @@
         <output name="Output" type="out" />
     </outputs>
     <components>
-        <atomicRef model="DEVSConstant" name="tauMC" parent="top">
+        <atomicRef model="DEVSConstant" name="tauMC" name_level="xx" parent="top">
             <inputs>
                 <input name="tauMC" type="in" />
             </inputs>
@@ -53,19 +53,7 @@
                 <parameter name="value">0.5</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="ConsB" parent="top">
-            <inputs>
-                <input name="BankersNW" type="in" />
-                <input name="tauBC" type="in" />
-            </inputs>
-            <outputs>
-                <output name="ConsB" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(BankersNW/tauBC)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="PiCG" parent="top">
+        <atomicRef model="DEVSAux" name="PiCG" name_level="xx" parent="top">
             <inputs>
                 <input name="YCValue" type="in" />
                 <input name="WagesC" type="in" />
@@ -77,135 +65,7 @@
                 <parameter name="equation">(YCValue-WagesC)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSConstant" name="tauBC" parent="top">
-            <inputs>
-                <input name="tauBC" type="in" />
-            </inputs>
-            <outputs>
-                <output name="tauBC" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">1</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="InvBuy" parent="top">
-            <inputs>
-                <input name="IPCValue" type="in" />
-                <input name="PiIG" type="in" />
-            </inputs>
-            <outputs>
-                <output name="InvBuy" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(PiIG*IPCValue)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="Output" parent="top">
-            <inputs>
-                <input name="YCValue" type="in" />
-                <input name="YIValue" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Output" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(YCValue+YIValue)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="IntFee" parent="top">
-            <inputs>
-                <input name="bfValue" type="in" />
-                <input name="Interest" type="in" />
-            </inputs>
-            <outputs>
-                <output name="IntFee" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(Interest*bfValue)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="PiIG" parent="top">
-            <inputs>
-                <input name="YIValue" type="in" />
-                <input name="WagesI" type="in" />
-            </inputs>
-            <outputs>
-                <output name="PiIG" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(YIValue-WagesI)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="velocityOfMoney" parent="top">
-            <inputs>
-                <input name="Money" type="in" />
-                <input name="Output" type="in" />
-            </inputs>
-            <outputs>
-                <output name="velocityOfMoney" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(Output/Money)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="tauMI" parent="top">
-            <inputs>
-                <input name="tauMI" type="in" />
-            </inputs>
-            <outputs>
-                <output name="tauMI" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.25</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="ConsW" parent="top">
-            <inputs>
-                <input name="Workers" type="in" />
-                <input name="tauWC" type="in" />
-            </inputs>
-            <outputs>
-                <output name="ConsW" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(Workers/tauWC)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="bfValue" parent="top">
-            <inputs>
-                <input name="bfValue" type="in" />
-            </inputs>
-            <outputs>
-                <output name="bfValue" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.1</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="tauL" parent="top">
-            <inputs>
-                <input name="tauL" type="in" />
-            </inputs>
-            <outputs>
-                <output name="tauL" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">7</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="Interest" parent="top">
-            <inputs>
-                <input name="rLValue" type="in" />
-                <input name="Loans" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Interest" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(rLValue*Loans)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="Money" parent="top">
+        <atomicRef model="DEVSAux" name="Money" name_level="xx" parent="top">
             <inputs>
                 <input name="BankersNW" type="in" />
                 <input name="Workers" type="in" />
@@ -219,29 +79,7 @@
                 <parameter name="equation">(((DepCons+DepInv)+Workers)+BankersNW)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSConstant" name="wSValue" parent="top">
-            <inputs>
-                <input name="wSValue" type="in" />
-            </inputs>
-            <outputs>
-                <output name="wSValue" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.7</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="tauWC" parent="top">
-            <inputs>
-                <input name="tauWC" type="in" />
-            </inputs>
-            <outputs>
-                <output name="tauWC" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.08</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="WagesC" parent="top">
+        <atomicRef model="DEVSAux" name="WagesC" name_level="xx" parent="top">
             <inputs>
                 <input name="wSValue" type="in" />
                 <input name="YCValue" type="in" />
@@ -253,87 +91,30 @@
                 <parameter name="equation">(YCValue*wSValue)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSConstant" name="tauR" parent="top">
+        <atomicRef model="DEVSConstant" name="bfValue" name_level="xx" parent="top">
             <inputs>
-                <input name="tauR" type="in" />
+                <input name="bfValue" type="in" />
             </inputs>
             <outputs>
-                <output name="tauR" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">9</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="Lend" parent="top">
-            <inputs>
-                <input name="DepCons" type="in" />
-                <input name="tauL" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Lend" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(DepCons/tauL)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="rLValue" parent="top">
-            <inputs>
-                <input name="rLValue" type="in" />
-            </inputs>
-            <outputs>
-                <output name="rLValue" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.04</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="IPCValue" parent="top">
-            <inputs>
-                <input name="IPCValue" type="in" />
-            </inputs>
-            <outputs>
-                <output name="IPCValue" type="out" />
+                <output name="bfValue" type="out" />
             </outputs>
             <parameters>
                 <parameter name="value">0.1</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="Repay" parent="top">
+        <atomicRef model="DEVSAux" name="PiIG" name_level="xx" parent="top">
             <inputs>
-                <input name="Loans" type="in" />
-                <input name="tauR" type="in" />
+                <input name="YIValue" type="in" />
+                <input name="WagesI" type="in" />
             </inputs>
             <outputs>
-                <output name="Repay" type="out" />
+                <output name="PiIG" type="out" />
             </outputs>
             <parameters>
-                <parameter name="equation">(Loans/tauR)</parameter>
+                <parameter name="equation">(YIValue-WagesI)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="YIValue" parent="top">
-            <inputs>
-                <input name="tauMI" type="in" />
-                <input name="DepInv" type="in" />
-            </inputs>
-            <outputs>
-                <output name="YIValue" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(DepInv/tauMI)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="CPIValue" parent="top">
-            <inputs>
-                <input name="CPIValue" type="in" />
-            </inputs>
-            <outputs>
-                <output name="CPIValue" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.5</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="WagesI" parent="top">
+        <atomicRef model="DEVSAux" name="WagesI" name_level="xx" parent="top">
             <inputs>
                 <input name="wSValue" type="in" />
                 <input name="YIValue" type="in" />
@@ -345,7 +126,215 @@
                 <parameter name="equation">(YIValue*wSValue)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="YCValue" parent="top">
+        <atomicRef model="DEVSConstant" name="tauMI" name_level="xx" parent="top">
+            <inputs>
+                <input name="tauMI" type="in" />
+            </inputs>
+            <outputs>
+                <output name="tauMI" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.25</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="YIValue" name_level="xx" parent="top">
+            <inputs>
+                <input name="tauMI" type="in" />
+                <input name="DepInv" type="in" />
+            </inputs>
+            <outputs>
+                <output name="YIValue" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(DepInv/tauMI)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Output" name_level="xx" parent="top">
+            <inputs>
+                <input name="YCValue" type="in" />
+                <input name="YIValue" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Output" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(YCValue+YIValue)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="ConsB" name_level="xx" parent="top">
+            <inputs>
+                <input name="BankersNW" type="in" />
+                <input name="tauBC" type="in" />
+            </inputs>
+            <outputs>
+                <output name="ConsB" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(BankersNW/tauBC)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="tauL" name_level="xx" parent="top">
+            <inputs>
+                <input name="tauL" type="in" />
+            </inputs>
+            <outputs>
+                <output name="tauL" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">7</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="velocityOfMoney" name_level="xx" parent="top">
+            <inputs>
+                <input name="Money" type="in" />
+                <input name="Output" type="in" />
+            </inputs>
+            <outputs>
+                <output name="velocityOfMoney" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Output/Money)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="tauWC" name_level="xx" parent="top">
+            <inputs>
+                <input name="tauWC" type="in" />
+            </inputs>
+            <outputs>
+                <output name="tauWC" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.08</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="ConsW" name_level="xx" parent="top">
+            <inputs>
+                <input name="Workers" type="in" />
+                <input name="tauWC" type="in" />
+            </inputs>
+            <outputs>
+                <output name="ConsW" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Workers/tauWC)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Debt" name_level="xx" parent="top">
+            <inputs>
+                <input name="Loans" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Debt" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">Loans</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="tauR" name_level="xx" parent="top">
+            <inputs>
+                <input name="tauR" type="in" />
+            </inputs>
+            <outputs>
+                <output name="tauR" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">9</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="IntFee" name_level="xx" parent="top">
+            <inputs>
+                <input name="bfValue" type="in" />
+                <input name="Interest" type="in" />
+            </inputs>
+            <outputs>
+                <output name="IntFee" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Interest*bfValue)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="tauBC" name_level="xx" parent="top">
+            <inputs>
+                <input name="tauBC" type="in" />
+            </inputs>
+            <outputs>
+                <output name="tauBC" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">1</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="rLValue" name_level="xx" parent="top">
+            <inputs>
+                <input name="rLValue" type="in" />
+            </inputs>
+            <outputs>
+                <output name="rLValue" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.04</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Interest" name_level="xx" parent="top">
+            <inputs>
+                <input name="rLValue" type="in" />
+                <input name="Loans" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Interest" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(rLValue*Loans)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="InvBuy" name_level="xx" parent="top">
+            <inputs>
+                <input name="IPCValue" type="in" />
+                <input name="PiIG" type="in" />
+            </inputs>
+            <outputs>
+                <output name="InvBuy" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(PiIG*IPCValue)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Lend" name_level="xx" parent="top">
+            <inputs>
+                <input name="DepCons" type="in" />
+                <input name="tauL" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Lend" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(DepCons/tauL)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="IPCValue" name_level="xx" parent="top">
+            <inputs>
+                <input name="IPCValue" type="in" />
+            </inputs>
+            <outputs>
+                <output name="IPCValue" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.1</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Repay" name_level="xx" parent="top">
+            <inputs>
+                <input name="Loans" type="in" />
+                <input name="tauR" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Repay" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Loans/tauR)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="YCValue" name_level="xx" parent="top">
             <inputs>
                 <input name="DepCons" type="in" />
                 <input name="tauMC" type="in" />
@@ -357,18 +346,29 @@
                 <parameter name="equation">(DepCons/tauMC)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="Debt" parent="top">
+        <atomicRef model="DEVSConstant" name="CPIValue" name_level="xx" parent="top">
             <inputs>
-                <input name="Loans" type="in" />
+                <input name="CPIValue" type="in" />
             </inputs>
             <outputs>
-                <output name="Debt" type="out" />
+                <output name="CPIValue" type="out" />
             </outputs>
             <parameters>
-                <parameter name="equation">Loans</parameter>
+                <parameter name="value">0.5</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="ConstantBuy" parent="top">
+        <atomicRef model="DEVSConstant" name="wSValue" name_level="xx" parent="top">
+            <inputs>
+                <input name="wSValue" type="in" />
+            </inputs>
+            <outputs>
+                <output name="wSValue" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.7</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="ConstantBuy" name_level="xx" parent="top">
             <inputs>
                 <input name="PiCG" type="in" />
                 <input name="CPIValue" type="in" />
@@ -380,7 +380,7 @@
                 <parameter name="equation">(PiCG*CPIValue)</parameter>
             </parameters>
         </atomicRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_ConsNW" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_ConsNW" name_level="xx" parent="">
             <inputs>
                 <input name="ConsW" type="in" />
                 <input name="InvBuy" type="in" />
@@ -394,7 +394,7 @@
                 <output name="ConsNW" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="ConsNW" parent="DEVS_BASIC_COUPLED_ConsNW">
+                <atomicRef model="DEVSIntegrator" name="ConsNW" name_level="xx" parent="DEVS_BASIC_COUPLED_ConsNW">
                     <inputs>
                         <input name="TotConsNW" type="in" />
                     </inputs>
@@ -407,7 +407,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotConsNW" parent="DEVS_BASIC_COUPLED_ConsNW">
+                <atomicRef model="DEVSFtot" name="TotConsNW" name_level="xx" parent="DEVS_BASIC_COUPLED_ConsNW">
                     <inputs>
                         <input name="chgConsNW_ConsNW" type="in_plus" />
                     </inputs>
@@ -418,7 +418,7 @@
                         <parameter name="equation">100</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgConsNW_ConsNW" parent="DEVS_BASIC_COUPLED_ConsNW">
+                <atomicRef model="DEVSFplus" name="chgConsNW_ConsNW" name_level="xx" parent="DEVS_BASIC_COUPLED_ConsNW">
                     <inputs>
                         <input name="InvBuy" type="in" />
                         <input name="ConsW" type="in" />
@@ -441,19 +441,19 @@
                 <connection component_from="chgConsNW_ConsNW" component_to="TotConsNW" port_from="chgConsNW_ConsNW" port_to="chgConsNW_ConsNW" type="in_plus" />
             </internal_connections>
             <external_input_connections>
-                <connection component_to="chgConsNW_ConsNW" port_from="ConsW" port_to="ConsW" />
-                <connection component_to="chgConsNW_ConsNW" port_from="Interest" port_to="Interest" />
+                <connection component_to="chgConsNW_ConsNW" port_from="IntFee" port_to="IntFee" />
                 <connection component_to="chgConsNW_ConsNW" port_from="InvBuy" port_to="InvBuy" />
                 <connection component_to="chgConsNW_ConsNW" port_from="WagesC" port_to="WagesC" />
                 <connection component_to="chgConsNW_ConsNW" port_from="ConsB" port_to="ConsB" />
+                <connection component_to="chgConsNW_ConsNW" port_from="ConsW" port_to="ConsW" />
+                <connection component_to="chgConsNW_ConsNW" port_from="Interest" port_to="Interest" />
                 <connection component_to="chgConsNW_ConsNW" port_from="ConstantBuy" port_to="ConstantBuy" />
-                <connection component_to="chgConsNW_ConsNW" port_from="IntFee" port_to="IntFee" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="ConsNW" port_from="ConsNW" port_to="ConsNW" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_WorkersNW" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_WorkersNW" name_level="xx" parent="">
             <inputs>
                 <input name="ConsW" type="in" />
                 <input name="WagesI" type="in" />
@@ -463,7 +463,7 @@
                 <output name="WorkersNW" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="WorkersNW" parent="DEVS_BASIC_COUPLED_WorkersNW">
+                <atomicRef model="DEVSIntegrator" name="WorkersNW" name_level="xx" parent="DEVS_BASIC_COUPLED_WorkersNW">
                     <inputs>
                         <input name="TotWorkersNW" type="in" />
                     </inputs>
@@ -476,7 +476,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotWorkersNW" parent="DEVS_BASIC_COUPLED_WorkersNW">
+                <atomicRef model="DEVSFtot" name="TotWorkersNW" name_level="xx" parent="DEVS_BASIC_COUPLED_WorkersNW">
                     <inputs>
                         <input name="chgWorkersNW_WorkersNW" type="in_plus" />
                     </inputs>
@@ -487,7 +487,7 @@
                         <parameter name="equation">-0</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgWorkersNW_WorkersNW" parent="DEVS_BASIC_COUPLED_WorkersNW">
+                <atomicRef model="DEVSFplus" name="chgWorkersNW_WorkersNW" name_level="xx" parent="DEVS_BASIC_COUPLED_WorkersNW">
                     <inputs>
                         <input name="WagesC" type="in" />
                         <input name="WagesI" type="in" />
@@ -502,19 +502,19 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="TotWorkersNW" component_to="WorkersNW" port_from="TotWorkersNW" port_to="TotWorkersNW" type="in" />
                 <connection component_from="chgWorkersNW_WorkersNW" component_to="TotWorkersNW" port_from="chgWorkersNW_WorkersNW" port_to="chgWorkersNW_WorkersNW" type="in_plus" />
+                <connection component_from="TotWorkersNW" component_to="WorkersNW" port_from="TotWorkersNW" port_to="TotWorkersNW" type="in" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="chgWorkersNW_WorkersNW" port_from="ConsW" port_to="ConsW" />
-                <connection component_to="chgWorkersNW_WorkersNW" port_from="WagesI" port_to="WagesI" />
                 <connection component_to="chgWorkersNW_WorkersNW" port_from="WagesC" port_to="WagesC" />
+                <connection component_to="chgWorkersNW_WorkersNW" port_from="WagesI" port_to="WagesI" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="WorkersNW" port_from="WorkersNW" port_to="WorkersNW" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Workers" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Workers" name_level="xx" parent="">
             <inputs>
                 <input name="ConsW" type="in" />
                 <input name="WagesI" type="in" />
@@ -524,7 +524,7 @@
                 <output name="Workers" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="Workers" parent="DEVS_BASIC_COUPLED_Workers">
+                <atomicRef model="DEVSIntegrator" name="Workers" name_level="xx" parent="DEVS_BASIC_COUPLED_Workers">
                     <inputs>
                         <input name="TotWorkers" type="in" />
                     </inputs>
@@ -537,7 +537,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotWorkers" parent="DEVS_BASIC_COUPLED_Workers">
+                <atomicRef model="DEVSFtot" name="TotWorkers" name_level="xx" parent="DEVS_BASIC_COUPLED_Workers">
                     <inputs>
                         <input name="chgWorkers_Workers" type="in_plus" />
                     </inputs>
@@ -548,7 +548,7 @@
                         <parameter name="equation">-0</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgWorkers_Workers" parent="DEVS_BASIC_COUPLED_Workers">
+                <atomicRef model="DEVSFplus" name="chgWorkers_Workers" name_level="xx" parent="DEVS_BASIC_COUPLED_Workers">
                     <inputs>
                         <input name="ConsW" type="in" />
                         <input name="WagesC" type="in" />
@@ -575,7 +575,7 @@
                 <connection component_from="Workers" port_from="Workers" port_to="Workers" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_DepCons" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_DepCons" name_level="xx" parent="">
             <inputs>
                 <input name="ConsB" type="in" />
                 <input name="Lend" type="in" />
@@ -591,7 +591,7 @@
                 <output name="DepCons" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="DepCons" parent="DEVS_BASIC_COUPLED_DepCons">
+                <atomicRef model="DEVSIntegrator" name="DepCons" name_level="xx" parent="DEVS_BASIC_COUPLED_DepCons">
                     <inputs>
                         <input name="TotDepCons" type="in" />
                     </inputs>
@@ -604,7 +604,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotDepCons" parent="DEVS_BASIC_COUPLED_DepCons">
+                <atomicRef model="DEVSFtot" name="TotDepCons" name_level="xx" parent="DEVS_BASIC_COUPLED_DepCons">
                     <inputs>
                         <input name="chgDepCons_DepCons" type="in_plus" />
                     </inputs>
@@ -615,7 +615,7 @@
                         <parameter name="equation">100</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgDepCons_DepCons" parent="DEVS_BASIC_COUPLED_DepCons">
+                <atomicRef model="DEVSFplus" name="chgDepCons_DepCons" name_level="xx" parent="DEVS_BASIC_COUPLED_DepCons">
                     <inputs>
                         <input name="Lend" type="in" />
                         <input name="InvBuy" type="in" />
@@ -640,21 +640,21 @@
                 <connection component_from="chgDepCons_DepCons" component_to="TotDepCons" port_from="chgDepCons_DepCons" port_to="chgDepCons_DepCons" type="in_plus" />
             </internal_connections>
             <external_input_connections>
-                <connection component_to="chgDepCons_DepCons" port_from="ConsW" port_to="ConsW" />
+                <connection component_to="chgDepCons_DepCons" port_from="WagesC" port_to="WagesC" />
                 <connection component_to="chgDepCons_DepCons" port_from="Repay" port_to="Repay" />
+                <connection component_to="chgDepCons_DepCons" port_from="Lend" port_to="Lend" />
                 <connection component_to="chgDepCons_DepCons" port_from="IntFee" port_to="IntFee" />
                 <connection component_to="chgDepCons_DepCons" port_from="ConstantBuy" port_to="ConstantBuy" />
-                <connection component_to="chgDepCons_DepCons" port_from="WagesC" port_to="WagesC" />
+                <connection component_to="chgDepCons_DepCons" port_from="ConsW" port_to="ConsW" />
                 <connection component_to="chgDepCons_DepCons" port_from="Interest" port_to="Interest" />
-                <connection component_to="chgDepCons_DepCons" port_from="Lend" port_to="Lend" />
-                <connection component_to="chgDepCons_DepCons" port_from="ConsB" port_to="ConsB" />
                 <connection component_to="chgDepCons_DepCons" port_from="InvBuy" port_to="InvBuy" />
+                <connection component_to="chgDepCons_DepCons" port_from="ConsB" port_to="ConsB" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="DepCons" port_from="DepCons" port_to="DepCons" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_InvNW" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_InvNW" name_level="xx" parent="">
             <inputs>
                 <input name="Interest" type="in" />
                 <input name="ConstantBuy" type="in" />
@@ -665,7 +665,7 @@
                 <output name="InvNW" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="InvNW" parent="DEVS_BASIC_COUPLED_InvNW">
+                <atomicRef model="DEVSIntegrator" name="InvNW" name_level="xx" parent="DEVS_BASIC_COUPLED_InvNW">
                     <inputs>
                         <input name="TotInvNW" type="in" />
                     </inputs>
@@ -678,7 +678,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotInvNW" parent="DEVS_BASIC_COUPLED_InvNW">
+                <atomicRef model="DEVSFtot" name="TotInvNW" name_level="xx" parent="DEVS_BASIC_COUPLED_InvNW">
                     <inputs>
                         <input name="chgInvNW_InvNW" type="in_plus" />
                     </inputs>
@@ -689,7 +689,7 @@
                         <parameter name="equation">0</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgInvNW_InvNW" parent="DEVS_BASIC_COUPLED_InvNW">
+                <atomicRef model="DEVSFplus" name="chgInvNW_InvNW" name_level="xx" parent="DEVS_BASIC_COUPLED_InvNW">
                     <inputs>
                         <input name="WagesI" type="in" />
                         <input name="InvBuy" type="in" />
@@ -710,15 +710,15 @@
             </internal_connections>
             <external_input_connections>
                 <connection component_to="chgInvNW_InvNW" port_from="ConstantBuy" port_to="ConstantBuy" />
-                <connection component_to="chgInvNW_InvNW" port_from="InvBuy" port_to="InvBuy" />
                 <connection component_to="chgInvNW_InvNW" port_from="Interest" port_to="Interest" />
+                <connection component_to="chgInvNW_InvNW" port_from="InvBuy" port_to="InvBuy" />
                 <connection component_to="chgInvNW_InvNW" port_from="WagesI" port_to="WagesI" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="InvNW" port_from="InvNW" port_to="InvNW" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_BankersNW" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_BankersNW" name_level="xx" parent="">
             <inputs>
                 <input name="ConsB" type="in" />
                 <input name="IntFee" type="in" />
@@ -727,7 +727,7 @@
                 <output name="BankersNW" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="BankersNW" parent="DEVS_BASIC_COUPLED_BankersNW">
+                <atomicRef model="DEVSIntegrator" name="BankersNW" name_level="xx" parent="DEVS_BASIC_COUPLED_BankersNW">
                     <inputs>
                         <input name="TotBankersNW" type="in" />
                     </inputs>
@@ -740,7 +740,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotBankersNW" parent="DEVS_BASIC_COUPLED_BankersNW">
+                <atomicRef model="DEVSFtot" name="TotBankersNW" name_level="xx" parent="DEVS_BASIC_COUPLED_BankersNW">
                     <inputs>
                         <input name="chgBankersNW_BankersNW" type="in_plus" />
                     </inputs>
@@ -751,7 +751,7 @@
                         <parameter name="equation">-0</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgBankersNW_BankersNW" parent="DEVS_BASIC_COUPLED_BankersNW">
+                <atomicRef model="DEVSFplus" name="chgBankersNW_BankersNW" name_level="xx" parent="DEVS_BASIC_COUPLED_BankersNW">
                     <inputs>
                         <input name="ConsB" type="in" />
                         <input name="IntFee" type="in" />
@@ -765,8 +765,8 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="TotBankersNW" component_to="BankersNW" port_from="TotBankersNW" port_to="TotBankersNW" type="in" />
                 <connection component_from="chgBankersNW_BankersNW" component_to="TotBankersNW" port_from="chgBankersNW_BankersNW" port_to="chgBankersNW_BankersNW" type="in_plus" />
+                <connection component_from="TotBankersNW" component_to="BankersNW" port_from="TotBankersNW" port_to="TotBankersNW" type="in" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="chgBankersNW_BankersNW" port_from="IntFee" port_to="IntFee" />
@@ -776,7 +776,7 @@
                 <connection component_from="BankersNW" port_from="BankersNW" port_to="BankersNW" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_DepInv" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_DepInv" name_level="xx" parent="">
             <inputs>
                 <input name="Repay" type="in" />
                 <input name="ConstantBuy" type="in" />
@@ -789,7 +789,7 @@
                 <output name="DepInv" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="DepInv" parent="DEVS_BASIC_COUPLED_DepInv">
+                <atomicRef model="DEVSIntegrator" name="DepInv" name_level="xx" parent="DEVS_BASIC_COUPLED_DepInv">
                     <inputs>
                         <input name="TotDepInv" type="in" />
                     </inputs>
@@ -802,7 +802,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotDepInv" parent="DEVS_BASIC_COUPLED_DepInv">
+                <atomicRef model="DEVSFtot" name="TotDepInv" name_level="xx" parent="DEVS_BASIC_COUPLED_DepInv">
                     <inputs>
                         <input name="chgDepInv_DepInv" type="in_plus" />
                     </inputs>
@@ -813,7 +813,7 @@
                         <parameter name="equation">-0</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgDepInv_DepInv" parent="DEVS_BASIC_COUPLED_DepInv">
+                <atomicRef model="DEVSFplus" name="chgDepInv_DepInv" name_level="xx" parent="DEVS_BASIC_COUPLED_DepInv">
                     <inputs>
                         <input name="Repay" type="in" />
                         <input name="Interest" type="in" />
@@ -835,24 +835,24 @@
                 <connection component_from="TotDepInv" component_to="DepInv" port_from="TotDepInv" port_to="TotDepInv" type="in" />
             </internal_connections>
             <external_input_connections>
-                <connection component_to="chgDepInv_DepInv" port_from="InvBuy" port_to="InvBuy" />
                 <connection component_to="chgDepInv_DepInv" port_from="Repay" port_to="Repay" />
+                <connection component_to="chgDepInv_DepInv" port_from="InvBuy" port_to="InvBuy" />
                 <connection component_to="chgDepInv_DepInv" port_from="ConstantBuy" port_to="ConstantBuy" />
-                <connection component_to="chgDepInv_DepInv" port_from="Lend" port_to="Lend" />
                 <connection component_to="chgDepInv_DepInv" port_from="Interest" port_to="Interest" />
+                <connection component_to="chgDepInv_DepInv" port_from="Lend" port_to="Lend" />
                 <connection component_to="chgDepInv_DepInv" port_from="WagesI" port_to="WagesI" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="DepInv" port_from="DepInv" port_to="DepInv" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Reserves" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Reserves" name_level="xx" parent="">
             <inputs />
             <outputs>
                 <output name="Reserves" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="Reserves" parent="DEVS_BASIC_COUPLED_Reserves">
+                <atomicRef model="DEVSIntegrator" name="Reserves" name_level="xx" parent="DEVS_BASIC_COUPLED_Reserves">
                     <inputs>
                         <input name="TotReserves" type="in" />
                     </inputs>
@@ -865,7 +865,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotReserves" parent="DEVS_BASIC_COUPLED_Reserves">
+                <atomicRef model="DEVSFtot" name="TotReserves" name_level="xx" parent="DEVS_BASIC_COUPLED_Reserves">
                     <inputs>
                         <input name="chgReserves_Reserves" type="in_plus" />
                     </inputs>
@@ -876,7 +876,7 @@
                         <parameter name="equation">100</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgReserves_Reserves" parent="DEVS_BASIC_COUPLED_Reserves">
+                <atomicRef model="DEVSFplus" name="chgReserves_Reserves" name_level="xx" parent="DEVS_BASIC_COUPLED_Reserves">
                     <inputs />
                     <outputs>
                         <output name="chgReserves_Reserves" type="out" />
@@ -887,15 +887,15 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="TotReserves" component_to="Reserves" port_from="TotReserves" port_to="TotReserves" type="in" />
                 <connection component_from="chgReserves_Reserves" component_to="TotReserves" port_from="chgReserves_Reserves" port_to="chgReserves_Reserves" type="in_plus" />
+                <connection component_from="TotReserves" component_to="Reserves" port_from="TotReserves" port_to="TotReserves" type="in" />
             </internal_connections>
             <external_input_connections />
             <external_output_connections>
                 <connection component_from="Reserves" port_from="Reserves" port_to="Reserves" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Loans" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Loans" name_level="xx" parent="">
             <inputs>
                 <input name="Lend" type="in" />
                 <input name="Repay" type="in" />
@@ -904,7 +904,7 @@
                 <output name="Loans" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="Loans" parent="DEVS_BASIC_COUPLED_Loans">
+                <atomicRef model="DEVSIntegrator" name="Loans" name_level="xx" parent="DEVS_BASIC_COUPLED_Loans">
                     <inputs>
                         <input name="TotLoans" type="in" />
                     </inputs>
@@ -917,7 +917,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotLoans" parent="DEVS_BASIC_COUPLED_Loans">
+                <atomicRef model="DEVSFtot" name="TotLoans" name_level="xx" parent="DEVS_BASIC_COUPLED_Loans">
                     <inputs>
                         <input name="chgLoans_Loans" type="in_plus" />
                     </inputs>
@@ -928,7 +928,7 @@
                         <parameter name="equation">0</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgLoans_Loans" parent="DEVS_BASIC_COUPLED_Loans">
+                <atomicRef model="DEVSFplus" name="chgLoans_Loans" name_level="xx" parent="DEVS_BASIC_COUPLED_Loans">
                     <inputs>
                         <input name="Repay" type="in" />
                         <input name="Lend" type="in" />
@@ -946,8 +946,8 @@
                 <connection component_from="TotLoans" component_to="Loans" port_from="TotLoans" port_to="TotLoans" type="in" />
             </internal_connections>
             <external_input_connections>
-                <connection component_to="chgLoans_Loans" port_from="Lend" port_to="Lend" />
                 <connection component_to="chgLoans_Loans" port_from="Repay" port_to="Repay" />
+                <connection component_to="chgLoans_Loans" port_from="Lend" port_to="Lend" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="Loans" port_from="Loans" port_to="Loans" />
@@ -955,111 +955,111 @@
         </coupledRef>
     </components>
     <internal_connections>
-        <connection component_from="tauL" component_to="Lend" port_from="tauL" port_to="tauL" type="in" />
-        <connection component_from="WagesI" component_to="PiIG" port_from="WagesI" port_to="WagesI" type="in" />
-        <connection component_from="rLValue" component_to="Interest" port_from="rLValue" port_to="rLValue" type="in" />
-        <connection component_from="Interest" component_to="IntFee" port_from="Interest" port_to="Interest" type="in" />
-        <connection component_from="tauMC" component_to="YCValue" port_from="tauMC" port_to="tauMC" type="in" />
-        <connection component_from="PiIG" component_to="InvBuy" port_from="PiIG" port_to="PiIG" type="in" />
-        <connection component_from="tauR" component_to="Repay" port_from="tauR" port_to="tauR" type="in" />
-        <connection component_from="YIValue" component_to="PiIG" port_from="YIValue" port_to="YIValue" type="in" />
         <connection component_from="tauBC" component_to="ConsB" port_from="tauBC" port_to="tauBC" type="in" />
-        <connection component_from="WagesC" component_to="PiCG" port_from="WagesC" port_to="WagesC" type="in" />
-        <connection component_from="Output" component_to="velocityOfMoney" port_from="Output" port_to="Output" type="in" />
-        <connection component_from="bfValue" component_to="IntFee" port_from="bfValue" port_to="bfValue" type="in" />
         <connection component_from="tauWC" component_to="ConsW" port_from="tauWC" port_to="tauWC" type="in" />
-        <connection component_from="YIValue" component_to="Output" port_from="YIValue" port_to="YIValue" type="in" />
-        <connection component_from="YIValue" component_to="WagesI" port_from="YIValue" port_to="YIValue" type="in" />
+        <connection component_from="Interest" component_to="IntFee" port_from="Interest" port_to="Interest" type="in" />
         <connection component_from="wSValue" component_to="WagesC" port_from="wSValue" port_to="wSValue" type="in" />
-        <connection component_from="YCValue" component_to="WagesC" port_from="YCValue" port_to="YCValue" type="in" />
-        <connection component_from="CPIValue" component_to="ConstantBuy" port_from="CPIValue" port_to="CPIValue" type="in" />
-        <connection component_from="Money" component_to="velocityOfMoney" port_from="Money" port_to="Money" type="in" />
-        <connection component_from="YCValue" component_to="PiCG" port_from="YCValue" port_to="YCValue" type="in" />
-        <connection component_from="PiCG" component_to="ConstantBuy" port_from="PiCG" port_to="PiCG" type="in" />
-        <connection component_from="IPCValue" component_to="InvBuy" port_from="IPCValue" port_to="IPCValue" type="in" />
+        <connection component_from="YIValue" component_to="Output" port_from="YIValue" port_to="YIValue" type="in" />
         <connection component_from="wSValue" component_to="WagesI" port_from="wSValue" port_to="wSValue" type="in" />
-        <connection component_from="YCValue" component_to="Output" port_from="YCValue" port_to="YCValue" type="in" />
+        <connection component_from="YCValue" component_to="PiCG" port_from="YCValue" port_to="YCValue" type="in" />
         <connection component_from="tauMI" component_to="YIValue" port_from="tauMI" port_to="tauMI" type="in" />
-        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="InvBuy" port_to="InvBuy" type="in" />
-        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="Interest" port_to="Interest" type="in" />
-        <connection component_from="WagesC" component_to="DEVS_BASIC_COUPLED_Workers" port_from="WagesC" port_to="WagesC" type="in" />
-        <connection component_from="ConsW" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="ConsW" port_to="ConsW" type="in" />
-        <connection component_from="Repay" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="Repay" port_to="Repay" type="in" />
-        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="InvBuy" port_to="InvBuy" type="in" />
-        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="Interest" port_to="Interest" type="in" />
-        <connection component_from="Repay" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="Repay" port_to="Repay" type="in" />
-        <connection component_from="ConsW" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="ConsW" port_to="ConsW" type="in" />
-        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_WorkersNW" port_from="WagesI" port_to="WagesI" type="in" />
-        <connection component_from="ConsB" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="ConsB" port_to="ConsB" type="in" />
-        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="InvBuy" port_to="InvBuy" type="in" />
-        <connection component_from="WagesC" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="WagesC" port_to="WagesC" type="in" />
-        <connection component_from="IntFee" component_to="DEVS_BASIC_COUPLED_BankersNW" port_from="IntFee" port_to="IntFee" type="in" />
-        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_Workers" port_from="WagesI" port_to="WagesI" type="in" />
-        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="InvBuy" port_to="InvBuy" type="in" />
-        <connection component_from="WagesC" component_to="DEVS_BASIC_COUPLED_WorkersNW" port_from="WagesC" port_to="WagesC" type="in" />
-        <connection component_from="ConsW" component_to="DEVS_BASIC_COUPLED_Workers" port_from="ConsW" port_to="ConsW" type="in" />
-        <connection component_from="Lend" component_to="DEVS_BASIC_COUPLED_Loans" port_from="Lend" port_to="Lend" type="in" />
-        <connection component_from="ConsB" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="ConsB" port_to="ConsB" type="in" />
-        <connection component_from="IntFee" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="IntFee" port_to="IntFee" type="in" />
-        <connection component_from="ConsB" component_to="DEVS_BASIC_COUPLED_BankersNW" port_from="ConsB" port_to="ConsB" type="in" />
-        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="Interest" port_to="Interest" type="in" />
-        <connection component_from="IntFee" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="IntFee" port_to="IntFee" type="in" />
-        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="WagesI" port_to="WagesI" type="in" />
-        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
-        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="Interest" port_to="Interest" type="in" />
-        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="WagesI" port_to="WagesI" type="in" />
-        <connection component_from="Lend" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="Lend" port_to="Lend" type="in" />
-        <connection component_from="Repay" component_to="DEVS_BASIC_COUPLED_Loans" port_from="Repay" port_to="Repay" type="in" />
-        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
-        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
-        <connection component_from="Lend" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="Lend" port_to="Lend" type="in" />
+        <connection component_from="YIValue" component_to="WagesI" port_from="YIValue" port_to="YIValue" type="in" />
+        <connection component_from="rLValue" component_to="Interest" port_from="rLValue" port_to="rLValue" type="in" />
+        <connection component_from="WagesI" component_to="PiIG" port_from="WagesI" port_to="WagesI" type="in" />
+        <connection component_from="YCValue" component_to="Output" port_from="YCValue" port_to="YCValue" type="in" />
+        <connection component_from="CPIValue" component_to="ConstantBuy" port_from="CPIValue" port_to="CPIValue" type="in" />
+        <connection component_from="tauR" component_to="Repay" port_from="tauR" port_to="tauR" type="in" />
+        <connection component_from="tauMC" component_to="YCValue" port_from="tauMC" port_to="tauMC" type="in" />
+        <connection component_from="YCValue" component_to="WagesC" port_from="YCValue" port_to="YCValue" type="in" />
+        <connection component_from="PiCG" component_to="ConstantBuy" port_from="PiCG" port_to="PiCG" type="in" />
+        <connection component_from="bfValue" component_to="IntFee" port_from="bfValue" port_to="bfValue" type="in" />
+        <connection component_from="IPCValue" component_to="InvBuy" port_from="IPCValue" port_to="IPCValue" type="in" />
+        <connection component_from="PiIG" component_to="InvBuy" port_from="PiIG" port_to="PiIG" type="in" />
+        <connection component_from="WagesC" component_to="PiCG" port_from="WagesC" port_to="WagesC" type="in" />
+        <connection component_from="tauL" component_to="Lend" port_from="tauL" port_to="tauL" type="in" />
+        <connection component_from="Money" component_to="velocityOfMoney" port_from="Money" port_to="Money" type="in" />
+        <connection component_from="YIValue" component_to="PiIG" port_from="YIValue" port_to="YIValue" type="in" />
+        <connection component_from="Output" component_to="velocityOfMoney" port_from="Output" port_to="Output" type="in" />
         <connection component_from="ConsW" component_to="DEVS_BASIC_COUPLED_WorkersNW" port_from="ConsW" port_to="ConsW" type="in" />
-        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
+        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_WorkersNW" port_from="WagesI" port_to="WagesI" type="in" />
+        <connection component_from="Lend" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="Lend" port_to="Lend" type="in" />
+        <connection component_from="ConsW" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="ConsW" port_to="ConsW" type="in" />
+        <connection component_from="ConsB" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="ConsB" port_to="ConsB" type="in" />
+        <connection component_from="Lend" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="Lend" port_to="Lend" type="in" />
+        <connection component_from="Repay" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="Repay" port_to="Repay" type="in" />
+        <connection component_from="WagesC" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="WagesC" port_to="WagesC" type="in" />
+        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="Interest" port_to="Interest" type="in" />
+        <connection component_from="IntFee" component_to="DEVS_BASIC_COUPLED_BankersNW" port_from="IntFee" port_to="IntFee" type="in" />
+        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="InvBuy" port_to="InvBuy" type="in" />
+        <connection component_from="WagesC" component_to="DEVS_BASIC_COUPLED_WorkersNW" port_from="WagesC" port_to="WagesC" type="in" />
+        <connection component_from="IntFee" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="IntFee" port_to="IntFee" type="in" />
+        <connection component_from="Repay" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="Repay" port_to="Repay" type="in" />
+        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
+        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
+        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="WagesI" port_to="WagesI" type="in" />
+        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="InvBuy" port_to="InvBuy" type="in" />
+        <connection component_from="ConsW" component_to="DEVS_BASIC_COUPLED_Workers" port_from="ConsW" port_to="ConsW" type="in" />
+        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_Workers" port_from="WagesI" port_to="WagesI" type="in" />
+        <connection component_from="ConsB" component_to="DEVS_BASIC_COUPLED_BankersNW" port_from="ConsB" port_to="ConsB" type="in" />
+        <connection component_from="ConsW" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="ConsW" port_to="ConsW" type="in" />
+        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="Interest" port_to="Interest" type="in" />
+        <connection component_from="ConsB" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="ConsB" port_to="ConsB" type="in" />
+        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="InvBuy" port_to="InvBuy" type="in" />
         <connection component_from="WagesC" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="WagesC" port_to="WagesC" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_Loans" component_to="Debt" port_from="Loans" port_to="Loans" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_DepCons" component_to="YCValue" port_from="DepCons" port_to="DepCons" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_Workers" component_to="ConsW" port_from="Workers" port_to="Workers" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_DepInv" component_to="YIValue" port_from="DepInv" port_to="DepInv" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_DepCons" component_to="Money" port_from="DepCons" port_to="DepCons" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_Loans" component_to="Interest" port_from="Loans" port_to="Loans" type="in" />
+        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
+        <connection component_from="WagesI" component_to="DEVS_BASIC_COUPLED_InvNW" port_from="WagesI" port_to="WagesI" type="in" />
+        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="Interest" port_to="Interest" type="in" />
+        <connection component_from="Lend" component_to="DEVS_BASIC_COUPLED_Loans" port_from="Lend" port_to="Lend" type="in" />
+        <connection component_from="InvBuy" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="InvBuy" port_to="InvBuy" type="in" />
+        <connection component_from="WagesC" component_to="DEVS_BASIC_COUPLED_Workers" port_from="WagesC" port_to="WagesC" type="in" />
+        <connection component_from="Repay" component_to="DEVS_BASIC_COUPLED_Loans" port_from="Repay" port_to="Repay" type="in" />
+        <connection component_from="ConstantBuy" component_to="DEVS_BASIC_COUPLED_ConsNW" port_from="ConstantBuy" port_to="ConstantBuy" type="in" />
+        <connection component_from="IntFee" component_to="DEVS_BASIC_COUPLED_DepCons" port_from="IntFee" port_to="IntFee" type="in" />
+        <connection component_from="Interest" component_to="DEVS_BASIC_COUPLED_DepInv" port_from="Interest" port_to="Interest" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_DepInv" component_to="Money" port_from="DepInv" port_to="DepInv" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_Workers" component_to="Money" port_from="Workers" port_to="Workers" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_DepCons" component_to="Lend" port_from="DepCons" port_to="DepCons" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_DepInv" component_to="YIValue" port_from="DepInv" port_to="DepInv" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_Loans" component_to="Debt" port_from="Loans" port_to="Loans" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_Workers" component_to="ConsW" port_from="Workers" port_to="Workers" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_Loans" component_to="Repay" port_from="Loans" port_to="Loans" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_DepCons" component_to="Money" port_from="DepCons" port_to="DepCons" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_BankersNW" component_to="ConsB" port_from="BankersNW" port_to="BankersNW" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_BankersNW" component_to="Money" port_from="BankersNW" port_to="BankersNW" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_DepCons" component_to="Lend" port_from="DepCons" port_to="DepCons" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_Loans" component_to="Repay" port_from="Loans" port_to="Loans" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_DepCons" component_to="YCValue" port_from="DepCons" port_to="DepCons" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_Loans" component_to="Interest" port_from="Loans" port_to="Loans" type="in" />
     </internal_connections>
     <external_input_connections>
-        <connection component_to="tauL" port_from="tauL" port_to="tauL" />
         <connection component_to="wSValue" port_from="wSValue" port_to="wSValue" />
+        <connection component_to="tauL" port_from="tauL" port_to="tauL" />
         <connection component_to="bfValue" port_from="bfValue" port_to="bfValue" />
-        <connection component_to="IPCValue" port_from="IPCValue" port_to="IPCValue" />
+        <connection component_to="tauMI" port_from="tauMI" port_to="tauMI" />
         <connection component_to="tauBC" port_from="tauBC" port_to="tauBC" />
         <connection component_to="tauMC" port_from="tauMC" port_to="tauMC" />
+        <connection component_to="IPCValue" port_from="IPCValue" port_to="IPCValue" />
         <connection component_to="CPIValue" port_from="CPIValue" port_to="CPIValue" />
-        <connection component_to="tauMI" port_from="tauMI" port_to="tauMI" />
         <connection component_to="tauWC" port_from="tauWC" port_to="tauWC" />
         <connection component_to="rLValue" port_from="rLValue" port_to="rLValue" />
         <connection component_to="tauR" port_from="tauR" port_to="tauR" />
     </external_input_connections>
     <external_output_connections>
-        <connection component_from="ConsB" port_from="ConsB" port_to="ConsB" />
         <connection component_from="PiCG" port_from="PiCG" port_to="PiCG" />
-        <connection component_from="InvBuy" port_from="InvBuy" port_to="InvBuy" />
-        <connection component_from="Output" port_from="Output" port_to="Output" />
-        <connection component_from="IntFee" port_from="IntFee" port_to="IntFee" />
-        <connection component_from="PiIG" port_from="PiIG" port_to="PiIG" />
-        <connection component_from="velocityOfMoney" port_from="velocityOfMoney" port_to="velocityOfMoney" />
-        <connection component_from="ConsW" port_from="ConsW" port_to="ConsW" />
-        <connection component_from="Interest" port_from="Interest" port_to="Interest" />
         <connection component_from="Money" port_from="Money" port_to="Money" />
         <connection component_from="WagesC" port_from="WagesC" port_to="WagesC" />
+        <connection component_from="PiIG" port_from="PiIG" port_to="PiIG" />
+        <connection component_from="WagesI" port_from="WagesI" port_to="WagesI" />
+        <connection component_from="YIValue" port_from="YIValue" port_to="YIValue" />
+        <connection component_from="Output" port_from="Output" port_to="Output" />
+        <connection component_from="ConsB" port_from="ConsB" port_to="ConsB" />
+        <connection component_from="velocityOfMoney" port_from="velocityOfMoney" port_to="velocityOfMoney" />
+        <connection component_from="ConsW" port_from="ConsW" port_to="ConsW" />
+        <connection component_from="Debt" port_from="Debt" port_to="Debt" />
+        <connection component_from="IntFee" port_from="IntFee" port_to="IntFee" />
+        <connection component_from="Interest" port_from="Interest" port_to="Interest" />
+        <connection component_from="InvBuy" port_from="InvBuy" port_to="InvBuy" />
         <connection component_from="Lend" port_from="Lend" port_to="Lend" />
         <connection component_from="Repay" port_from="Repay" port_to="Repay" />
-        <connection component_from="YIValue" port_from="YIValue" port_to="YIValue" />
-        <connection component_from="WagesI" port_from="WagesI" port_to="WagesI" />
         <connection component_from="YCValue" port_from="YCValue" port_to="YCValue" />
-        <connection component_from="Debt" port_from="Debt" port_to="Debt" />
         <connection component_from="ConstantBuy" port_from="ConstantBuy" port_to="ConstantBuy" />
         <connection component_from="DEVS_BASIC_COUPLED_ConsNW" port_from="ConsNW" port_to="ConsNW" />
         <connection component_from="DEVS_BASIC_COUPLED_WorkersNW" port_from="WorkersNW" port_to="WorkersNW" />

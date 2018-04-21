@@ -1,9 +1,9 @@
-<coupledRef name="{{coupled_name}}" model="{{type}}" parent="{{parent}}">
+<coupledRef name="{{coupled_name}}" name_level="xx" model="{{type}}" parent="{{parent}}">
 <inputs>{% for input_port in input_ports -%}<input name="{{input_port.get_name()}}" type="{{input_port.get_type()}}" />{% endfor %}</inputs>
 <outputs>{% for output_port in output_ports -%}<output name="{{output_port.get_name()}}" type="{{output_port.get_type()}}" />{% endfor %}</outputs>
 <components>
 {% for atomic in atomics -%}
-<atomicRef name="{{atomic.get_name()}}" model="{{atomic.get_type()}}" parent="{{atomic.get_parent_name()}}" >
+<atomicRef name="{{atomic.get_name()}}" name_level="xx" model="{{atomic.get_type()}}" parent="{{atomic.get_parent_name()}}" >
     <inputs>{% for input_port in atomic.get_input_ports() -%}<input name="{{input_port.get_name()}}" type="{{input_port.get_type()}}"/>{% endfor -%}</inputs>
     <outputs>{% for output_port in atomic.get_output_ports() -%}<output name="{{output_port.get_name()}}" type="{{output_port.get_type()}}"/>{% endfor -%}</outputs>
     <parameters>{% for param, value in atomic.parameters().items() -%}<parameter name="{{param}}">{{value}}</parameter>{% endfor -%}</parameters>

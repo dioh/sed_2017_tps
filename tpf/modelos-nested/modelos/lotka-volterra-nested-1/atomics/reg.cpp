@@ -2,11 +2,11 @@
 #include "register.h"
 
 #include "paramBtop.h"
-#include "paramCtop.h"
 #include "paramDtop.h"
+#include "paramCtop.h"
 #include "paramAtop.h"
-#include "paramCPredatorModel.h"
 #include "paramDPredatorModel.h"
+#include "paramCPredatorModel.h"
 #include "paramBPreyModel.h"
 #include "paramAPreyModel.h"
 #include "PlusPredator_PredatorDEVS_BASIC_COUPLED_Predator.h"
@@ -25,11 +25,11 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	
 	// Atomicos especificos del modelo
 	admin.registerAtomic(NewAtomicFunction<paramBtop>(), PARAMBTOP);
-	admin.registerAtomic(NewAtomicFunction<paramCtop>(), PARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramDtop>(), PARAMDTOP);
+	admin.registerAtomic(NewAtomicFunction<paramCtop>(), PARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramAtop>(), PARAMATOP);
-	admin.registerAtomic(NewAtomicFunction<paramCPredatorModel>(), PARAMCPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramDPredatorModel>(), PARAMDPREDATORMODEL);
+	admin.registerAtomic(NewAtomicFunction<paramCPredatorModel>(), PARAMCPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramBPreyModel>(), PARAMBPREYMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramAPreyModel>(), PARAMAPREYMODEL);
 	admin.registerAtomic(NewAtomicFunction<PlusPredator_PredatorDEVS_BASIC_COUPLED_Predator>(), PLUSPREDATOR_PREDATORDEVS_BASIC_COUPLED_PREDATOR);

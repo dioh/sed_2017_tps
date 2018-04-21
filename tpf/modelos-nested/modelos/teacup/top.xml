@@ -1,4 +1,4 @@
-<coupledRef model="DEVSCoupledComponent" name="DEVS_COUPLED_top" parent="">
+<coupledRef model="DEVSCoupledComponent" name="DEVS_COUPLED_top" name_level="xx" parent="">
     <inputs>
         <input name="CharacteristicTime" type="in" />
         <input name="RoomTemperature" type="in" />
@@ -7,18 +7,7 @@
         <output name="TemperatureValue" type="out" />
     </outputs>
     <components>
-        <atomicRef model="DEVSConstant" name="RoomTemperature" parent="top">
-            <inputs>
-                <input name="RoomTemperature" type="in" />
-            </inputs>
-            <outputs>
-                <output name="RoomTemperature" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">27</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="CharacteristicTime" parent="top">
+        <atomicRef model="DEVSConstant" name="CharacteristicTime" name_level="xx" parent="top">
             <inputs>
                 <input name="CharacteristicTime" type="in" />
             </inputs>
@@ -29,7 +18,18 @@
                 <parameter name="value">0.8</parameter>
             </parameters>
         </atomicRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_TemperatureValue" parent="">
+        <atomicRef model="DEVSConstant" name="RoomTemperature" name_level="xx" parent="top">
+            <inputs>
+                <input name="RoomTemperature" type="in" />
+            </inputs>
+            <outputs>
+                <output name="RoomTemperature" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">27</parameter>
+            </parameters>
+        </atomicRef>
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_TemperatureValue" name_level="xx" parent="">
             <inputs>
                 <input name="CharacteristicTime" type="in" />
                 <input name="RoomTemperature" type="in" />
@@ -38,7 +38,7 @@
                 <output name="TemperatureValue" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="TemperatureValue" parent="DEVS_BASIC_COUPLED_TemperatureValue">
+                <atomicRef model="DEVSIntegrator" name="TemperatureValue" name_level="xx" parent="DEVS_BASIC_COUPLED_TemperatureValue">
                     <inputs>
                         <input name="TotTemperatureValue" type="in" />
                     </inputs>
@@ -51,7 +51,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotTemperatureValue" parent="DEVS_BASIC_COUPLED_TemperatureValue">
+                <atomicRef model="DEVSFtot" name="TotTemperatureValue" name_level="xx" parent="DEVS_BASIC_COUPLED_TemperatureValue">
                     <inputs>
                         <input name="HeatLossToRoom_TemperatureValue" type="in_minus" />
                     </inputs>
@@ -62,7 +62,7 @@
                         <parameter name="equation">180</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFminus" name="HeatLossToRoom_TemperatureValue" parent="DEVS_BASIC_COUPLED_TemperatureValue">
+                <atomicRef model="DEVSFminus" name="HeatLossToRoom_TemperatureValue" name_level="xx" parent="DEVS_BASIC_COUPLED_TemperatureValue">
                     <inputs>
                         <input name="TemperatureValue" type="in" />
                         <input name="RoomTemperature" type="in" />
@@ -78,8 +78,8 @@
             </components>
             <internal_connections>
                 <connection component_from="TotTemperatureValue" component_to="TemperatureValue" port_from="TotTemperatureValue" port_to="TotTemperatureValue" type="in" />
-                <connection component_from="TemperatureValue" component_to="HeatLossToRoom_TemperatureValue" port_from="TemperatureValue" port_to="TemperatureValue" type="in" />
                 <connection component_from="HeatLossToRoom_TemperatureValue" component_to="TotTemperatureValue" port_from="HeatLossToRoom_TemperatureValue" port_to="HeatLossToRoom_TemperatureValue" type="in_minus" />
+                <connection component_from="TemperatureValue" component_to="HeatLossToRoom_TemperatureValue" port_from="TemperatureValue" port_to="TemperatureValue" type="in" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="HeatLossToRoom_TemperatureValue" port_from="CharacteristicTime" port_to="CharacteristicTime" />
@@ -91,8 +91,8 @@
         </coupledRef>
     </components>
     <internal_connections>
-        <connection component_from="CharacteristicTime" component_to="DEVS_BASIC_COUPLED_TemperatureValue" port_from="CharacteristicTime" port_to="CharacteristicTime" type="in" />
         <connection component_from="RoomTemperature" component_to="DEVS_BASIC_COUPLED_TemperatureValue" port_from="RoomTemperature" port_to="RoomTemperature" type="in" />
+        <connection component_from="CharacteristicTime" component_to="DEVS_BASIC_COUPLED_TemperatureValue" port_from="CharacteristicTime" port_to="CharacteristicTime" type="in" />
     </internal_connections>
     <external_input_connections>
         <connection component_to="CharacteristicTime" port_from="CharacteristicTime" port_to="CharacteristicTime" />

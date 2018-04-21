@@ -11,6 +11,7 @@ from modulosXMILE.Model import *
 from DEVSCoupled.DEVSCoupledComponent import DEVSCoupledComponent
 from modulosCDPP.cdpp_model import CdppModel
 from modulosCDPP.cdpp_model_to_ma_file import CdppModelToMaConverter
+from modulosCDPP.preprocessing import preprocessing_devsml_for_ma
 import logging
 
 
@@ -147,7 +148,9 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
         f.write(render_template(template_now, {'atomics_names': atomics_names}));
 
     # MA File
-    devs_ml_model = etree.parse(devsml_top_filename)
+    # Preprocessing of DEVSML File
+    devs_ml_model = preprocessing_devsml_for_ma(etree.parse(devsml_top_filename))
+    # Generation of .ma file
     cdpp_model = CdppModel.from_devsml_xml(devs_ml_model)
     mafile = CdppModelToMaConverter.parse_model(cdpp_model)
     with open(devsml_ma_filename, 'w') as f:

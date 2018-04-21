@@ -1,14 +1,14 @@
-<coupledRef model="DEVSCoupledComponent" name="DEVS_COUPLED_top" parent="">
+<coupledRef model="DEVSCoupledComponent" name="DEVS_COUPLED_top" name_level="xx" parent="">
     <inputs>
         <input name="rateInterestOnLoans" type="in" />
         <input name="Betaa" type="in" />
         <input name="velocityOfMoney" type="in" />
-        <input name="piS" type="in" />
+        <input name="deltaKReal" type="in" />
         <input name="employmentRateZero" type="in" />
         <input name="employmentRateStable" type="in" />
         <input name="piZ" type="in" />
         <input name="Alphaa" type="in" />
-        <input name="deltaKReal" type="in" />
+        <input name="piS" type="in" />
     </inputs>
     <outputs>
         <output name="ProfitNet" type="out" />
@@ -16,78 +16,22 @@
         <output name="InvestmentGross" type="out" />
         <output name="LaborProductivity" type="out" />
         <output name="wageFunction" type="out" />
-        <output name="Wages" type="out" />
-        <output name="Labor" type="out" />
+        <output name="piR" type="out" />
         <output name="employmentRateValue" type="out" />
         <output name="Interest" type="out" />
         <output name="Capital" type="out" />
         <output name="ProfitGrossReal" type="out" />
+        <output name="Labor" type="out" />
         <output name="Population" type="out" />
         <output name="wageRate" type="out" />
         <output name="omega" type="out" />
         <output name="InvestmentNetReal" type="out" />
-        <output name="piR" type="out" />
+        <output name="Wages" type="out" />
         <output name="Debt" type="out" />
         <output name="Output" type="out" />
     </outputs>
     <components>
-        <atomicRef model="DEVSConstant" name="employmentRateStable" parent="top">
-            <inputs>
-                <input name="employmentRateStable" type="in" />
-            </inputs>
-            <outputs>
-                <output name="employmentRateStable" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">10</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="piZ" parent="top">
-            <inputs>
-                <input name="piZ" type="in" />
-            </inputs>
-            <outputs>
-                <output name="piZ" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.04</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="piS" parent="top">
-            <inputs>
-                <input name="piS" type="in" />
-            </inputs>
-            <outputs>
-                <output name="piS" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">10</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="velocityOfMoney" parent="top">
-            <inputs>
-                <input name="velocityOfMoney" type="in" />
-            </inputs>
-            <outputs>
-                <output name="velocityOfMoney" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">3</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="Interest" parent="top">
-            <inputs>
-                <input name="Debt" type="in" />
-                <input name="rateInterestOnLoans" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Interest" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(rateInterestOnLoans*Debt)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="piR" parent="top">
+        <atomicRef model="DEVSAux" name="piR" name_level="xx" parent="top">
             <inputs>
                 <input name="Capital" type="in" />
                 <input name="ProfitNet" type="in" />
@@ -99,43 +43,18 @@
                 <parameter name="equation">(ProfitNet/Capital)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSConstant" name="Alphaa" parent="top">
+        <atomicRef model="DEVSConstant" name="piZ" name_level="xx" parent="top">
             <inputs>
-                <input name="Alphaa" type="in" />
+                <input name="piZ" type="in" />
             </inputs>
             <outputs>
-                <output name="Alphaa" type="out" />
+                <output name="piZ" type="out" />
             </outputs>
             <parameters>
-                <parameter name="value">0.025</parameter>
+                <parameter name="value">0.04</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="Labor" parent="top">
-            <inputs>
-                <input name="Output" type="in" />
-                <input name="LaborProductivity" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Labor" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(Output/LaborProductivity)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="wageFunction" parent="top">
-            <inputs>
-                <input name="employmentRateStable" type="in" />
-                <input name="employmentRateZero" type="in" />
-                <input name="employmentRateValue" type="in" />
-            </inputs>
-            <outputs>
-                <output name="wageFunction" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(employmentRateStable*(employmentRateValue-employmentRateZero))</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="InvestmentNetReal" parent="top">
+        <atomicRef model="DEVSAux" name="InvestmentNetReal" name_level="xx" parent="top">
             <inputs>
                 <input name="InvestmentGross" type="in" />
                 <input name="deltaKReal" type="in" />
@@ -148,18 +67,67 @@
                 <parameter name="equation">(InvestmentGross-(Capital*deltaKReal))</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSConstant" name="deltaKReal" parent="top">
+        <atomicRef model="DEVSAux" name="Wages" name_level="xx" parent="top">
             <inputs>
-                <input name="deltaKReal" type="in" />
+                <input name="Labor" type="in" />
+                <input name="wageRate" type="in" />
             </inputs>
             <outputs>
-                <output name="deltaKReal" type="out" />
+                <output name="Wages" type="out" />
             </outputs>
             <parameters>
-                <parameter name="value">0.05</parameter>
+                <parameter name="equation">(wageRate*Labor)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="ProfitGrossReal" parent="top">
+        <atomicRef model="DEVSAux" name="wageFunction" name_level="xx" parent="top">
+            <inputs>
+                <input name="employmentRateStable" type="in" />
+                <input name="employmentRateZero" type="in" />
+                <input name="employmentRateValue" type="in" />
+            </inputs>
+            <outputs>
+                <output name="wageFunction" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(employmentRateStable*(employmentRateValue-employmentRateZero))</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Interest" name_level="xx" parent="top">
+            <inputs>
+                <input name="Debt" type="in" />
+                <input name="rateInterestOnLoans" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Interest" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(rateInterestOnLoans*Debt)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="omega" name_level="xx" parent="top">
+            <inputs>
+                <input name="Wages" type="in" />
+                <input name="Output" type="in" />
+            </inputs>
+            <outputs>
+                <output name="omega" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Wages/Output)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="employmentRateZero" name_level="xx" parent="top">
+            <inputs>
+                <input name="employmentRateZero" type="in" />
+            </inputs>
+            <outputs>
+                <output name="employmentRateZero" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.6</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="ProfitGrossReal" name_level="xx" parent="top">
             <inputs>
                 <input name="Wages" type="in" />
                 <input name="Output" type="in" />
@@ -171,30 +139,7 @@
                 <parameter name="equation">(Output-Wages)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="employmentRateValue" parent="top">
-            <inputs>
-                <input name="Labor" type="in" />
-                <input name="Population" type="in" />
-            </inputs>
-            <outputs>
-                <output name="employmentRateValue" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(Labor/Population)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="employmentRateZero" parent="top">
-            <inputs>
-                <input name="employmentRateZero" type="in" />
-            </inputs>
-            <outputs>
-                <output name="employmentRateZero" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.6</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="InvestmentGross" parent="top">
+        <atomicRef model="DEVSAux" name="InvestmentGross" name_level="xx" parent="top">
             <inputs>
                 <input name="InvestmentFunctionReal" type="in" />
                 <input name="Output" type="in" />
@@ -206,7 +151,98 @@
                 <parameter name="equation">(InvestmentFunctionReal*Output)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="InvestmentFunctionReal" parent="top">
+        <atomicRef model="DEVSConstant" name="Betaa" name_level="xx" parent="top">
+            <inputs>
+                <input name="Betaa" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Betaa" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.015</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Output" name_level="xx" parent="top">
+            <inputs>
+                <input name="Capital" type="in" />
+                <input name="velocityOfMoney" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Output" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Capital/velocityOfMoney)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="Labor" name_level="xx" parent="top">
+            <inputs>
+                <input name="Output" type="in" />
+                <input name="LaborProductivity" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Labor" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Output/LaborProductivity)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="rateInterestOnLoans" name_level="xx" parent="top">
+            <inputs>
+                <input name="rateInterestOnLoans" type="in" />
+            </inputs>
+            <outputs>
+                <output name="rateInterestOnLoans" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.04</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="piS" name_level="xx" parent="top">
+            <inputs>
+                <input name="piS" type="in" />
+            </inputs>
+            <outputs>
+                <output name="piS" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">10</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="employmentRateValue" name_level="xx" parent="top">
+            <inputs>
+                <input name="Labor" type="in" />
+                <input name="Population" type="in" />
+            </inputs>
+            <outputs>
+                <output name="employmentRateValue" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="equation">(Labor/Population)</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="Alphaa" name_level="xx" parent="top">
+            <inputs>
+                <input name="Alphaa" type="in" />
+            </inputs>
+            <outputs>
+                <output name="Alphaa" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.025</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="velocityOfMoney" name_level="xx" parent="top">
+            <inputs>
+                <input name="velocityOfMoney" type="in" />
+            </inputs>
+            <outputs>
+                <output name="velocityOfMoney" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">3</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="InvestmentFunctionReal" name_level="xx" parent="top">
             <inputs>
                 <input name="piR" type="in" />
                 <input name="piZ" type="in" />
@@ -219,7 +255,18 @@
                 <parameter name="equation">((piR-piZ)*piS)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="ProfitNet" parent="top">
+        <atomicRef model="DEVSConstant" name="deltaKReal" name_level="xx" parent="top">
+            <inputs>
+                <input name="deltaKReal" type="in" />
+            </inputs>
+            <outputs>
+                <output name="deltaKReal" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.05</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSAux" name="ProfitNet" name_level="xx" parent="top">
             <inputs>
                 <input name="ProfitGrossReal" type="in" />
                 <input name="Interest" type="in" />
@@ -231,65 +278,18 @@
                 <parameter name="equation">(ProfitGrossReal-Interest)</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="omega" parent="top">
+        <atomicRef model="DEVSConstant" name="employmentRateStable" name_level="xx" parent="top">
             <inputs>
-                <input name="Wages" type="in" />
-                <input name="Output" type="in" />
+                <input name="employmentRateStable" type="in" />
             </inputs>
             <outputs>
-                <output name="omega" type="out" />
+                <output name="employmentRateStable" type="out" />
             </outputs>
             <parameters>
-                <parameter name="equation">(Wages/Output)</parameter>
+                <parameter name="value">10</parameter>
             </parameters>
         </atomicRef>
-        <atomicRef model="DEVSAux" name="Output" parent="top">
-            <inputs>
-                <input name="Capital" type="in" />
-                <input name="velocityOfMoney" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Output" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(Capital/velocityOfMoney)</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="Betaa" parent="top">
-            <inputs>
-                <input name="Betaa" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Betaa" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.015</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSConstant" name="rateInterestOnLoans" parent="top">
-            <inputs>
-                <input name="rateInterestOnLoans" type="in" />
-            </inputs>
-            <outputs>
-                <output name="rateInterestOnLoans" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.04</parameter>
-            </parameters>
-        </atomicRef>
-        <atomicRef model="DEVSAux" name="Wages" parent="top">
-            <inputs>
-                <input name="Labor" type="in" />
-                <input name="wageRate" type="in" />
-            </inputs>
-            <outputs>
-                <output name="Wages" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="equation">(wageRate*Labor)</parameter>
-            </parameters>
-        </atomicRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_LaborProductivity" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_LaborProductivity" name_level="xx" parent="">
             <inputs>
                 <input name="Alphaa" type="in" />
             </inputs>
@@ -297,7 +297,7 @@
                 <output name="LaborProductivity" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="LaborProductivity" parent="DEVS_BASIC_COUPLED_LaborProductivity">
+                <atomicRef model="DEVSIntegrator" name="LaborProductivity" name_level="xx" parent="DEVS_BASIC_COUPLED_LaborProductivity">
                     <inputs>
                         <input name="TotLaborProductivity" type="in" />
                     </inputs>
@@ -310,7 +310,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotLaborProductivity" parent="DEVS_BASIC_COUPLED_LaborProductivity">
+                <atomicRef model="DEVSFtot" name="TotLaborProductivity" name_level="xx" parent="DEVS_BASIC_COUPLED_LaborProductivity">
                     <inputs>
                         <input name="chgLaborProductivity_LaborProductivity" type="in_plus" />
                     </inputs>
@@ -321,7 +321,7 @@
                         <parameter name="equation">1</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgLaborProductivity_LaborProductivity" parent="DEVS_BASIC_COUPLED_LaborProductivity">
+                <atomicRef model="DEVSFplus" name="chgLaborProductivity_LaborProductivity" name_level="xx" parent="DEVS_BASIC_COUPLED_LaborProductivity">
                     <inputs>
                         <input name="Alphaa" type="in" />
                         <input name="LaborProductivity" type="in" />
@@ -335,9 +335,9 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="TotLaborProductivity" component_to="LaborProductivity" port_from="TotLaborProductivity" port_to="TotLaborProductivity" type="in" />
-                <connection component_from="LaborProductivity" component_to="chgLaborProductivity_LaborProductivity" port_from="LaborProductivity" port_to="LaborProductivity" type="in" />
                 <connection component_from="chgLaborProductivity_LaborProductivity" component_to="TotLaborProductivity" port_from="chgLaborProductivity_LaborProductivity" port_to="chgLaborProductivity_LaborProductivity" type="in_plus" />
+                <connection component_from="LaborProductivity" component_to="chgLaborProductivity_LaborProductivity" port_from="LaborProductivity" port_to="LaborProductivity" type="in" />
+                <connection component_from="TotLaborProductivity" component_to="LaborProductivity" port_from="TotLaborProductivity" port_to="TotLaborProductivity" type="in" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="chgLaborProductivity_LaborProductivity" port_from="Alphaa" port_to="Alphaa" />
@@ -346,7 +346,7 @@
                 <connection component_from="LaborProductivity" port_from="LaborProductivity" port_to="LaborProductivity" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_wageRate" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_wageRate" name_level="xx" parent="">
             <inputs>
                 <input name="wageFunction" type="in" />
             </inputs>
@@ -354,7 +354,7 @@
                 <output name="wageRate" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="wageRate" parent="DEVS_BASIC_COUPLED_wageRate">
+                <atomicRef model="DEVSIntegrator" name="wageRate" name_level="xx" parent="DEVS_BASIC_COUPLED_wageRate">
                     <inputs>
                         <input name="TotwageRate" type="in" />
                     </inputs>
@@ -367,7 +367,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotwageRate" parent="DEVS_BASIC_COUPLED_wageRate">
+                <atomicRef model="DEVSFtot" name="TotwageRate" name_level="xx" parent="DEVS_BASIC_COUPLED_wageRate">
                     <inputs>
                         <input name="chgwageRate_wageRate" type="in_plus" />
                     </inputs>
@@ -378,7 +378,7 @@
                         <parameter name="equation">0.8</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgwageRate_wageRate" parent="DEVS_BASIC_COUPLED_wageRate">
+                <atomicRef model="DEVSFplus" name="chgwageRate_wageRate" name_level="xx" parent="DEVS_BASIC_COUPLED_wageRate">
                     <inputs>
                         <input name="wageFunction" type="in" />
                         <input name="wageRate" type="in" />
@@ -392,9 +392,9 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="TotwageRate" component_to="wageRate" port_from="TotwageRate" port_to="TotwageRate" type="in" />
-                <connection component_from="wageRate" component_to="chgwageRate_wageRate" port_from="wageRate" port_to="wageRate" type="in" />
                 <connection component_from="chgwageRate_wageRate" component_to="TotwageRate" port_from="chgwageRate_wageRate" port_to="chgwageRate_wageRate" type="in_plus" />
+                <connection component_from="wageRate" component_to="chgwageRate_wageRate" port_from="wageRate" port_to="wageRate" type="in" />
+                <connection component_from="TotwageRate" component_to="wageRate" port_from="TotwageRate" port_to="TotwageRate" type="in" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="chgwageRate_wageRate" port_from="wageFunction" port_to="wageFunction" />
@@ -403,7 +403,7 @@
                 <connection component_from="wageRate" port_from="wageRate" port_to="wageRate" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Debt" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Debt" name_level="xx" parent="">
             <inputs>
                 <input name="InvestmentGross" type="in" />
             </inputs>
@@ -411,7 +411,7 @@
                 <output name="Debt" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="Debt" parent="DEVS_BASIC_COUPLED_Debt">
+                <atomicRef model="DEVSIntegrator" name="Debt" name_level="xx" parent="DEVS_BASIC_COUPLED_Debt">
                     <inputs>
                         <input name="TotDebt" type="in" />
                     </inputs>
@@ -424,7 +424,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotDebt" parent="DEVS_BASIC_COUPLED_Debt">
+                <atomicRef model="DEVSFtot" name="TotDebt" name_level="xx" parent="DEVS_BASIC_COUPLED_Debt">
                     <inputs>
                         <input name="chgDebt_Debt" type="in_plus" />
                     </inputs>
@@ -435,7 +435,7 @@
                         <parameter name="equation">0</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgDebt_Debt" parent="DEVS_BASIC_COUPLED_Debt">
+                <atomicRef model="DEVSFplus" name="chgDebt_Debt" name_level="xx" parent="DEVS_BASIC_COUPLED_Debt">
                     <inputs>
                         <input name="InvestmentGross" type="in" />
                     </inputs>
@@ -458,7 +458,7 @@
                 <connection component_from="Debt" port_from="Debt" port_to="Debt" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Population" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Population" name_level="xx" parent="">
             <inputs>
                 <input name="Betaa" type="in" />
             </inputs>
@@ -466,7 +466,7 @@
                 <output name="Population" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="Population" parent="DEVS_BASIC_COUPLED_Population">
+                <atomicRef model="DEVSIntegrator" name="Population" name_level="xx" parent="DEVS_BASIC_COUPLED_Population">
                     <inputs>
                         <input name="TotPopulation" type="in" />
                     </inputs>
@@ -479,7 +479,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotPopulation" parent="DEVS_BASIC_COUPLED_Population">
+                <atomicRef model="DEVSFtot" name="TotPopulation" name_level="xx" parent="DEVS_BASIC_COUPLED_Population">
                     <inputs>
                         <input name="chgPopulation_Population" type="in_plus" />
                     </inputs>
@@ -490,7 +490,7 @@
                         <parameter name="equation">150</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgPopulation_Population" parent="DEVS_BASIC_COUPLED_Population">
+                <atomicRef model="DEVSFplus" name="chgPopulation_Population" name_level="xx" parent="DEVS_BASIC_COUPLED_Population">
                     <inputs>
                         <input name="Betaa" type="in" />
                         <input name="Population" type="in" />
@@ -504,8 +504,8 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="chgPopulation_Population" component_to="TotPopulation" port_from="chgPopulation_Population" port_to="chgPopulation_Population" type="in_plus" />
                 <connection component_from="TotPopulation" component_to="Population" port_from="TotPopulation" port_to="TotPopulation" type="in" />
+                <connection component_from="chgPopulation_Population" component_to="TotPopulation" port_from="chgPopulation_Population" port_to="chgPopulation_Population" type="in_plus" />
                 <connection component_from="Population" component_to="chgPopulation_Population" port_from="Population" port_to="Population" type="in" />
             </internal_connections>
             <external_input_connections>
@@ -515,7 +515,7 @@
                 <connection component_from="Population" port_from="Population" port_to="Population" />
             </external_output_connections>
         </coupledRef>
-        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Capital" parent="">
+        <coupledRef model="DEVSBasicCoupledComponent" name="DEVS_BASIC_COUPLED_Capital" name_level="xx" parent="">
             <inputs>
                 <input name="InvestmentNetReal" type="in" />
             </inputs>
@@ -523,7 +523,7 @@
                 <output name="Capital" type="out" />
             </outputs>
             <components>
-                <atomicRef model="DEVSIntegrator" name="Capital" parent="DEVS_BASIC_COUPLED_Capital">
+                <atomicRef model="DEVSIntegrator" name="Capital" name_level="xx" parent="DEVS_BASIC_COUPLED_Capital">
                     <inputs>
                         <input name="TotCapital" type="in" />
                     </inputs>
@@ -536,7 +536,7 @@
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFtot" name="TotCapital" parent="DEVS_BASIC_COUPLED_Capital">
+                <atomicRef model="DEVSFtot" name="TotCapital" name_level="xx" parent="DEVS_BASIC_COUPLED_Capital">
                     <inputs>
                         <input name="chgCapital_Capital" type="in_plus" />
                     </inputs>
@@ -547,7 +547,7 @@
                         <parameter name="equation">300</parameter>
                     </parameters>
                 </atomicRef>
-                <atomicRef model="DEVSFplus" name="chgCapital_Capital" parent="DEVS_BASIC_COUPLED_Capital">
+                <atomicRef model="DEVSFplus" name="chgCapital_Capital" name_level="xx" parent="DEVS_BASIC_COUPLED_Capital">
                     <inputs>
                         <input name="InvestmentNetReal" type="in" />
                     </inputs>
@@ -572,66 +572,66 @@
         </coupledRef>
     </components>
     <internal_connections>
-        <connection component_from="employmentRateValue" component_to="wageFunction" port_from="employmentRateValue" port_to="employmentRateValue" type="in" />
-        <connection component_from="Labor" component_to="employmentRateValue" port_from="Labor" port_to="Labor" type="in" />
-        <connection component_from="piZ" component_to="InvestmentFunctionReal" port_from="piZ" port_to="piZ" type="in" />
-        <connection component_from="Wages" component_to="ProfitGrossReal" port_from="Wages" port_to="Wages" type="in" />
-        <connection component_from="ProfitNet" component_to="piR" port_from="ProfitNet" port_to="ProfitNet" type="in" />
         <connection component_from="Output" component_to="Labor" port_from="Output" port_to="Output" type="in" />
-        <connection component_from="velocityOfMoney" component_to="Output" port_from="velocityOfMoney" port_to="velocityOfMoney" type="in" />
-        <connection component_from="Output" component_to="InvestmentGross" port_from="Output" port_to="Output" type="in" />
-        <connection component_from="Labor" component_to="Wages" port_from="Labor" port_to="Labor" type="in" />
-        <connection component_from="piS" component_to="InvestmentFunctionReal" port_from="piS" port_to="piS" type="in" />
-        <connection component_from="piR" component_to="InvestmentFunctionReal" port_from="piR" port_to="piR" type="in" />
-        <connection component_from="ProfitGrossReal" component_to="ProfitNet" port_from="ProfitGrossReal" port_to="ProfitGrossReal" type="in" />
-        <connection component_from="Output" component_to="ProfitGrossReal" port_from="Output" port_to="Output" type="in" />
-        <connection component_from="InvestmentFunctionReal" component_to="InvestmentGross" port_from="InvestmentFunctionReal" port_to="InvestmentFunctionReal" type="in" />
-        <connection component_from="rateInterestOnLoans" component_to="Interest" port_from="rateInterestOnLoans" port_to="rateInterestOnLoans" type="in" />
-        <connection component_from="Wages" component_to="omega" port_from="Wages" port_to="Wages" type="in" />
-        <connection component_from="InvestmentGross" component_to="InvestmentNetReal" port_from="InvestmentGross" port_to="InvestmentGross" type="in" />
-        <connection component_from="Output" component_to="omega" port_from="Output" port_to="Output" type="in" />
         <connection component_from="employmentRateStable" component_to="wageFunction" port_from="employmentRateStable" port_to="employmentRateStable" type="in" />
-        <connection component_from="Interest" component_to="ProfitNet" port_from="Interest" port_to="Interest" type="in" />
+        <connection component_from="ProfitGrossReal" component_to="ProfitNet" port_from="ProfitGrossReal" port_to="ProfitGrossReal" type="in" />
         <connection component_from="employmentRateZero" component_to="wageFunction" port_from="employmentRateZero" port_to="employmentRateZero" type="in" />
         <connection component_from="deltaKReal" component_to="InvestmentNetReal" port_from="deltaKReal" port_to="deltaKReal" type="in" />
-        <connection component_from="InvestmentNetReal" component_to="DEVS_BASIC_COUPLED_Capital" port_from="InvestmentNetReal" port_to="InvestmentNetReal" type="in" />
-        <connection component_from="Alphaa" component_to="DEVS_BASIC_COUPLED_LaborProductivity" port_from="Alphaa" port_to="Alphaa" type="in" />
-        <connection component_from="InvestmentGross" component_to="DEVS_BASIC_COUPLED_Debt" port_from="InvestmentGross" port_to="InvestmentGross" type="in" />
+        <connection component_from="velocityOfMoney" component_to="Output" port_from="velocityOfMoney" port_to="velocityOfMoney" type="in" />
+        <connection component_from="Wages" component_to="omega" port_from="Wages" port_to="Wages" type="in" />
+        <connection component_from="Interest" component_to="ProfitNet" port_from="Interest" port_to="Interest" type="in" />
+        <connection component_from="Output" component_to="omega" port_from="Output" port_to="Output" type="in" />
+        <connection component_from="ProfitNet" component_to="piR" port_from="ProfitNet" port_to="ProfitNet" type="in" />
+        <connection component_from="Labor" component_to="Wages" port_from="Labor" port_to="Labor" type="in" />
+        <connection component_from="Output" component_to="InvestmentGross" port_from="Output" port_to="Output" type="in" />
+        <connection component_from="rateInterestOnLoans" component_to="Interest" port_from="rateInterestOnLoans" port_to="rateInterestOnLoans" type="in" />
+        <connection component_from="piS" component_to="InvestmentFunctionReal" port_from="piS" port_to="piS" type="in" />
+        <connection component_from="InvestmentFunctionReal" component_to="InvestmentGross" port_from="InvestmentFunctionReal" port_to="InvestmentFunctionReal" type="in" />
+        <connection component_from="Output" component_to="ProfitGrossReal" port_from="Output" port_to="Output" type="in" />
+        <connection component_from="piR" component_to="InvestmentFunctionReal" port_from="piR" port_to="piR" type="in" />
+        <connection component_from="employmentRateValue" component_to="wageFunction" port_from="employmentRateValue" port_to="employmentRateValue" type="in" />
+        <connection component_from="Wages" component_to="ProfitGrossReal" port_from="Wages" port_to="Wages" type="in" />
+        <connection component_from="InvestmentGross" component_to="InvestmentNetReal" port_from="InvestmentGross" port_to="InvestmentGross" type="in" />
+        <connection component_from="piZ" component_to="InvestmentFunctionReal" port_from="piZ" port_to="piZ" type="in" />
+        <connection component_from="Labor" component_to="employmentRateValue" port_from="Labor" port_to="Labor" type="in" />
         <connection component_from="wageFunction" component_to="DEVS_BASIC_COUPLED_wageRate" port_from="wageFunction" port_to="wageFunction" type="in" />
         <connection component_from="Betaa" component_to="DEVS_BASIC_COUPLED_Population" port_from="Betaa" port_to="Betaa" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_Capital" component_to="Output" port_from="Capital" port_to="Capital" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_Capital" component_to="piR" port_from="Capital" port_to="Capital" type="in" />
+        <connection component_from="InvestmentGross" component_to="DEVS_BASIC_COUPLED_Debt" port_from="InvestmentGross" port_to="InvestmentGross" type="in" />
+        <connection component_from="InvestmentNetReal" component_to="DEVS_BASIC_COUPLED_Capital" port_from="InvestmentNetReal" port_to="InvestmentNetReal" type="in" />
+        <connection component_from="Alphaa" component_to="DEVS_BASIC_COUPLED_LaborProductivity" port_from="Alphaa" port_to="Alphaa" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_Population" component_to="employmentRateValue" port_from="Population" port_to="Population" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_Debt" component_to="Interest" port_from="Debt" port_to="Debt" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_LaborProductivity" component_to="Labor" port_from="LaborProductivity" port_to="LaborProductivity" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_Capital" component_to="piR" port_from="Capital" port_to="Capital" type="in" />
+        <connection component_from="DEVS_BASIC_COUPLED_Capital" component_to="Output" port_from="Capital" port_to="Capital" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_wageRate" component_to="Wages" port_from="wageRate" port_to="wageRate" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_Capital" component_to="InvestmentNetReal" port_from="Capital" port_to="Capital" type="in" />
-        <connection component_from="DEVS_BASIC_COUPLED_LaborProductivity" component_to="Labor" port_from="LaborProductivity" port_to="LaborProductivity" type="in" />
     </internal_connections>
     <external_input_connections>
         <connection component_to="rateInterestOnLoans" port_from="rateInterestOnLoans" port_to="rateInterestOnLoans" />
         <connection component_to="Betaa" port_from="Betaa" port_to="Betaa" />
         <connection component_to="velocityOfMoney" port_from="velocityOfMoney" port_to="velocityOfMoney" />
-        <connection component_to="piS" port_from="piS" port_to="piS" />
+        <connection component_to="deltaKReal" port_from="deltaKReal" port_to="deltaKReal" />
         <connection component_to="employmentRateZero" port_from="employmentRateZero" port_to="employmentRateZero" />
         <connection component_to="employmentRateStable" port_from="employmentRateStable" port_to="employmentRateStable" />
         <connection component_to="piZ" port_from="piZ" port_to="piZ" />
         <connection component_to="Alphaa" port_from="Alphaa" port_to="Alphaa" />
-        <connection component_to="deltaKReal" port_from="deltaKReal" port_to="deltaKReal" />
+        <connection component_to="piS" port_from="piS" port_to="piS" />
     </external_input_connections>
     <external_output_connections>
-        <connection component_from="Interest" port_from="Interest" port_to="Interest" />
         <connection component_from="piR" port_from="piR" port_to="piR" />
-        <connection component_from="Labor" port_from="Labor" port_to="Labor" />
-        <connection component_from="wageFunction" port_from="wageFunction" port_to="wageFunction" />
         <connection component_from="InvestmentNetReal" port_from="InvestmentNetReal" port_to="InvestmentNetReal" />
+        <connection component_from="Wages" port_from="Wages" port_to="Wages" />
+        <connection component_from="wageFunction" port_from="wageFunction" port_to="wageFunction" />
+        <connection component_from="Interest" port_from="Interest" port_to="Interest" />
+        <connection component_from="omega" port_from="omega" port_to="omega" />
         <connection component_from="ProfitGrossReal" port_from="ProfitGrossReal" port_to="ProfitGrossReal" />
-        <connection component_from="employmentRateValue" port_from="employmentRateValue" port_to="employmentRateValue" />
         <connection component_from="InvestmentGross" port_from="InvestmentGross" port_to="InvestmentGross" />
+        <connection component_from="Output" port_from="Output" port_to="Output" />
+        <connection component_from="Labor" port_from="Labor" port_to="Labor" />
+        <connection component_from="employmentRateValue" port_from="employmentRateValue" port_to="employmentRateValue" />
         <connection component_from="InvestmentFunctionReal" port_from="InvestmentFunctionReal" port_to="InvestmentFunctionReal" />
         <connection component_from="ProfitNet" port_from="ProfitNet" port_to="ProfitNet" />
-        <connection component_from="omega" port_from="omega" port_to="omega" />
-        <connection component_from="Output" port_from="Output" port_to="Output" />
-        <connection component_from="Wages" port_from="Wages" port_to="Wages" />
         <connection component_from="DEVS_BASIC_COUPLED_LaborProductivity" port_from="LaborProductivity" port_to="LaborProductivity" />
         <connection component_from="DEVS_BASIC_COUPLED_wageRate" port_from="wageRate" port_to="wageRate" />
         <connection component_from="DEVS_BASIC_COUPLED_Debt" port_from="Debt" port_to="Debt" />

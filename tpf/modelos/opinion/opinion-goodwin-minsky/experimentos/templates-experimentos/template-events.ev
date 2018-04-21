@@ -1,4 +1,0 @@
-00:00:00:00 inShockCriteria [{{shockCriteriaValue}}]
-{% for k,v in input_parameters.iteritems() -%}
-00:00:00:00 {{k}} [{{v}}]
-{% endfor %}
