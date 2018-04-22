@@ -16,7 +16,7 @@ Pulse::Pulse(const string &name) :
 	start(addInputPort("start")),
 	stop(addInputPort("stop")), 
 	out(addOutputPort("out")),
-	frequency_time(0,0,1,0),
+	frequency_time(0,0,10,0),
 	on(true),
 	dist(0,100),
 	rng(random_device()())
@@ -61,8 +61,8 @@ Model &Pulse::internalFunction(const InternalMessage &)
 
 Model &Pulse::outputFunction(const CollectMessage &msg)
 {
-	auto random_int = this->dist(this->rng);
-	Tuple<Real> out_value{Real(random_int), 0, 1};
+	auto random_int = -50;//this->dist(this->rng);
+	Tuple<Real> out_value{Real(random_int)};
 	sendOutput(msg.time(), out, out_value);
 	return *this ;
 }

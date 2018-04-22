@@ -22,8 +22,10 @@ class stock1DEVS_BASIC_COUPLED_stock1 : public Atomic {
 
   private:
     const Port &in_port_Totstock1;
+    const Port &in_port_subtract;
     Port &out_port_stock1;
 
+    bool non_negative;
     double dQ, dQMin, dQRel;
     double x[2], q;
     double gain;

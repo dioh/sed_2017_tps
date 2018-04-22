@@ -20,10 +20,13 @@ using namespace std;
 stock1DEVS_BASIC_COUPLED_stock1::stock1DEVS_BASIC_COUPLED_stock1(const string &name) :
     Atomic(name),
     in_port_Totstock1(addInputPort("in_port_Totstock1")),
+    in_port_subtract(addInputPort("in_port_subtract")),
     out_port_stock1(addOutputPort("out_port_stock1"))
 {
     dQRel = get_param("dQRel");
     dQMin = get_param("dQMin");
+
+    non_negative = get_param("non_negative");
 
     x[0] = get_param("x0");
     x[1] = 0;
@@ -89,15 +92,15 @@ Model &stock1DEVS_BASIC_COUPLED_stock1::initFunction()
 
 Model &stock1DEVS_BASIC_COUPLED_stock1::externalFunction(const ExternalMessage &msg)
 {
-    double diffxq[2];
-
     Real derx = Tuple<Real>::from_value(msg.value())[0];
-    derx = derx * gain;
-
-    VTime e = msg.time() - lastChange();
 
     if(msg.port() == in_port_Totstock1)
     {
+        double diffxq[2];
+
+        derx = derx * gain;
+        VTime e = msg.time() - lastChange();
+
         x[0] = x[0] + x[1] * this->to_seconds(e);
         x[1] = derx.value();
         if(sigma.asMsecs() > 0)
@@ -119,8 +122,17 @@ Model &stock1DEVS_BASIC_COUPLED_stock1::externalFunction(const ExternalMessage &
                 sigma = VTime::Zero;
         }
     }
+    else if (msg.port() == in_port_subtract)
+    {
+        x[0] = x[0] + derx.value();
+        if(x[0] < 0 && non_negative) {
+            x[0] = 0;
+        }
+        sigma = VTime::Zero;
+    }
     else
     {
+        derx = derx * gain;
         x[0] = derx.value();
         sigma = VTime::Zero;
     }

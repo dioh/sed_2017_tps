@@ -56,7 +56,7 @@ Model &flow1_stock1DEVS_BASIC_COUPLED_stock1::outputFunction(const CollectMessag
 {
 	
 	if( isSet_stock1 & isSet_PULSE_V_volume_FP_firstPulse_I_interval ) {
-	    Tuple<Real> out_value { PULSE_V_volume_FP_firstPulse_I_interval / stock1 };
+	    Tuple<Real> out_value { float(PULSE_V_volume_FP_firstPulse_I_interval / stock1) };
 		sendOutput(msg.time(), out_port_flow1_stock1, out_value);
 	}
 	
