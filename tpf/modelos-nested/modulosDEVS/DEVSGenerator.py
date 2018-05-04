@@ -93,14 +93,32 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
             with open( devsml_cpp_h_directory + aux_name + extension, 'w+') as f:
                 template_now = template_aux + extension
                 f.write(render_template(template_now, {
-                    'aux_name' : aa.get('name'),
+                    'aux_name': aa.get('name'),
                     'aux_name_lower': aux_name, 'aux_name_upper': aux_name.upper(),
-                    'input_ports': list( map( lambda x: x.get('name'), aa.find('inputs').findall('input')) ),
-                    'output_ports': list( map( lambda x: x.get('name'), aa.find('outputs').findall('output')) ),
+                    'input_ports': list(map(lambda x: x.get('name'), aa.find('inputs').findall('input'))),
+                    'output_ports': list(map(lambda x: x.get('name'), aa.find('outputs').findall('output'))),
                     'equation': aa.find('parameters').find('parameter').text
                 }))
         # por ahora el unico parametero posible es 'equation' aca } ))
         atomics_names.append(aux_name)
+
+    # TODO : terminar
+    # DEVSFpulse
+    template_pulse = cpp_h_templates_filenames['DEVSPulse']
+    atomic_pulses = filter(lambda x : x.get('model') == 'DEVSPulse', root.findall('.//atomicRef'))
+    for p in atomic_pulses:
+        pulse_name = p.get('name') + p.get('parent')
+        for extension in ['.h', '.cpp']:
+            with open(devsml_cpp_h_directory + pulse_name + extension, 'w+') as f:
+                template_now = template_pulse + extension
+                f.write(render_template(template_now, {
+                    'pulse_name': p.get('name'),
+                    'pulse_name_lower': pulse_name, 'pulse_name_upper': pulse_name.upper(),
+                    'input_ports': list(map(lambda x : x.get('name'), p.find('inputs').findall('input'))),
+                    'output_ports': list(map(lambda x : x.get('name'), p.find('outputs').findall('output'))),
+                    'equation': p.find('parameters').find('parameter').text
+                }))
+        atomics_names.append(pulse_name)
 
     # DEVSFtot
     template_tot = cpp_h_templates_filenames['DEVSFtot']
@@ -136,10 +154,6 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
                     'name': ai.get('name')
                 }))
         atomics_names.append(integrator_name)
-
-    # TODO
-    # DEVSFpulse
-    # etc.
 
     # Reg File
     template_reg = cpp_h_templates_filenames['reg']

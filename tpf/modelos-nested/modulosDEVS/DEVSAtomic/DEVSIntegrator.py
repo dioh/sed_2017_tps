@@ -15,7 +15,8 @@ class DEVSIntegrator(DEVSAtomicComponent):
         self.integrator_parameters = {
             'x0': self.equation.get_equation(),
             'dQRel': '0.001',
-            'dQMin': '0.001'
+            'dQMin': '0.001',
+            'non_negative': xmile_stock.get_non_negative()
         }
         self.type = 'DEVSIntegrator'
         self.input_ports = self.set_input_ports()
@@ -42,13 +43,18 @@ class DEVSIntegrator(DEVSAtomicComponent):
     # Setters
     def set_input_ports(self):
         # Note : appends 'Tot' as suffix
-        input_ports = [DEVSPort('Tot' + self.name, self, 'in')]
+        input_ports = [
+            DEVSPort('Tot' + self.name, self, 'in'), 
+            DEVSPort('subtract', self, 'in'), 
+            DEVSPort('increment', self, 'in')
+        ]
         variables = self.equation.get_variables()
         for var in variables:
             input_ports.append(DEVSPort(var, self, 'in'))
         # Note : appends input ports corresponding to special functions
-        for special_func_obj in self.equation.get_special_functions(self.parent):
-            input_ports.append(DEVSPort(special_func_obj.get_name(), self, 'in'))
+        # Note : lo de abajo es fruta, creo
+        #for special_func_obj in self.equation.get_special_functions(self.parent):
+        #    input_ports.append(DEVSPort(special_func_obj.get_name(), self, 'in'))
         return list(set(input_ports))
 
     # Getters

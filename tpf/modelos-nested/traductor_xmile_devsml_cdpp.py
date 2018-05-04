@@ -24,8 +24,7 @@ CPP_H_TEMPLATES_FILENAMES = {
     'DEVSAux': 'template-Aux-Fpm',
     'DEVSConstant': 'template-Cte',
     'events': 'template-ev.ev',
-    'DEVSPulse': 'd',
-    'DEVSPulse': 'd',
+    'DEVSPulse': 'template-Pulse',
     'DEVSIntegrator': 'qss1'
 }
 
@@ -73,12 +72,13 @@ params_traducciones = {
     #    'DEVSML_TOP_FILENAME': 'modelos/goodwin-minsky-matlab/top.xml',
     #    'DEVSML_MA_FILENAME': 'modelos/goodwin-minsky-matlab/mafile.ma'
     #},
-    'pulse1': {
-        'DIR_XMILE': 'modelos/builtin/pulse/pulse1.xmile',
-        'DEVSML_CPP_H_DIRECTORY': 'modelos/builtin/pulse/atomics/',
-        'DEVSML_EVENTS_FILENAME': 'modelos/builtin/pulse/events.ev',
-        'DEVSML_TOP_FILENAME': 'modelos/builtin/pulse/top.xml',
-        'DEVSML_MA_FILENAME': 'modelos/builtin/pulse/mafile.ma'
+
+    'pulse2': {
+        'DIR_XMILE': 'modelos/builtin/pulse2/pulse1.xmile',
+        'DEVSML_CPP_H_DIRECTORY': 'modelos/builtin/pulse2/atomics/',
+        'DEVSML_EVENTS_FILENAME': 'modelos/builtin/pulse2/events.ev',
+        'DEVSML_TOP_FILENAME': 'modelos/builtin/pulse2/top.xml',
+        'DEVSML_MA_FILENAME': 'modelos/builtin/pulse2/mafile.ma'
     }
 }
 

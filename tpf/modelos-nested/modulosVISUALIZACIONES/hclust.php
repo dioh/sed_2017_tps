@@ -9,31 +9,31 @@
 
 <script>
 
-// TODO : agregar FULL recursividad
+// TODO : setear bien los tamanios de los circulos, dependiendo de la cantidad de atomicos / acoplados que contenga adentro
 var makeSVG = function(root_svg, dataset, init_radius) {
 
-  var radius_factor_coupled = 0.81;
-  var radius_factor_atomic = 0.3;
+  var n_coupled = dataset['datasets'].length;
 
-  if(dataset['datasets'].length > 0) {
+  if(n_coupled > 0) {
     var coupled_nodes = dataset['datasets_nodes'];
     var coupled_links = dataset['datasets_links'];
 
-    makeGroup(root_svg+'_coupled', coupled_nodes, coupled_links, init_radius * radius_factor_coupled, 'coupled');
+    makeGroup(root_svg+'_coupled', coupled_nodes, coupled_links, init_radius * Math.log(n_coupled), 'coupled');
 
     for(var i=0; i < dataset['datasets'].length; i++) {
       atomic_name = dataset['datasets'][i];
       atomic_dataset = dataset[atomic_name];
 
-      makeSVG(atomic_name, atomic_dataset, init_radius * radius_factor_coupled * 0.5);
+      makeSVG(atomic_name, atomic_dataset, init_radius * Math.log(n_coupled) / (n_coupled + 1));
     }
 
   } else {
     var nodes = dataset['nodes'];
+    var n_nodes = nodes.length;
     var links = dataset['links'];
     
     //console.log(root_svg);
-    makeGroup(root_svg+'_coupled', nodes, links, init_radius * radius_factor_coupled * radius_factor_atomic * 0.81, 'atomic');
+    makeGroup(root_svg+'_coupled', nodes, links, init_radius / n_nodes, 'atomic');
   }
 }
 
@@ -63,7 +63,7 @@ var makeGroup = function(idSelector, data_nodes, data_links, radius, type_) {
     .strength(1);
 
   var charge_force = d3.forceManyBody()
-      .strength(-1000);
+      .strength(-1500);
 
   var center_force = d3.forceCenter(width / 2, height / 2);
 
@@ -96,8 +96,8 @@ var makeGroup = function(idSelector, data_nodes, data_links, radius, type_) {
         .attr("refX", 10)
         .attr("refY", 0)
         .attr("marker-units", "stroke-width")
-        .attr("markerWidth", 0.08*node_radius)
-        .attr("markerHeight", 0.08*node_radius)
+        .attr("markerWidth", 0.004*radius)
+        .attr("markerHeight", 0.004*radius)
         .attr("orient", "auto")
       .append("path")
         .attr("d", "M0,-5L10,0L0,5");
@@ -157,8 +157,10 @@ var makeGroup = function(idSelector, data_nodes, data_links, radius, type_) {
 
   var textName = node.append("text")
   		.text(function (d) { return d.name; })
-  		.attr("y", -15)
-  		.style("text-anchor", "middle");
+  		.attr("y", 0)
+  		.style("text-anchor", "middle")
+      .style("font-size", 10)
+      .attr("transform", "translate(0," + -node_radius + ")");
 
   /*var textOwned = node.append("text")
   		.text(function (d) { return d.id; })
@@ -181,7 +183,7 @@ var makeGroup = function(idSelector, data_nodes, data_links, radius, type_) {
   var zoom_handler = d3.zoom()
       .on("zoom", zoom_actions);
 
-  //zoom_handler(svg);
+  zoom_handler(svg);
 
   /** Functions **/
 
@@ -197,7 +199,7 @@ var makeGroup = function(idSelector, data_nodes, data_links, radius, type_) {
 
   // Drag functions
   function drag_start(d) {
-   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
     d3.select(this).classed("fixed", d.fixed = true);
@@ -212,8 +214,10 @@ var makeGroup = function(idSelector, data_nodes, data_links, radius, type_) {
 
   function drag_end(d) {
     if (!d3.event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
+
+    // TODO : comentar/descomentar para que los nodos se queden quietos despues de moverlos
+    //d.fx = null;
+    //d.fy = null;
     d3.select(this).classed("fixed", d.fixed = true);
   }
 

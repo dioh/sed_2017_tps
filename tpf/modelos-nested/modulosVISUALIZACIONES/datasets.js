@@ -48,11 +48,24 @@ var dataset3 = {
       ],
 
       'sub-dataset-1': {
-         "datasets":[], "nodes":[
-            {"name":"A", "id":"A", "level":"atomic", "color": "red"},{"name":"B", "id":"B", "level":"atomic", "color": "red"}], 
-         "links":[{"source":"A", "target":"B"}]
+         "datasets":['sub-sub-dataset-1', 'sub-sub-dataset-2'], 
+         
+         "datasets_nodes": [{"name":"sub-sub-dataset-1", "id":"sub-sub-dataset-1","level":"coupled","color":"blue"},{"name":"sub-sub-dataset-2", "id":"sub-sub-dataset-2","level":"coupled","color":"blue"}],
+         "datasets_links": [],
+         'sub-sub-dataset-1': {"datasets":[], 
+            "nodes": [{"name":"A", "id":"A", "level":"atomic", "color": "red"}, {"name":"B", "id":"B", "level":"atomic", "color": "red"}], 
+            "links":[{"source":"A", "target":"B"}]},
+         'sub-sub-dataset-2': {"datasets":[], 
+            "nodes": [{"name":"A", "id":"A", "level":"atomic", "color": "red"}], 
+            "links":[]}
       },
-      'sub-dataset-2': {"datasets":[], "nodes":[{"name":"T", "id":"2", "level":"atomic", "color": "red"}], "links":[]},
+      'sub-dataset-2': {
+         "datasets":['sub-sub-dataset-3', 'sub-sub-datset-4'],
+         "datasets_nodes": [{"name":"sub-sub-dataset-3", "id":"sub-sub-dataset-3","level":"coupled","color":"blue"},{"name":"sub-sub-dataset-4", "id":"sub-sub-dataset-4","level":"coupled","color":"blue"}],
+         "datasets_links": [],
+         'sub-sub-dataset-3': {"datasets":[], "nodes": [{"name":"A", "id":"A", "level":"atomic", "color": "red"}], "links":[]},
+         'sub-sub-datset-4': {"datasets":[], "nodes": [{"name":"A", "id":"A", "level":"atomic", "color": "red"}], "links":[]}
+      },
    }
 }
 

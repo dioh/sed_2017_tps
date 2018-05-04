@@ -21,6 +21,7 @@ stock1DEVS_BASIC_COUPLED_stock1::stock1DEVS_BASIC_COUPLED_stock1(const string &n
     Atomic(name),
     in_port_Totstock1(addInputPort("in_port_Totstock1")),
     in_port_subtract(addInputPort("in_port_subtract")),
+    in_port_increment(addInputPort("in_port_increment")),
     out_port_stock1(addOutputPort("out_port_stock1"))
 {
     dQRel = get_param("dQRel");
@@ -128,6 +129,11 @@ Model &stock1DEVS_BASIC_COUPLED_stock1::externalFunction(const ExternalMessage &
         if(x[0] < 0 && non_negative) {
             x[0] = 0;
         }
+        sigma = VTime::Zero;
+    }
+    else if (msg.port() == in_port_increment)
+    {
+        x[0] = x[0] - derx.value();
         sigma = VTime::Zero;
     }
     else

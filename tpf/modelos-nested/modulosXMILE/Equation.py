@@ -3,7 +3,7 @@ from py_expression_eval import Parser
 from modulosDEVS.DEVSAtomic.DEVSPulse import *
 from modulosDEVS.DEVSAtomic.DEVSRamp import *
 from modulosDEVS.DEVSAtomic.DEVSStep import *
-from modulosAuxiliares.SpecialFunctionFinder import *
+from modulosAuxiliares.SpecialFunctionFinder import SpecialFunctionFinder
 
 
 class Equation(object):
@@ -39,8 +39,8 @@ class Equation(object):
             parser = Parser()
             finder = SpecialFunctionFinder()
 
-            special_functions_names            = finder.getSpecialFunctionsNames()
-            special_functions_with_parameters  = finder.getSpecialFunctionsWithParameters(equation)
+            special_functions_names = finder.getSpecialFunctionsNames()
+            special_functions_with_parameters = finder.getSpecialFunctionsWithParameters(equation)
             
             # special_functions => lista de objectos funciones que estan en la ecuacion
             special_functions = []
@@ -54,10 +54,10 @@ class Equation(object):
             # variables => lista de variables que utiliza la ecuacion
             # Nota : es importante que esto corra sobre 'equation' ya modificada
             expression = parser.parse(equation)
-            variables  = expression.variables()
+            variables = expression.variables()
 
             # seteo variables y special_functions
-            self.variables         = variables
+            self.variables = variables
             self.special_functions = special_functions
             self.equation = equation
         return 

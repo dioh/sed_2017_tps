@@ -12,17 +12,17 @@
 #include "tuple_value.h"
 #include "value.h"
 
-#include "{{name_full}}.h"
+#include "stock1DEVS_BASIC_COUPLED_stock1.h"
 
 using namespace std;
 
 
-{{name_full}}::{{name_full}}(const string &name) :
+stock1DEVS_BASIC_COUPLED_stock1::stock1DEVS_BASIC_COUPLED_stock1(const string &name) :
     Atomic(name),
-    in_port_Tot{{name}}(addInputPort("in_port_Tot{{name}}")),
+    in_port_Totstock1(addInputPort("in_port_Totstock1")),
     in_port_subtract(addInputPort("in_port_subtract")),
     in_port_increment(addInputPort("in_port_increment")),
-    out_port_{{name}}(addOutputPort("out_port_{{name}}"))
+    out_port_stock1(addOutputPort("out_port_stock1"))
 {
     non_negative = get_param("non_negative");
 
@@ -42,13 +42,13 @@ using namespace std;
     if(gain == 0)
         gain = 1;
 
-#ifdef {{name_full_upper}}_LOG_OUTPUT
-    log_output_{{name}} = true;
+#ifdef STOCK1DEVS_BASIC_COUPLED_STOCK1_LOG_OUTPUT
+    log_output_stock1 = true;
 #else
-    log_output_{{name}} = false;
+    log_output_stock1 = false;
 #endif
 
-    if(log_output_{{name}})
+    if(log_output_stock1)
     {
         // delete file from previous run
         ofstream outf(description(), std::ofstream::out);
@@ -56,7 +56,7 @@ using namespace std;
     }
 }
 
-VTime {{name_full}}::minposroot(double *coeff)
+VTime stock1DEVS_BASIC_COUPLED_stock1::minposroot(double *coeff)
 {
     float mpr;
     VTime ret;
@@ -76,13 +76,13 @@ VTime {{name_full}}::minposroot(double *coeff)
     return ret;
 }
 
-double {{name_full}}::to_seconds(const VTime &vt)
+double stock1DEVS_BASIC_COUPLED_stock1::to_seconds(const VTime &vt)
 {
     return vt.asMsecs() / 1000.;
 }
 
 
-Model &{{name_full}}::initFunction()
+Model &stock1DEVS_BASIC_COUPLED_stock1::initFunction()
 {
     sigma = VTime::Zero;
     holdIn(AtomicState::active, sigma);
@@ -91,7 +91,7 @@ Model &{{name_full}}::initFunction()
 }
 
 
-Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
+Model &stock1DEVS_BASIC_COUPLED_stock1::externalFunction(const ExternalMessage &msg)
 {
     double diffxq[2];
 
@@ -100,7 +100,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
 
     VTime e = msg.time() - lastChange();
 
-    if(msg.port() == in_port_Tot{{name}})
+    if(msg.port() == in_port_Totstock1)
     {
         x[0] = x[0] + x[1] * this->to_seconds(e);
         x[1] = derx.value();
@@ -150,7 +150,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &{{name_full}}::internalFunction(const InternalMessage &msg)
+Model &stock1DEVS_BASIC_COUPLED_stock1::internalFunction(const InternalMessage &msg)
 {
     x[0] = x[0] + x[1] * this->to_seconds(sigma);
     q = x[0];    
@@ -172,14 +172,14 @@ Model &{{name_full}}::internalFunction(const InternalMessage &msg)
 }
 
 
-Model &{{name_full}}::outputFunction(const CollectMessage &msg)
+Model &stock1DEVS_BASIC_COUPLED_stock1::outputFunction(const CollectMessage &msg)
 {
     double y[2] = {x[0], x[1]};
 
     y[0] = y[0] + y[1] * this->to_seconds(sigma);
     y[1] = 0;     
 
-    if(log_output_{{name}})
+    if(log_output_stock1)
     {
         // send output to file
         ofstream outf(description(), std::ofstream::out | std::ofstream::app);
@@ -188,12 +188,12 @@ Model &{{name_full}}::outputFunction(const CollectMessage &msg)
     }
 
     Tuple<Real> out_value{y[0]};
-    sendOutput(msg.time(), out_port_{{name}}, out_value);
+    sendOutput(msg.time(), out_port_stock1, out_value);
 
     return *this ;
 }
 
-double {{name_full}}::get_param(const string &name)
+double stock1DEVS_BASIC_COUPLED_stock1::get_param(const string &name)
 {
     double value = 0;
 

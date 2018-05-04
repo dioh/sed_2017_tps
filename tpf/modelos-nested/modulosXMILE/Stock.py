@@ -70,8 +70,8 @@ class Stock(object):
     def get_non_negative(self):
         nonNegative = self.stock_element.find('non_negative')
         if nonNegative is None:
-            return False
-        return True
+            return 0
+        return 1
 
     def get_equation_variables(self):
         return self.equation.get_variables()

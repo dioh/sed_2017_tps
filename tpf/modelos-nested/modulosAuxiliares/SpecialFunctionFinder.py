@@ -1,5 +1,5 @@
 
-from modulosDEVS.DEVSAtomic.DEVSPulse import *
+from modulosDEVS.DEVSAtomic.DEVSPulse import DEVSPulse
 import re
 
 class SpecialFunctionFinder(object):
@@ -64,7 +64,7 @@ class SpecialFunctionFinder(object):
                     if len(parameters) > 1:
                         first_pulse = parameters[1]
                     if len(parameters) > 2:
-                        interval    = parameters[2]
+                        interval = parameters[2]
                         devs_pulse = DEVSPulse(volume, first_pulse, interval)
             assert(devs_pulse is not None)
             return devs_pulse

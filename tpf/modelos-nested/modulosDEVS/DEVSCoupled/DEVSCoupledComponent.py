@@ -1,5 +1,7 @@
 
-from modulosDEVS.DEVSConnection import *
+from modulosDEVS.DEVSInternalConnection import DEVSInternalConnection
+from modulosDEVS.DEVSExternalInputConnection import DEVSExternalInputConnection
+from modulosDEVS.DEVSExternalOutputConnection import DEVSExternalOutputConnection
 from modulosDEVS.DEVSPort import DEVSPort
 from modulosDEVS.DEVSComponent import DEVSComponent
 from modulosDEVS.DEVSCoupled.DEVSBasicCoupledComponent import DEVSBasicCoupledComponent
@@ -162,7 +164,7 @@ class DEVSCoupledComponent(DEVSComponent):
         # Special Functions
         for atomic_component in atomic_components:
             special_atomic_components = atomic_component.get_equation().get_special_functions(self.name)
-            atomic_components         = atomic_components + special_atomic_components
+            atomic_components = atomic_components + special_atomic_components
 
         return list(set(atomic_components))
     
@@ -263,7 +265,7 @@ class DEVSCoupledComponent(DEVSComponent):
                 # si el atomico tiene el puerto de input para esto...
                 for atomic_input_port in atomic_component.get_input_ports():
                     if atomic_input_port.get_name() == input_port.get_name():
-                        port_to      = atomic_input_port
+                        port_to = atomic_input_port
                         component_to = atomic_component
                         if not (component_to.get_type()== 'DEVSAux' and port_to.get_name() in input_names_matching_components):
                             inputs_atomic_connections.append(
@@ -282,7 +284,7 @@ class DEVSCoupledComponent(DEVSComponent):
                 # si el acoplado tiene el puerto de input para esto...
                 for coupled_input_port in coupled_component.get_input_ports():
                     if coupled_input_port.get_name() == input_port.get_name() and coupled_input_port.get_name() not in cte_aux_names:
-                        port_to      = coupled_input_port
+                        port_to = coupled_input_port
                         component_to = coupled_component
                         input_coupled_connections.append(
                             DEVSExternalInputConnection(port_from, port_to, component_to)
@@ -394,7 +396,7 @@ class DEVSCoupledComponent(DEVSComponent):
 
         # TODO : que esto lo haga un helper
         xmile_stocks = xmile_generic_model.get_stocks()
-        xmile_flows  = xmile_generic_model.get_flows()
+        xmile_flows = xmile_generic_model.get_flows()
         coupleds = []
 
         # TODO : arreglar problemas de nombres en inputs para Ftot's (minus / plus no alcanzan como nombres de puertos)
@@ -517,38 +519,43 @@ class DEVSCoupledComponent(DEVSComponent):
                         updated_port = ftot.add_minus_port(output_port.get_name())
                         internal_connections.append(DEVSInternalConnection(output_port, fm, updated_port, ftot))
 
-                # Nota : las SpecialFunction's las dejo adentro del BASIC
+                # Integrator <=> Fp's/Fm's | SpecialFunctions <=> Fp's/Fm's (las SpecialFunction's las dejo adentro del BASIC)
+                # Fp's
                 for fp in devs_fps:
                     input_ports_fp = fp.get_input_ports()
                     for input_port in input_ports_fp:
-                        # SpecialFunctions => Fp's
-                        for special_func_obj in fp.get_equation().get_special_functions(name):
-                            if input_port.get_name() == special_func_obj.get_name():
-                                internal_connections.append(DEVSInternalConnection(
-                                    DEVSPort(special_func_obj.get_name(), special_func_obj, 'out'), special_func_obj, input_port, fp
-                                ))
                         # Integrator => Fp's
                         if integrator.get_name() == input_port.get_name():
-                            output_port =  integrator.get_output_ports()[0] # tiene solo 1 output port
+                            output_port = integrator.get_output_ports()[0]
                             internal_connections.append(DEVSInternalConnection(
                                 output_port, integrator, input_port, input_port.get_component()
                             ))
+                        # SpecialFunctions => Fp's
+                        for special_func_obj in fp.get_equation().get_special_functions(name):
+                            if special_func_obj.get_type() == 'DEVSPulse':
+                                internal_connections.append(DEVSInternalConnection(
+                                    DEVSPort(special_func_obj.get_name(), special_func_obj, 'out'), special_func_obj,
+                                    DEVSPort('increment', integrator, 'in'), integrator
+                                ))
 
+                # Fm's
                 for fm in devs_fms:
                     input_ports_fm = fm.get_input_ports()
                     for input_port in input_ports_fm:
-                        # SpecialFunctions => Fm's
-                        for special_func_obj in fm.get_equation().get_special_functions(name):
-                            if input_port.get_name() == special_func_obj.get_name():
-                                internal_connections.append(DEVSInternalConnection(
-                                    DEVSPort(special_func_obj.get_name(), special_func_obj, 'out'), special_func_obj, input_port, fm
-                                ))
                         # Integrator => Fm's
                         if integrator.get_name() == input_port.get_name():
-                            output_port =  integrator.get_output_ports()[0] # tiene solo 1 output port
+                            output_port = integrator.get_output_ports()[0]
                             internal_connections.append(DEVSInternalConnection(
                                 output_port, integrator, input_port, input_port.get_component()
                             ))
+                        # TODO : si special_func_obj.get_type() == 'DEVSPulse' , conectar con el integrator en lugar de con Fm
+                        # SpecialFunctions => Fm's
+                        for special_func_obj in fm.get_equation().get_special_functions(name):
+                            if special_func_obj.get_type() == 'DEVSPulse':
+                                internal_connections.append(DEVSInternalConnection(
+                                    DEVSPort(special_func_obj.get_name(), special_func_obj, 'out'), special_func_obj,
+                                    DEVSPort('subtract', integrator, 'in'), integrator
+                                ))
                 internal_connections = list(set(internal_connections))
                 
                 # Append component

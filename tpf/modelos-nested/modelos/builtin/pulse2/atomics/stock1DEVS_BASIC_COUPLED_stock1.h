@@ -21,25 +21,23 @@ class stock1DEVS_BASIC_COUPLED_stock1 : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    bool non_negative;
     const Port &in_port_Totstock1;
-    const Port &in_port_subtract;
-    const Port &in_port_increment;
     Port &out_port_stock1;
 
-    //
     double dQ, dQMin, dQRel;
     double x[2], q;
     double gain;
     VTime sigma; // track last change
 
     bool log_output_stock1;
-
     double get_param(const string &);
-
     VTime minposroot(double *coeff);
-
     double to_seconds(const VTime &);
+
+    // Agregados
+    bool non_negative;
+    const Port &in_port_subtract;
+    const Port &in_port_increment;
 
 };
 
