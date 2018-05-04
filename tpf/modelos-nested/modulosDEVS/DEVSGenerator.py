@@ -102,8 +102,7 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
         # por ahora el unico parametero posible es 'equation' aca } ))
         atomics_names.append(aux_name)
 
-    # TODO : terminar
-    # DEVSFpulse
+    # DEVSFPulse
     template_pulse = cpp_h_templates_filenames['DEVSPulse']
     atomic_pulses = filter(lambda x : x.get('model') == 'DEVSPulse', root.findall('.//atomicRef'))
     for p in atomic_pulses:

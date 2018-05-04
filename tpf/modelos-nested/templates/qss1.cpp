@@ -126,7 +126,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
     // Agrega posibilidad de bajar el valor de forma discreta
     else if (msg.port() == in_port_subtract)
     {
-        x[0] = x[0] + derx.value();
+        x[0] = x[0] - derx.value();
         if(x[0] < 0 && non_negative) {
             x[0] = 0;
         }
@@ -135,7 +135,7 @@ Model &{{name_full}}::externalFunction(const ExternalMessage &msg)
     // Agrega posibilidad de incrementar el valor en forma discreta
     else if (msg.port() == in_port_increment)
     {
-        x[0] = x[0] - derx.value();
+        x[0] = x[0] + derx.value();
         sigma = VTime::Zero;
     }
     else

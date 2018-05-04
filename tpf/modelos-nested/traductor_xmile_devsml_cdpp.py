@@ -73,12 +73,19 @@ params_traducciones = {
     #    'DEVSML_MA_FILENAME': 'modelos/goodwin-minsky-matlab/mafile.ma'
     #},
 
-    'pulse2': {
-        'DIR_XMILE': 'modelos/builtin/pulse2/pulse1.xmile',
-        'DEVSML_CPP_H_DIRECTORY': 'modelos/builtin/pulse2/atomics/',
-        'DEVSML_EVENTS_FILENAME': 'modelos/builtin/pulse2/events.ev',
-        'DEVSML_TOP_FILENAME': 'modelos/builtin/pulse2/top.xml',
-        'DEVSML_MA_FILENAME': 'modelos/builtin/pulse2/mafile.ma'
+    #'pulse2': {
+    #    'DIR_XMILE': 'modelos/builtin/pulse2/pulse1.xmile',
+    #    'DEVSML_CPP_H_DIRECTORY': 'modelos/builtin/pulse2/atomics/',
+    #    'DEVSML_EVENTS_FILENAME': 'modelos/builtin/pulse2/events.ev',
+    #    'DEVSML_TOP_FILENAME': 'modelos/builtin/pulse2/top.xml',
+    #    'DEVSML_MA_FILENAME': 'modelos/builtin/pulse2/mafile.ma'
+    #},
+    'pulse3': {
+        'DIR_XMILE': 'modelos/builtin/pulse3/pulse3.xmile',
+        'DEVSML_CPP_H_DIRECTORY': 'modelos/builtin/pulse3/atomics/',
+        'DEVSML_EVENTS_FILENAME': 'modelos/builtin/pulse3/events.ev',
+        'DEVSML_TOP_FILENAME': 'modelos/builtin/pulse3/top.xml',
+        'DEVSML_MA_FILENAME': 'modelos/builtin/pulse3/mafile.ma'
     }
 }
 

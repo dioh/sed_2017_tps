@@ -33,7 +33,7 @@ class SpecialFunctionFinder(object):
                 ans = ans + search_results
         return ans
 
-    def parseFunctionWithParameters(self, func_with_parameters):
+    def parseFunctionWithParameters(self, destiny_name, func_with_parameters):
         # Chequeo que la funcion este entre las que puedo parsear
         func_name = None
         ok = False
@@ -43,10 +43,10 @@ class SpecialFunctionFinder(object):
                 func_name = name
         assert(ok)
         assert(func_name is not None)
-        return self.generateFunction(func_name, func_with_parameters)
+        return self.generateFunction(destiny_name, func_name, func_with_parameters)
         
     # TODO : esta funcion pasarla a un 'SpecialFunctionGenerator', que puede generar DEVSPulse, DEVSRamp, etc.
-    def generateFunction(self, func_name, equation):
+    def generateFunction(self, destiny_name, func_name, equation):
         # PULSE(volume, [<first pulse>, <interval>])
         if func_name == 'PULSE':
             devs_pulse = None
@@ -65,7 +65,8 @@ class SpecialFunctionFinder(object):
                         first_pulse = parameters[1]
                     if len(parameters) > 2:
                         interval = parameters[2]
-                        devs_pulse = DEVSPulse(volume, first_pulse, interval)
+                        # IMPORTANTE : PASAR EL NOMBRE DEL PADRE (EN DONDE ESTA DEFINIDA LA FUNCION, PARA QUE SEA INCLUIDO EN EL NOMBRE)
+                        devs_pulse = DEVSPulse(destiny_name, volume, first_pulse, interval)
             assert(devs_pulse is not None)
             return devs_pulse
         else:

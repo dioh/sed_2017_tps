@@ -23,7 +23,7 @@ class {{pulse_name_lower}} : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &start;
+    const Port &in_port_start;
     const Port &stop;
     Port &out;
 
@@ -34,6 +34,9 @@ class {{pulse_name_lower}} : public Atomic {
     std::mt19937 rng;
 
     // Agregados
+    const Port &in_port_volume;
+    bool isSet_in_port_volume = false;
+    float volume;
     {% for output_port_name in output_ports %}
     Port &out_port_{{output_port_name}};
     {% endfor -%}

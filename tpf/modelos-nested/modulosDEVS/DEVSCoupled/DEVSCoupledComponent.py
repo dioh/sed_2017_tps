@@ -161,7 +161,8 @@ class DEVSCoupledComponent(DEVSComponent):
             devs_auxs.append(DEVSAux(xmile_aux, xmile_model, aux_dependencies))
         
         atomic_components = atomic_components + devs_ctes + devs_auxs
-        # Special Functions
+
+        # Special Functions  : NOMBRE DEBE CAMBIAR SEGUN A DONDE ENTRA!
         for atomic_component in atomic_components:
             special_atomic_components = atomic_component.get_equation().get_special_functions(self.name)
             atomic_components = atomic_components + special_atomic_components
@@ -233,6 +234,7 @@ class DEVSCoupledComponent(DEVSComponent):
             for output_port in basic_coupled_outputs:
                 my_internal_output_names.append(output_port.get_name())
 
+        # Agrego inputs
         for atomic_component in self.get_atomic_components():
             for input_port in atomic_component.get_input_ports():
                 if input_port.get_name() not in my_internal_output_names:
@@ -434,10 +436,13 @@ class DEVSCoupledComponent(DEVSComponent):
                     atomic_components = atomic_components + special_atomics
                 
                 ###########
-                # Inputs : necesito 1 input para cada variable que usan los flows
+                # Inputs : 
+                #   . necesito 1 input para cada variable que usan los flows
+                #   . necesito los inputs requeridos por cada SpecialFunction de cada Fp/Fm 
                 # Nota : es necesario quitar de esta lista a lo que corresponden a 'stock'
                 # Nota : filtro los inputs correspondientes a funciones especiales (estas quedan ADENTRO del BASIC_) (ZZZ)
                 input_ports = []
+                # Agrego inputs correspondientes a la ecuacion 'pelada' del Fp/Fm
                 for devs_fp in devs_fps:
                     input_ports_fp = devs_fp.get_input_ports()
                     for input_port_fp in input_ports_fp:
@@ -454,12 +459,12 @@ class DEVSCoupledComponent(DEVSComponent):
                 for devs_fp in devs_fps:
                     special_functions = devs_fp.get_equation().get_special_functions(name)
                     for special_func_obj in special_functions:
-                        for variable_name in special_func_obj.get_variables():
+                        for variable_name in special_func_obj.get_all_inputs():
                             input_ports.append(DEVSPort(variable_name, self, 'in'))
                 for devs_fm in devs_fms:
                     special_functions = devs_fm.get_equation().get_special_functions(name)
                     for special_func_obj in special_functions:
-                        for variable_name in special_func_obj.get_variables():
+                        for variable_name in special_func_obj.get_all_inputs():
                             input_ports.append(DEVSPort(variable_name, self, 'in'))
 
                 # Si un fp y fm reciben el mismo input, solo voy a querer que llegue por un unico puerto
@@ -548,7 +553,6 @@ class DEVSCoupledComponent(DEVSComponent):
                             internal_connections.append(DEVSInternalConnection(
                                 output_port, integrator, input_port, input_port.get_component()
                             ))
-                        # TODO : si special_func_obj.get_type() == 'DEVSPulse' , conectar con el integrator en lugar de con Fm
                         # SpecialFunctions => Fm's
                         for special_func_obj in fm.get_equation().get_special_functions(name):
                             if special_func_obj.get_type() == 'DEVSPulse':

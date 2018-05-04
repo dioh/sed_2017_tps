@@ -7,12 +7,13 @@ from modulosAuxiliares.SpecialFunctionFinder import SpecialFunctionFinder
 
 
 class Equation(object):
-    def __init__(self, equation, debug=False):
+    def __init__(self, equation, destiny_name='', debug=False):
         self.debug = debug
         self.equation = None
         self.variables = []
         self.special_functions = []
-        # Reseteo el equationo para que en lugar de PULSE(a,b,c) 
+        self.destiny_name = destiny_name
+        # Reseteo el equation para que en lugar de PULSE(a,b,c) 
         # tengo PULSE_a_b_c como variable
         self.set_variables_and_equation_and_functions(equation)
 
@@ -46,7 +47,7 @@ class Equation(object):
             special_functions = []
             for func_with_params in special_functions_with_parameters:
                 # Genero el objeto correspondiente a esta funcion
-                obj_func = finder.parseFunctionWithParameters(func_with_params)
+                obj_func = finder.parseFunctionWithParameters(self.destiny_name, func_with_params)
                 special_functions.append(obj_func)
                 # Defino nombre que va a tener la variable correspondiente al output de esta funcion ; Redefino el equationo de 'equation'
                 equation = equation.replace(func_with_params, obj_func.get_name())

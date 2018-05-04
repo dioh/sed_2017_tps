@@ -4,11 +4,13 @@ from modulosDEVS.DEVSAtomic.DEVSAtomicComponent import DEVSAtomicComponent
 
 
 class DEVSPulse(DEVSAtomicComponent):
-    def __init__(self, volume, first_pulse, interval):
+    def __init__(self, destiny_name, volume, first_pulse, interval):
         # TODO : llamar constructor del parent : in Python 2 use super(DEVSPulse, self).__init__()
+        self.destiny_name = destiny_name
         self.volume = volume
         self.first_pulse = first_pulse
         self.interval = interval
+        self.extra_inputs = ['start']
         self.name = self.set_name()
         self.input_ports = self.set_input_ports()
         self.output_ports = self.set_output_ports()
@@ -21,7 +23,8 @@ class DEVSPulse(DEVSAtomicComponent):
             'name': self.name,
             'volume': self.volume,
             'first_pulse': self.first_pulse,
-            'interval': self.interval
+            'interval': self.interval,
+            'destiny_name': self.destiny_name
         })
 
     def __str__(self):
@@ -29,7 +32,8 @@ class DEVSPulse(DEVSAtomicComponent):
             'name': self.name,
             'volume': self.volume,
             'first_pulse': self.first_pulse,
-            'interval': self.interval
+            'interval': self.interval,
+            'destiny_name': self.destiny_name
         })
 
     # Setters
@@ -45,12 +49,12 @@ class DEVSPulse(DEVSAtomicComponent):
         vol_name = 'V_' + str(self.volume).replace('.', '_')
         first_pulse_name = 'FP_' + str(self.first_pulse).replace('.', '_')
         interval_name = 'I_' + str(self.interval).replace('.', '_')
-        name = 'PULSE_' + vol_name + '_' + first_pulse_name + '_' + interval_name
+        name = 'PULSE_' + vol_name + '_' + first_pulse_name + '_' + interval_name + '_' + self.destiny_name
         return name
 
     def set_input_ports(self):
         # los correspondientes a las variables que se utilizen como parametro de la funcion
-        input_ports = []
+        input_ports = [DEVSPort(extra_input_name, self, 'in') for extra_input_name in self.extra_inputs]
         try:
             # no es una variable alfanumerica (es numerica) => no debe entrar ese valor por input
             float(self.volume)
@@ -96,6 +100,9 @@ class DEVSPulse(DEVSAtomicComponent):
     # devuelve todo lo que sea alfanumerico
     def get_variables(self):
         return self.equation.get_variables()
+
+    def get_all_inputs(self):
+        return self.get_variables() + self.extra_inputs
 
     def parameters(self):
         return {'equation': self.equation.get_equation()}

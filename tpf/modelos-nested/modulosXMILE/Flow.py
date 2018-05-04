@@ -38,7 +38,7 @@ class Flow(object):
         equation = self.flow_element.find(self.source_xmlns + 'eqn').text
         if equation == '':
             raise Exception('Error: hay una ecuacion definida sin ningun simbolo (invalida) en ' + self.name)
-        return Equation(equation, self.debug)
+        return Equation(equation, self.name, self.debug)
         
     def get_non_negative(self):
         nonNegative = self.flow_element.find('non_negative')

@@ -6,27 +6,27 @@
 #include "real.h"
 #include "tuple_value.h"
 
-#include "{{pulse_name_lower}}.h"
+#include "PULSE_V_volume_FP_firstPulse_I_interval_flow1DEVS_BASIC_COUPLED_stock1.h"
 
 using namespace std;
 
 
-{{pulse_name_lower}}::{{pulse_name_lower}}(const string &name) :
+PULSE_V_volume_FP_firstPulse_I_interval_flow1DEVS_BASIC_COUPLED_stock1::PULSE_V_volume_FP_firstPulse_I_interval_flow1DEVS_BASIC_COUPLED_stock1(const string &name) :
 	Atomic(name),
-	in_port_start(addInputPort("in_port_start")),
+	start(addInputPort("start")),
 	stop(addInputPort("stop")), 
 	out(addOutputPort("out")),
 	//frequency_time(0,0,10,0),
 	on(true),
 	dist(0,100),
 	rng(random_device()()),
-	out_port_{{pulse_name}}(addOutputPort("out_port_{{pulse_name}}")),
+	out_port_PULSE_V_volume_FP_firstPulse_I_interval_flow1(addOutputPort("out_port_PULSE_V_volume_FP_firstPulse_I_interval_flow1")),
 	in_port_volume(addInputPort("in_port_volume"))
 {
 }
 
 
-Model &{{pulse_name_lower}}::initFunction()
+Model &PULSE_V_volume_FP_firstPulse_I_interval_flow1DEVS_BASIC_COUPLED_stock1::initFunction()
 {
 	//holdIn(AtomicState::active, this->frequency_time);
 	// TODO : get frequency_time parameters from get_params in .ma file
@@ -36,9 +36,9 @@ Model &{{pulse_name_lower}}::initFunction()
 }
 
 
-Model &{{pulse_name_lower}}::externalFunction(const ExternalMessage &msg)
+Model &PULSE_V_volume_FP_firstPulse_I_interval_flow1DEVS_BASIC_COUPLED_stock1::externalFunction(const ExternalMessage &msg)
 {
-	if(msg.port() == in_port_start && isSet_in_port_volume)
+	if(msg.port() == start && isSet_in_port_volume)
 	{
 		this->on = true;
 		holdIn(AtomicState::active, this->frequency_time);
@@ -59,7 +59,7 @@ Model &{{pulse_name_lower}}::externalFunction(const ExternalMessage &msg)
 }
 
 
-Model &{{pulse_name_lower}}::internalFunction(const InternalMessage &)
+Model &PULSE_V_volume_FP_firstPulse_I_interval_flow1DEVS_BASIC_COUPLED_stock1::internalFunction(const InternalMessage &)
 {
 	if(this->on)
 		holdIn(AtomicState::active, this->frequency_time);
@@ -70,10 +70,10 @@ Model &{{pulse_name_lower}}::internalFunction(const InternalMessage &)
 }
 
 
-Model &{{pulse_name_lower}}::outputFunction(const CollectMessage &msg)
+Model &PULSE_V_volume_FP_firstPulse_I_interval_flow1DEVS_BASIC_COUPLED_stock1::outputFunction(const CollectMessage &msg)
 {
 	auto random_int = this->volume;//this->dist(this->rng);
 	Tuple<Real> out_value{Real(random_int)};
-	sendOutput(msg.time(), out_port_{{pulse_name}}, out_value);
+	sendOutput(msg.time(), out_port_PULSE_V_volume_FP_firstPulse_I_interval_flow1, out_value);
 	return *this ;
 }

@@ -58,7 +58,7 @@ class Aux(object):
         except:
             print('aux_element: {0}'.format(aux_element))
             print('equation: {0}'.format(equation))
-        return Equation(equation, self.debug)
+        return Equation(equation, self.name, self.debug)
 
     def get_equation(self):
         return self.equation
