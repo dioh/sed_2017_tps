@@ -55,14 +55,8 @@ Model &TotPreyDEVS_BASIC_COUPLED_Prey::internalFunction(const InternalMessage &)
 Model &TotPreyDEVS_BASIC_COUPLED_Prey::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_PlusPrey_Prey & isSet_MinusPrey_Prey) {
-		plus = plus + PlusPrey_Prey;
-		minus = minus + MinusPrey_Prey;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotPrey, out_value);
-		}
-
+	double minus = 0;if(isSet_PlusPrey_Prey) { plus = plus + PlusPrey_Prey; }if(isSet_MinusPrey_Prey) { minus = minus + MinusPrey_Prey; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotPrey, out_value);
 	return *this ;
 }

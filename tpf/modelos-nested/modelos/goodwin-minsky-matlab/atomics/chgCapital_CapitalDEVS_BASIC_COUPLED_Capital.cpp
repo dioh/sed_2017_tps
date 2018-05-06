@@ -52,6 +52,9 @@ Model &chgCapital_CapitalDEVS_BASIC_COUPLED_Capital::outputFunction(const Collec
 	if( isSet_InvestmentNetReal ) {
 	    Tuple<Real> out_value { InvestmentNetReal };
 		sendOutput(msg.time(), out_port_chgCapital_Capital, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_chgCapital_Capital, out_value);
 	}
 	
 	return *this ;

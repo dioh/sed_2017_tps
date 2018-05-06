@@ -64,6 +64,9 @@ Model &preySubFlow_PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock::output
 	if( isSet_PreySubModelStock & isSet_PreySubSubModelStock & isSet_Prey ) {
 	    Tuple<Real> out_value { 0 * PreySubModelStock + 0 *  Prey + 0 * PreySubSubModelStock };
 		sendOutput(msg.time(), out_port_preySubFlow_PreySubModelStock, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_preySubFlow_PreySubModelStock, out_value);
 	}
 	
 	return *this ;

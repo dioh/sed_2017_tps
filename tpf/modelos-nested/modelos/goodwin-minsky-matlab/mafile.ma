@@ -138,6 +138,7 @@ link: out_port_chgCapital_Capital@chgCapital_Capital1 in_plus_port_chgCapital_Ca
 [Capital1]
 % Atomic model DEVSIntegrator
 x0: 300
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 
@@ -175,6 +176,7 @@ link: out_port_chgDebt_Debt@chgDebt_Debt1 in_plus_port_chgDebt_Debt@TotDebt1
 [Debt1]
 % Atomic model DEVSIntegrator
 x0: 0
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 
@@ -213,6 +215,7 @@ link: out_port_LaborProductivity@LaborProductivity1 in_port_LaborProductivity@ch
 [LaborProductivity1]
 % Atomic model DEVSIntegrator
 x0: 1
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 
@@ -251,6 +254,7 @@ link: out_port_Population@Population1 in_port_Population@chgPopulation_Populatio
 [Population1]
 % Atomic model DEVSIntegrator
 x0: 150
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 
@@ -289,6 +293,7 @@ link: out_port_TotwageRate@TotwageRate1 in_port_TotwageRate@wageRate1
 [wageRate1]
 % Atomic model DEVSIntegrator
 x0: 0.8
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 

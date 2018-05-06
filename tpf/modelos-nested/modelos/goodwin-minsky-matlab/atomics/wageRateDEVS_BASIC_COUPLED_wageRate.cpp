@@ -20,8 +20,12 @@ using namespace std;
 wageRateDEVS_BASIC_COUPLED_wageRate::wageRateDEVS_BASIC_COUPLED_wageRate(const string &name) :
     Atomic(name),
     in_port_TotwageRate(addInputPort("in_port_TotwageRate")),
+    in_port_subtract(addInputPort("in_port_subtract")),
+    in_port_increment(addInputPort("in_port_increment")),
     out_port_wageRate(addOutputPort("out_port_wageRate"))
 {
+    non_negative = get_param("non_negative");
+
     dQRel = get_param("dQRel");
     dQMin = get_param("dQMin");
 
@@ -118,6 +122,21 @@ Model &wageRateDEVS_BASIC_COUPLED_wageRate::externalFunction(const ExternalMessa
             if(fabs(x[0] - q) > dQ)
                 sigma = VTime::Zero;
         }
+    }
+    // Agrega posibilidad de bajar el valor de forma discreta
+    else if (msg.port() == in_port_subtract)
+    {
+        x[0] = x[0] - derx.value();
+        if(x[0] < 0 && non_negative) {
+            x[0] = 0;
+        }
+        sigma = VTime::Zero;
+    }
+    // Agrega posibilidad de incrementar el valor en forma discreta
+    else if (msg.port() == in_port_increment)
+    {
+        x[0] = x[0] + derx.value();
+        sigma = VTime::Zero;
     }
     else
     {

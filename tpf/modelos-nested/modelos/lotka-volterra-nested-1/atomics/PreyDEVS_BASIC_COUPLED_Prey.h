@@ -30,12 +30,14 @@ class PreyDEVS_BASIC_COUPLED_Prey : public Atomic {
     VTime sigma; // track last change
 
     bool log_output_Prey;
-
     double get_param(const string &);
-
     VTime minposroot(double *coeff);
-
     double to_seconds(const VTime &);
+
+    // Agregados
+    bool non_negative;
+    const Port &in_port_subtract;
+    const Port &in_port_increment;
 
 };
 

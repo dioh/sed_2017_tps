@@ -14,3 +14,10 @@ Update:
 
 Pendientes:
 	* reestructurar el codigo un toque... usar clases / subclases
+	* DEVSPulse: 
+		* cambiar 'start' por first_pulse
+
+
+Comentarios:
+	* DEVSPulse:
+		. que pasa si en equation biene un PULSE(,,) + 'algo'? (guardar ultimo valor de PULSE) => comportamiento indefinido (ver que pasa en STELLA ... es medio raro)

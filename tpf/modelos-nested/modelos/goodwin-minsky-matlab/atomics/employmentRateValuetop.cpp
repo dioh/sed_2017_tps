@@ -58,6 +58,9 @@ Model &employmentRateValuetop::outputFunction(const CollectMessage &msg)
 	if( isSet_Labor & isSet_Population ) {
 	    Tuple<Real> out_value { (Labor/Population) };
 		sendOutput(msg.time(), out_port_employmentRateValue, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_employmentRateValue, out_value);
 	}
 	
 	return *this ;

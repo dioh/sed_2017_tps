@@ -58,6 +58,9 @@ Model &chgwageRate_wageRateDEVS_BASIC_COUPLED_wageRate::outputFunction(const Col
 	if( isSet_wageFunction & isSet_wageRate ) {
 	    Tuple<Real> out_value { (wageFunction*wageRate) };
 		sendOutput(msg.time(), out_port_chgwageRate_wageRate, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_chgwageRate_wageRate, out_value);
 	}
 	
 	return *this ;

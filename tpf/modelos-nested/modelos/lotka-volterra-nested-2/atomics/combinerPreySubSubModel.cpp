@@ -58,6 +58,9 @@ Model &combinerPreySubSubModel::outputFunction(const CollectMessage &msg)
 	if( isSet_Prey & isSet_ctePulse ) {
 	    Tuple<Real> out_value { ctePulse + Prey };
 		sendOutput(msg.time(), out_port_combiner, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_combiner, out_value);
 	}
 	
 	return *this ;

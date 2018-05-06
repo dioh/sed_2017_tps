@@ -24,13 +24,13 @@ class populationGrowth_hunterDEVS_BASIC_COUPLED_hunter : public Atomic {
 
   private:
     
-    const Port &in_port_PULSE_V_paramPulse_FP_1_I_1;
+    const Port &in_port_PULSE_V_paramPulse_FP_1_I_1_populationGrowth;
     const Port &in_port_hunter;
     Port &out_port_populationGrowth_hunter;
     
-    double PULSE_V_paramPulse_FP_1_I_1;
+    double PULSE_V_paramPulse_FP_1_I_1_populationGrowth;
     double hunter;
-    bool isSet_PULSE_V_paramPulse_FP_1_I_1;
+    bool isSet_PULSE_V_paramPulse_FP_1_I_1_populationGrowth;
     bool isSet_hunter;
 };
 

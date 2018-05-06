@@ -10,7 +10,7 @@
 	<sim_specs isee:simulation_delay="0.015" method="Euler" time_units="Months" isee:instantaneous_flows="false">
 		<start>1</start>
 		<stop>100</stop>
-		<dt reciprocal="true">4</dt>
+		<dt reciprocal="true">40</dt>
 	</sim_specs>
 	<isee:prefs show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" saved_runs="5" keep="false" rifp="true"/>
 	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" observer_start_page="home_page" enabled="false"/>
@@ -21,9 +21,10 @@
 				<eqn>1000</eqn>
 				<inflow>flow2</inflow>
 				<outflow>flow1</outflow>
+				<outflow>flow3</outflow>
 			</stock>
 			<flow name="flow1">
-				<eqn>PULSE(volume,  firstPulse, interval) / stock1</eqn>
+				<eqn>PULSE(volume,  firstPulse, interval)</eqn>
 				<non_negative/>
 			</flow>
 			<aux name="volume">
@@ -36,21 +37,29 @@
 				<eqn>10</eqn>
 			</aux>
 			<flow name="flow2">
-				<eqn>PULSE(volume,  firstPulse, interval) / stock1</eqn>
+				<eqn>PULSE(volume,  firstPulse,  interval)</eqn>
 				<non_negative/>
 			</flow>
+			<flow name="flow3">
+				<eqn>exra</eqn>
+				<non_negative/>
+			</flow>
+			<aux name="exra">
+				<eqn>1</eqn>
+			</aux>
 			<isee:dependencies>
 				<var name="flow1">
 					<in>volume</in>
 					<in>firstPulse</in>
 					<in>interval</in>
-					<in>stock1</in>
 				</var>
 				<var name="flow2">
 					<in>volume</in>
 					<in>firstPulse</in>
 					<in>interval</in>
-					<in>stock1</in>
+				</var>
+				<var name="flow3">
+					<in>exra</in>
 				</var>
 			</isee:dependencies>
 		</variables>
@@ -157,31 +166,34 @@
 					<from>interval</from>
 					<to>flow1</to>
 				</connector>
-				<connector uid="5" angle="32.125">
-					<from>stock1</from>
-					<to>flow1</to>
-				</connector>
 				<flow x="244" y="347.25" name="flow2">
 					<pts>
 						<pt x="244" y="421"/>
 						<pt x="244" y="273.5"/>
 					</pts>
 				</flow>
-				<connector uid="6" angle="209.055">
+				<connector uid="5" angle="209.055">
 					<from>volume</from>
 					<to>flow2</to>
 				</connector>
-				<connector uid="7" angle="197.331">
+				<connector uid="6" angle="197.331">
 					<from>firstPulse</from>
 					<to>flow2</to>
 				</connector>
-				<connector uid="8" angle="181.909">
+				<connector uid="7" angle="181.909">
 					<from>interval</from>
 					<to>flow2</to>
 				</connector>
-				<connector uid="9" angle="264.685">
-					<from>stock1</from>
-					<to>flow2</to>
+				<flow x="162.25" y="253" name="flow3">
+					<pts>
+						<pt x="211.5" y="253"/>
+						<pt x="89" y="253"/>
+					</pts>
+				</flow>
+				<aux x="133" y="91" name="exra"/>
+				<connector uid="8" angle="302.619">
+					<from>exra</from>
+					<to>flow3</to>
 				</connector>
 			</view>
 		</views>

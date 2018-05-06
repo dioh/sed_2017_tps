@@ -58,6 +58,9 @@ Model &Wagestop::outputFunction(const CollectMessage &msg)
 	if( isSet_Labor & isSet_wageRate ) {
 	    Tuple<Real> out_value { (wageRate*Labor) };
 		sendOutput(msg.time(), out_port_Wages, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_Wages, out_value);
 	}
 	
 	return *this ;

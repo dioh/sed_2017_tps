@@ -52,6 +52,9 @@ Model &chgDebt_DebtDEVS_BASIC_COUPLED_Debt::outputFunction(const CollectMessage 
 	if( isSet_InvestmentGross ) {
 	    Tuple<Real> out_value { InvestmentGross };
 		sendOutput(msg.time(), out_port_chgDebt_Debt, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_chgDebt_Debt, out_value);
 	}
 	
 	return *this ;

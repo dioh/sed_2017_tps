@@ -64,6 +64,9 @@ Model &MinusPrey_PreyDEVS_BASIC_COUPLED_Prey::outputFunction(const CollectMessag
 	if( isSet_Predator & isSet_Prey & isSet_paramB ) {
 	    Tuple<Real> out_value { Prey * paramB * Predator };
 		sendOutput(msg.time(), out_port_MinusPrey_Prey, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_MinusPrey_Prey, out_value);
 	}
 	
 	return *this ;

@@ -64,6 +64,9 @@ Model &HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::outpu
 	if( isSet_TemperatureValue & isSet_RoomTemperature & isSet_CharacteristicTime ) {
 	    Tuple<Real> out_value { (TemperatureValue - RoomTemperature) / CharacteristicTime };
 		sendOutput(msg.time(), out_port_HeatLossToRoom_TemperatureValue, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_HeatLossToRoom_TemperatureValue, out_value);
 	}
 	
 	return *this ;

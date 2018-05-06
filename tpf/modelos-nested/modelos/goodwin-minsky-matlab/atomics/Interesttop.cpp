@@ -58,6 +58,9 @@ Model &Interesttop::outputFunction(const CollectMessage &msg)
 	if( isSet_Debt & isSet_rateInterestOnLoans ) {
 	    Tuple<Real> out_value { (rateInterestOnLoans*Debt) };
 		sendOutput(msg.time(), out_port_Interest, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_Interest, out_value);
 	}
 	
 	return *this ;

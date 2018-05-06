@@ -61,6 +61,9 @@ Model &{{aux_name_lower}}::outputFunction(const CollectMessage &msg)
 	{% endfor -%}) {
 	    Tuple<Real> out_value { {{equation}} };
 		sendOutput(msg.time(), out_port_{{aux_name}}, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_{{aux_name}}, out_value);
 	}
 	{% endif %}
 	return *this ;

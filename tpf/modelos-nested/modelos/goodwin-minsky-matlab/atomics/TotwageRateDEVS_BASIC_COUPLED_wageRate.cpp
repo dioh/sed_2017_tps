@@ -49,13 +49,8 @@ Model &TotwageRateDEVS_BASIC_COUPLED_wageRate::internalFunction(const InternalMe
 Model &TotwageRateDEVS_BASIC_COUPLED_wageRate::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_chgwageRate_wageRate) {
-		plus = plus + chgwageRate_wageRate;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotwageRate, out_value);
-		}
-
+	double minus = 0;if(isSet_chgwageRate_wageRate) { plus = plus + chgwageRate_wageRate; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotwageRate, out_value);
 	return *this ;
 }

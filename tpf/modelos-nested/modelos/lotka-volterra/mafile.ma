@@ -70,6 +70,7 @@ link: out_port_PlusPredator_Predator@PlusPredator_Predator1 in_plus_port_PlusPre
 [Predator1]
 % Atomic model DEVSIntegrator
 x0: 5
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 
@@ -114,6 +115,7 @@ link: out_port_PlusPrey_Prey@PlusPrey_Prey1 in_plus_port_PlusPrey_Prey@TotPrey1
 [Prey1]
 % Atomic model DEVSIntegrator
 x0: 100
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 

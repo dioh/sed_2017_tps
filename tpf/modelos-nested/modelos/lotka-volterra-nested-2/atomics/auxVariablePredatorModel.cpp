@@ -52,6 +52,9 @@ Model &auxVariablePredatorModel::outputFunction(const CollectMessage &msg)
 	if( isSet_cteVariable ) {
 	    Tuple<Real> out_value { cteVariable };
 		sendOutput(msg.time(), out_port_auxVariable, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_auxVariable, out_value);
 	}
 	
 	return *this ;

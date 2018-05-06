@@ -7,10 +7,10 @@
 		<vendor>isee systems, inc.</vendor>
 		<product version="1.5" isee:build_number="1277" isee:saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
-	<sim_specs isee:simulation_delay="0.015" method="Euler" time_units="Months" isee:instantaneous_flows="false">
+	<sim_specs isee:simulation_delay="0.015" method="RK4" time_units="Months" isee:instantaneous_flows="false">
 		<start>1</start>
 		<stop>100</stop>
-		<dt reciprocal="true">4</dt>
+		<dt reciprocal="true">8</dt>
 	</sim_specs>
 	<isee:prefs show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" saved_runs="5" keep="false" rifp="true"/>
 	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" observer_start_page="home_page" enabled="false"/>
@@ -20,25 +20,32 @@
 			<stock name="stock1">
 				<eqn>1000</eqn>
 				<outflow>flow1</outflow>
+				<outflow>flow2</outflow>
 			</stock>
 			<flow name="flow1">
-				<eqn>PULSE(volume,  firstPulse, interval) / stock1</eqn>
+				<eqn>PULSE(volumeX,  firstPulseX, intervalX)</eqn>
 				<non_negative/>
 			</flow>
-			<aux name="volume">
+			<aux name="volumeX">
 				<eqn>5</eqn>
 			</aux>
-			<aux name="firstPulse">
+			<flow name="flow2">
+				<eqn>0.05 * stock1</eqn>
+				<non_negative/>
+			</flow>
+			<aux name="firstPulseX">
 				<eqn>1</eqn>
 			</aux>
-			<aux name="interval">
+			<aux name="intervalX">
 				<eqn>10</eqn>
 			</aux>
 			<isee:dependencies>
 				<var name="flow1">
-					<in>volume</in>
-					<in>firstPulse</in>
-					<in>interval</in>
+					<in>volumeX</in>
+					<in>firstPulseX</in>
+					<in>intervalX</in>
+				</var>
+				<var name="flow2">
 					<in>stock1</in>
 				</var>
 			</isee:dependencies>
@@ -124,30 +131,36 @@
 						<pt x="542" y="256"/>
 					</pts>
 				</flow>
-				<aux x="326" y="311" name="volume"/>
-				<connector uid="1" angle="41.9225">
-					<from>volume</from>
-					<to>flow1</to>
-				</connector>
-				<stacked_container uid="2" x="792" y="203">
+				<stacked_container uid="1" x="792" y="203">
 					<graph x="617" y="78" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" title="Graph" isee:fill_intensity="0.1" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
-						<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+						<plot color="#FF007F" pen_width="1" index="0" show_y_axis="true">
 							<entity name="stock1"/>
 						</plot>
 					</graph>
 				</stacked_container>
-				<aux x="363.25" y="325" name="firstPulse"/>
-				<aux x="427" y="354" name="interval"/>
-				<connector uid="3" angle="48.8141">
-					<from>firstPulse</from>
+				<aux x="326" y="311" name="volumeX"/>
+				<connector uid="2" angle="41.9225">
+					<from>volumeX</from>
 					<to>flow1</to>
 				</connector>
-				<connector uid="4" angle="85.2364">
-					<from>interval</from>
-					<to>flow1</to>
-				</connector>
-				<connector uid="5" angle="32.125">
+				<flow x="236" y="352.25" name="flow2">
+					<pts>
+						<pt x="236" y="273.5"/>
+						<pt x="236" y="452"/>
+					</pts>
+				</flow>
+				<connector uid="3" angle="253.179">
 					<from>stock1</from>
+					<to>flow2</to>
+				</connector>
+				<aux x="363.25" y="325" name="firstPulseX"/>
+				<connector uid="4" angle="48.8141">
+					<from>firstPulseX</from>
+					<to>flow1</to>
+				</connector>
+				<aux label_side="bottom" x="427" y="354" name="intervalX"/>
+				<connector uid="5" angle="85.2364">
+					<from>intervalX</from>
 					<to>flow1</to>
 				</connector>
 			</view>

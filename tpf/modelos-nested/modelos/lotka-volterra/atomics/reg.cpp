@@ -1,9 +1,9 @@
 #include "pmodeladm.h"
 #include "register.h"
 
-#include "paramCtop.h"
 #include "paramAtop.h"
 #include "paramBtop.h"
+#include "paramCtop.h"
 #include "paramDtop.h"
 #include "PlusPrey_PreyDEVS_BASIC_COUPLED_Prey.h"
 #include "MinusPrey_PreyDEVS_BASIC_COUPLED_Prey.h"
@@ -20,9 +20,9 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	//admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
 	
 	// Atomicos especificos del modelo
-	admin.registerAtomic(NewAtomicFunction<paramCtop>(), PARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramAtop>(), PARAMATOP);
 	admin.registerAtomic(NewAtomicFunction<paramBtop>(), PARAMBTOP);
+	admin.registerAtomic(NewAtomicFunction<paramCtop>(), PARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramDtop>(), PARAMDTOP);
 	admin.registerAtomic(NewAtomicFunction<PlusPrey_PreyDEVS_BASIC_COUPLED_Prey>(), PLUSPREY_PREYDEVS_BASIC_COUPLED_PREY);
 	admin.registerAtomic(NewAtomicFunction<MinusPrey_PreyDEVS_BASIC_COUPLED_Prey>(), MINUSPREY_PREYDEVS_BASIC_COUPLED_PREY);

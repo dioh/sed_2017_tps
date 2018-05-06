@@ -58,6 +58,9 @@ Model &Labortop::outputFunction(const CollectMessage &msg)
 	if( isSet_Output & isSet_LaborProductivity ) {
 	    Tuple<Real> out_value { (Output/LaborProductivity) };
 		sendOutput(msg.time(), out_port_Labor, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_Labor, out_value);
 	}
 	
 	return *this ;

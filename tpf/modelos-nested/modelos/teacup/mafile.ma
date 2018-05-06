@@ -58,6 +58,7 @@ link: out_port_HeatLossToRoom_TemperatureValue@HeatLossToRoom_TemperatureValue1 
 [TemperatureValue1]
 % Atomic model DEVSIntegrator
 x0: 180
+non_negative: 0
 dQMin: 0.001
 dQRel: 0.001
 

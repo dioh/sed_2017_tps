@@ -58,6 +58,9 @@ Model &chgPopulation_PopulationDEVS_BASIC_COUPLED_Population::outputFunction(con
 	if( isSet_Betaa & isSet_Population ) {
 	    Tuple<Real> out_value { (Population*Betaa) };
 		sendOutput(msg.time(), out_port_chgPopulation_Population, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_chgPopulation_Population, out_value);
 	}
 	
 	return *this ;

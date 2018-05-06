@@ -64,6 +64,9 @@ Model &InvestmentNetRealtop::outputFunction(const CollectMessage &msg)
 	if( isSet_InvestmentGross & isSet_deltaKReal & isSet_Capital ) {
 	    Tuple<Real> out_value { (InvestmentGross-(Capital*deltaKReal)) };
 		sendOutput(msg.time(), out_port_InvestmentNetReal, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_InvestmentNetReal, out_value);
 	}
 	
 	return *this ;

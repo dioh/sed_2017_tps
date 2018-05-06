@@ -22,12 +22,15 @@ class Totstock1DEVS_BASIC_COUPLED_stock1 : public Atomic {
 
   private:
     const Port &in_minus_port_flow1_stock1;
+    const Port &in_minus_port_flow2_stock1;
     
     Port &out_port_Totstock1;
 
     double flow1_stock1;
+    double flow2_stock1;
     
     bool isSet_flow1_stock1;
+    bool isSet_flow2_stock1;
     
 };
 

@@ -428,12 +428,15 @@ class DEVSCoupledComponent(DEVSComponent):
 
                 ####
                 # Special Atomics (correspondientes a Fp's y Fm's)
+                special_atomics = []
                 for fp in devs_fps:
-                    special_atomics = fp.get_equation().get_special_functions(name)
-                    atomic_components = atomic_components + special_atomics
+                    special_atomics_fps = fp.get_equation().get_special_functions(name)
+                    special_atomics = special_atomics + special_atomics_fps
+                    atomic_components = atomic_components + special_atomics_fps
                 for fm in devs_fms:
-                    special_atomics = fm.get_equation().get_special_functions(name)
-                    atomic_components = atomic_components + special_atomics
+                    special_atomics_fms = fm.get_equation().get_special_functions(name)
+                    special_atomics = special_atomics + special_atomics_fms
+                    atomic_components = atomic_components + special_atomics_fms
                 
                 ###########
                 # Inputs : 
@@ -456,16 +459,20 @@ class DEVSCoupledComponent(DEVSComponent):
                                 list(map(lambda x : x.get_name(), devs_fm.get_equation().get_special_functions(name))):
                             input_ports.append(DEVSPort(input_port_fm.get_name(), self, 'in'))
                 # Agrego los inputs correspondientes a las variables que las SpecialFunctions necesitan
-                for devs_fp in devs_fps:
-                    special_functions = devs_fp.get_equation().get_special_functions(name)
-                    for special_func_obj in special_functions:
-                        for variable_name in special_func_obj.get_all_inputs():
-                            input_ports.append(DEVSPort(variable_name, self, 'in'))
-                for devs_fm in devs_fms:
-                    special_functions = devs_fm.get_equation().get_special_functions(name)
-                    for special_func_obj in special_functions:
-                        for variable_name in special_func_obj.get_all_inputs():
-                            input_ports.append(DEVSPort(variable_name, self, 'in'))
+                #for devs_fp in devs_fps:
+                #    special_functions = devs_fp.get_equation().get_special_functions(name)
+                #    for special_func_obj in special_functions:
+                #        for variable_name in special_func_obj.get_all_inputs():
+                #            input_ports.append(DEVSPort(variable_name, self, 'in'))
+                #for devs_fm in devs_fms:
+                #    special_functions = devs_fm.get_equation().get_special_functions(name)
+                #    for special_func_obj in special_functions:
+                #        for variable_name in special_func_obj.get_all_inputs():
+                #            input_ports.append(DEVSPort(variable_name, self, 'in'))
+                # Agrego los inputs correspondientes a funciones especiales (ej. DEVSPulse)
+                for special_atomic in special_atomics:
+                    for variable_name in special_atomic.get_all_inputs():
+                        input_ports.append(DEVSPort(variable_name, self, 'in'))
 
                 # Si un fp y fm reciben el mismo input, solo voy a querer que llegue por un unico puerto
                 input_ports = list(set(input_ports))

@@ -58,6 +58,9 @@ Model &ProfitNettop::outputFunction(const CollectMessage &msg)
 	if( isSet_ProfitGrossReal & isSet_Interest ) {
 	    Tuple<Real> out_value { (ProfitGrossReal-Interest) };
 		sendOutput(msg.time(), out_port_ProfitNet, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_ProfitNet, out_value);
 	}
 	
 	return *this ;

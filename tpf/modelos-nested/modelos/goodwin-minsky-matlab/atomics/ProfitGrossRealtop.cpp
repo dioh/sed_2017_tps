@@ -58,6 +58,9 @@ Model &ProfitGrossRealtop::outputFunction(const CollectMessage &msg)
 	if( isSet_Wages & isSet_Output ) {
 	    Tuple<Real> out_value { (Output-Wages) };
 		sendOutput(msg.time(), out_port_ProfitGrossReal, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_ProfitGrossReal, out_value);
 	}
 	
 	return *this ;

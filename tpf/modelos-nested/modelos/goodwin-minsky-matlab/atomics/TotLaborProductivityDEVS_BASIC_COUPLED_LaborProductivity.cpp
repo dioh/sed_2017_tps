@@ -49,13 +49,8 @@ Model &TotLaborProductivityDEVS_BASIC_COUPLED_LaborProductivity::internalFunctio
 Model &TotLaborProductivityDEVS_BASIC_COUPLED_LaborProductivity::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_chgLaborProductivity_LaborProductivity) {
-		plus = plus + chgLaborProductivity_LaborProductivity;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotLaborProductivity, out_value);
-		}
-
+	double minus = 0;if(isSet_chgLaborProductivity_LaborProductivity) { plus = plus + chgLaborProductivity_LaborProductivity; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotLaborProductivity, out_value);
 	return *this ;
 }

@@ -20,8 +20,12 @@ using namespace std;
 TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue(const string &name) :
     Atomic(name),
     in_port_TotTemperatureValue(addInputPort("in_port_TotTemperatureValue")),
+    in_port_subtract(addInputPort("in_port_subtract")),
+    in_port_increment(addInputPort("in_port_increment")),
     out_port_TemperatureValue(addOutputPort("out_port_TemperatureValue"))
 {
+    non_negative = get_param("non_negative");
+
     dQRel = get_param("dQRel");
     dQMin = get_param("dQMin");
 
@@ -118,6 +122,21 @@ Model &TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::externalFunction(con
             if(fabs(x[0] - q) > dQ)
                 sigma = VTime::Zero;
         }
+    }
+    // Agrega posibilidad de bajar el valor de forma discreta
+    else if (msg.port() == in_port_subtract)
+    {
+        x[0] = x[0] - derx.value();
+        if(x[0] < 0 && non_negative) {
+            x[0] = 0;
+        }
+        sigma = VTime::Zero;
+    }
+    // Agrega posibilidad de incrementar el valor en forma discreta
+    else if (msg.port() == in_port_increment)
+    {
+        x[0] = x[0] + derx.value();
+        sigma = VTime::Zero;
     }
     else
     {

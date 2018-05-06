@@ -64,6 +64,9 @@ Model &InvestmentFunctionRealtop::outputFunction(const CollectMessage &msg)
 	if( isSet_piR & isSet_piZ & isSet_piS ) {
 	    Tuple<Real> out_value { ((piR-piZ)*piS) };
 		sendOutput(msg.time(), out_port_InvestmentFunctionReal, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_InvestmentFunctionReal, out_value);
 	}
 	
 	return *this ;

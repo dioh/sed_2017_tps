@@ -1,0 +1,5 @@
+0 / L / I / 00:00:00:000:0 / devs_basic_coupled_stock1(06) / pulse_v_volumex_i_intervalx_flow11(05)
+0 / L / X / 00:00:00:000:0 / devs_basic_coupled_stock1(06) / in_port_volumex / [5] / pulse_v_volumex_i_intervalx_flow11(05)
+0 / L / * / 00:00:00:000:0 / devs_basic_coupled_stock1(06) / pulse_v_volumex_i_intervalx_flow11(05)
+0 / L / X / 00:00:00:001:0 / devs_basic_coupled_stock1(06) / in_port_start / [1] / pulse_v_volumex_i_intervalx_flow11(05)
+0 / L / * / 00:00:00:001:0 / devs_basic_coupled_stock1(06) / pulse_v_volumex_i_intervalx_flow11(05)

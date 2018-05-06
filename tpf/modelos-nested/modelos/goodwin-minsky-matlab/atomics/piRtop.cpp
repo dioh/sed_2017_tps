@@ -58,6 +58,9 @@ Model &piRtop::outputFunction(const CollectMessage &msg)
 	if( isSet_Capital & isSet_ProfitNet ) {
 	    Tuple<Real> out_value { (ProfitNet/Capital) };
 		sendOutput(msg.time(), out_port_piR, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_piR, out_value);
 	}
 	
 	return *this ;

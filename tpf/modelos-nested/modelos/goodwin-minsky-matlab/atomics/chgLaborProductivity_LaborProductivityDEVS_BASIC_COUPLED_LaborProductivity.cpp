@@ -58,6 +58,9 @@ Model &chgLaborProductivity_LaborProductivityDEVS_BASIC_COUPLED_LaborProductivit
 	if( isSet_Alphaa & isSet_LaborProductivity ) {
 	    Tuple<Real> out_value { (Alphaa*LaborProductivity) };
 		sendOutput(msg.time(), out_port_chgLaborProductivity_LaborProductivity, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_chgLaborProductivity_LaborProductivity, out_value);
 	}
 	
 	return *this ;

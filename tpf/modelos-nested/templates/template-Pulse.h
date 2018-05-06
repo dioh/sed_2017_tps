@@ -33,10 +33,28 @@ class {{pulse_name_lower}} : public Atomic {
     std::uniform_int_distribution<int> dist;
     std::mt19937 rng;
 
-    // Agregados
-    const Port &in_port_volume;
-    bool isSet_in_port_volume = false;
-    float volume;
+    // Agregados (volume + iterval)
+    // TODO : volume y interval tienen que venir con el nombre de la variable + a que variable corresponde (volume o interval)
+    {% if volume_param != None -%}
+    float volume = {{volume_param}};
+    bool isSet_volume;
+    {% endif -%}
+    {% if interval_param != None -%}
+    float interval = {{interval_param}};
+    bool isSet_interval;
+    {% endif -%}
+
+    {% if volume_input != '' -%}
+    const Port &in_port_{{volume_input}};
+    float {{volume_input}};
+    bool isSet_volume;
+    {% endif -%}
+    {% if interval_input != '' -%}
+    const Port &in_port_{{interval_input}};
+    float {{interval_input}};
+    bool isSet_interval;
+    {% endif -%}
+
     {% for output_port_name in output_ports %}
     Port &out_port_{{output_port_name}};
     {% endfor -%}

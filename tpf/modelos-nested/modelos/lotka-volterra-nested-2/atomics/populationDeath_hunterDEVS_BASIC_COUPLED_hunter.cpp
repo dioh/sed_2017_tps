@@ -52,6 +52,9 @@ Model &populationDeath_hunterDEVS_BASIC_COUPLED_hunter::outputFunction(const Col
 	if( isSet_hunter ) {
 	    Tuple<Real> out_value { 0.05 * hunter };
 		sendOutput(msg.time(), out_port_populationDeath_hunter, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_populationDeath_hunter, out_value);
 	}
 	
 	return *this ;

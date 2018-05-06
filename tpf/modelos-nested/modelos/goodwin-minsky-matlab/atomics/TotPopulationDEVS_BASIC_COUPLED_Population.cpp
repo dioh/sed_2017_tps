@@ -49,13 +49,8 @@ Model &TotPopulationDEVS_BASIC_COUPLED_Population::internalFunction(const Intern
 Model &TotPopulationDEVS_BASIC_COUPLED_Population::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_chgPopulation_Population) {
-		plus = plus + chgPopulation_Population;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotPopulation, out_value);
-		}
-
+	double minus = 0;if(isSet_chgPopulation_Population) { plus = plus + chgPopulation_Population; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotPopulation, out_value);
 	return *this ;
 }

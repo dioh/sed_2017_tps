@@ -58,6 +58,9 @@ Model &omegatop::outputFunction(const CollectMessage &msg)
 	if( isSet_Wages & isSet_Output ) {
 	    Tuple<Real> out_value { (Wages/Output) };
 		sendOutput(msg.time(), out_port_omega, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_omega, out_value);
 	}
 	
 	return *this ;

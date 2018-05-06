@@ -102,6 +102,7 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
         # por ahora el unico parametero posible es 'equation' aca } ))
         atomics_names.append(aux_name)
 
+    # TODO : pasar volume e interval, de la manera correcta
     # DEVSFPulse
     template_pulse = cpp_h_templates_filenames['DEVSPulse']
     atomic_pulses = filter(lambda x : x.get('model') == 'DEVSPulse', root.findall('.//atomicRef'))
@@ -113,9 +114,12 @@ def generateHCPP(devsml_top_filename, devsml_cpp_h_directory, cpp_h_templates_fi
                 f.write(render_template(template_now, {
                     'pulse_name': p.get('name'),
                     'pulse_name_lower': pulse_name, 'pulse_name_upper': pulse_name.upper(),
-                    'input_ports': list(map(lambda x : x.get('name'), p.find('inputs').findall('input'))),
                     'output_ports': list(map(lambda x : x.get('name'), p.find('outputs').findall('output'))),
-                    'equation': p.find('parameters').find('parameter').text
+                    'equation': filter(lambda x : x.get('name') == 'equation', p.find('parameters').findall('parameter'))[0].text,
+                    'volume_param': filter(lambda x : x.get('name') == 'volume_param', p.find('parameters').findall('parameter'))[0].text,
+                    'interval_param': filter(lambda x : x.get('name') == 'interval_param', p.find('parameters').findall('parameter'))[0].text,
+                    'volume_input': filter(lambda x : x.get('name') == 'volume_input', p.find('parameters').findall('parameter'))[0].text,
+                    'interval_input': filter(lambda x : x.get('name') == 'interval_input', p.find('parameters').findall('parameter'))[0].text
                 }))
         atomics_names.append(pulse_name)
 

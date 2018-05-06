@@ -49,13 +49,8 @@ Model &TotCapitalDEVS_BASIC_COUPLED_Capital::internalFunction(const InternalMess
 Model &TotCapitalDEVS_BASIC_COUPLED_Capital::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_chgCapital_Capital) {
-		plus = plus + chgCapital_Capital;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotCapital, out_value);
-		}
-
+	double minus = 0;if(isSet_chgCapital_Capital) { plus = plus + chgCapital_Capital; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotCapital, out_value);
 	return *this ;
 }

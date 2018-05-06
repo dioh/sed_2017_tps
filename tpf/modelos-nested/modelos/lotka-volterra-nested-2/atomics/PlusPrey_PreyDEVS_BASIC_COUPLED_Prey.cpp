@@ -64,6 +64,9 @@ Model &PlusPrey_PreyDEVS_BASIC_COUPLED_Prey::outputFunction(const CollectMessage
 	if( isSet_Prey & isSet_paramA & isSet_PreySubModelStock ) {
 	    Tuple<Real> out_value { paramA * Prey + PreySubModelStock };
 		sendOutput(msg.time(), out_port_PlusPrey_Prey, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_PlusPrey_Prey, out_value);
 	}
 	
 	return *this ;

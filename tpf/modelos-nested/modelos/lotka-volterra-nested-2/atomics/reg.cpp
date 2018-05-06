@@ -1,11 +1,10 @@
 #include "pmodeladm.h"
 #include "register.h"
 
-#include "qss1.h"
+#include "paramPulsetop.h"
 #include "paramBtop.h"
 #include "paramDtop.h"
 #include "paramAtop.h"
-#include "paramPulsetop.h"
 #include "cteVariablePredatorModel.h"
 #include "paramDPredatorModel.h"
 #include "specialParamCPredatorModel.h"
@@ -24,22 +23,31 @@
 #include "MinusPrey_PreyDEVS_BASIC_COUPLED_Prey.h"
 #include "populationGrowth_hunterDEVS_BASIC_COUPLED_hunter.h"
 #include "populationDeath_hunterDEVS_BASIC_COUPLED_hunter.h"
+#include "PULSE_V_1_FP_1_I_1_paramEDEVS_COUPLED_top.h"
+#include "PULSE_V_2_FP_2_I_2_specialParamCDEVS_COUPLED_top.h"
+#include "PULSE_V_combiner_FP_10_I_50_Flow1DEVS_BASIC_COUPLED_PreySubSubModelStock.h"
+#include "PULSE_V_paramPulse_FP_1_I_1_populationGrowthDEVS_BASIC_COUPLED_hunter.h"
 #include "TotPredatorDEVS_BASIC_COUPLED_Predator.h"
 #include "TotPreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock.h"
 #include "TotPreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock.h"
 #include "TotPreyDEVS_BASIC_COUPLED_Prey.h"
 #include "TothunterDEVS_BASIC_COUPLED_hunter.h"
+#include "PredatorDEVS_BASIC_COUPLED_Predator.h"
+#include "PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock.h"
+#include "PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock.h"
+#include "PreyDEVS_BASIC_COUPLED_Prey.h"
+#include "hunterDEVS_BASIC_COUPLED_hunter.h"
 // Registro modelos atomicos
 void register_atomics_on(ParallelModelAdmin &admin)
 {
 	// Atomicos base
-	admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
+	//admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
 	
 	// Atomicos especificos del modelo
+	admin.registerAtomic(NewAtomicFunction<paramPulsetop>(), PARAMPULSETOP);
 	admin.registerAtomic(NewAtomicFunction<paramBtop>(), PARAMBTOP);
 	admin.registerAtomic(NewAtomicFunction<paramDtop>(), PARAMDTOP);
 	admin.registerAtomic(NewAtomicFunction<paramAtop>(), PARAMATOP);
-	admin.registerAtomic(NewAtomicFunction<paramPulsetop>(), PARAMPULSETOP);
 	admin.registerAtomic(NewAtomicFunction<cteVariablePredatorModel>(), CTEVARIABLEPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramDPredatorModel>(), PARAMDPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<specialParamCPredatorModel>(), SPECIALPARAMCPREDATORMODEL);
@@ -58,10 +66,19 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	admin.registerAtomic(NewAtomicFunction<MinusPrey_PreyDEVS_BASIC_COUPLED_Prey>(), MINUSPREY_PREYDEVS_BASIC_COUPLED_PREY);
 	admin.registerAtomic(NewAtomicFunction<populationGrowth_hunterDEVS_BASIC_COUPLED_hunter>(), POPULATIONGROWTH_HUNTERDEVS_BASIC_COUPLED_HUNTER);
 	admin.registerAtomic(NewAtomicFunction<populationDeath_hunterDEVS_BASIC_COUPLED_hunter>(), POPULATIONDEATH_HUNTERDEVS_BASIC_COUPLED_HUNTER);
+	admin.registerAtomic(NewAtomicFunction<PULSE_V_1_FP_1_I_1_paramEDEVS_COUPLED_top>(), PULSE_V_1_FP_1_I_1_PARAMEDEVS_COUPLED_TOP);
+	admin.registerAtomic(NewAtomicFunction<PULSE_V_2_FP_2_I_2_specialParamCDEVS_COUPLED_top>(), PULSE_V_2_FP_2_I_2_SPECIALPARAMCDEVS_COUPLED_TOP);
+	admin.registerAtomic(NewAtomicFunction<PULSE_V_combiner_FP_10_I_50_Flow1DEVS_BASIC_COUPLED_PreySubSubModelStock>(), PULSE_V_COMBINER_FP_10_I_50_FLOW1DEVS_BASIC_COUPLED_PREYSUBSUBMODELSTOCK);
+	admin.registerAtomic(NewAtomicFunction<PULSE_V_paramPulse_FP_1_I_1_populationGrowthDEVS_BASIC_COUPLED_hunter>(), PULSE_V_PARAMPULSE_FP_1_I_1_POPULATIONGROWTHDEVS_BASIC_COUPLED_HUNTER);
 	admin.registerAtomic(NewAtomicFunction<TotPredatorDEVS_BASIC_COUPLED_Predator>(), TOTPREDATORDEVS_BASIC_COUPLED_PREDATOR);
 	admin.registerAtomic(NewAtomicFunction<TotPreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock>(), TOTPREYSUBSUBMODELSTOCKDEVS_BASIC_COUPLED_PREYSUBSUBMODELSTOCK);
 	admin.registerAtomic(NewAtomicFunction<TotPreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock>(), TOTPREYSUBMODELSTOCKDEVS_BASIC_COUPLED_PREYSUBMODELSTOCK);
 	admin.registerAtomic(NewAtomicFunction<TotPreyDEVS_BASIC_COUPLED_Prey>(), TOTPREYDEVS_BASIC_COUPLED_PREY);
 	admin.registerAtomic(NewAtomicFunction<TothunterDEVS_BASIC_COUPLED_hunter>(), TOTHUNTERDEVS_BASIC_COUPLED_HUNTER);
+	admin.registerAtomic(NewAtomicFunction<PredatorDEVS_BASIC_COUPLED_Predator>(), PREDATORDEVS_BASIC_COUPLED_PREDATOR);
+	admin.registerAtomic(NewAtomicFunction<PreySubSubModelStockDEVS_BASIC_COUPLED_PreySubSubModelStock>(), PREYSUBSUBMODELSTOCKDEVS_BASIC_COUPLED_PREYSUBSUBMODELSTOCK);
+	admin.registerAtomic(NewAtomicFunction<PreySubModelStockDEVS_BASIC_COUPLED_PreySubModelStock>(), PREYSUBMODELSTOCKDEVS_BASIC_COUPLED_PREYSUBMODELSTOCK);
+	admin.registerAtomic(NewAtomicFunction<PreyDEVS_BASIC_COUPLED_Prey>(), PREYDEVS_BASIC_COUPLED_PREY);
+	admin.registerAtomic(NewAtomicFunction<hunterDEVS_BASIC_COUPLED_hunter>(), HUNTERDEVS_BASIC_COUPLED_HUNTER);
 	
 }

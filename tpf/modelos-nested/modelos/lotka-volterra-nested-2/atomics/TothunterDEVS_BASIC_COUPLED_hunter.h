@@ -21,8 +21,8 @@ class TothunterDEVS_BASIC_COUPLED_hunter : public Atomic {
     Model &outputFunction( const CollectMessage & );
 
   private:
-    const Port &in_port_plus_populationGrowth_hunter;
-    const Port &in_port_minus_populationDeath_hunter;
+    const Port &in_plus_port_populationGrowth_hunter;
+    const Port &in_minus_port_populationDeath_hunter;
     
     Port &out_port_Tothunter;
 

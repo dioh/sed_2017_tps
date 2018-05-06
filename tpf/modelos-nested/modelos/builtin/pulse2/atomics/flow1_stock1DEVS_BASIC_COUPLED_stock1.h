@@ -24,14 +24,11 @@ class flow1_stock1DEVS_BASIC_COUPLED_stock1 : public Atomic {
 
   private:
     
-    const Port &in_port_PULSE_V_volume_FP_firstPulse_I_interval_flow1;
-    const Port &in_port_stock1;
+    const Port &in_port_PULSE_V_volumeX_I_intervalX_flow1;
     Port &out_port_flow1_stock1;
     
-    double PULSE_V_volume_FP_firstPulse_I_interval_flow1;
-    double stock1;
-    bool isSet_PULSE_V_volume_FP_firstPulse_I_interval_flow1;
-    bool isSet_stock1;
+    double PULSE_V_volumeX_I_intervalX_flow1;
+    bool isSet_PULSE_V_volumeX_I_intervalX_flow1;
 };
 
 #endif

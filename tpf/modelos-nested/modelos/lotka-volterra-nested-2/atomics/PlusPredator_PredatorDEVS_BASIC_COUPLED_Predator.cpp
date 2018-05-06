@@ -70,6 +70,9 @@ Model &PlusPredator_PredatorDEVS_BASIC_COUPLED_Predator::outputFunction(const Co
 	if( isSet_Predator & isSet_Prey & isSet_paramD & isSet_cteVariable ) {
 	    Tuple<Real> out_value { paramD * Predator * Prey + cteVariable };
 		sendOutput(msg.time(), out_port_PlusPredator_Predator, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_PlusPredator_Predator, out_value);
 	}
 	
 	return *this ;

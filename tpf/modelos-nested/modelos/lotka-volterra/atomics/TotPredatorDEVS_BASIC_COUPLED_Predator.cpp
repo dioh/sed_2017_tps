@@ -55,14 +55,8 @@ Model &TotPredatorDEVS_BASIC_COUPLED_Predator::internalFunction(const InternalMe
 Model &TotPredatorDEVS_BASIC_COUPLED_Predator::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_PlusPredator_Predator & isSet_MinusPredator_Predator) {
-		plus = plus + PlusPredator_Predator;
-		minus = minus + MinusPredator_Predator;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotPredator, out_value);
-		}
-
+	double minus = 0;if(isSet_PlusPredator_Predator) { plus = plus + PlusPredator_Predator; }if(isSet_MinusPredator_Predator) { minus = minus + MinusPredator_Predator; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotPredator, out_value);
 	return *this ;
 }

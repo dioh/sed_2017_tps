@@ -24,11 +24,11 @@ class specialParamCtop : public Atomic {
 
   private:
     
-    const Port &in_port_PULSE_V_2_FP_2_I_2;
+    const Port &in_port_PULSE_V_2_FP_2_I_2_specialParamC;
     Port &out_port_specialParamC;
     
-    double PULSE_V_2_FP_2_I_2;
-    bool isSet_PULSE_V_2_FP_2_I_2;
+    double PULSE_V_2_FP_2_I_2_specialParamC;
+    bool isSet_PULSE_V_2_FP_2_I_2_specialParamC;
 };
 
 #endif

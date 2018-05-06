@@ -64,6 +64,9 @@ Model &wageFunctiontop::outputFunction(const CollectMessage &msg)
 	if( isSet_employmentRateStable & isSet_employmentRateZero & isSet_employmentRateValue ) {
 	    Tuple<Real> out_value { (employmentRateStable*(employmentRateValue-employmentRateZero)) };
 		sendOutput(msg.time(), out_port_wageFunction, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_wageFunction, out_value);
 	}
 	
 	return *this ;

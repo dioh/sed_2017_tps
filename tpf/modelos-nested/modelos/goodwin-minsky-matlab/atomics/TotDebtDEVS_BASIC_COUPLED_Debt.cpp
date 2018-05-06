@@ -49,13 +49,8 @@ Model &TotDebtDEVS_BASIC_COUPLED_Debt::internalFunction(const InternalMessage &)
 Model &TotDebtDEVS_BASIC_COUPLED_Debt::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_chgDebt_Debt) {
-		plus = plus + chgDebt_Debt;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotDebt, out_value);
-		}
-
+	double minus = 0;if(isSet_chgDebt_Debt) { plus = plus + chgDebt_Debt; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotDebt, out_value);
 	return *this ;
 }

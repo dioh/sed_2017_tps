@@ -58,6 +58,9 @@ Model &InvestmentGrosstop::outputFunction(const CollectMessage &msg)
 	if( isSet_InvestmentFunctionReal & isSet_Output ) {
 	    Tuple<Real> out_value { (InvestmentFunctionReal*Output) };
 		sendOutput(msg.time(), out_port_InvestmentGross, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_InvestmentGross, out_value);
 	}
 	
 	return *this ;

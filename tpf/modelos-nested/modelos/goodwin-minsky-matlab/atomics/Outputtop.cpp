@@ -58,6 +58,9 @@ Model &Outputtop::outputFunction(const CollectMessage &msg)
 	if( isSet_Capital & isSet_velocityOfMoney ) {
 	    Tuple<Real> out_value { (Capital/velocityOfMoney) };
 		sendOutput(msg.time(), out_port_Output, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_Output, out_value);
 	}
 	
 	return *this ;

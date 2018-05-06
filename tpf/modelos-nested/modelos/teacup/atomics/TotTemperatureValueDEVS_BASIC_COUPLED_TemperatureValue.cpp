@@ -49,13 +49,8 @@ Model &TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::internalFunction(
 Model &TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue::outputFunction(const CollectMessage &msg)
 {
 	double plus = 0;
-	double minus = 0;
-	if(isSet_HeatLossToRoom_TemperatureValue) {
-		minus = minus + HeatLossToRoom_TemperatureValue;
-		double val = plus - minus;
-		Tuple<Real> out_value { val };
-		sendOutput(msg.time(), out_port_TotTemperatureValue, out_value);
-		}
-
+	double minus = 0;if(isSet_HeatLossToRoom_TemperatureValue) { minus = minus + HeatLossToRoom_TemperatureValue; }double val = plus - minus;
+	Tuple<Real> out_value { val };
+	sendOutput(msg.time(), out_port_TotTemperatureValue, out_value);
 	return *this ;
 }

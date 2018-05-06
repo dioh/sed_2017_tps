@@ -58,6 +58,9 @@ Model &MinusPredator_PredatorDEVS_BASIC_COUPLED_Predator::outputFunction(const C
 	if( isSet_paramC & isSet_Predator ) {
 	    Tuple<Real> out_value { Predator * paramC };
 		sendOutput(msg.time(), out_port_MinusPredator_Predator, out_value);
+	} else {
+		Tuple<Real> out_value { 0 };
+		sendOutput(msg.time(), out_port_MinusPredator_Predator, out_value);
 	}
 	
 	return *this ;

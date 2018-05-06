@@ -10,17 +10,6 @@
         <output name="Predator" type="out" />
     </outputs>
     <components>
-        <atomicRef model="DEVSConstant" name="paramC" name_level="xx" parent="top">
-            <inputs>
-                <input name="paramC" type="in" />
-            </inputs>
-            <outputs>
-                <output name="paramC" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">0.3</parameter>
-            </parameters>
-        </atomicRef>
         <atomicRef model="DEVSConstant" name="paramA" name_level="xx" parent="top">
             <inputs>
                 <input name="paramA" type="in" />
@@ -41,6 +30,17 @@
             </outputs>
             <parameters>
                 <parameter name="value">0.02</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="paramC" name_level="xx" parent="top">
+            <inputs>
+                <input name="paramC" type="in" />
+            </inputs>
+            <outputs>
+                <output name="paramC" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">0.3</parameter>
             </parameters>
         </atomicRef>
         <atomicRef model="DEVSConstant" name="paramD" name_level="xx" parent="top">
@@ -66,13 +66,16 @@
             <components>
                 <atomicRef model="DEVSIntegrator" name="Prey" name_level="xx" parent="DEVS_BASIC_COUPLED_Prey">
                     <inputs>
+                        <input name="increment" type="in" />
                         <input name="TotPrey" type="in" />
+                        <input name="subtract" type="in" />
                     </inputs>
                     <outputs>
                         <output name="Prey" type="out" />
                     </outputs>
                     <parameters>
                         <parameter name="x0">100</parameter>
+                        <parameter name="non_negative">0</parameter>
                         <parameter name="dQMin">0.001</parameter>
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
@@ -116,11 +119,11 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="MinusPrey_Prey" component_to="TotPrey" port_from="MinusPrey_Prey" port_to="MinusPrey_Prey" type="in_minus" />
-                <connection component_from="TotPrey" component_to="Prey" port_from="TotPrey" port_to="TotPrey" type="in" />
                 <connection component_from="PlusPrey_Prey" component_to="TotPrey" port_from="PlusPrey_Prey" port_to="PlusPrey_Prey" type="in_plus" />
-                <connection component_from="Prey" component_to="MinusPrey_Prey" port_from="Prey" port_to="Prey" type="in" />
+                <connection component_from="MinusPrey_Prey" component_to="TotPrey" port_from="MinusPrey_Prey" port_to="MinusPrey_Prey" type="in_minus" />
                 <connection component_from="Prey" component_to="PlusPrey_Prey" port_from="Prey" port_to="Prey" type="in" />
+                <connection component_from="TotPrey" component_to="Prey" port_from="TotPrey" port_to="TotPrey" type="in" />
+                <connection component_from="Prey" component_to="MinusPrey_Prey" port_from="Prey" port_to="Prey" type="in" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="MinusPrey_Prey" port_from="Predator" port_to="Predator" />
@@ -144,12 +147,15 @@
                 <atomicRef model="DEVSIntegrator" name="Predator" name_level="xx" parent="DEVS_BASIC_COUPLED_Predator">
                     <inputs>
                         <input name="TotPredator" type="in" />
+                        <input name="increment" type="in" />
+                        <input name="subtract" type="in" />
                     </inputs>
                     <outputs>
                         <output name="Predator" type="out" />
                     </outputs>
                     <parameters>
                         <parameter name="x0">5</parameter>
+                        <parameter name="non_negative">0</parameter>
                         <parameter name="dQMin">0.001</parameter>
                         <parameter name="dQRel">0.001</parameter>
                     </parameters>
@@ -193,16 +199,16 @@
                 </atomicRef>
             </components>
             <internal_connections>
+                <connection component_from="TotPredator" component_to="Predator" port_from="TotPredator" port_to="TotPredator" type="in" />
+                <connection component_from="MinusPredator_Predator" component_to="TotPredator" port_from="MinusPredator_Predator" port_to="MinusPredator_Predator" type="in_minus" />
+                <connection component_from="Predator" component_to="PlusPredator_Predator" port_from="Predator" port_to="Predator" type="in" />
                 <connection component_from="Predator" component_to="MinusPredator_Predator" port_from="Predator" port_to="Predator" type="in" />
                 <connection component_from="PlusPredator_Predator" component_to="TotPredator" port_from="PlusPredator_Predator" port_to="PlusPredator_Predator" type="in_plus" />
-                <connection component_from="MinusPredator_Predator" component_to="TotPredator" port_from="MinusPredator_Predator" port_to="MinusPredator_Predator" type="in_minus" />
-                <connection component_from="TotPredator" component_to="Predator" port_from="TotPredator" port_to="TotPredator" type="in" />
-                <connection component_from="Predator" component_to="PlusPredator_Predator" port_from="Predator" port_to="Predator" type="in" />
             </internal_connections>
             <external_input_connections>
-                <connection component_to="PlusPredator_Predator" port_from="Prey" port_to="Prey" />
                 <connection component_to="PlusPredator_Predator" port_from="paramD" port_to="paramD" />
                 <connection component_to="MinusPredator_Predator" port_from="paramC" port_to="paramC" />
+                <connection component_to="PlusPredator_Predator" port_from="Prey" port_to="Prey" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="Predator" port_from="Predator" port_to="Predator" />
@@ -211,8 +217,8 @@
     </components>
     <internal_connections>
         <connection component_from="paramB" component_to="DEVS_BASIC_COUPLED_Prey" port_from="paramB" port_to="paramB" type="in" />
-        <connection component_from="paramC" component_to="DEVS_BASIC_COUPLED_Predator" port_from="paramC" port_to="paramC" type="in" />
         <connection component_from="paramD" component_to="DEVS_BASIC_COUPLED_Predator" port_from="paramD" port_to="paramD" type="in" />
+        <connection component_from="paramC" component_to="DEVS_BASIC_COUPLED_Predator" port_from="paramC" port_to="paramC" type="in" />
         <connection component_from="paramA" component_to="DEVS_BASIC_COUPLED_Prey" port_from="paramA" port_to="paramA" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_Predator" component_to="DEVS_BASIC_COUPLED_Prey" port_from="Predator" port_to="Predator" type="in" />
         <connection component_from="DEVS_BASIC_COUPLED_Prey" component_to="DEVS_BASIC_COUPLED_Predator" port_from="Prey" port_to="Prey" type="in" />
