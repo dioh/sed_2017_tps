@@ -1,10 +1,9 @@
 
 from py_expression_eval import Parser
+from modulosAuxiliares.SpecialFunctionFinder import SpecialFunctionFinder
 from modulosDEVS.DEVSAtomic.DEVSPulse import *
 from modulosDEVS.DEVSAtomic.DEVSRamp import *
 from modulosDEVS.DEVSAtomic.DEVSStep import *
-from modulosAuxiliares.SpecialFunctionFinder import SpecialFunctionFinder
-
 
 class Equation(object):
     def __init__(self, equation, destiny_name='', debug=False):
