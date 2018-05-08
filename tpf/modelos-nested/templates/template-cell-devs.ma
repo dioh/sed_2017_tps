@@ -19,7 +19,9 @@ rule : {{rule_value}}
 {% endfor -%}
 {% endfor -%}
 
-% Inputs
-% Outputs (por ahora sin programar)
+% Input ports
+in:{% for input_port_name in input_ports -%} input_port_name{% endfor -%}
+% Output ports (por ahora sin programar)
+out:{% for output_port_name in output_ports -%} output_port_name{% endfor -%}
 
 % PortInTransition

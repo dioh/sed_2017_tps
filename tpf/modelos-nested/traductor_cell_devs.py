@@ -12,7 +12,7 @@ from modulosDEVS.DEVSAtomic.CellDevs import Cell
 
 ###################################################################################################################
 # Configuraciones
-logging.basicConfig(filename='logs/traductor_cell_devs.log', filemode='w', level=logging.DEBUG)
+logging.basicConfig(filename='logs/traductor_cell_devs.log', filemode='w+', level=logging.DEBUG)
 # Jinja2
 PATH = './'
 PATH_TEMPLATES = 'templates'
@@ -37,14 +37,30 @@ cell_devs.set_border_type('unwrapped')
 cell_devs.set_neighbors([])
 cell_devs.set_initial_value(0)
 cell_devs.set_local_transition('zzz-rule')
+cell_devs.set_neighbors([
+    (0,0,-1),(0,0,1),(0,-1,0),(0,1,0)
+])
+cell_devs.set_input_ports([
+    'in1', 'in2', 'in3'
+])
+cell_devs.set_output_ports([
+    'out1', 'out2', 'out3'
+])
+cell_devs.set_internal_input_connections([
+    {'port_from': 'in1', 'component_to': 'in_0_0_0'},
+    {'port_from': 'in2', 'component_to': 'in_0_1_2'},
+    {'port_from': 'in3', 'component_to': 'in_2_2_2'}
+])
+cell_devs.set_internal_output_connections([
+    {'component_from': 'out_0_0_0', 'port_to': 'out1'},
+    {'component_from': 'out_0_1_2', 'port_to': 'out2'},
+    {'component_from': 'out_2_2_2', 'port_to': 'out3'}
+])
 cell_devs.set_rules({
     'zzz-rule': [
-        '{ t } 0 100'
+        {'action': '(0,0,0) + 10', 'delay': '100', 'condition': 't'}
     ]
 })
-cell_devs.set_neighbors([
-    (0, 0, -1), (0, 0, 1), (0, -1, 0), (0, 1, 0)
-])
 
 # Output Cell Devs
 for extension in ['.xml', '.ma']:
@@ -52,7 +68,6 @@ for extension in ['.xml', '.ma']:
         f.write(render_template('template-cell-devs' + extension, {
             'name': cell_devs.get_name(),
             'macro': 'macros.inc',
-
             'type': cell_devs.get_type(),
             'dim': cell_devs.get_dim(),
             'delay': cell_devs.get_delay(),
@@ -63,5 +78,9 @@ for extension in ['.xml', '.ma']:
 
             'local_transition': cell_devs.get_local_transition(),
             'rules': cell_devs.get_rules(),
-            'neighbors': cell_devs.get_neighbors()
+            'neighbors': cell_devs.get_neighbors(),
+            'input_ports': cell_devs.get_input_ports(),
+            'output_ports': cell_devs.get_output_ports(),
+            'internal_input_connections': cell_devs.get_internal_input_connections(),
+            'internal_output_connections': cell_devs.get_internal_output_connections()
         }))

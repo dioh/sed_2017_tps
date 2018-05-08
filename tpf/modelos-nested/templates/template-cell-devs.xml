@@ -17,15 +17,31 @@
 <transitions>
 {% for transition_name, transition_name_rules in rules.iteritems() -%}
 <transition name="{{transition_name}}">
-{%- for rule_value in transition_name_rules %}
-<rule value="{{rule_value}}"></rule>
+{%- for rule in transition_name_rules %}
+<rule action="{ {{rule['action']}} }" delay="{{rule['delay']}}" condition="{ {{rule['condition']}} }"></rule>
 {% endfor -%}
 {% endfor -%}
 </transition>
 </transitions>
-<inputs></inputs>
-<outputs></outputs>
-<inputs-links></inputs-links>
-<outputs-links></outputs-links>
-<portsInTransition></portsInTransition>
+<portsInTransition>
+
+</portsInTransition>
+<inputs>
+{% for input_port_name in input_ports -%}
+<input name="{{input_port_name}}" type="in"\>
+{% endfor -%}
+</inputs>
+<outputs>
+{% for output_port_name in output_ports -%}
+<output name="{{output_port_name}}" type="out"\>
+{% endfor -%}
+</outputs>
+<internal_connections>
+{% for iic in internal_input_connections -%}
+<connection port_from="{{iic['port_from']}}" component_to="{{iic['component_to']}}"/>
+{% endfor -%}
+{% for ioc in internal_output_connections -%}
+<connection component_from="{{ioc['component_from']}}" port_to="{{ioc['port_to']}}"/>
+{% endfor -%}
+</internal_connections>
 </atomicRef>

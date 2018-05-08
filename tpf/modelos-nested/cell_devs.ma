@@ -14,8 +14,7 @@ initialvalue : 0
 localtransition : zzz-rule
 
 [zzz-rule]
-rule : { t } 0 100
-% Inputs
-% Outputs (por ahora sin programar)
-
-% PortInTransition
+rule : {'action': '(0,0,0) + 10', 'delay': '100', 'condition': 't'}
+% Input ports
+in:input_port_nameinput_port_nameinput_port_name% Output ports (por ahora sin programar)
+out:output_port_nameoutput_port_nameoutput_port_name% PortInTransition

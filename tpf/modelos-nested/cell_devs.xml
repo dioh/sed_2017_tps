@@ -17,12 +17,28 @@
 </neighbors>
 <transitions>
 <transition name="zzz-rule">
-<rule value="{ t } 0 100"></rule>
+<rule action="{ (0,0,0) + 10 }" delay="100" condition="{ t }"></rule>
 </transition>
 </transitions>
-<inputs></inputs>
-<outputs></outputs>
-<inputs-links></inputs-links>
-<outputs-links></outputs-links>
-<portsInTransition></portsInTransition>
+<portsInTransition>
+
+</portsInTransition>
+<inputs>
+<input name="in1" type="in"\>
+<input name="in2" type="in"\>
+<input name="in3" type="in"\>
+</inputs>
+<outputs>
+<output name="out1" type="out"\>
+<output name="out2" type="out"\>
+<output name="out3" type="out"\>
+</outputs>
+<internal_connections>
+<connection port_from="in1" component_to="in_0_0_0"/>
+<connection port_from="in2" component_to="in_0_1_2"/>
+<connection port_from="in3" component_to="in_2_2_2"/>
+<connection component_from="out_0_0_0" port_to="out1"/>
+<connection component_from="out_0_1_2" port_to="out2"/>
+<connection component_from="out_2_2_2" port_to="out3"/>
+</internal_connections>
 </atomicRef>
