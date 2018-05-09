@@ -1,44 +1,50 @@
-<atomicRef name="opinion" model="CellDEVS">
-<parameters>
-	<parameter macros="macros.inc"></parameter>
-	<parameter type="cell"></parameter>
-	<parameter dim="(3, 3, 3)"></parameter>
-	<parameter delay="4.3"></parameter>
-	<parameter default_delay_time="5.0"></parameter>
-	<parameter border_type="unwrapped"></parameter>
-	<parameter initial_value="0"></parameter>
-	<parameter local_transition="zzz-rule"></parameter>
-</parameters>
-<neighbors>
-<neighbor>(0, 0, -1)</neighbor>
-<neighbor>(0, 0, 1)</neighbor>
-<neighbor>(0, -1, 0)</neighbor>
-<neighbor>(0, 1, 0)</neighbor>
-</neighbors>
-<transitions>
-<transition name="zzz-rule">
-<rule action="{ (0,0,0) + 10 }" delay="100" condition="{ t }"></rule>
-</transition>
-</transitions>
-<portsInTransition>
-
-</portsInTransition>
-<inputs>
-<input name="in1" type="in"\>
-<input name="in2" type="in"\>
-<input name="in3" type="in"\>
-</inputs>
-<outputs>
-<output name="out1" type="out"\>
-<output name="out2" type="out"\>
-<output name="out3" type="out"\>
-</outputs>
-<internal_connections>
-<connection port_from="in1" component_to="in_0_0_0"/>
-<connection port_from="in2" component_to="in_0_1_2"/>
-<connection port_from="in3" component_to="in_2_2_2"/>
-<connection component_from="out_0_0_0" port_to="out1"/>
-<connection component_from="out_0_1_2" port_to="out2"/>
-<connection component_from="out_2_2_2" port_to="out3"/>
-</internal_connections>
+<atomicRef model="CellDEVS" name="cell" name_level="0" parent="">
+    <parameters>
+        <parameter name="macros">macros.inc</parameter>
+        <parameter name="type">cell</parameter>
+        <parameter name="dim">(3,3,3)</parameter>
+        <parameter name="delay">4.3</parameter>
+        <parameter name="default_delay_time">5.0</parameter>
+        <parameter name="border_type">unwrapped</parameter>
+        <parameter name="initial_value">0</parameter>
+        <parameter name="local_transition">zzz-rule</parameter>
+    </parameters>
+    <neighbors>
+        <neighbor>(0,0,-1)</neighbor>
+        <neighbor>(0,0,1)</neighbor>
+        <neighbor>(0,-1,0)</neighbor>
+        <neighbor>(0,1,0)</neighbor>
+    </neighbors>
+    <transitions>
+        <transition name="zzz-rule">
+            <rule action="{ (0,0,0) + 10 }" condition="{ t }" delay="100" />
+            <rule action="{ (0,0,0) + (0,0,1) }" condition="{ (0,0,0) &gt; 10 }" delay="100" />
+        </transition>
+        <transition name="xxx-rule">
+            <rule action="{ uniform(-3,-2) }" condition="{ portValue(thisPort) = 5 }" delay="0" />
+        </transition>
+    </transitions>
+    <portsInTransition>
+        <transition component="(0,0,0)" input_port="in" rule="xxx-rule" />
+    </portsInTransition>
+    <inputs>
+        <input name="in1" type="in" />
+        <input name="in2" type="in" />
+        <input name="in3" type="in" />
+    </inputs>
+    <outputs>
+        <output name="out1" type="out" />
+        <output name="out2" type="out" />
+        <output name="out3" type="out" />
+    </outputs>
+    <internal_connections>
+        <connection component_from="self" component_to="(0,0,0)" port_from="in1" port_to="in" type="in" />
+        <connection component_from="self" component_to="(0,1,2)" port_from="in2" port_to="in" type="in" />
+        <connection component_from="self" component_to="(2,2,2)" port_from="in3" port_to="in" type="in" />
+        <connection component_from="(0,0,0)" component_to="self" port_from="out" port_to="out1" type="in" />
+        <connection component_from="(0,1,2)" component_to="self" port_from="out" port_to="out2" type="in" />
+        <connection component_from="(2,2,2)" component_to="self" port_from="out" port_to="out3" type="in" />
+    </internal_connections>
+    <external_input_connections />
+    <external_output_connections />
 </atomicRef>

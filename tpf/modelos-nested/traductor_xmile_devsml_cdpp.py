@@ -43,13 +43,13 @@ params_traducciones = {
     #    'DEVSML_TOP_FILENAME': 'modelos/lotka-volterra/top.xml',
     #    'DEVSML_MA_FILENAME': 'modelos/lotka-volterra/mafile.ma'
     #},
-    #'lotka-volterra-nested-1': {
-    #    'DIR_XMILE': 'modelos/lotka-volterra-nested-1/lotka-volterra-nested-1.xmile',
-    #    'DEVSML_CPP_H_DIRECTORY': 'modelos/lotka-volterra-nested-1/atomics/',
-    #    'DEVSML_EVENTS_FILENAME': 'modelos/lotka-volterra-nested-1/events.ev',
-    #    'DEVSML_TOP_FILENAME': 'modelos/lotka-volterra-nested-1/top.xml',
-    #    'DEVSML_MA_FILENAME': 'modelos/lotka-volterra-nested-1/mafile.ma'
-    #},
+    'lotka-volterra-nested-1': {
+        'DIR_XMILE': 'modelos/lotka-volterra-nested-1/lotka-volterra-nested-1.xmile',
+        'DEVSML_CPP_H_DIRECTORY': 'modelos/lotka-volterra-nested-1/atomics/',
+        'DEVSML_EVENTS_FILENAME': 'modelos/lotka-volterra-nested-1/events.ev',
+        'DEVSML_TOP_FILENAME': 'modelos/lotka-volterra-nested-1/top.xml',
+        'DEVSML_MA_FILENAME': 'modelos/lotka-volterra-nested-1/mafile.ma'
+    },
     #'lotka-volterra-nested-2' : {
     #    'DIR_XMILE': 'modelos/lotka-volterra-nested-2/lotka-volterra-nested-2.xmile',
     #    'DEVSML_CPP_H_DIRECTORY': 'modelos/lotka-volterra-nested-2/atomics/',

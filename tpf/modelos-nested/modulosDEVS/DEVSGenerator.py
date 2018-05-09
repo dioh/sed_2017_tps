@@ -226,7 +226,8 @@ def generateDEVSML(dir_xmile, devsml_template_filename, devsml_top_filename):
             ccs_names.append(cc.get_name())
 
         # Generate xml
-        context = {'type': dm.get_type(),
+        context = {
+            'type': dm.get_type(),
             'coupled_name': name,     
             'coupled_filenames': ccs_names, 
             'atomics': dm.get_atomic_components(),

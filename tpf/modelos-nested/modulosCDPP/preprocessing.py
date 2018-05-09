@@ -33,8 +33,6 @@ def preprocessing_devsml_for_ma(root):
 			a.set('name_level', a.get('name') + str(level))
 			#print a.get('name_level')
 
-
-
 		for c in coupleds:
 			traverse(c, level + 1)
 

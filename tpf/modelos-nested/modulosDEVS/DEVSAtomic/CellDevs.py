@@ -21,6 +21,7 @@ class Cell(DEVSAtomicComponent):
         self.internal_input_connections = None
         self.internal_output_connections = None
         self.internal_connections = None
+        self.ports_in_transition = None
 
     # Setters
     def set_dim(self, dim):
@@ -48,6 +49,9 @@ class Cell(DEVSAtomicComponent):
         self.neighbors = neighbors
 
     def set_rules(self, rules):
+        for rule_name, rule_list in rules.items():
+            for rule in rule_list:
+                rule['condition'] = rule['condition'].replace('>', '&gt;').replace('<', '&lt;')
         self.rules = rules
 
     def set_input_ports(self, input_ports):
@@ -60,25 +64,38 @@ class Cell(DEVSAtomicComponent):
         assert(self.input_ports is not None)
         assert(self.dim is not None)
         for iic in internal_input_connections:
+            assert('port_from' in iic.keys() and 'component_to' in iic.keys() and 'port_to' in iic.keys())
             assert(iic['port_from'] in self.input_ports)
-            assert('port_from' in iic.keys() and 'component_to' in iic.keys())
-            dims = list(map(lambda x : int(x), iic['component_to'].split('_')[1:]))
+            dims = iic['component_to']
             assert(len(dims) == len(self.dim))
             for i,x in enumerate(dims):
                 assert(0 <= x and x < self.dim[i])
+            iic['component_to'] = str(iic['component_to']).replace(' ', '')
         self.internal_input_connections = internal_input_connections
 
     def set_internal_output_connections(self, internal_output_connections):
         assert(self.output_ports is not None)
         assert(self.dim is not None)
         for ioc in internal_output_connections:
+            assert('component_from' in ioc.keys() and 'port_from' in ioc.keys() and 'port_to' in ioc.keys())
             assert(ioc['port_to'] in self.output_ports)
-            assert('component_from' in ioc.keys() and 'port_to' in ioc.keys())
-            dims = list(map(lambda x : int(x), ioc['component_from'].split('_')[1:]))
+            dims =  ioc['component_from']
             assert(len(dims) == len(self.dim))
             for i,x in enumerate(dims):
                 assert(0 <= x and x < self.dim[i])
+            ioc['component_from'] = str(ioc['component_from']).replace(' ', '')
         self.internal_output_connections = internal_output_connections
+
+    def set_ports_in_transition(self, input_component_transition):
+        for ict in input_component_transition:
+            assert('input_port' in ict.keys() and 'component' in ict.keys() and 'rule' in ict.keys())
+            assert(ict['rule'] in self.rules)
+            component = ict['component']
+            assert(len(component) == len(self.dim))
+            for i,x in enumerate(component):
+                assert(0 <= x and x < self.dim[i])
+            ict['component'] = str(ict['component']).replace(' ', '')
+        self.ports_in_transition = input_component_transition
 
     # Getters
     def get_name(self):
@@ -88,7 +105,7 @@ class Cell(DEVSAtomicComponent):
         return self.type
 
     def get_dim(self):
-        return self.dim
+        return str(self.dim).replace(' ', '')
 
     def get_delay(self):
         return self.delay
@@ -100,7 +117,7 @@ class Cell(DEVSAtomicComponent):
         return self.border_type
 
     def get_neighbors(self):
-        return self.neighbors
+        return list(map(lambda x : str(x).replace(' ', ''), self.neighbors))
 
     def get_initial_value(self):
         return self.initial_value
@@ -125,3 +142,6 @@ class Cell(DEVSAtomicComponent):
 
     def get_internal_connections(self):
         return self.internal_input_connections + self.internal_output_connections
+
+    def get_ports_in_transition(self):
+        return self.ports_in_transition

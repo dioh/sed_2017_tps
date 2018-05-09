@@ -14,6 +14,7 @@ Update:
 
 Pendientes:
 	* reestructurar el codigo un toque... usar clases / subclases
+	* terminar generador de CellDevs
 	* DEVSPulse: 
 		* cambiar 'start' por first_pulse
 
