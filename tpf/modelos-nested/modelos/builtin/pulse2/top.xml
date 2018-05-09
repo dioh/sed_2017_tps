@@ -9,17 +9,6 @@
         <output name="stock1" type="out" />
     </outputs>
     <components>
-        <atomicRef model="DEVSConstant" name="firstPulseX" name_level="xx" parent="top">
-            <inputs>
-                <input name="firstPulseX" type="in" />
-            </inputs>
-            <outputs>
-                <output name="firstPulseX" type="out" />
-            </outputs>
-            <parameters>
-                <parameter name="value">1</parameter>
-            </parameters>
-        </atomicRef>
         <atomicRef model="DEVSConstant" name="volumeX" name_level="xx" parent="top">
             <inputs>
                 <input name="volumeX" type="in" />
@@ -29,6 +18,17 @@
             </outputs>
             <parameters>
                 <parameter name="value">5</parameter>
+            </parameters>
+        </atomicRef>
+        <atomicRef model="DEVSConstant" name="firstPulseX" name_level="xx" parent="top">
+            <inputs>
+                <input name="firstPulseX" type="in" />
+            </inputs>
+            <outputs>
+                <output name="firstPulseX" type="out" />
+            </outputs>
+            <parameters>
+                <parameter name="value">1</parameter>
             </parameters>
         </atomicRef>
         <atomicRef model="DEVSConstant" name="intervalX" name_level="xx" parent="top">
@@ -121,16 +121,16 @@
                 </atomicRef>
             </components>
             <internal_connections>
-                <connection component_from="PULSE_V_volumeX_I_intervalX_flow1" component_to="stock1" port_from="PULSE_V_volumeX_I_intervalX_flow1" port_to="subtract" type="in" />
                 <connection component_from="stock1" component_to="flow2_stock1" port_from="stock1" port_to="stock1" type="in" />
-                <connection component_from="flow2_stock1" component_to="Totstock1" port_from="flow2_stock1" port_to="flow2_stock1" type="in_minus" />
+                <connection component_from="PULSE_V_volumeX_I_intervalX_flow1" component_to="stock1" port_from="PULSE_V_volumeX_I_intervalX_flow1" port_to="subtract" type="in" />
                 <connection component_from="Totstock1" component_to="stock1" port_from="Totstock1" port_to="Totstock1" type="in" />
                 <connection component_from="flow1_stock1" component_to="Totstock1" port_from="flow1_stock1" port_to="flow1_stock1" type="in_minus" />
+                <connection component_from="flow2_stock1" component_to="Totstock1" port_from="flow2_stock1" port_to="flow2_stock1" type="in_minus" />
             </internal_connections>
             <external_input_connections>
                 <connection component_to="PULSE_V_volumeX_I_intervalX_flow1" port_from="intervalX" port_to="intervalX" />
-                <connection component_to="PULSE_V_volumeX_I_intervalX_flow1" port_from="start" port_to="start" />
                 <connection component_to="PULSE_V_volumeX_I_intervalX_flow1" port_from="volumeX" port_to="volumeX" />
+                <connection component_to="PULSE_V_volumeX_I_intervalX_flow1" port_from="start" port_to="start" />
             </external_input_connections>
             <external_output_connections>
                 <connection component_from="stock1" port_from="stock1" port_to="stock1" />
@@ -138,8 +138,8 @@
         </coupledRef>
     </components>
     <internal_connections>
-        <connection component_from="intervalX" component_to="DEVS_BASIC_COUPLED_stock1" port_from="intervalX" port_to="intervalX" type="in" />
         <connection component_from="volumeX" component_to="DEVS_BASIC_COUPLED_stock1" port_from="volumeX" port_to="volumeX" type="in" />
+        <connection component_from="intervalX" component_to="DEVS_BASIC_COUPLED_stock1" port_from="intervalX" port_to="intervalX" type="in" />
     </internal_connections>
     <external_input_connections>
         <connection component_to="firstPulseX" port_from="firstPulseX" port_to="firstPulseX" />

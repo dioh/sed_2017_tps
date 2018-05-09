@@ -36,6 +36,15 @@ class Mafile(object):
     def model_parent(self):
         return self.model.parent
 
+    def model_neighbors(self):
+        return self.model.neighbors
+
+    def model_transitions(self):
+        return self.model.transitions
+
+    def model_ports_in_transition(self):
+        return self.model.ports_in_transition
+
     #def model_parent(self):
     #    return self.parent
 

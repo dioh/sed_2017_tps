@@ -1,0 +1,3 @@
+#BeginMacro(inicia)
+zz
+#EndMacro

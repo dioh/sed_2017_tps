@@ -1,3 +1,5 @@
+from collections import namedtuple, defaultdict
+
 class CdppModel(object):
 
     def __init__(self, **kwargs):
@@ -5,7 +7,8 @@ class CdppModel(object):
                         'internal_connections',
                         'external_input_connections',
                         'external_output_connections',
-                        'components', 'parameters']
+                        'components', 'parameters',
+                        'neighbors', 'transitions', 'ports_in_transition']
         self.name = ''
         self.name_level = ''
         self.parent = ''
@@ -17,6 +20,9 @@ class CdppModel(object):
         self.external_output_connections = set()
         self.components = set()
         self.parameters = dict()
+        self.neighbors = set()
+        self.transitions = dict()
+        self.ports_in_transition = set()
         # and update the given keys by their given values
         self.__dict__.update((key, value) for key, value
                              in kwargs.items() if key in allowed_keys)
@@ -35,7 +41,11 @@ class CdppModel(object):
                     'external_output_connections':
                     self.external_output_connections.__repr__(),
                     'components': self.components.__repr__(),
-                    'parameters': self.parameters.__repr__()})
+                    'parameters': self.parameters.__repr__(),
+                    'neighbors': self.neighbors.__repr__(),
+                    'transitions': self.transitions.__repr__(),
+                    'ports_in_transition': self.ports_in_transition.__repr__()
+                })
 
     def __eq__(self, other):
         return (self.name == other.name and
@@ -50,7 +60,11 @@ class CdppModel(object):
                 (self.external_output_connections ==
                  other.external_output_connections) and
                 self.components == other.components and
-                self.parameters == other.parameters)
+                self.parameters == other.parameters and
+                self.neighbors == other.neighbors and
+                self.transitions == other.transitions and
+                self.ports_in_transition == other.ports_in_transition
+            )
 
     def __hash__(self):
         return (hash(self.name) ^ hash(self.model))
@@ -76,14 +90,49 @@ class CdppModel(object):
              'out_ports': cls.extract_out_ports(node, model_name),
              'components': cls.extract_components(node),
              'internal_connections': cls.extract_internal_connections(node),
-             'external_input_connections':
-             cls.extract_external_input_connections(node, model_name),
-             'external_output_connections':
-             cls.extract_external_output_connections(node, model_name),
-             'parameters':
-             cls.extract_parameters(node)}
+             'external_input_connections': cls.extract_external_input_connections(node, model_name),
+             'external_output_connections': cls.extract_external_output_connections(node, model_name),
+             'parameters': cls.extract_parameters(node),
+             'neighbors': cls.extract_neighbors(node),
+             'transitions': cls.extract_transitions(node),
+             'ports_in_transition': cls.extract_ports_in_transition(node)
+        }
 
         return cls(**d)
+
+    @classmethod
+    def extract_neighbors(cls, devsml_xml_root):
+        rv = set()
+        for neighbor in devsml_xml_root.findall('./neighbors/neighbor'):
+            rv.add(neighbor.text)
+        return rv
+
+    @classmethod
+    def extract_transitions(cls, devsml_xml_root):
+        CdppRule = namedtuple('CdppRule', 'action delay condition')
+        rv = defaultdict()
+        for transition in devsml_xml_root.findall('./transitions/transition'):
+            rules = []
+            for rule in transition.findall('./rule'):
+                rules.append(CdppRule(
+                    action=rule.attrib['action'],
+                    delay=rule.attrib['delay'],
+                    condition=rule.attrib['condition'].replace('&gt;', '>').replace('&lt;', '<')
+                ))
+            rv[transition.attrib['name']] = rules
+        return rv
+
+    @classmethod
+    def extract_ports_in_transition(cls, devsml_xml_root):
+        CdppPortTransition = namedtuple('CdppPortTransition', 'component input_port rule')
+        rv = set()
+        for port_in_transition in devsml_xml_root.findall('./portsInTransition/transition'):
+            rv.add(CdppPortTransition(
+                component=port_in_transition.attrib['component'],
+                input_port=port_in_transition.attrib['input_port'],
+                rule=port_in_transition.attrib['rule']
+            ))
+        return rv
 
     @classmethod
     def extract_in_ports(cls, devsml_xml_root, component_name, port_type):

@@ -1,10 +1,10 @@
 #include "pmodeladm.h"
 #include "register.h"
 
+#include "paramBtop.h"
 #include "paramCtop.h"
 #include "paramDtop.h"
 #include "paramAtop.h"
-#include "paramBtop.h"
 #include "paramDPredatorModel.h"
 #include "paramCPredatorModel.h"
 #include "paramBPreyModel.h"
@@ -24,10 +24,10 @@ void register_atomics_on(ParallelModelAdmin &admin)
 	//admin.registerAtomic(NewAtomicFunction<QSS1>(), QSS_MODEL_NAME);
 	
 	// Atomicos especificos del modelo
+	admin.registerAtomic(NewAtomicFunction<paramBtop>(), PARAMBTOP);
 	admin.registerAtomic(NewAtomicFunction<paramCtop>(), PARAMCTOP);
 	admin.registerAtomic(NewAtomicFunction<paramDtop>(), PARAMDTOP);
 	admin.registerAtomic(NewAtomicFunction<paramAtop>(), PARAMATOP);
-	admin.registerAtomic(NewAtomicFunction<paramBtop>(), PARAMBTOP);
 	admin.registerAtomic(NewAtomicFunction<paramDPredatorModel>(), PARAMDPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramCPredatorModel>(), PARAMCPREDATORMODEL);
 	admin.registerAtomic(NewAtomicFunction<paramBPreyModel>(), PARAMBPREYMODEL);
