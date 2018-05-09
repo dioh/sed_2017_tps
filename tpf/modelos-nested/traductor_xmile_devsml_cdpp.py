@@ -101,7 +101,11 @@ for model, params in params_traducciones.items():
         os.makedirs(DEVSML_CPP_H_DIRECTORY)
     except Exception:
         os.makedirs(DEVSML_CPP_H_DIRECTORY)
+    # Initialize directory
     shutil.copyfile('templates/Makefile', DEVSML_CPP_H_DIRECTORY + '/Makefile')
+    shutil.copyfile('templates/macros.inc', DEVSML_CPP_H_DIRECTORY + '/macros.inc')
+    shutil.copyfile('templates/tuple_to_real.h', DEVSML_CPP_H_DIRECTORY + '/tuple_to_real.h')
+    shutil.copyfile('templates/tuple_to_real.cpp', DEVSML_CPP_H_DIRECTORY + '/tuple_to_real.cpp')
 
     # Generate .devsml file
     generateDEVSML(DIR_XMILE, DEVSML_TEMPLATE_FILENAME, DEVSML_TOP_FILENAME)

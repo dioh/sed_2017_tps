@@ -10,6 +10,9 @@ import xml.etree.ElementTree as etree
 import vkbeautify as vkb
 from modulosDEVS.DEVSGenerator import *
 from modulosDEVS.CellDEVSGenerator import *
+from modulosCDPP.cdpp_model import CdppModel
+from modulosCDPP.cdpp_model_to_ma_file import CdppModelToMaConverter
+from modulosCDPP.preprocessing import preprocessing_devsml_for_ma
 import logging
 
 ###################################################################################################################
@@ -39,7 +42,8 @@ params_traducciones = {
         'DEVSML_MA_FILENAME': 'modelos/cell/cell-teacup/mafile.ma',
 
         'DEVSML_TOP_FILENAME': 'modelos/cell/cell-teacup/top.xml',
-        'DIR_CELL_DEVS': 'modelos/cell/cell-teacup/cell_devs.xml'
+        'DIR_CELL_DEVS': 'modelos/cell/cell-teacup/cell_devs.xml',
+        'DIR_MA_CELL_DEVS': 'modelos/cell/cell-teacup/cell_devs.ma'
     }
 }
 
@@ -51,19 +55,30 @@ for model, params in params_traducciones.items():
     DEVSML_MA_FILENAME = params['DEVSML_MA_FILENAME']
 
     DIR_CELL_DEVS = params['DIR_CELL_DEVS']
+    DIR_MA_CELL_DEVS = params['DIR_MA_CELL_DEVS']
 
     try:
         shutil.rmtree(DEVSML_CPP_H_DIRECTORY)
         os.makedirs(DEVSML_CPP_H_DIRECTORY)
     except Exception:
         os.makedirs(DEVSML_CPP_H_DIRECTORY)
+    # Initialize directory
     shutil.copyfile('templates/Makefile', DEVSML_CPP_H_DIRECTORY + '/Makefile')
+    shutil.copyfile('templates/macros.inc', DEVSML_CPP_H_DIRECTORY + '/macros.inc')
+    shutil.copyfile('templates/tuple_to_real.h', DEVSML_CPP_H_DIRECTORY + '/tuple_to_real.h')
+    shutil.copyfile('templates/tuple_to_real.cpp', DEVSML_CPP_H_DIRECTORY + '/tuple_to_real.cpp')
 
     # Generate .devsml file
     generateDEVSML(DIR_XMILE, DEVSML_TEMPLATE_FILENAME, DEVSML_TOP_FILENAME)
 
     # Generate Cell-Devs xml
     generateCellDEVSML(DIR_CELL_DEVS)
+    # Generation of .ma file corresponding to only the cell-devs
+    devs_ml_model = preprocessing_devsml_for_ma(etree.parse(DIR_CELL_DEVS))
+    cdpp_model = CdppModel.from_devsml_xml(devs_ml_model)
+    mafile = CdppModelToMaConverter.parse_model(cdpp_model)
+    with open(DIR_MA_CELL_DEVS, 'w') as f:
+        f.write(str(mafile))
 
     # Combinar top.xml con cell_devs.xml
     with open(DEVSML_TOP_FILENAME, 'r') as top:

@@ -7,6 +7,7 @@
         <parameter name="border">unwrapped</parameter>
         <parameter name="initialvalue">0</parameter>
         <parameter name="localtransition">zzz-rule</parameter>
+        <parameter name="initialCellsValue">valfile.val</parameter>
     </parameters>
     <neighbors>
         <neighbor>(0,0,0)</neighbor>
@@ -17,12 +18,10 @@
     </neighbors>
     <transitions>
         <transition name="zzz-rule">
-            <rule action="{ (0,0,0) + (0,0,1) }" condition="{ (0,0,0) &gt; 10 }" delay="100" />
-            <rule action="{ (0,0,0) + 10 }" condition="{ t }" delay="100" />
+            <rule action="{ (0,0,0) + 10 * (0,0,1) }" condition="{ t }" delay="10" />
         </transition>
         <transition name="xxx-rule">
-            <rule action="{ uniform(-3,-2) }" condition="{ portValue(thisPort) = 5 }" delay="0" />
-            <rule action="{ (0,0,0) }" condition="{ t }" delay="0" />
+            <rule action="{ portValue(thisPort) }" condition="{ t }" delay="0.1" />
         </transition>
     </transitions>
     <portsInTransition>

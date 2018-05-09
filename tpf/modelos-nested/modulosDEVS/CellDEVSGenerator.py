@@ -43,7 +43,7 @@ def generateCellDEVSML(dst_file):
     cell_devs.set_dim((3, 3, 3))
     cell_devs.set_delay(4.3)
     cell_devs.set_default_delay_time(5.0)
-    cell_devs.set_border_type('unwrapped')
+    cell_devs.set_border_type('wrapped')
     cell_devs.set_neighbors([])
     cell_devs.set_initial_value(0)
     cell_devs.set_local_transition('zzz-rule')
@@ -68,12 +68,10 @@ def generateCellDEVSML(dst_file):
     ])
     cell_devs.set_rules({
         'zzz-rule': [
-            {'action': '(0,0,0) + (0,0,1)', 'delay': '100', 'condition': "(0,0,0) > 10"},
-            {'action': '(0,0,0) + 10', 'delay': '100', 'condition': 't'}
+            {'action': '(0,0,0) + 10 * (0,0,1)', 'delay': '10', 'condition': "t"}
         ],
         'xxx-rule': [
-            {'action': 'uniform(-3,-2)', 'delay': '0', 'condition': 'portValue(thisPort) = 5'},
-            {'action': '(0,0,0)', 'delay': '0', 'condition': 't'}
+            {'action': 'portValue(thisPort)', 'delay': '0.1', 'condition': 't'}
         ]
     })
     cell_devs.set_ports_in_transition([

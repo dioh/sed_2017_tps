@@ -2,9 +2,9 @@
 
 %Coupled model
 [top]
-components:  cell  DEVS_BASIC_COUPLED_TemperatureValue CharacteristicTime0@CharacteristicTimetop RoomTemperature0@RoomTemperaturetop
+components:  cell  DEVS_BASIC_COUPLED_TemperatureValue CharacteristicTime0@CharacteristicTimetop RoomTemperature0@RoomTemperaturetop converter@tuple2real
 % In ports
-in: in_port_CharacteristicTime in_port_RoomTemperature
+in: in_port_CharacteristicTime in_port_RoomTemperature in1
 % Out ports
 out: out_port_TemperatureValue
 % Input connections
@@ -15,7 +15,10 @@ link: out_port_TemperatureValue@DEVS_BASIC_COUPLED_TemperatureValue out_port_Tem
 % Internal connections
 link: out_port_CharacteristicTime@CharacteristicTime0 in_port_CharacteristicTime@DEVS_BASIC_COUPLED_TemperatureValue
 link: out_port_RoomTemperature@RoomTemperature0 in_port_RoomTemperature@DEVS_BASIC_COUPLED_TemperatureValue
-link: out_port_TemperatureValue@DEVS_BASIC_COUPLED_TemperatureValue in1@cell
+
+link: out_port_TemperatureValue@DEVS_BASIC_COUPLED_TemperatureValue in@converter
+link: out@converter in1@cell
+
 [cell]
 % Parameters
 dim: (3,3,3)
@@ -24,7 +27,8 @@ type: cell
 delay: 4.3
 defaultDelayTime: 5.0
 localtransition: zzz-rule
-border: unwrapped
+initialCellsValue: valfile.val
+border: wrapped
 
 % Neighbors
 neighbors: (0,-1,0) (0,0,-1) (0,0,1) (0,0,0) (0,1,0)
@@ -45,11 +49,9 @@ link: out@cell(2,2,2) out3
 PortInTransition: in@cell(0,0,0) xxx-rule
 % Transitions
 [zzz-rule]
-rule: { (0,0,0) + (0,0,1) } 100 { (0,0,0) > 10 }
-rule: { (0,0,0) + 10 } 100 { t }
+rule: { 0.5 * (0,0,0) } 10 { t }
 [xxx-rule]
-rule: { uniform(-3,-2) } 0 { portValue(thisPort) = 5 }
-rule: { (0,0,0) } 0 { t }
+rule: { portValue(thisPort) } 0.1 { t }
 %Coupled model
 [DEVS_BASIC_COUPLED_TemperatureValue]
 components: HeatLossToRoom_TemperatureValue1@HeatLossToRoom_TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue TotTemperatureValue1@TotTemperatureValueDEVS_BASIC_COUPLED_TemperatureValue TemperatureValue1@TemperatureValueDEVS_BASIC_COUPLED_TemperatureValue
